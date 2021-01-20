@@ -1,19 +1,25 @@
 import { gql } from "apollo-server"
 
 export default gql`
+  type Group {
+    owner: User!
+    name: String!
+    date: String!
+  }
   type User {
     id: ID!
     username: String!
     email: String!
-    ava: String!
+    ava: String
+    color: String!
     firstname: String!
+    confirmed: Boolean!
     lastname: String!
     phone: String
-    status: String
     address: String
-    bio: String
     birth: String
-    typeUser: String!
+    role: String!
+    group: Group
     date: String!
   }
   type Message {
@@ -36,11 +42,6 @@ export default gql`
     type: String!
     lastMessage: Message
   }
-  # type UnreadMessage {
-  #   id: ID!
-  #   userId: User!
-  #   messageId: Message!
-  # }
   type UserChat {
     id: ID!
     userId: User!
@@ -72,12 +73,14 @@ export default gql`
   type Query {
     login(email: String!, password: String!): Auth
     register(
-      username: String!
+      firstname: String!
+      lastname: String!
       email: String!
+      username: String!
       password: String!
-      firstname: String
-      lastname: String
-      typeUser: String
+      isAdmin: Boolean
+      role: String
+      group: String
     ): Auth
     userChats(userId: ID): [Chat]!
     chatMessages(chat: ID!): [Message]!

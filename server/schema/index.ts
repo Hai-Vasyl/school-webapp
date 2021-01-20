@@ -19,6 +19,8 @@ import { Chat } from "./resolvers/chat"
 import { Message } from "./resolvers/message"
 import { UserChat } from "./resolvers/userchat"
 import { Notification } from "./resolvers/notification"
+import { User } from "./resolvers/user"
+import { Group } from "./resolvers/group"
 
 const schema = {
   typeDefs,
@@ -44,6 +46,8 @@ const schema = {
     Message,
     UserChat,
     Notification,
+    User,
+    Group,
   },
 }
 

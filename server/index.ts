@@ -7,21 +7,6 @@ import schema from "./schema"
 config()
 const { PORT, MONGO_USER, MONGO_PASS, MONGO_DB, NODE_ENV } = process.env
 const isDev = NODE_ENV === "development"
-// app.use(express.static("dist/client"))
-
-// const typeDefs = gql`
-//   type Query {
-//     sayHello: String
-//   }
-// `
-
-// const resolvers = {
-//   Query: {
-//     sayHello: () => {
-//       return "Hello everyone!"
-//     }
-//   }
-// }
 
 ;(async () => {
   try {

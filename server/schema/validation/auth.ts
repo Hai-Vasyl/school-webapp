@@ -20,13 +20,9 @@ async function register(fields: IField): Promise<IValidRegisterResult> {
     let isError: boolean = false
     Object.keys(fields).forEach((key: string) => {
       let field = { value: fields[key], msg: [] }
-      if (key === "firstname" || key === "lastname") {
-        fieldsMod[key] = field
-      } else {
-        fieldsMod[key] = isEmpty(field, "This field cannot be empty!")
-        if (fieldsMod[key].msg.length) {
-          isError = true
-        }
+      fieldsMod[key] = isEmpty(field, "This field cannot be empty!")
+      if (fieldsMod[key].msg.length) {
+        isError = true
       }
     })
 
@@ -37,16 +33,16 @@ async function register(fields: IField): Promise<IValidRegisterResult> {
 
     email = isEmail(email, "Email is not correct!")
     username = isLength(username, {
-      min: 4,
-      max: 15,
+      min: 3,
+      max: 25,
       minMsg: "Username must contain at least 4 characters!",
-      maxMsg: "Username must be no more than 15 characters!",
+      maxMsg: "Username must be no more than 25 characters!",
     })
     password = isLength(password, {
       min: 4,
-      max: 25,
+      max: 50,
       minMsg: "Password must contain at least 4 characters!",
-      maxMsg: "Password must be no more than 25 characters!",
+      maxMsg: "Password must be no more than 50 characters!",
     })
     if (email.msg.length || username.msg.length || password.msg.length) {
       return { username, email, password, isError: true }
@@ -105,9 +101,9 @@ async function login(fields: IField): Promise<IValidLoginResult> {
     email = isEmail(email, "Email is not correct!")
     password = isLength(password, {
       min: 4,
-      max: 25,
+      max: 50,
       minMsg: "Password must contain at least 4 characters!",
-      maxMsg: "Password must be no more than 25 characters!",
+      maxMsg: "Password must be no more than 50 characters!",
     })
     if (email.msg.length || password.msg.length) {
       return { email, password, isError: true }

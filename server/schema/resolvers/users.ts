@@ -5,7 +5,7 @@ import { config } from "dotenv"
 import { AuthenticationError } from "apollo-server"
 import { registerValid, loginValid } from "../validation/auth"
 import { IField, IIsAuth } from "../interfaces"
-config()
+config({ path: "../../../.env" })
 const { JWT_SECRET }: any = process.env
 
 export const Query = {

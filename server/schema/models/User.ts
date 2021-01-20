@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+import { Schema, model, Types } from "mongoose"
 
 const schema = new Schema({
   username: { type: String, unique: true, required: true },
@@ -7,21 +7,21 @@ const schema = new Schema({
   ava: {
     type: String,
     required: true,
-    default:
-      "https://dwpdobr8xeaso.cloudfront.net/wgvs-images/avatars/profile_llama@4x.png",
+    default: "",
   },
-  firstname: { type: String, default: "" },
-  lastname: { type: String, default: "" },
+  color: { type: String, required: true, default: "" },
+  confirmed: { type: Boolean, required: true, default: "false" },
+  firstname: { type: String, default: "", required: true },
+  lastname: { type: String, default: "", required: true },
   phone: { type: String, default: "" },
-  status: { type: String, default: "" },
   address: { type: String, default: "" },
-  bio: { type: String, default: "" },
   birth: { type: Date, default: "" },
-  typeUser: {
+  group: { type: Types.ObjectId, ref: "Group" },
+  role: {
     type: String,
     required: true,
     default: "user",
-    enum: ["user", "admin"],
+    enum: ["user", "admin", "teacher", "student"],
   },
   date: { type: Date, required: true },
 })
