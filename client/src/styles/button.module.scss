@@ -1,12 +1,12 @@
 @import "base";
 
 .btn {
-  padding: 15px 13px;
+  padding: 14px 13px;
   display: flex;
   align-items: center;
-  color: getColor(font);
   border-radius: getRadius(main);
   transition: getTransition(main);
+  color: getColor(font-white);
   &:active {
     box-shadow: none;
     transform: scale(0.95);
@@ -17,6 +17,7 @@
   }
   &__icon {
     margin: 0px 4px;
+    font-size: 25px;
   }
   &__title {
     margin: 0px 4px;
@@ -24,14 +25,28 @@
 }
 
 .btn_primary {
-  background-image: getGradient(main);
   box-shadow: getShadow(main);
+  background-image: getGradient(main);
+  border: 1px solid getColor(main-white);
+  &:hover {
+    border-color: white;
+    box-shadow: getShadow(second);
+  }
 }
 .btn_simple {
   background-color: transparent;
-  border: 1px solid getColor(second-light);
+  border: 1px solid getColor(main-dark);
 }
 .btn_activated {
   background-color: getColor(secondary);
   border: 1px solid transparent;
+}
+.btn_outline_light {
+  border: 1px solid getColor(font-white);
+  color: getColor(font-white);
+  background-color: transparent;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
+  }
 }

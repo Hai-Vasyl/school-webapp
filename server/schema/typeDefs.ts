@@ -15,6 +15,7 @@ export default gql`
     firstname: String!
     confirmed: Boolean!
     lastname: String!
+    middlename: String
     phone: String
     address: String
     birth: String

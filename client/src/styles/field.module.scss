@@ -19,6 +19,7 @@
   &__title {
     display: inline-block;
     padding: 4px 0px;
+    font-weight: bold;
     &__important::after {
       content: "*";
       color: getColor(danger);
@@ -28,15 +29,23 @@
   &__input {
     display: block;
     width: 100%;
-    padding: 7px;
+    padding: 8px;
     background-color: transparent;
-    border: 1px solid getColor(second-light);
-    border-radius: getRadius(main);
+    border: 1px solid transparent;
+    // border-radius: getRadius(main);
+    border-bottom-color: getColor(main-dark);
     transition: getTransition(main);
+    background-color: getColor(main);
     outline: none;
     &:focus {
       border-color: getColor(accent);
     }
+    &_password {
+      padding-right: 44px;
+    }
+  }
+  &__wrapper_input {
+    position: relative;
   }
   &__msg {
     font-size: 0.8em;
@@ -54,6 +63,12 @@
   }
   &__error {
     margin-right: 4px;
+  }
+  &__btn_password {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    transform: translateY(-50%);
   }
 }
 

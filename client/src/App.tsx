@@ -60,49 +60,49 @@ const App: React.FC = () => {
     variables: { channels: [user.id] },
   })
   const [notifToasts, setNotifToasts] = useState<INotification[]>([
-    {
-      id: "1",
-      title: "Access to user",
-      description: "Some new messge from some user!",
-      date: new Date(),
-      type: "access",
-      userId: {
-        id: "1",
-        username: "User_One",
-        email: "sdfsdf",
-        ava:
-          "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png",
-        typeUser: "admin",
-      },
-      chatId: {
-        id: "1",
-        title: "Some_chat",
-        type: "individual",
-        image:
-          "https://www.pinclipart.com/picdir/big/559-5594866_necktie-drawing-vector-round-avatar-user-icon-png.png",
-      },
-    },
+    // {
+    //   id: "1",
+    //   title: "Access to user",
+    //   description: "Some new messge from some user!",
+    //   date: new Date(),
+    //   type: "access",
+    //   userId: {
+    //     id: "1",
+    //     username: "User_One",
+    //     email: "sdfsdf",
+    //     ava:
+    //       "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png",
+    //     typeUser: "admin",
+    //   },
+    //   chatId: {
+    //     id: "1",
+    //     title: "Some_chat",
+    //     type: "individual",
+    //     image:
+    //       "https://www.pinclipart.com/picdir/big/559-5594866_necktie-drawing-vector-round-avatar-user-icon-png.png",
+    //   },
+    // },
   ])
   const [messageToasts, setMessageToasts] = useState<IMessageToast[]>([
-    {
-      id: "1",
-      content: "Some new messge from some user!",
-      date: new Date(),
-      owner: {
-        id: "1",
-        username: "User_One",
-        ava:
-          "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png",
-        typeUser: "admin",
-      },
-      chat: {
-        id: "1",
-        title: "Some_chat",
-        type: "individual",
-        image:
-          "https://www.pinclipart.com/picdir/big/559-5594866_necktie-drawing-vector-round-avatar-user-icon-png.png",
-      },
-    },
+    // {
+    //   id: "1",
+    //   content: "Some new messge from some user!",
+    //   date: new Date(),
+    //   owner: {
+    //     id: "1",
+    //     username: "User_One",
+    //     ava:
+    //       "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png",
+    //     typeUser: "admin",
+    //   },
+    //   chat: {
+    //     id: "1",
+    //     title: "Some_chat",
+    //     type: "individual",
+    //     image:
+    //       "https://www.pinclipart.com/picdir/big/559-5594866_necktie-drawing-vector-round-avatar-user-icon-png.png",
+    //   },
+    // },
     // {
     //   id: "2",
     //   content: "Some new messge from some user!",
@@ -306,11 +306,6 @@ const App: React.FC = () => {
   ) => {
     event.stopPropagation()
     setNotifToasts(notifToasts.filter((notif) => notif.id !== notifId))
-  }
-
-  // TODO: function
-  const newDummyFunction = () => {
-    console.log("New dummy f")
   }
 
   const getIconToastByType = (type: string) => {

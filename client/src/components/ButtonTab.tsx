@@ -5,11 +5,16 @@ import styles from "../styles/buttontab.module"
 interface ButtonTabProps {
   Icon: any
   click(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): any
+  exClass?: string
 }
 
-const ButtonTab: React.FC<ButtonTabProps> = ({ Icon, click }) => {
+const ButtonTab: React.FC<ButtonTabProps> = ({ Icon, click, exClass }) => {
   return (
-    <button className={styles.wrapper} onClick={click}>
+    <button
+      type='button'
+      className={`${styles.wrapper} ${exClass}`}
+      onClick={click}
+    >
       <Icon />
     </button>
   )

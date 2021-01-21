@@ -2,14 +2,21 @@
 
 .wrapper {
   display: flex;
-  background-color: getColor(second-light-accent);
-  border: 1px solid getColor(second-lighter);
-  padding: 2px;
+  background-color: getColor(secondary);
+  border: 1px solid getColor(main-dark);
   border-radius: getRadius(main);
   width: 30px;
   height: 30px;
+  box-shadow: getShadow(thin);
+  transition: getTransition(main);
   & > * {
     font-size: 18px;
     margin: auto;
+  }
+  &:hover {
+    box-shadow: none;
+  }
+  &:active {
+    opacity: 0.5;
   }
 }

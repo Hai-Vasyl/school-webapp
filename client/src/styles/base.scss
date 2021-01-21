@@ -1,14 +1,18 @@
 $colors: (
-  main: hsl(240, 14%, 20%),
-  main-light: lighten(#2b2b39, 2%),
-  secondary: lighten(#2b2b39, 8%),
-  second-dark: darken(#2b2b39, 0%),
-  second-light: lighten(#2b2b39, 20%),
-  second-lighter: lighten(#2b2b39, 30%),
-  second-light-accent: lighten(#2b2b39, 14%),
-  font: white,
-  font-dark: #333,
-  accent: #4a9edf,
+  main: whitesmoke,
+  secondary: #fff,
+  main-dark: lightgrey,
+  // main-light: whitesmoke,
+  // second-dark: darken(whitesmoke, 0%),
+  // second-light: lighten(whitesmoke, 20%),
+  // second-lighter: lighten(whitesmoke, 30%),
+  // second-light-accent: lighten(whitesmoke, 14%),
+  font: #333,
+  font-light: rgb(122, 121, 121),
+  font-white: #fff,
+  // font-dark: #333,
+  accent: #2175bf,
+  accent-second: #4a9edf,
   accent-gradient: #8a41ac,
   title-simple: rgb(199, 199, 199),
   danger: rgb(247, 120, 120),
@@ -17,16 +21,23 @@ $colors: (
 );
 $shadows: (
   main: (
-    0px 2px 3px rgb(36, 35, 41),
+    0px 2px 3px rgba(92, 90, 99, 0.836),
+  ),
+  second: (
+    0px 2px 3px rgba(92, 90, 99, 0.51),
+  ),
+  thin: (
+    0px 1px 1px rgba(92, 90, 99, 0.51),
   ),
 );
+
 $fonts: (
   main: (
-    "Quicksand",
+    "Nunito",
     sans-serif,
   ),
-  secondary: (
-    "Dancing Script",
+  second: (
+    "Lobster",
     cursive,
   ),
 );
@@ -62,11 +73,13 @@ $paddings: (
 );
 $transitions: (
   main: 0.3s ease,
+  main-slow: 1s ease,
   spin: 1s linear infinite,
   second: 0.6s ease,
 );
 $gradients: (
-  main:
+  main: linear-gradient(to right, getColor(accent), getColor(accent-second)),
+  second:
     linear-gradient(
       to bottom right,
       getColor(accent),
@@ -118,4 +131,51 @@ $gradients: (
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, -50%) scale(1);
+}
+%background-accent {
+  background-image: repeating-linear-gradient(
+      135deg,
+      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(210, 79%, 75%, 0.05) 1px,
+      transparent 1px,
+      transparent 11px,
+      hsla(210, 79%, 75%, 0.05) 11px,
+      hsla(210, 79%, 75%, 0.05) 12px,
+      transparent 12px,
+      transparent 32px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(210, 79%, 75%, 0.05) 1px,
+      transparent 1px,
+      transparent 11px,
+      hsla(210, 79%, 75%, 0.05) 11px,
+      hsla(210, 79%, 75%, 0.05) 12px,
+      transparent 12px,
+      transparent 32px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(210, 79%, 75%, 0.05) 1px,
+      transparent 1px,
+      transparent 11px,
+      hsla(210, 79%, 75%, 0.05) 11px,
+      hsla(210, 79%, 75%, 0.05) 12px,
+      transparent 12px,
+      transparent 32px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(210, 79%, 75%, 0.05) 1px,
+      transparent 1px,
+      transparent 11px,
+      hsla(210, 79%, 75%, 0.05) 11px,
+      hsla(210, 79%, 75%, 0.05) 12px,
+      transparent 12px,
+      transparent 32px
+    ),
+    linear-gradient(90deg, rgb(83, 220, 200), rgb(58, 78, 174));
 }

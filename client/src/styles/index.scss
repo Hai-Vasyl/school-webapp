@@ -1,7 +1,10 @@
 @import "base";
-@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
 // font-family: 'Kaushan Script', cursive;
 // font-family: 'Dancing Script', cursive;
 * {
@@ -11,7 +14,7 @@
 }
 
 body {
-  font-family: "Quicksand", sans-serif;
+  font-family: "Nunito", sans-serif;
   background-color: getColor(main);
   font-size: 1.02em;
   color: getColor(font);

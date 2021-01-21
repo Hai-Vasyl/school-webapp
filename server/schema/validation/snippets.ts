@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { IFieldSnippet, ILengthSnippet } from "../interfaces"
 
 function isEmpty(field: IFieldSnippet, msg: string) {
@@ -77,11 +77,14 @@ async function comparePassword(
   msg: string
 ) {
   try {
-    const isValid = await bcrypt.compare(password.value, hashedPassword)
-    if (!isValid) {
+    // const isValid = await bcrypt.compare(password.value, hashedPassword)
+    const isValidPass = await bcrypt.compare(password.value, hashedPassword)
+
+    if (!isValidPass) {
       password.msg.push(msg)
       return { passwordVerified: password, isSimilar: false }
     }
+
     return { passwordVerified: password, isSimilar: true }
   } catch (error) {
     const errorMsg = `Compare password error: ${error.message}`

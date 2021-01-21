@@ -1,46 +1,164 @@
 @import "base";
 
+// .form {
+//   width: 450px;
+//   max-width: 100%;
+//   background-color: getColor(secondary);
+//   border-radius: getRadius(main);
+//   overflow: hidden;
+//   @extend %popup-fade-out;
+//   &__active {
+//     @extend %popup-fade-in;
+//   }
+//   &__title {
+//     padding: getPadding(main);
+//   }
+//   &__fields {
+//     padding: 25px;
+//     padding-bottom: 0px;
+//   }
+//   &__btns {
+//     display: flex;
+//     justify-content: center;
+//     padding: getPadding(main);
+//     padding-top: 15px;
+//     & > :last-child {
+//       margin-left: 10px;
+//     }
+//   }
+// }
 .form {
-  // @extend %center-position;
-  width: 450px;
+  display: flex;
+  width: 800px;
   max-width: 100%;
-  background-color: getColor(secondary);
-  border-radius: getRadius(main);
-  // box-shadow: getShadow(main);
-  // transition: getTransition(main);
-  overflow: hidden;
-  // opacity: 0;
-  // visibility: hidden;
-  // transform: translate(-50%, -50%) scale(0.9);
-  // z-index: 10;
-  @extend %popup-fade-out;
-  &__active {
-    @extend %popup-fade-in;
-    // opacity: 1;
-    // visibility: visible;
-    // transform: translate(-50%, -50%) scale(1);
+  margin: auto;
+  box-shadow: getShadow(main);
+  position: relative;
+  &__wrapper {
+    width: 50%;
+    transition: getTransition(main);
+    &__extend {
+      width: 100%;
+      .form__wrapper_form {
+        position: absolute;
+        background-color: getColor(secondary);
+        left: 50%;
+        width: 50%;
+      }
+      .form__wrapper_form:first-child {
+        left: 0%;
+        transform: scale(1);
+      }
+    }
+  }
+  &__loadbar {
+    height: 5px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-image: getGradient(main);
   }
   &__title {
-    // text-align: center;
-    // font-size: 1.6em;
-    padding: getPadding(main);
+    text-align: center;
+    position: relative;
+    font-size: 2em;
+    margin-top: 5px;
+    font-weight: normal;
+    font-family: getFont(second);
+    padding: 20px 0;
+    color: getColor(font-light);
+    background-color: getColor(main-light);
+    letter-spacing: 2px;
     // border-bottom: 1px solid getColor(main);
-    // color: getColor(title-simple);
-    // font-family: "Dancing Script", cursive;
-    // font-weight: normal;
-    // background-color: getColor(second-light-accent);
+    // border-bottom: 1px solid getColor(main-dark);
+    box-shadow: getShadow(thin);
+    z-index: 3;
+  }
+  &__wrapper_forms {
+    display: flex;
+    position: relative;
+    min-height: 320px;
+  }
+  &__wrapper_form {
+    position: absolute;
+    background-color: getColor(secondary);
+    left: 0%;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    transition: getTransition(main);
+    &:first-child {
+      transform: scale(0.8);
+      border-right: 1px solid getColor(main);
+    }
   }
   &__fields {
     padding: 25px;
-    padding-bottom: 0px;
   }
   &__btns {
+    padding: 0px 25px;
     display: flex;
     justify-content: center;
-    padding: getPadding(main);
-    padding-top: 15px;
-    & > :last-child {
-      margin-left: 10px;
+  }
+  &__sidebar {
+    width: 50%;
+    overflow: hidden;
+    @extend %background-accent;
+    display: flex;
+    &__close {
+      width: 0px;
     }
+  }
+  &__btn_back,
+  &__btn_close {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    visibility: visible;
+    opacity: 1;
+    &__close {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  &__btn_close {
+    left: auto;
+    right: 30px;
+  }
+  &__sidebar_title {
+    letter-spacing: 2px;
+    font-weight: normal;
+    font-size: 2em;
+    font-family: getFont(second);
+    color: getColor(secondary);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: getTransition(main-slow);
+    &__appear {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  &__paragraph {
+    color: getColor(secondary);
+    text-align: center;
+    margin: 25px 0;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: getTransition(main-slow);
+    transition-delay: 0.5s;
+    &__appear {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  &__sidebar_content {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
   }
 }

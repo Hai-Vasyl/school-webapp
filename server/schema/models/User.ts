@@ -13,6 +13,7 @@ const schema = new Schema({
   confirmed: { type: Boolean, required: true, default: "false" },
   firstname: { type: String, default: "", required: true },
   lastname: { type: String, default: "", required: true },
+  middlename: { type: String, default: "" },
   phone: { type: String, default: "" },
   address: { type: String, default: "" },
   birth: { type: Date, default: "" },

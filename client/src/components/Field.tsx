@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { BiError } from "react-icons/bi"
+import { BsEye, BsEyeSlash } from "react-icons/bs"
 // @ts-ignore
 import styles from "../styles/field.module"
+import ButtonTab from "./ButtonTab"
 
 interface IFieldProps {
   field: {
@@ -24,6 +26,13 @@ const Field: React.FC<IFieldProps> = ({
   transparent,
   isImportant,
 }) => {
+  const [viewPass, setViewPass] = useState(false)
+
+  const handleViewPassword = () => {
+    setViewPass((prev) => !prev)
+  }
+
+  const isPassword = field.type === "password"
   return (
     <label
       className={`${styles.field} ${
@@ -37,14 +46,25 @@ const Field: React.FC<IFieldProps> = ({
       >
         {field.title}
       </span>
-      <input
-        className={styles.field__input}
-        name={field.param}
-        type={field.type ? field.type : "text"}
-        value={field.value}
-        onChange={change}
-        autoComplete='off'
-      />
+      <div className={styles.field__wrapper_input}>
+        <input
+          className={`${styles.field__input} ${
+            isPassword && styles.field__input_password
+          }`}
+          name={field.param}
+          type={viewPass && isPassword ? "text" : field.type}
+          value={field.value}
+          onChange={change}
+          autoComplete='off'
+        />
+        {isPassword && (
+          <ButtonTab
+            Icon={viewPass ? BsEye : BsEyeSlash}
+            click={handleViewPassword}
+            exClass={styles.field__btn_password}
+          />
+        )}
+      </div>
       <span
         className={`${styles.field__msg} ${
           field.msg?.length && styles.field__msg__error
