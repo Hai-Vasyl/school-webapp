@@ -8,14 +8,30 @@ export const LOGIN_USER = gql`
         username
         email
         ava
+        color
         firstname
+        confirmed
         lastname
+        middlename
         phone
-        status
         address
-        bio
         birth
-        typeUser
+        role
+        group {
+          owner {
+            id
+            username
+            email
+            ava
+            color
+            firstname
+            lastname
+            middlename
+            role
+          }
+          name
+          date
+        }
         date
       }
       token
@@ -24,21 +40,40 @@ export const LOGIN_USER = gql`
 `
 
 export const REGISTER_USER = gql`
-  query REGISTER_USER($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password) {
+  query REGISTER_USER(
+    $firstname: String!
+    $lastname: String!
+    $username: String!
+    $email: String!
+    $password: String!
+    $isAdmin: Boolean
+    $role: String
+    $group: String
+  ) {
+    register(
+      firstname: $firstname
+      lastname: $lastname
+      username: $username
+      email: $email
+      password: $password
+      isAdmin: $isAdmin
+      role: $role
+      group: $group
+    ) {
       user {
         id
         username
         email
         ava
+        color
         firstname
+        confirmed
         lastname
+        middlename
         phone
-        status
         address
-        bio
         birth
-        typeUser
+        role
         date
       }
       token

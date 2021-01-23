@@ -1,213 +1,329 @@
 @import "base";
 
 .nav {
-  background-color: getColor(second-light-accent);
-  box-shadow: getShadow(main);
-  &__menu {
-    width: 975px;
-    padding: 0px 20px;
-    max-width: 100%;
-    margin: 0 auto;
+  // background-color: getColor(second-light-accent);
+  // box-shadow: getShadow(main);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  &__actions_wrapper {
+    background-color: getColor(secondary);
+    box-shadow: getShadow(main);
+    position: relative;
+    z-index: 2;
+  }
+  &__actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 45px;
+    @extend %wrapper;
+    position: relative;
   }
-}
-
-.logoLink {
-  font-family: "Dancing Script", cursive;
-  margin-right: auto;
-  text-decoration: none;
-  color: getColor(font);
-  font-size: 1.4em;
-  margin-right: 26px;
-}
-
-.search {
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: 0px 20px;
-  &__input {
-    flex: 1;
-    background-color: getColor(main);
-    padding: 3px 5px;
-    border-top-left-radius: getRadius(main);
-    border-bottom-left-radius: getRadius(main);
-    outline: none;
-    border: 1px solid transparent;
-    transition: getTransition(main);
-    &:focus {
-      border-color: getColor(accent);
-    }
-    &::placeholder {
-      color: getColor(second-light);
-    }
-  }
-  &__btn {
-    width: 45px;
-    align-self: stretch;
+  &__action_btns {
     display: flex;
-    background-color: getColor(second-light);
-    font-size: 0.8em;
-    border-top-right-radius: getRadius(main);
-    border-bottom-right-radius: getRadius(main);
   }
-  &__icon {
-    margin: auto;
+  &__wrapper_menu {
+    background-color: getColor(bg);
+    border-bottom: 1px solid getColor(main-dark);
+    box-shadow: getShadow(deep);
+    backdrop-filter: blur(50px);
   }
-}
-
-.dropdown {
-  position: relative;
-  margin-left: 26px;
-  display: flex;
-  align-items: center;
   &__menu {
-    position: absolute;
-    top: 45px;
-    border-top: 1px solid getColor(accent);
-    width: 180px;
-    right: -15px;
-    z-index: 3;
-    background-color: getColor(secondary);
-    border-radius: getRadius(main);
-    padding: 6px 0;
-    transition: getTransition(main);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px) scale(0.9);
-    box-shadow: getShadow(main);
-    &__active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0px) scale(1);
+    @extend %wrapper;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+  }
+  &__title {
+    display: block;
+    margin-right: auto;
+    & > * {
+      @extend %link-reset;
+      font-weight: bold;
+      font-size: 1.1em;
+      padding-left: 119px;
     }
   }
-  &__triangle {
+  &__logo {
+    width: $logo-side;
+    height: $logo-side;
+    background-color: getColor(accent);
     position: absolute;
-    width: 15px;
-    top: -8px;
-    right: 22.5px;
-    height: 15px;
-    background-color: getColor(secondary);
-    transform: rotateZ(45deg);
-    border-top: 1px solid getColor(accent);
-    border-left: 1px solid getColor(accent);
-    z-index: -99;
-    border-radius: getRadius(main);
+    left: 20px;
+    top: 0px;
+    padding: 10px;
+    // border: 1px solid getColor(main-dark);
+    border-top: none;
+    box-shadow: getShadow(second);
+    z-index: 16;
   }
-  &__btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid getColor(second-light);
-    transition: getTransition(main);
-    &__active {
-      border-color: getColor(accent);
-    }
-  }
-  &__ava {
+  &__logo_img {
     @extend %image;
+    object-fit: contain;
+  }
+  &__links {
+    display: flex;
+    margin-left: 107px;
   }
 }
 
 .link {
-  color: getColor(font);
-  text-decoration: none;
-  font-size: 1.2em;
-  margin-left: 26px;
-  display: flex;
-  transition: getTransition(main);
-  position: relative;
-  & > * {
-    margin: auto;
+  @extend %link-reset;
+  display: block;
+  padding: 15px 12px;
+  text-shadow: getShadow(thin);
+  &__text {
+    color: getColor(font-white);
   }
-  &__active {
-    color: getColor(accent);
+  &__wrapper_dropdown {
+    position: relative;
   }
-  &__counter {
+  &__drop {
+    background-color: transparent;
+  }
+  &__dropdown {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    font-size: 0.6em;
+    border: 2px solid green;
+    top: 47px;
+    left: 0;
     display: none;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    color: getColor(font);
-    background-color: getColor(danger);
-    & > * {
-      margin: auto;
-    }
-    &__appear {
-      display: block;
-    }
   }
 }
 
-.link_popup {
+.user {
+  margin-left: auto;
+  &__btn {
+  }
+  &__firstname {
+  }
+  &__lastname {
+  }
+  &__ava {
+  }
+  &__dropdown {
+  }
+}
+
+.btn_login {
+  margin-left: auto;
+  padding: 5px 14px;
+  border: 1px solid getColor(font-white);
+  color: getColor(font-white);
   background-color: transparent;
+  &__text {
+  }
 }
+// .nav {
+//   background-color: getColor(second-light-accent);
+//   box-shadow: getShadow(main);
+//   &__menu {
+//     width: 975px;
+//     padding: 0px 20px;
+//     max-width: 100%;
+//     margin: 0 auto;
+//     display: flex;
+//     align-items: center;
+//     justify-content: flex-end;
+//     height: 45px;
+//   }
+// }
 
-.link_extend {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: getColor(font);
-  width: 100%;
-  padding: 10px 15px;
-  background-color: getColor(secondary);
-  transition: getTransition(main);
-  &__active {
-    background-color: getColor(second-light-accent);
-    .link_extend__icon {
-      color: getColor(accent);
-    }
-  }
-  &:hover {
-    background-color: getColor(second-light-accent);
-  }
-  &:last-child {
-    border-top: 1px solid getColor(main);
-  }
-  &__icon {
-    transition: getTransition(main);
-  }
-  &__title {
-    margin-left: 7px;
-    font-size: 0.85em;
-  }
-}
+// .logoLink {
+//   font-family: "Dancing Script", cursive;
+//   margin-right: auto;
+//   text-decoration: none;
+//   color: getColor(font);
+//   font-size: 1.4em;
+//   margin-right: 26px;
+// }
 
-.link_signup {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: getColor(font);
-  padding: 5px 10px;
-  margin-left: 26px;
-  width: 150px;
-  background-color: transparent;
-  border: 1px solid getColor(second-light);
-  border-radius: getRadius(main);
-  transition: getTransition(main);
-  &__active {
-    border-color: getColor(accent);
-    .link_signup__icon {
-      color: getColor(accent);
-    }
-  }
-  &:hover {
-    border-color: getColor(accent);
-  }
-  &__icon {
-    margin-right: 7px;
-    transition: getTransition(main);
-  }
-  &__title {
-    font-size: 0.85em;
-  }
-}
+// .search {
+//   margin: 0 auto;
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+//   margin: 0px 20px;
+//   &__input {
+//     flex: 1;
+//     background-color: getColor(main);
+//     padding: 3px 5px;
+//     border-top-left-radius: getRadius(main);
+//     border-bottom-left-radius: getRadius(main);
+//     outline: none;
+//     border: 1px solid transparent;
+//     transition: getTransition(main);
+//     &:focus {
+//       border-color: getColor(accent);
+//     }
+//     &::placeholder {
+//       color: getColor(second-light);
+//     }
+//   }
+//   &__btn {
+//     width: 45px;
+//     align-self: stretch;
+//     display: flex;
+//     background-color: getColor(second-light);
+//     font-size: 0.8em;
+//     border-top-right-radius: getRadius(main);
+//     border-bottom-right-radius: getRadius(main);
+//   }
+//   &__icon {
+//     margin: auto;
+//   }
+// }
+
+// .dropdown {
+//   position: relative;
+//   margin-left: 26px;
+//   display: flex;
+//   align-items: center;
+//   &__menu {
+//     position: absolute;
+//     top: 45px;
+//     border-top: 1px solid getColor(accent);
+//     width: 180px;
+//     right: -15px;
+//     z-index: 3;
+//     background-color: getColor(secondary);
+//     border-radius: getRadius(main);
+//     padding: 6px 0;
+//     transition: getTransition(main);
+//     opacity: 0;
+//     visibility: hidden;
+//     transform: translateY(10px) scale(0.9);
+//     box-shadow: getShadow(main);
+//     &__active {
+//       opacity: 1;
+//       visibility: visible;
+//       transform: translateY(0px) scale(1);
+//     }
+//   }
+//   &__triangle {
+//     position: absolute;
+//     width: 15px;
+//     top: -8px;
+//     right: 22.5px;
+//     height: 15px;
+//     background-color: getColor(secondary);
+//     transform: rotateZ(45deg);
+//     border-top: 1px solid getColor(accent);
+//     border-left: 1px solid getColor(accent);
+//     z-index: -99;
+//     border-radius: getRadius(main);
+//   }
+//   &__btn {
+//     width: 30px;
+//     height: 30px;
+//     border-radius: 50%;
+//     border: 1px solid getColor(second-light);
+//     transition: getTransition(main);
+//     &__active {
+//       border-color: getColor(accent);
+//     }
+//   }
+//   &__ava {
+//     @extend %image;
+//   }
+// }
+
+// .link {
+//   color: getColor(font);
+//   text-decoration: none;
+//   font-size: 1.2em;
+//   margin-left: 26px;
+//   display: flex;
+//   transition: getTransition(main);
+//   position: relative;
+//   & > * {
+//     margin: auto;
+//   }
+//   &__active {
+//     color: getColor(accent);
+//   }
+//   &__counter {
+//     position: absolute;
+//     top: -5px;
+//     right: -5px;
+//     font-size: 0.6em;
+//     display: none;
+//     border-radius: 50%;
+//     width: 15px;
+//     height: 15px;
+//     color: getColor(font);
+//     background-color: getColor(danger);
+//     & > * {
+//       margin: auto;
+//     }
+//     &__appear {
+//       display: block;
+//     }
+//   }
+// }
+
+// .link_popup {
+//   background-color: transparent;
+// }
+
+// .link_extend {
+//   display: flex;
+//   align-items: center;
+//   text-decoration: none;
+//   color: getColor(font);
+//   width: 100%;
+//   padding: 10px 15px;
+//   background-color: getColor(secondary);
+//   transition: getTransition(main);
+//   &__active {
+//     background-color: getColor(second-light-accent);
+//     .link_extend__icon {
+//       color: getColor(accent);
+//     }
+//   }
+//   &:hover {
+//     background-color: getColor(second-light-accent);
+//   }
+//   &:last-child {
+//     border-top: 1px solid getColor(main);
+//   }
+//   &__icon {
+//     transition: getTransition(main);
+//   }
+//   &__title {
+//     margin-left: 7px;
+//     font-size: 0.85em;
+//   }
+// }
+
+// .link_signup {
+//   display: flex;
+//   align-items: center;
+//   text-decoration: none;
+//   color: getColor(font);
+//   padding: 5px 10px;
+//   margin-left: 26px;
+//   width: 150px;
+//   background-color: transparent;
+//   border: 1px solid getColor(second-light);
+//   border-radius: getRadius(main);
+//   transition: getTransition(main);
+//   &__active {
+//     border-color: getColor(accent);
+//     .link_signup__icon {
+//       color: getColor(accent);
+//     }
+//   }
+//   &:hover {
+//     border-color: getColor(accent);
+//   }
+//   &__icon {
+//     margin-right: 7px;
+//     transition: getTransition(main);
+//   }
+//   &__title {
+//     font-size: 0.85em;
+//   }
+// }

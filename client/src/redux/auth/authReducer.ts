@@ -10,12 +10,13 @@ const initState: Auth = {
     firstname: "",
     lastname: "",
     phone: "",
-    status: "",
     address: "",
-    bio: "",
     birth: "",
-    typeUser: "",
     date: "",
+    color: "",
+    confirmed: true,
+    middlename: "",
+    role: "unregistered",
   },
 }
 

@@ -43,6 +43,9 @@
     &_password {
       padding-right: 44px;
     }
+    &__error {
+      border-color: getColor(danger);
+    }
   }
   &__wrapper_input {
     position: relative;

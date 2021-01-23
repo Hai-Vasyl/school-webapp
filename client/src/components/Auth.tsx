@@ -6,7 +6,7 @@ import { BsArrowLeft, BsX } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import { SET_AUTH } from "../redux/auth/authTypes"
 import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
-import { IAuthErrors, IField } from "../interfaces"
+import { IField } from "../interfaces"
 import { RootStore } from "../redux/store"
 import Button from "./Button"
 import Field from "./Field"
@@ -14,10 +14,10 @@ import Field from "./Field"
 import styles from "../styles/auth.module"
 // @ts-ignore
 import stylesButton from "../styles/button.module"
-// @ts-ignore
-import stylesField from "../styles/field.module"
 import useChangeInput from "../hooks/useChangeInput"
+import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import ButtonTab from "./ButtonTab"
+import LoaderData from "./LoaderData"
 
 const Auth: React.FC = () => {
   const {
@@ -26,6 +26,7 @@ const Auth: React.FC = () => {
   const dispatch = useDispatch()
   const [isLogin, setIslogin] = useState(true)
   const { changeInput } = useChangeInput()
+  const { setErrors } = useSetErrorsFields()
   const [form, setForm] = useState([
     {
       param: "email",
@@ -64,63 +65,47 @@ const Auth: React.FC = () => {
   const [register, regFetch] = useLazyQuery(REGISTER_USER)
 
   useEffect(() => {
-    if (logFetch.error || regFetch.error) {
-      setForm((prevForm) =>
-        prevForm.map((field) => {
-          return { ...field, msg: "" }
-        })
-      )
-
-      const errors: IAuthErrors = JSON.parse(
-        logFetch.error?.message || regFetch.error?.message || ""
-      )
-      setForm((prevForm) =>
-        prevForm.map((field) => {
-          let newField = field
-          Object.keys(errors).forEach((key: string) => {
-            if (key === field.param) {
-              errors[key].msg &&
-                errors[key].msg.forEach((msg) => {
-                  newField.msg += ` ${msg}`
-                })
-              newField.msg = newField.msg.trim()
-            }
-          })
-          return newField
-        })
-      )
-    } else if (
-      (logFetch.data && logFetch.data.login) ||
-      (regFetch.data && regFetch.data.register)
-    ) {
+    if (logFetch.error) {
+      setErrors(logFetch.error.message, setForm)
+    } else if (logFetch.data && logFetch.data.login) {
       dispatch({
         type: SET_AUTH,
         payload: {
-          auth: logFetch.data.login || regFetch.data.register,
+          auth: logFetch.data.login,
           init: false,
         },
       })
       dispatch({ type: AUTHFORM_TOGGLE })
     }
-  }, [logFetch, regFetch, dispatch])
+  }, [setErrors, logFetch, dispatch])
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setForm((prevForm) =>
-  //     prevForm.map((field) => {
-  //       if (event.target.name === field.param) {
-  //         return { ...field, value: event.target.value, msg: "" }
-  //       }
-  //       return field
-  //     })
-  //   )
-  // }
+  useEffect(() => {
+    if (regFetch.error) {
+      setErrors(regFetch.error.message, setForm)
+      setErrors(regFetch.error.message, setFormReg)
+    } else if (regFetch.data && regFetch.data.register) {
+      dispatch({
+        type: SET_AUTH,
+        payload: {
+          auth: regFetch.data.register,
+          init: false,
+        },
+      })
+      dispatch({ type: AUTHFORM_TOGGLE })
+    }
+  }, [setErrors, regFetch, dispatch])
 
-  const handleFlipForm = () => {
-    setForm((prevForm) =>
+  const clearErrors = (setTemplForm: any) => {
+    setTemplForm((prevForm: IField[]) =>
       prevForm.map((field) => {
         return { ...field, msg: "" }
       })
     )
+  }
+
+  const handleFlipForm = () => {
+    clearErrors(setForm)
+    clearErrors(setFormReg)
     setIslogin((prevIsLogin) => !prevIsLogin)
   }
 
@@ -130,16 +115,20 @@ const Auth: React.FC = () => {
       | React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
-    const [username, email, password] = form
+    const [email, password] = form
+    const [firstname, lastname, username] = formReg
 
     if (isLogin) {
       login({ variables: { email: email.value, password: password.value } })
     } else {
       register({
         variables: {
+          firstname: firstname.value,
+          lastname: lastname.value,
           username: username.value,
           email: email.value,
           password: password.value,
+          isAdmin: false,
         },
       })
     }
@@ -160,25 +149,6 @@ const Auth: React.FC = () => {
       )
     })
   }
-
-  // const fields = form.map((field) => {
-  //   return (
-  //     <Field
-  //       key={field.param}
-  //       field={field}
-  //       change={(event) => changeInput(event, setForm)}
-  //     />
-  //   )
-  // })
-  // const fieldsReg = formReg.map((field) => {
-  //   return (
-  //     <Field
-  //       key={field.param}
-  //       field={field}
-  //       change={(event) => changeInput(event, setForm)}
-  //     />
-  //   )
-  // })
 
   return (
     <div className={`${styles.form} ${authForm && styles.form__active}`}>
@@ -212,6 +182,7 @@ const Auth: React.FC = () => {
               <button className='btn-handler'></button>
             </form>
           </div>
+          <LoaderData load={logFetch.loading || regFetch.loading} />
           <div className={styles.form__wrapper_form}>
             <form className={styles.form__fields} onSubmit={handleSubmit}>
               {reduceMapFields(form, setForm)}

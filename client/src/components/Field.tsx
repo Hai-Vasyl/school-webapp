@@ -49,8 +49,8 @@ const Field: React.FC<IFieldProps> = ({
       <div className={styles.field__wrapper_input}>
         <input
           className={`${styles.field__input} ${
-            isPassword && styles.field__input_password
-          }`}
+            field?.msg && styles.field__input__error
+          } ${isPassword && styles.field__input_password}`}
           name={field.param}
           type={viewPass && isPassword ? "text" : field.type}
           value={field.value}

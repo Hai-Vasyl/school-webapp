@@ -8,12 +8,28 @@ export type User = {
   firstname: string
   lastname: string
   phone: string
-  status: string
   address: string
-  bio: string
   birth: string
-  typeUser: string
   date: string
+  color: string
+  confirmed: boolean
+  middlename: string
+  role: string
+  group?: {
+    owner?: {
+      id: string
+      username: string
+      email: string
+      ava: string
+      color: string
+      firstname: string
+      lastname: string
+      middlename: string
+      role: string
+    }
+    name: string
+    date: string
+  }
 }
 
 export type Auth = {

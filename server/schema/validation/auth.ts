@@ -26,9 +26,9 @@ async function register(fields: IField): Promise<IValidRegisterResult> {
       }
     })
 
-    let { username, email, password } = fieldsMod
+    let { firstname, lastname, username, email, password } = fieldsMod
     if (isError) {
-      return { username, email, password, isError }
+      return { firstname, lastname, username, email, password, isError }
     }
 
     email = isEmail(email, "Email is not correct!")

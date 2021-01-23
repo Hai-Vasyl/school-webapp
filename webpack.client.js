@@ -14,7 +14,17 @@ const config = {
     path: path.resolve(__dirname, "dist", "client"),
   },
   resolve: {
-    extensions: [".js", ".json", ".jsx", ".css", ".scss", ".tsx", ".ts"],
+    extensions: [
+      ".js",
+      ".json",
+      ".jsx",
+      ".css",
+      ".scss",
+      ".tsx",
+      ".ts",
+      ".svg",
+      ".png",
+    ],
   },
   module: {
     rules: [

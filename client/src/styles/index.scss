@@ -72,3 +72,15 @@ button {
   padding: getPadding(secondary);
   background-color: getColor(second-light-accent);
 }
+
+.avatar {
+  @extend %image;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60%;
+  &__firstname {
+  }
+  &__lastname {
+  }
+}

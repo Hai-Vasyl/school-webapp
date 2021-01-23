@@ -16,8 +16,8 @@ $colors: (
   accent-gradient: #8a41ac,
   title-simple: rgb(199, 199, 199),
   danger: rgb(247, 120, 120),
-  bg: rgba(43, 43, 57, 0.573),
-  bg-light: hsla(240, 14%, 25%, 0.51),
+  bg: rgba(0, 0, 0, 0.5),
+  bg-light: rgba(224, 224, 224, 0.6),
 );
 $shadows: (
   main: (
@@ -28,6 +28,10 @@ $shadows: (
   ),
   thin: (
     0px 1px 1px rgba(92, 90, 99, 0.51),
+  ),
+  deep: (
+    0px 6px 17px rgba(69, 69, 69, 0.4),
+    0px 2px 4px rgba(70, 70, 72, 0.51),
   ),
 );
 
@@ -41,6 +45,7 @@ $fonts: (
     cursive,
   ),
 );
+$logo-side: 95px;
 
 @function getColor($color) {
   @return map-get($colors, $color);
@@ -178,4 +183,14 @@ $gradients: (
       transparent 32px
     ),
     linear-gradient(90deg, rgb(83, 220, 200), rgb(58, 78, 174));
+}
+%link-reset {
+  text-decoration: none;
+  color: getColor(font);
+}
+
+%wrapper {
+  width: 1200px;
+  padding: 0px 20px;
+  margin: auto;
 }
