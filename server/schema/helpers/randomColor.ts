@@ -1,6 +1,8 @@
-import { RiRestaurant2Line } from "react-icons/ri"
-
 export const getColor = () => {
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-  return "#" + randomColor
+  const letters = "0123456789ABCDEF"
+  let color = "#"
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
 }

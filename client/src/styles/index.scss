@@ -34,12 +34,12 @@ button {
 }
 
 .background {
-  top: 45px;
+  top: 89.4px;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: getColor(bg);
-  position: absolute;
+  background-color: getColor(bg-light);
+  position: fixed;
   opacity: 0;
   visibility: hidden;
   transition: getTransition(main);
@@ -78,7 +78,10 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 60%;
+  font-size: 80%;
+  color: getColor(font-white);
+  border-radius: 50%;
+  text-shadow: getShadow(thin);
   &__firstname {
   }
   &__lastname {

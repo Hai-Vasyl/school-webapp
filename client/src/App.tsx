@@ -328,7 +328,7 @@ const App: React.FC = () => {
       <Navbar />
       <Routes />
       <Auth />
-      <Chat />
+      {/* <Chat /> */}
       <Notifications />
       <div className={`${stylesToast.wrapper} ${stylesToast.wrapper_right}`}>
         {notifToasts.map((toast) => {

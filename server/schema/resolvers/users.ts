@@ -25,31 +25,29 @@ export const Query = {
 
       const { username, email, password, firstname, lastname } = validatedFields
 
-      // const hashedPassword = await bcrypt.hash(password.value, 12)
-      bcrypt.genSalt(12, function (err, salt) {
-        bcrypt.hash(args.password, salt, async function (err, hash) {
-          const user = new User({
-            username: username.value,
-            email: email.value,
-            firstname: firstname?.value,
-            lastname: lastname?.value,
-            middlename: args.middlename,
-            password: hash,
-            role: args.role,
-            group: args.group,
-            color: getColor(),
-            confirmed: !args.isAdmin && true,
-            date: new Date(),
-          })
-          const newUser = await user.save()
+      const salt = bcrypt.genSaltSync(12)
+      const hash = bcrypt.hashSync(args.password, salt)
 
-          if (args.isAdmin) {
-            return { user: newUser }
-          }
-          const token = jwt.sign({ userId: newUser._id }, JWT_SECRET)
-          return { user: newUser, token }
-        })
+      const user = new User({
+        username: username.value,
+        email: email.value,
+        firstname: args.firstname,
+        lastname: args.lastname,
+        middlename: args.middlename,
+        password: hash,
+        role: args.role,
+        group: args.group,
+        color: getColor(),
+        confirmed: !args.isAdmin && true,
+        date: new Date(),
       })
+      const newUser = await user.save()
+
+      if (args.isAdmin) {
+        return { user: newUser }
+      }
+      const token = jwt.sign({ userId: newUser._id }, JWT_SECRET)
+      return { user: newUser, token }
     } catch (error) {
       throw new AuthenticationError(error.message)
     }

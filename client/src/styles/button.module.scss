@@ -46,7 +46,7 @@
   color: getColor(font-white);
   background-color: transparent;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: getColor(bg-light);
     border-color: transparent;
   }
 }
@@ -55,12 +55,16 @@
   font-size: 16px;
   display: flex;
   padding: 10px;
-  border-left: 1px solid getColor(main-dark);
+  // border-left: 1px solid getColor(main-dark);
   background-color: getColor(font-white);
+  transition: getTransition(main);
   & > * {
     margin: auto;
   }
   &:last-child {
-    border-right: 1px solid getColor(main-dark);
+    // border-right: 1px solid getColor(main-dark);
+  }
+  &:hover {
+    background-color: getColor(main);
   }
 }

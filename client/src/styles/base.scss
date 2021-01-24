@@ -17,7 +17,7 @@ $colors: (
   title-simple: rgb(199, 199, 199),
   danger: rgb(247, 120, 120),
   bg: rgba(0, 0, 0, 0.5),
-  bg-light: rgba(224, 224, 224, 0.6),
+  bg-light: rgba(224, 224, 224, 0.3),
 );
 $shadows: (
   main: (
@@ -28,6 +28,9 @@ $shadows: (
   ),
   thin: (
     0px 1px 1px rgba(92, 90, 99, 0.51),
+  ),
+  second-equal: (
+    0px 0px 3px rgba(92, 90, 99, 0.51),
   ),
   deep: (
     0px 6px 17px rgba(69, 69, 69, 0.4),
@@ -78,9 +81,10 @@ $paddings: (
 );
 $transitions: (
   main: 0.3s ease,
-  main-slow: 1s ease,
+  main-slow: 2s ease,
   spin: 1s linear infinite,
   second: 0.6s ease,
+  slow: 0.8s ease,
 );
 $gradients: (
   main: linear-gradient(to right, getColor(accent), getColor(accent-second)),
@@ -121,16 +125,15 @@ $gradients: (
   }
 }
 %popup-fade-out {
-  // @extend %center-position;
   position: fixed;
-  top: calc(50% + 21px);
+  top: 50%;
   left: 50%;
   box-shadow: getShadow(main);
   transition: getTransition(main);
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, -50%) scale(0.9);
-  z-index: 10;
+  z-index: 8;
 }
 %popup-fade-in {
   opacity: 1;
@@ -193,4 +196,5 @@ $gradients: (
   width: 1200px;
   padding: 0px 20px;
   margin: auto;
+  max-width: 100%;
 }

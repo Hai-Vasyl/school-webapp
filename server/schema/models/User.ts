@@ -6,7 +6,6 @@ const schema = new Schema({
   password: { type: String, required: true },
   ava: {
     type: String,
-    required: true,
     default: "",
   },
   color: { type: String, required: true, default: "" },

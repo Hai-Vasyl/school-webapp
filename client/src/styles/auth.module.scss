@@ -1,42 +1,18 @@
 @import "base";
 
-// .form {
-//   width: 450px;
-//   max-width: 100%;
-//   background-color: getColor(secondary);
-//   border-radius: getRadius(main);
-//   overflow: hidden;
-//   @extend %popup-fade-out;
-//   &__active {
-//     @extend %popup-fade-in;
-//   }
-//   &__title {
-//     padding: getPadding(main);
-//   }
-//   &__fields {
-//     padding: 25px;
-//     padding-bottom: 0px;
-//   }
-//   &__btns {
-//     display: flex;
-//     justify-content: center;
-//     padding: getPadding(main);
-//     padding-top: 15px;
-//     & > :last-child {
-//       margin-left: 10px;
-//     }
-//   }
-// }
 .form {
   display: flex;
   width: 800px;
   max-width: 100%;
-  margin: auto;
   box-shadow: getShadow(main);
-  position: relative;
+  @extend %popup-fade-out;
+  background-color: getColor(main);
+  &__active {
+    @extend %popup-fade-in;
+  }
   &__wrapper {
     width: 50%;
-    transition: getTransition(main);
+    transition: getTransition(slow);
     &__extend {
       width: 100%;
       .form__wrapper_form {
@@ -68,7 +44,7 @@
     font-family: getFont(second);
     padding: 20px 0;
     color: getColor(font-light);
-    background-color: getColor(main-light);
+    background-color: getColor(main);
     letter-spacing: 2px;
     // border-bottom: 1px solid getColor(main);
     // border-bottom: 1px solid getColor(main-dark);

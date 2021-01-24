@@ -4,7 +4,7 @@ import styles from "../styles/button.module.scss"
 
 interface IButtonActionProps {
   Icon: any
-  click(): any
+  click: any
 }
 
 const ButtonAction: React.FC<IButtonActionProps> = ({ Icon, click }) => {

@@ -2,8 +2,8 @@ import React from "react"
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <div>Home page</div>
+    <div style={{ height: "200vh" }}>
+      <div>Home Page</div>
     </div>
   )
 }

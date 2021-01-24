@@ -81,9 +81,11 @@ const Auth: React.FC = () => {
 
   useEffect(() => {
     if (regFetch.error) {
+      console.log({ regErrro: regFetch.error })
       setErrors(regFetch.error.message, setForm)
       setErrors(regFetch.error.message, setFormReg)
     } else if (regFetch.data && regFetch.data.register) {
+      console.log({ regDATA: regFetch.data.register })
       dispatch({
         type: SET_AUTH,
         payload: {
@@ -135,7 +137,7 @@ const Auth: React.FC = () => {
   }
 
   const handleCloseForm = () => {
-    console.log("CLOSE")
+    dispatch({ type: AUTHFORM_TOGGLE })
   }
 
   const reduceMapFields = (form: IField[], setForm: any) => {
@@ -170,9 +172,7 @@ const Auth: React.FC = () => {
           <ButtonTab
             Icon={BsX}
             click={handleCloseForm}
-            exClass={`${styles.form__btn_close} ${
-              isLogin ? styles.form__btn_close__close : ""
-            }`}
+            exClass={`${styles.form__btn_close}`}
           />
         </h3>
         <div className={styles.form__wrapper_forms}>

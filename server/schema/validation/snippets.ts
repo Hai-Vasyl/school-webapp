@@ -77,8 +77,7 @@ async function comparePassword(
   msg: string
 ) {
   try {
-    // const isValid = await bcrypt.compare(password.value, hashedPassword)
-    const isValidPass = await bcrypt.compare(password.value, hashedPassword)
+    const isValidPass = bcrypt.compareSync(password.value, hashedPassword)
 
     if (!isValidPass) {
       password.msg.push(msg)

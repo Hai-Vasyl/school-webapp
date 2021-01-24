@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { links, buttons } from "../modules/routes"
 import { RootStore } from "../redux/store"
 import { NavLink, Link } from "react-router-dom"
-import { BsSearch, BsBell, BsChatDots } from "react-icons/bs"
+import { BsSearch, BsBell, BsChatDots, BsCaretRightFill } from "react-icons/bs"
 import { AiOutlineLogout, AiOutlineCheckCircle } from "react-icons/ai"
+import { BiUserCircle } from "react-icons/bi"
 import { useSelector, useDispatch } from "react-redux"
 import {
   DROPDOWN_TOGGLE,
@@ -36,9 +37,26 @@ const Navbar: React.FC = () => {
     notifications: { notifications },
     unreadMsgs: { messages },
   } = useSelector((state: RootStore) => state)
+  const [search, setSearch] = useState("")
+  const [changeNav, setChangeNav] = useState(false)
   const dispatch = useDispatch()
   const { data: dataNotifications } = useQuery(GET_USER_NOTIFICATIONS)
   const { data: dataMessages } = useQuery(GET_UNREAD_MESSAGES)
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeNavbar)
+    return () => {
+      window.removeEventListener("scroll", changeNavbar)
+    }
+  })
+
+  const changeNavbar = () => {
+    if (window.scrollY > 80) {
+      setChangeNav(true)
+    } else {
+      setChangeNav(false)
+    }
+  }
 
   useEffect(() => {
     const notifData = dataNotifications && dataNotifications.getNotifications
@@ -58,6 +76,15 @@ const Navbar: React.FC = () => {
     dispatch({ type: DROPDOWN_TOGGLE })
   }
 
+  const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
+  }
+
+  const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    console.log("SEARCH!")
+  }
+
   const handleLogout = () => {
     console.log("LOGOUT!")
   }
@@ -71,7 +98,7 @@ const Navbar: React.FC = () => {
             <ButtonAction
               key={key}
               Icon={buttons.search.Icon}
-              click={() => {}}
+              click={handleSubmitSearch}
             />
           )
         case buttons.chat.keyWord:
@@ -98,9 +125,10 @@ const Navbar: React.FC = () => {
     return links.map(({ to, exact, title, extraLinks }) => {
       if (extraLinks) {
         return (
-          <div className={styles.link__wrapper_dropdown}>
+          <div key={title} className={styles.link__wrapper_dropdown}>
             <button className={`${styles.link} ${styles.link__drop}`}>
               <span className={styles.link__text}>{title}</span>
+              <BsCaretRightFill className={styles.link__icon} />
             </button>
             <div className={styles.link__dropdown}>
               {extraLinks.map((link: ILink) => {
@@ -109,6 +137,7 @@ const Navbar: React.FC = () => {
                     key={link.to}
                     title={link.title}
                     exact={!!link.exact}
+                    dropdown
                     to={link.to || ""}
                   />
                 )
@@ -117,7 +146,9 @@ const Navbar: React.FC = () => {
           </div>
         )
       }
-      return <NavigLink key={to} title={title} exact={!!exact} to={to || ""} />
+      return (
+        <NavigLink key={title} title={title} exact={!!exact} to={to || ""} />
+      )
     })
   }
 
@@ -143,7 +174,7 @@ const Navbar: React.FC = () => {
     }
   })
   return (
-    <div className={styles.nav}>
+    <div className={`${styles.nav} ${changeNav && styles.nav__reduce}`}>
       <div className={styles.nav__actions_wrapper}>
         <div className={styles.nav__actions}>
           <Link to='/' className={styles.nav__logo}>
@@ -152,6 +183,15 @@ const Navbar: React.FC = () => {
           <div className={styles.nav__title}>
             <Link to='/'>Lorem ipsum dolor sit amet</Link>
           </div>
+          <form onSubmit={handleSubmitSearch} className={styles.search}>
+            <input
+              type='text'
+              value={search}
+              className={styles.search__input}
+              placeholder='Пошук'
+              onChange={handleChangeSearch}
+            />
+          </form>
           <div className={styles.nav__action_btns}>{getActionButtons()}</div>
         </div>
       </div>
@@ -159,14 +199,16 @@ const Navbar: React.FC = () => {
         <div className={styles.nav__menu}>
           <div className={styles.nav__links}>{getLinks()}</div>
           {token.length ? (
-            <div className={styles.user}>
-              <button className={styles.user__btn}>
-                <span className={styles.user__firstname}>
-                  {user.firstname.slice(0, 1)}
-                </span>
-                <span className={styles.user__lastname}>
-                  {user.lastname.slice(0, 1)}
-                </span>
+            <div className={`${styles.link__wrapper_dropdown} ${styles.user}`}>
+              <button className={`${styles.user__btn} ${styles.link__drop}`}>
+                <div className={styles.user__name}>
+                  <span className={styles.user__firstname}>
+                    {user.firstname.slice(0, 1)}
+                  </span>
+                  <span className={styles.user__lastname}>
+                    {user.lastname.slice(0, 1)}
+                  </span>
+                </div>
                 <div className={styles.user__ava}>
                   <UserAva
                     color={user.color}
@@ -176,15 +218,32 @@ const Navbar: React.FC = () => {
                   />
                 </div>
               </button>
-              <div className={styles.user__dropdown}>
-                <NavigLink to={`/profile/${user.id}`} title='Мій кабінет' />
-                <button className={styles.link} onClick={handleLogout}>
+              <div
+                className={`${styles.link__dropdown} ${styles.link__dropdown_right}`}
+              >
+                <NavigLink
+                  to={`/profile/${user.id}`}
+                  title='Мій кабінет'
+                  dropdown
+                  Icon={BiUserCircle}
+                />
+                <button
+                  className={`${styles.link} ${styles.link__dropdown_menu}`}
+                  onClick={handleLogout}
+                >
+                  <AiOutlineLogout className={styles.link__text_icon} />
                   <span className={styles.link__text}>Вийти</span>
                 </button>
               </div>
             </div>
           ) : (
-            <button className={styles.btn_login}>
+            <button
+              className={`${styles.btn_login} ${
+                authForm && styles.btn_login__active
+              }`}
+              onClick={() => dispatch({ type: AUTHFORM_TOGGLE })}
+            >
+              <AiOutlineLogout className={styles.link__text_icon} />
               <span className={styles.btn_login__text}>Увійти</span>
             </button>
           )}
