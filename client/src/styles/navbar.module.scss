@@ -157,7 +157,7 @@
     transform: scale(0.8);
     transition: getTransition(main);
     padding: 7px 0;
-    background-color: getColor(main);
+    background-color: getColor(secondary);
   }
   &__dropdown_right {
     left: auto;

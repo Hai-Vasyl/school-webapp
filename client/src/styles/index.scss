@@ -87,3 +87,9 @@ button {
   &__lastname {
   }
 }
+
+.wrapper {
+  @extend %wrapper;
+  padding-top: 56px;
+  // padding-top: 156px;
+}

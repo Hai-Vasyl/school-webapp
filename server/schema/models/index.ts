@@ -5,6 +5,7 @@ import UserChat from "./UserChat"
 import Notification from "./Notification"
 import UnreadMessage from "./UnreadMessage"
 import Group from "./Group"
+import Page from "./Page"
 // import Post from "./Post"
 // import Uploads from "./Uploads"
 
@@ -16,5 +17,6 @@ export {
   Notification,
   UnreadMessage,
   Group,
+  Page,
   //  Post, Uploads
 }

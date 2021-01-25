@@ -14,6 +14,9 @@ import Projects from "../pages/Projects"
 import Contacts from "../pages/Contacts"
 import Schedule from "../pages/Schedule"
 import RegisterUser from "../pages/RegisterUser"
+import CreateGroup from "../pages/CreateGroup"
+import { ILink } from "../interfaces"
+import { access } from "./accessModifiers"
 
 export const buttons = {
   search: {
@@ -30,59 +33,164 @@ export const buttons = {
   },
 }
 
-const mainLinks = [
-  {
-    to: "/",
-    exact: true,
-    title: "Головна",
-  },
-  {
-    title: "Про школу",
-    extraLinks: [
-      { to: "/about", title: "Навчальний заклад" },
-      { to: "/values", title: "Наші цінності" },
-      { to: "/team", title: "Команда" },
-      { to: "/graduates", title: "Випускники" },
-      { to: "/achievement", title: "Досягнення" },
-    ],
-  },
-  {
-    to: "/news",
-    title: "Новини",
-  },
-  {
-    to: "/library",
-    title: "Бібліотека",
-  },
-  {
-    to: "/gallery",
-    title: "Галерея",
-  },
-  {
-    to: "/projects",
-    title: "Проекти",
-  },
-  {
-    to: "/management",
-    title: "Управління",
-  },
-  {
-    to: "/contacts",
-    title: "Котакти",
-  },
-  {
-    to: "/schedule",
-    title: "Розклад занять",
-  },
-]
+export const getLinks = (role: string) => {
+  const allLinks = [
+    {
+      to: "/",
+      exact: true,
+      title: "Головна",
+    },
+    {
+      title: "Про школу",
+      extraLinks: [
+        { to: "/about", title: "Навчальний заклад" },
+        { to: "/values", title: "Наші цінності" },
+        { to: "/team", title: "Команда" },
+        { to: "/graduates", title: "Випускники" },
+        { to: "/achievement", title: "Досягнення" },
+      ],
+    },
+    {
+      to: "/news",
+      title: "Новини",
+    },
+    {
+      to: "/library",
+      title: "Бібліотека",
+    },
+    {
+      to: "/gallery",
+      title: "Галерея",
+    },
+    {
+      to: "/management",
+      title: "Управління",
+    },
+    {
+      title: "Інше",
+      extraLinks: [
+        {
+          to: "/projects",
+          title: "Проекти",
+        },
+        {
+          to: "/contacts",
+          title: "Котакти",
+        },
+        {
+          to: "/schedule",
+          title: "Розклад занять",
+        },
+      ],
+    },
+  ]
 
-export const links = {
-  admin: [...mainLinks],
-  teacher: [...mainLinks],
-  student: [...mainLinks],
-  user: [...mainLinks],
-  unregistered: [...mainLinks],
+  switch (role) {
+    case access.admin.keyWord:
+      return [...allLinks].map((link, index) => {
+        if (index === allLinks.length - 1 && link.extraLinks) {
+          return {
+            ...link,
+            extraLinks: [
+              ...link.extraLinks,
+              { to: "/register-user", title: "Створити користувача" },
+              { to: "/create-group", title: "Створити клас" },
+            ],
+          }
+        }
+        return link
+      })
+    case access.teacher.keyWord:
+      return [...allLinks]
+    case access.student.keyWord:
+      return [...allLinks]
+    case access.user.keyWord:
+      return [...allLinks]
+    default:
+      return [...allLinks]
+  }
 }
+
+// const mainLinks = [
+//   {
+//     to: "/",
+//     exact: true,
+//     title: "Головна",
+//   },
+//   {
+//     title: "Про школу",
+//     extraLinks: [
+//       { to: "/about", title: "Навчальний заклад" },
+//       { to: "/values", title: "Наші цінності" },
+//       { to: "/team", title: "Команда" },
+//       { to: "/graduates", title: "Випускники" },
+//       { to: "/achievement", title: "Досягнення" },
+//     ],
+//   },
+//   {
+//     to: "/news",
+//     title: "Новини",
+//   },
+//   {
+//     to: "/library",
+//     title: "Бібліотека",
+//   },
+//   {
+//     to: "/gallery",
+//     title: "Галерея",
+//   },
+//   {
+//     to: "/management",
+//     title: "Управління",
+//   },
+//   {
+//     title: "Інше",
+//     extraLinks: [
+//       {
+//         to: "/projects",
+//         title: "Проекти",
+//       },
+//       {
+//         to: "/contacts",
+//         title: "Котакти",
+//       },
+//       {
+//         to: "/schedule",
+//         title: "Розклад занять",
+//       },
+//     ],
+//   },
+// ]
+
+// const addLinks = (links: ILink[], extraLinks?: ILink[]) => {
+//   console.log({ mainLinks1: mainLinks })
+
+//   // @ts-ignore
+//   links[links.length - 1].extraLinks.push(...extraLinks)
+//   console.log({ mainLinks2: mainLinks })
+//   return links
+// }
+// @ts-ignore
+// const sdfs = [...mainLinks][mainLinks.length - 1].extraLinks.push([
+//   { to: "/register-user", title: "Створити користувача" },
+//   { to: "/create-group", title: "Створити клас" },
+// ])
+
+// let adminLinks = addLinks(
+//   [...mainLinks],
+//   [
+//     { to: "/register-user", title: "Створити користувача" },
+//     { to: "/create-group", title: "Створити клас" },
+//   ]
+// )
+
+// export const links = {
+//   teacher: [...mainLinks],
+//   student: [...mainLinks],
+//   user: [...mainLinks],
+//   unregistered: [...mainLinks],
+//   admin: adminLinks,
+// }
 
 const mainRoutes = [
   { path: "/", exact: true, Component: Home },
@@ -98,25 +206,17 @@ const mainRoutes = [
   { path: "/management", Component: Management },
   { path: "/contacts", Component: Contacts },
   { path: "/schedule", Component: Schedule },
+  { path: "/profile/:userId", exact: true, Component: Profile },
 ]
 
 export const routes = {
   admin: [
     ...mainRoutes,
     { path: "/register-user", Component: RegisterUser },
-    { path: "/profile/:userId", exact: true, Component: Profile },
+    { path: "/create-group", Component: CreateGroup },
   ],
-  teacher: [
-    ...mainRoutes,
-    { path: "/profile/:userId", exact: true, Component: Profile },
-  ],
-  student: [
-    ...mainRoutes,
-    { path: "/profile/:userId", exact: true, Component: Profile },
-  ],
-  user: [
-    ...mainRoutes,
-    { path: "/profile/:userId", exact: true, Component: Profile },
-  ],
+  teacher: [...mainRoutes],
+  student: [...mainRoutes],
+  user: [...mainRoutes],
   unregistered: [...mainRoutes],
 }

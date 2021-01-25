@@ -1,6 +1,13 @@
 import { gql } from "apollo-server"
 
 export default gql`
+  type Page {
+    id: ID!
+    url: String!
+    image: String
+    imageKey: String
+    date: String!
+  }
   type Group {
     owner: User!
     name: String!
@@ -83,6 +90,8 @@ export default gql`
       role: String
       group: String
     ): Auth
+    getPages: [Page]!
+    getPage(url: String!): Page
     userChats(userId: ID): [Chat]!
     chatMessages(chat: ID!): [Message]!
     searchChats(searchStr: String!): Searched
@@ -121,6 +130,7 @@ export default gql`
     addUserAccess(chatId: ID, userId: ID!): [Chat]!
     removeUserAccess(chatId: ID!, userId: ID): [Chat]!
     setMessageRead(messageId: ID!): String!
+    setPageImage(url: String!, image: Upload, deleting: Boolean!): Page!
   }
   type Subscription {
     newMessage(channels: [String]!): Message!

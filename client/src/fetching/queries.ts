@@ -270,3 +270,26 @@ export const GET_CHAT_INFO = gql`
     }
   }
 `
+
+export const GET_PAGES = gql`
+  query GET_PAGES {
+    getPages {
+      id
+      url
+      image
+      imageKey
+      date
+    }
+  }
+`
+
+export const GET_PAGE = gql`
+  query GET_PAGE($url: String!) {
+    getPage(url: $url) {
+      id
+      url
+      image
+      date
+    }
+  }
+`

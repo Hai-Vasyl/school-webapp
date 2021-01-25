@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { links, buttons } from "../modules/routes"
+import { getLinks, buttons } from "../modules/routes"
 import { RootStore } from "../redux/store"
 import { NavLink, Link } from "react-router-dom"
 import { BsSearch, BsBell, BsChatDots, BsCaretRightFill } from "react-icons/bs"
@@ -152,20 +152,25 @@ const Navbar: React.FC = () => {
     })
   }
 
-  const getLinks = () => {
-    switch (user.role) {
-      case access.admin.keyWord:
-        return reduceMapLins(links.admin)
-      case access.teacher.keyWord:
-        return reduceMapLins(links.teacher)
-      case access.student.keyWord:
-        return reduceMapLins(links.student)
-      case access.user.keyWord:
-        return reduceMapLins(links.user)
-      default:
-        return reduceMapLins(links.unregistered)
-    }
-  }
+  // const getLinks = () => {
+  //   switch (user.role) {
+  //     case access.admin.keyWord:
+  //       console.log("admin")
+  //       return reduceMapLins(links.admin)
+  //     case access.teacher.keyWord:
+  //       console.log("teacher")
+  //       return reduceMapLins(links.teacher)
+  //     case access.student.keyWord:
+  //       console.log("student")
+  //       return reduceMapLins(links.student)
+  //     case access.user.keyWord:
+  //       console.log("user", links.user)
+
+  //       return reduceMapLins(links.user)
+  //     default:
+  //       return reduceMapLins(links.unregistered)
+  //   }
+  // }
 
   let countUnreadNotif = 0
   notifications.forEach((notif) => {
@@ -197,7 +202,9 @@ const Navbar: React.FC = () => {
       </div>
       <div className={styles.nav__wrapper_menu}>
         <div className={styles.nav__menu}>
-          <div className={styles.nav__links}>{getLinks()}</div>
+          <div className={styles.nav__links}>
+            {reduceMapLins(getLinks(user.role))}
+          </div>
           {token.length ? (
             <div className={`${styles.link__wrapper_dropdown} ${styles.user}`}>
               <button className={`${styles.user__btn} ${styles.link__drop}`}>
