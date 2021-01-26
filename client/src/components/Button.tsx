@@ -7,11 +7,18 @@ interface IButtonProps {
   Icon: any
   title: string
   exClass?: string
+  type?: any
 }
 
-const Button: React.FC<IButtonProps> = ({ Icon, click, title, exClass }) => {
+const Button: React.FC<IButtonProps> = ({
+  Icon,
+  click,
+  title,
+  exClass,
+  type,
+}) => {
   return (
-    <button className={`${styles.btn} ${exClass}`} onClick={click}>
+    <button className={`${styles.btn} ${exClass}`} onClick={click} type={type}>
       <Icon className={styles.btn__icon} />
       <span className={styles.btn__title}>{title}</span>
     </button>

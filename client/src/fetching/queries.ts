@@ -293,3 +293,38 @@ export const GET_PAGE = gql`
     }
   }
 `
+
+export const GET_TEACHERS = gql`
+  query GET_TEACHERS {
+    getTeachers {
+      id
+      username
+      email
+      ava
+      color
+      firstname
+      lastname
+      role
+    }
+  }
+`
+
+export const GET_GROUPS = gql`
+  query GET_GROUPS {
+    getGroups {
+      id
+      owner {
+        id
+        username
+        email
+        ava
+        color
+        firstname
+        lastname
+        role
+      }
+      name
+      date
+    }
+  }
+`

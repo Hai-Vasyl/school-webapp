@@ -1,18 +1,33 @@
 @import "base";
 
 .title {
-  height: 30vh;
+  height: 45vh;
   @extend %background-accent;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &__image {
     @extend %image;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
+    @extend %position-extend;
+    z-index: 1;
+  }
+  &__layer {
+    @extend %position-extend;
+    z-index: 2;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.5)
+    );
   }
   &__text {
-    text-align: center;
+    position: relative;
+    z-index: 3;
+    font-size: 3.7em;
+    color: getColor(font-white);
+    padding-top: 105px;
+    font-weight: normal;
+    font-family: getFont(second);
   }
 }

@@ -121,15 +121,20 @@ const Auth: React.FC = () => {
     const [firstname, lastname, username] = formReg
 
     if (isLogin) {
-      login({ variables: { email: email.value, password: password.value } })
+      login({
+        variables: {
+          email: email.value.trim(),
+          password: password.value.trim(),
+        },
+      })
     } else {
       register({
         variables: {
-          firstname: firstname.value,
-          lastname: lastname.value,
-          username: username.value,
-          email: email.value,
-          password: password.value,
+          firstname: firstname.value.trim(),
+          lastname: lastname.value.trim(),
+          username: username.value.trim(),
+          email: email.value.trim(),
+          password: password.value.trim(),
           isAdmin: false,
         },
       })

@@ -3,18 +3,18 @@ import { GET_PAGE } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 // @ts-ignore
 import styles from "../styles/title.module"
+import { useLocation } from "react-router-dom"
 
 interface ITitleProps {
-  url: string
   title: string
 }
 
-const Title: React.FC<ITitleProps> = ({ title, url }) => {
+const Title: React.FC<ITitleProps> = ({ title }) => {
+  const location = useLocation()
   const { data: dataImage, loading, error } = useQuery(GET_PAGE, {
-    variables: { url },
+    variables: { url: location.pathname },
   })
 
-  console.log({ dataImage, loading, error })
   return (
     <div className={styles.title}>
       {dataImage && (
@@ -24,6 +24,7 @@ const Title: React.FC<ITitleProps> = ({ title, url }) => {
           alt='bgImage'
         />
       )}
+      <div className={styles.title__layer}></div>
       <h2 className={styles.title__text}>{title}</h2>
     </div>
   )

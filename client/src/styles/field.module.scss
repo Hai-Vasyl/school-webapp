@@ -84,7 +84,7 @@
   margin-bottom: 0.5em;
   &__fileWrapper {
     display: flex;
-    border: 1px solid getColor(second-light);
+    // border: 1px solid getColor(second-light);
     border-radius: getRadius(main);
   }
   &__title {
@@ -121,8 +121,15 @@
     background-color: transparent;
     background-image: getGradient(main);
     @extend %flex-center;
+    justify-content: space-between;
     transition: getTransition(main);
+    padding: 0px 10px;
     z-index: 3;
+    & > span {
+      height: 22.4px;
+      overflow: hidden;
+      // width: 210px;
+    }
   }
   &__select {
     position: absolute;

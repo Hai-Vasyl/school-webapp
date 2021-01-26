@@ -9,6 +9,7 @@ export default gql`
     date: String!
   }
   type Group {
+    id: ID!
     owner: User!
     name: String!
     date: String!
@@ -100,8 +101,11 @@ export default gql`
     getNotifications: [Notification]!
     getChatUsers(chatId: ID!): [User]!
     getUnreadMessages: [Message]!
+    getTeachers: [User]!
+    getGroups: [Group]!
   }
   type Mutation {
+    createGroup(owner: ID!, name: String!): Group!
     createChat(
       title: String!
       description: String

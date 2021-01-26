@@ -152,26 +152,6 @@ const Navbar: React.FC = () => {
     })
   }
 
-  // const getLinks = () => {
-  //   switch (user.role) {
-  //     case access.admin.keyWord:
-  //       console.log("admin")
-  //       return reduceMapLins(links.admin)
-  //     case access.teacher.keyWord:
-  //       console.log("teacher")
-  //       return reduceMapLins(links.teacher)
-  //     case access.student.keyWord:
-  //       console.log("student")
-  //       return reduceMapLins(links.student)
-  //     case access.user.keyWord:
-  //       console.log("user", links.user)
-
-  //       return reduceMapLins(links.user)
-  //     default:
-  //       return reduceMapLins(links.unregistered)
-  //   }
-  // }
-
   let countUnreadNotif = 0
   notifications.forEach((notif) => {
     if (!notif.active) {
@@ -186,7 +166,7 @@ const Navbar: React.FC = () => {
             <img src={logo} className={styles.nav__logo_img} alt='logotype' />
           </Link>
           <div className={styles.nav__title}>
-            <Link to='/'>Lorem ipsum dolor sit amet</Link>
+            <Link to='/'>Назва навчального закладу</Link>
           </div>
           <form onSubmit={handleSubmitSearch} className={styles.search}>
             <input

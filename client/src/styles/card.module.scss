@@ -71,11 +71,3 @@
     }
   }
 }
-
-.card_light {
-  border: 1px solid getColor(second-light-accent);
-  .card__icon {
-    border: 1px solid getColor(second-light-accent);
-    background-color: getColor(secondary);
-  }
-}

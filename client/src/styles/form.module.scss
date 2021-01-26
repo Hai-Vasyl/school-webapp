@@ -1,0 +1,13 @@
+@import "base";
+
+.form {
+  display: flex;
+  border: 1px solid lightgrey;
+  &__fields {
+    width: 50%;
+  }
+  &__sidebar {
+    width: 50%;
+    @extend %background-accent;
+  }
+}

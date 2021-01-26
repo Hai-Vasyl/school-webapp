@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 // @ts-ignore
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
 import { BsCaretDownFill } from "react-icons/bs"
+import usePickOption from "../hooks/usePickOption"
 
 interface IFieldPickerProps {
   field: {
@@ -15,8 +16,8 @@ interface IFieldPickerProps {
     value: string
     label: string
   }[]
-  change(value: string): any
-  Icon: any
+  change: any
+  Icon?: any
   isImportant?: boolean
 }
 
@@ -28,6 +29,18 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
   isImportant,
 }) => {
   const [toggleDrop, setToggleDrop] = useState(false)
+  const { pichOpton } = usePickOption()
+
+  const handleToggleDrop = () => {
+    setToggleDrop((prev) => !prev)
+  }
+
+  useEffect(() => {
+    if (toggleDrop) {
+      window.addEventListener("click", handleToggleDrop)
+    }
+    return () => window.removeEventListener("click", handleToggleDrop)
+  }, [handleToggleDrop, toggleDrop])
 
   const getLabelOption = (value: string) => {
     let label = ""
@@ -40,8 +53,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
   }
 
   const handlePickOption = (value: string) => {
-    change(value)
-    setToggleDrop(false)
+    pichOpton(change, field.param, value)
   }
 
   return (
@@ -58,10 +70,11 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
         </div>
         <div className={styles.field_picker}>
           <button
+            type='button'
             className={styles.field_picker__button}
-            onClick={() => setToggleDrop((prevDrop) => !prevDrop)}
+            onClick={() => setToggleDrop((prev) => !prev)}
           >
-            <Icon className={styles.field_file__upload_icon} />
+            {Icon && <Icon className={styles.field_file__upload_icon} />}
             <span>{getLabelOption(field.value || "")}</span>
             <BsCaretDownFill
               className={`${styles.field_picker__triangle} ${
@@ -77,6 +90,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
             {options.map((option) => {
               return (
                 <button
+                  type='button'
                   key={option.value}
                   className={`${styles.field_picker__option} ${
                     option.value === field.value &&

@@ -11,17 +11,21 @@ $colors: (
   font-light: rgb(122, 121, 121),
   font-white: #fff,
   // font-dark: #333,
-  accent: #2175bf,
+  accent: #2165bf,
   accent-second: #4a9edf,
   accent-gradient: #8a41ac,
   title-simple: rgb(199, 199, 199),
   danger: rgb(247, 120, 120),
   bg: rgba(0, 0, 0, 0.5),
+  bg-night: rgba(49, 49, 49, 0.3),
   bg-light: rgba(224, 224, 224, 0.3),
 );
 $shadows: (
   main: (
     0px 2px 3px rgba(92, 90, 99, 0.836),
+  ),
+  main-dark: (
+    0px 2px 3px rgba(57, 57, 57, 0.5),
   ),
   second: (
     0px 2px 3px rgba(92, 90, 99, 0.51),
@@ -33,8 +37,8 @@ $shadows: (
     0px 0px 3px rgba(92, 90, 99, 0.51),
   ),
   deep: (
-    0px 6px 17px rgba(69, 69, 69, 0.4),
-    0px 2px 4px rgba(70, 70, 72, 0.51),
+    0px 6px 27px rgba(41, 41, 41, 0.4),
+    0px 2px 4px rgba(32, 32, 32, 0.4),
   ),
 );
 
@@ -44,11 +48,11 @@ $fonts: (
     sans-serif,
   ),
   second: (
-    "Lobster",
-    cursive,
+    "Cormorant Garamond",
+    serif,
   ),
 );
-$logo-side: 95px;
+$logo-side: 123px;
 
 @function getColor($color) {
   @return map-get($colors, $color);
@@ -197,4 +201,12 @@ $gradients: (
   padding: 0px 20px;
   margin: auto;
   max-width: 100%;
+}
+
+%position-extend {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }

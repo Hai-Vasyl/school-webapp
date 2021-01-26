@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import { config } from "dotenv"
 import { AuthenticationError } from "apollo-server"
 import { registerValid, loginValid } from "../validation/auth"
-import { IField } from "../interfaces"
+import { IField, IIsAuth } from "../interfaces"
 import { getColor } from "../helpers/randomColor"
 config({ path: "../../../.env" })
 const { JWT_SECRET }: any = process.env
@@ -63,6 +63,19 @@ export const Query = {
       const token = jwt.sign({ userId: user?._id }, JWT_SECRET)
 
       return { user, token }
+    } catch (error) {
+      throw new AuthenticationError(error.message)
+    }
+  },
+  async getTeachers(_: any, __: IField, { isAuth }: { isAuth: IIsAuth }) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: add validation and check in models
+
+      const teachers = await User.find({ role: { $in: ["teacher", "admin"] } })
+      return teachers
     } catch (error) {
       throw new AuthenticationError(error.message)
     }

@@ -276,3 +276,23 @@ export const DELETE_UNREAD_MESSAGES = gql`
     deleteUnreadMessages(messages: $messages)
   }
 `
+
+export const CREATE_GROUP = gql`
+  mutation CREATE_GROUP($name: String!, $owner: ID!) {
+    createGroup(name: $name, owner: $owner) {
+      id
+      owner {
+        id
+        username
+        email
+        ava
+        color
+        firstname
+        lastname
+        role
+      }
+      name
+      date
+    }
+  }
+`

@@ -64,8 +64,11 @@ export interface IOwner {
   ava: string
   email: string
   id: string
-  typeUser: string
   username: string
+  color: string
+  firstname: string
+  lastname: string
+  role: string
 }
 
 export interface IChatCard {
@@ -113,4 +116,20 @@ export interface IMessageToast {
     type: string
     image: string
   }
+}
+
+export interface IGroup {
+  id: string
+  owner: {
+    id: string
+    username: string
+    email: string
+    ava: string
+    color: string
+    firstname: string
+    lastname: string
+    role: string
+  }
+  name: string
+  date: string
 }

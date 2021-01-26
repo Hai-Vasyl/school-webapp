@@ -16,6 +16,7 @@ import {
   Mutation as MUnreadMessages,
 } from "./resolvers/unreadmessages"
 import { Query as QPages, Mutation as MPages } from "./resolvers/pages"
+import { Query as QGroups, Mutation as MGroups } from "./resolvers/groups"
 import { Chat } from "./resolvers/chat"
 import { Message } from "./resolvers/message"
 import { UserChat } from "./resolvers/userchat"
@@ -33,6 +34,7 @@ const schema = {
       ...QNotifications,
       ...QUnreadMessages,
       ...QPages,
+      ...QGroups,
     },
     Mutation: {
       ...MChats,
@@ -40,6 +42,7 @@ const schema = {
       ...MNotifications,
       ...MUnreadMessages,
       ...MPages,
+      ...MGroups,
     },
     Subscription: {
       ...SMessages,

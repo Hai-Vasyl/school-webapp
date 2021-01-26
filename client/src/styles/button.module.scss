@@ -54,15 +54,17 @@
 .btn_action {
   font-size: 16px;
   display: flex;
-  padding: 10px;
-  // border-left: 1px solid getColor(main-dark);
-  background-color: getColor(font-white);
+  padding: 15px 20px;
+  border-left: 1px solid getColor(bg-light);
+  // background-color: getColor(font-white);
+  background-color: transparent;
   transition: getTransition(main);
+  color: getColor(font-white);
   & > * {
     margin: auto;
   }
   &:last-child {
-    // border-right: 1px solid getColor(main-dark);
+    border-right: 1px solid getColor(bg-light);
   }
   &:hover {
     background-color: getColor(main);
