@@ -48,6 +48,12 @@
     top: 50%;
     right: 55px;
     transform: translateY(-50%);
+    opacity: 1;
+    visibility: visible;
+    &__hide {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
   &__btn_delete {
     position: absolute;

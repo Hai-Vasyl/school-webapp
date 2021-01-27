@@ -1,5 +1,6 @@
 import { Group } from "../models"
 import { IIsAuth, IField } from "../interfaces"
+import { types } from "../../modules/messageTypes"
 
 export const Query = {
   async getGroups(_: any, __: IField, { isAuth }: { isAuth: IIsAuth }) {
@@ -76,6 +77,27 @@ export const Mutation = {
       await Group.updateOne({ _id: groupId }, { owner, name, date: new Date() })
       const changedGroup = await Group.findById(groupId)
       return changedGroup
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  },
+  async deleteGroup(
+    _: any,
+    { groupId }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: validation for each field and check in models
+
+      const group: any = await Group.findById(groupId)
+      await Group.findByIdAndDelete(groupId)
+      return {
+        message: `Клас "${group.name}" був успішно видалений!`,
+        type: types.success.keyWord,
+      }
     } catch (error) {
       throw new Error(error.message)
     }

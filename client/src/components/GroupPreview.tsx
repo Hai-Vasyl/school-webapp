@@ -7,7 +7,7 @@ import { convertDate } from "../helpers/convertDate"
 // @ts-ignore
 import styles from "../styles/groups.module"
 import { Link, useHistory } from "react-router-dom"
-import { WARNING_OPEN, AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
+import { WARNING_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 
 interface IGroupPreviewProps {
@@ -16,6 +16,7 @@ interface IGroupPreviewProps {
   date: string
   owner: IOwner
   groupId: string
+  deleteGroup(groupId: string): any
 }
 
 const GroupPreview: React.FC<IGroupPreviewProps> = ({
@@ -24,13 +25,10 @@ const GroupPreview: React.FC<IGroupPreviewProps> = ({
   date,
   owner,
   groupId,
+  deleteGroup,
 }) => {
   const history = useHistory()
   const dispatch = useDispatch()
-
-  const handleDeleteGroup = (groupId: string) => {
-    console.log({ groupId })
-  }
 
   return (
     <div
@@ -41,7 +39,9 @@ const GroupPreview: React.FC<IGroupPreviewProps> = ({
           {name}
         </Link>
         <ButtonTab
-          exClass={styles.group__btn_edit}
+          exClass={`${styles.group__btn_edit} ${
+            groupId === id && styles.group__btn_edit__hide
+          }`}
           click={() => history.push(`/edit-group/${id}`)}
           Icon={BsPencilSquare}
         />
@@ -51,7 +51,7 @@ const GroupPreview: React.FC<IGroupPreviewProps> = ({
             dispatch({
               type: WARNING_OPEN,
               payload: {
-                action: () => handleDeleteGroup(id),
+                action: () => deleteGroup(id),
                 title: `Видалити клас "${name}" та вcіх його учасників?`,
               },
             })

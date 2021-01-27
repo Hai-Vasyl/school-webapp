@@ -12,6 +12,12 @@
   right: 0;
   left: auto;
 }
+.wrapper_top {
+  right: 0;
+  top: 130px;
+  left: auto;
+  bottom: auto;
+}
 
 @keyframes drag-in-left {
   from {
@@ -149,5 +155,45 @@
   &__date {
     font-size: 0.75em;
     color: getColor(title-simple);
+  }
+}
+
+.info {
+  background-color: getColor(secondary);
+  color: getColor(font-white);
+  margin-top: 10px;
+  animation: drag-in-right getTransition(second);
+  box-shadow: getShadow(main);
+  &__success {
+    background-color: getColor(success);
+  }
+  &__warning {
+    background-color: getColor(warning);
+  }
+  &__error {
+    background-color: getColor(danger);
+  }
+  &__header {
+    background-color: getColor(bg-light);
+    @extend %flex-center;
+    justify-content: flex-start;
+    padding: 5px 10px;
+  }
+  &__icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    margin-right: 7px;
+    border: 1px solid getColor(main-dark);
+    border-radius: 50%;
+    & > * {
+      margin: auto;
+      font-size: 23px;
+    }
+  }
+  &__title {
+  }
+  &__body {
+    padding: 10px;
   }
 }

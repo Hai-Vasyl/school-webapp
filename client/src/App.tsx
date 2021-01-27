@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
-import Auth from "./components/Auth"
 import { SET_AUTH } from "./redux/auth/authTypes"
 import { useDispatch, useSelector } from "react-redux"
-import Navbar from "./components/Navbar"
 import Routes from "./components/Routes"
 import { useQuery, useSubscription, useMutation } from "@apollo/client"
 import { GET_USER_CHATS } from "./fetching/queries"
@@ -24,8 +22,6 @@ import {
   SET_CHATS_QUEUE,
   REMOVE_CHAT_QUEUE,
 } from "./redux/queueChats/queueTypes"
-import Chat from "./components/Chat"
-import Notifications from "./components/Notifications"
 import { SET_NOTIFICATION } from "./redux/notifications/notifTypes"
 import { SET_UNREAD_MESSAGE } from "./redux/unreadMsgs/msgsTypes"
 import { CHAT_OPEN, NOTIFICATIONS_TOGGLE } from "./redux/toggle/toggleTypes"
@@ -38,7 +34,8 @@ import stylesToast from "./styles/toast.module"
 import keyWords from "./modules/keyWords"
 import { INotification } from "./redux/notifications/notifTypes"
 import notifTypes from "./modules/notifTypes"
-import Warning from "./components/Warning"
+import { SET_TOASTS } from "./redux/toasts/toastsTypes"
+import ToastInfo from "./components/ToastInfo"
 
 const App: React.FC = () => {
   const [initLoad, setInitLoad] = useState(true)
@@ -50,6 +47,7 @@ const App: React.FC = () => {
     auth: { user },
     queueChats: { chats: queueChats },
     toggle: { chat, notifications },
+    toasts: { toasts },
   } = useSelector((state: RootStore) => state)
   const { data, loading: chatsLoading } = useQuery(GET_USER_CHATS, {
     pollInterval: 60000,
@@ -201,9 +199,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (messageToasts.length) {
-        setMessageToasts((prevToasts) =>
-          prevToasts.filter((toast) => toast.id !== prevToasts[0].id)
-        )
+        setMessageToasts((prevToasts) => prevToasts.slice(1, prevToasts.length))
       }
     }, 10000)
     return () => {
@@ -213,10 +209,19 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (toasts.length) {
+        dispatch({ type: SET_TOASTS, payload: toasts.slice(1, toasts.length) })
+      }
+    }, 5000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [toasts, dispatch])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
       if (notifToasts.length) {
-        setNotifToasts((prevToasts) =>
-          prevToasts.filter((toast) => toast.id !== prevToasts[0].id)
-        )
+        setNotifToasts((prevToasts) => prevToasts.slice(1, prevToasts.length))
       }
     }, 10000)
     return () => {
@@ -341,6 +346,11 @@ const App: React.FC = () => {
               date={toast.date}
             />
           )
+        })}
+      </div>
+      <div className={`${stylesToast.wrapper} ${stylesToast.wrapper_top}`}>
+        {toasts.map((toast, index) => {
+          return <ToastInfo {...toast} key={toast.message + index} />
         })}
       </div>
       <div className={stylesToast.wrapper}>

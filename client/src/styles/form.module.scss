@@ -9,6 +9,7 @@
   }
   &__container_fields {
     border-bottom: 1px solid getColor(main-dark);
+    position: relative;
   }
   &__sidebar {
     width: 50%;
@@ -46,6 +47,7 @@
   &__stack {
     height: 60vh;
     overflow-y: auto;
+    position: relative;
     border: 1px solid getColor(main-dark);
     background-color: getColor(main);
     box-shadow: inset getShadow(main-equal);

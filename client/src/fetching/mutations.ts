@@ -316,3 +316,12 @@ export const EDIT_GROUP = gql`
     }
   }
 `
+
+export const DELETE_GROUP = gql`
+  mutation DELETE_GROUP($groupId: ID!) {
+    deleteGroup(groupId: $groupId) {
+      message
+      type
+    }
+  }
+`

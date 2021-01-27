@@ -8,6 +8,7 @@ import searchMessageReducer from "./searchMessage/searchReducer"
 import queueChatsReducer from "./queueChats/queueReducer"
 import notificationsReducer from "./notifications/notifReducer"
 import unreadMsgsReducer from "./unreadMsgs/msgsReducer"
+import toastsReducer from "./toasts/toastsReducer"
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   queueChats: queueChatsReducer,
   notifications: notificationsReducer,
   unreadMsgs: unreadMsgsReducer,
+  toasts: toastsReducer,
 })
 
 export default rootReducer

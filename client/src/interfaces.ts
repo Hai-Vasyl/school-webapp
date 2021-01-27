@@ -133,3 +133,9 @@ export interface IGroup {
   name: string
   date: string
 }
+
+
+export interface IToast {
+  type: string
+  message: string
+}

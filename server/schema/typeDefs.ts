@@ -8,6 +8,10 @@ export default gql`
     imageKey: String
     date: String!
   }
+  type Msg {
+    type: String!
+    message: String!
+  }
   type Group {
     id: ID!
     owner: User!
@@ -107,6 +111,7 @@ export default gql`
   type Mutation {
     createGroup(owner: ID!, name: String!): Group!
     editGroup(groupId: ID!, owner: ID!, name: String!): Group!
+    deleteGroup(groupId: ID!): Msg!
     createChat(
       title: String!
       description: String
