@@ -3,16 +3,16 @@
 .card {
   @extend %flex-center;
   justify-content: flex-start;
-  border: 1px solid getColor(secondary);
-  padding: 5px;
-  // margin-top: 15px;
+  border: 1px solid getColor(main-dark);
+  padding: 5px 15px;
+  background-color: getColor(secondary);
   &__link {
     position: relative;
     border-radius: 50%;
     width: 60px;
     height: 60px;
     padding: 5px;
-    border: 1px solid getColor(secondary);
+    border: 1px solid getColor(main-dark);
     background-color: transparent;
     display: block;
   }
@@ -27,9 +27,9 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 1px solid getColor(secondary);
+    border: 1px solid getColor(main-dark);
     display: flex;
-    background-color: getColor(main-light);
+    background-color: getColor(secondary);
     & > * {
       margin: auto;
       color: getColor(font);
@@ -42,18 +42,18 @@
   }
   &__title {
     text-decoration: none;
-    color: getColor(font);
+    color: getColor(accent);
     font-size: 1.1em;
     background-color: transparent;
   }
   &__subtitle {
-    color: getColor(title-simple);
+    color: getColor(font-light);
     font-size: 0.8em;
   }
   &__checkbox {
     width: 30px;
     height: 30px;
-    border: 1px solid getColor(second-light-accent);
+    border: 1px solid getColor(main-dark);
     display: flex;
     margin-right: 10px;
     margin-left: 5px;

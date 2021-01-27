@@ -106,6 +106,7 @@ export default gql`
   }
   type Mutation {
     createGroup(owner: ID!, name: String!): Group!
+    editGroup(groupId: ID!, owner: ID!, name: String!): Group!
     createChat(
       title: String!
       description: String

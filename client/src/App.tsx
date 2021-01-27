@@ -38,6 +38,7 @@ import stylesToast from "./styles/toast.module"
 import keyWords from "./modules/keyWords"
 import { INotification } from "./redux/notifications/notifTypes"
 import notifTypes from "./modules/notifTypes"
+import Warning from "./components/Warning"
 
 const App: React.FC = () => {
   const [initLoad, setInitLoad] = useState(true)
@@ -325,11 +326,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
       <Routes />
-      <Auth />
-      {/* <Chat /> */}
-      <Notifications />
       <div className={`${stylesToast.wrapper} ${stylesToast.wrapper_right}`}>
         {notifToasts.map((toast) => {
           return (

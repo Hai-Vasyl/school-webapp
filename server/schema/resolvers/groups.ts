@@ -31,7 +31,7 @@ export const Mutation = {
       if (!name.length) {
         throw new Error(
           JSON.stringify({
-            title: {
+            name: {
               value: name,
               msg: ["Це поле не може бути порожнім!"],
             },
@@ -47,6 +47,35 @@ export const Mutation = {
       const newGroup = await group.save()
 
       return newGroup
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  },
+  async editGroup(
+    _: any,
+    { groupId, owner, name }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: validation for each field and check in models
+
+      if (!name.length) {
+        throw new Error(
+          JSON.stringify({
+            name: {
+              value: name,
+              msg: ["Це поле не може бути порожнім!"],
+            },
+          })
+        )
+      }
+
+      await Group.updateOne({ _id: groupId }, { owner, name, date: new Date() })
+      const changedGroup = await Group.findById(groupId)
+      return changedGroup
     } catch (error) {
       throw new Error(error.message)
     }

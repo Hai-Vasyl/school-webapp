@@ -1,1 +1,58 @@
 @import "base";
+
+.group {
+  background-color: getColor(secondary);
+  border: 1px solid transparent;
+  border-bottom: 1px solid getColor(main-dark);
+  box-shadow: getShadow(second);
+  cursor: default;
+  transition: getTransition(main);
+  &__active {
+    border-color: getColor(accent);
+  }
+  &__header {
+    padding: 0px 15px;
+    background-color: getColor(main);
+    border-bottom: 1px dashed getColor(main-dark);
+    position: relative;
+  }
+  &__name {
+    padding: 10px 0;
+    font-size: 1em;
+    font-weight: normal;
+    color: getColor(accent);
+    @extend %link-reset;
+    display: inline-block;
+  }
+  &__body {
+    padding: 10px 15px;
+  }
+  &__owner_text {
+    font-size: 0.8em;
+    padding: 3px 0;
+  }
+  &__footer {
+    padding: 5px 15px;
+    font-size: 0.8em;
+    color: getColor(font-light);
+    border-top: 1px dashed getColor(main-dark);
+  }
+  &__date_text {
+  }
+  &__date {
+    font-weight: bold;
+    margin-left: 7px;
+  }
+  &__btn_edit {
+    position: absolute;
+    top: 50%;
+    right: 55px;
+    transform: translateY(-50%);
+  }
+  &__btn_delete {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+  }
+}

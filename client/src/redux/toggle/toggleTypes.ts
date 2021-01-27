@@ -2,6 +2,8 @@ export const DROPDOWN_TOGGLE = "DROPDOWN_TOGGLE"
 export const AUTHFORM_TOGGLE = "AUTHFORM_TOGGLE"
 export const CHAT_TOGGLE = "CHAT_TOGGLE"
 export const CHAT_OPEN = "CHAT_OPEN"
+export const WARNING_OPEN = "WARNING_OPEN"
+export const WARNING_CLOSE = "WARNING_CLOSE"
 export const NOTIFICATIONS_TOGGLE = "NOTIFICATIONS_TOGGLE"
 export const RESET_TOGGLE = "RESET_TOGGLE"
 
@@ -11,23 +13,35 @@ export interface ToggleDropDown {
 export interface ToggleAuthForm {
   type: typeof AUTHFORM_TOGGLE
 }
-export interface notificationsToggle {
+export interface NotificationsToggle {
   type: typeof NOTIFICATIONS_TOGGLE
 }
-export interface chatToggle {
+export interface ChatToggle {
   type: typeof CHAT_TOGGLE
 }
-export interface chatOpen {
+export interface ChatOpen {
   type: typeof CHAT_OPEN
 }
 export interface ResetToggle {
   type: typeof RESET_TOGGLE
+}
+export interface WarningOpen {
+  type: typeof WARNING_OPEN
+  payload: {
+    action(): any
+    title: string
+  }
+}
+export interface WarningClose {
+  type: typeof WARNING_CLOSE
 }
 
 export type ToggleReducerTypes =
   | ToggleDropDown
   | ResetToggle
   | ToggleAuthForm
-  | notificationsToggle
-  | chatToggle
-  | chatOpen
+  | NotificationsToggle
+  | ChatToggle
+  | ChatOpen
+  | WarningOpen
+  | WarningClose

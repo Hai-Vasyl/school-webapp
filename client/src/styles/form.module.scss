@@ -2,12 +2,59 @@
 
 .form {
   display: flex;
-  border: 1px solid lightgrey;
-  &__fields {
+  &__content {
     width: 50%;
+    background-color: getColor(secondary);
+    box-shadow: getShadow(main);
+  }
+  &__container_fields {
+    border-bottom: 1px solid getColor(main-dark);
   }
   &__sidebar {
     width: 50%;
-    @extend %background-accent;
+    // @extend %background-accent;
+  }
+  &__title {
+    height: 80px;
+    @extend %flex-center;
+    border-bottom: 1px solid getColor(main-dark);
+    background-color: getColor(main);
+    position: relative;
+  }
+  &__title_text {
+    font-size: 1.5em;
+    color: getColor(font-light);
+  }
+  &__btns {
+    padding: 25px;
+    padding-top: 0;
+    display: flex;
+    & > * {
+      margin-left: 10px;
+    }
+    & > *:first-child {
+      margin-left: 0px;
+    }
+  }
+  &__fields {
+    padding: 25px;
+    padding-bottom: 10px;
+  }
+  &__container_stack {
+    padding: 20px;
+  }
+  &__stack {
+    height: 60vh;
+    overflow-y: auto;
+    border: 1px solid getColor(main-dark);
+    background-color: getColor(main);
+    box-shadow: inset getShadow(main-equal);
+    @extend %scrollbar;
+  }
+  &__btn_back {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
   }
 }

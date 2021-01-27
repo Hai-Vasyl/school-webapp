@@ -296,3 +296,23 @@ export const CREATE_GROUP = gql`
     }
   }
 `
+
+export const EDIT_GROUP = gql`
+  mutation EDIT_GROUP($groupId: ID!, $name: String!, $owner: ID!) {
+    editGroup(groupId: $groupId, name: $name, owner: $owner) {
+      id
+      owner {
+        id
+        username
+        email
+        ava
+        color
+        firstname
+        lastname
+        role
+      }
+      name
+      date
+    }
+  }
+`

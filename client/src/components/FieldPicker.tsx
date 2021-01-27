@@ -91,6 +91,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
               return (
                 <button
                   type='button'
+                  title={option.label}
                   key={option.value}
                   className={`${styles.field_picker__option} ${
                     option.value === field.value &&
@@ -98,7 +99,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
                   }`}
                   onClick={() => handlePickOption(option.value)}
                 >
-                  {option.label}
+                  <span>{option.label}</span>
                 </button>
               )
             })}

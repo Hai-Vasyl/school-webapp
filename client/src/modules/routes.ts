@@ -14,7 +14,8 @@ import Projects from "../pages/Projects"
 import Contacts from "../pages/Contacts"
 import Schedule from "../pages/Schedule"
 import RegisterUser from "../pages/RegisterUser"
-import CreateGroup from "../pages/CreateGroup"
+import ModGroup from "../pages/ModGroup"
+import Groups from "../pages/Groups"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
@@ -85,27 +86,31 @@ export const getLinks = (role: string) => {
     },
   ]
 
+  const getLinks = (extraLinks: ILink[]) => {
+    return [...allLinks].map((link, index) => {
+      if (index === allLinks.length - 1 && link.extraLinks) {
+        return {
+          ...link,
+          extraLinks: [...link.extraLinks, ...extraLinks],
+        }
+      }
+      return link
+    })
+  }
+
   switch (role) {
     case access.admin.keyWord:
-      return [...allLinks].map((link, index) => {
-        if (index === allLinks.length - 1 && link.extraLinks) {
-          return {
-            ...link,
-            extraLinks: [
-              ...link.extraLinks,
-              { to: "/register-user", title: "Створити користувача" },
-              { to: "/create-group", title: "Створити клас" },
-            ],
-          }
-        }
-        return link
-      })
+      return getLinks([
+        { to: "/register-user", title: "Створити користувача" },
+        { to: "/create-group", title: "Створити клас" },
+        { to: "/groups", title: "Усі класи" },
+      ])
     case access.teacher.keyWord:
-      return [...allLinks]
+      return getLinks([{ to: "/groups", title: "Усі класи" }])
     case access.student.keyWord:
-      return [...allLinks]
+      return getLinks([{ to: "/groups", title: "Усі класи" }])
     case access.user.keyWord:
-      return [...allLinks]
+      return getLinks([{ to: "/groups", title: "Усі класи" }])
     default:
       return [...allLinks]
   }
@@ -132,10 +137,25 @@ export const routes = {
   admin: [
     ...mainRoutes,
     { path: "/register-user", Component: RegisterUser },
-    { path: "/create-group", Component: CreateGroup },
+    { path: "/create-group", Component: ModGroup },
+    { path: "/edit-group/:groupId", Component: ModGroup },
+    { path: "/groups", exact: true, Component: Groups },
+    { path: "/groups/:groupId", Component: Groups },
   ],
-  teacher: [...mainRoutes],
-  student: [...mainRoutes],
-  user: [...mainRoutes],
+  teacher: [
+    ...mainRoutes,
+    { path: "/groups", exact: true, Component: Groups },
+    { path: "/groups/:groupId", Component: Groups },
+  ],
+  student: [
+    ...mainRoutes,
+    { path: "/groups", exact: true, Component: Groups },
+    { path: "/groups/:groupId", Component: Groups },
+  ],
+  user: [
+    ...mainRoutes,
+    { path: "/groups", exact: true, Component: Groups },
+    { path: "/groups/:groupId", Component: Groups },
+  ],
   unregistered: [...mainRoutes],
 }

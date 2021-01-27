@@ -6,7 +6,6 @@
   margin-bottom: 0.5em;
   opacity: 1;
   transition: getTransition(main);
-  height: 80px;
   z-index: 3;
   background-color: getColor(secondary);
   &__close {
@@ -19,7 +18,6 @@
   &__title {
     display: inline-block;
     padding: 4px 0px;
-    font-weight: bold;
     &__important::after {
       content: "*";
       color: getColor(danger);
@@ -57,7 +55,7 @@
     visibility: hidden;
     display: flex;
     align-items: center;
-    height: 16px;
+    height: 18px;
     transition: getTransition(main);
     &__error {
       opacity: 1;
@@ -84,12 +82,11 @@
   margin-bottom: 0.5em;
   &__fileWrapper {
     display: flex;
-    // border: 1px solid getColor(second-light);
-    border-radius: getRadius(main);
+    border: 1px solid getColor(main-dark);
   }
   &__title {
     width: 50%;
-    padding: 4px;
+    padding: 5px;
     display: flex;
     & > * {
       margin: auto;
@@ -124,31 +121,47 @@
     justify-content: space-between;
     transition: getTransition(main);
     padding: 0px 10px;
+    border-radius: getRadius(main);
+    box-shadow: getShadow(main);
     z-index: 3;
+    color: getColor(font-white);
+    border: 1px solid getColor(main-white);
     & > span {
       height: 22.4px;
       overflow: hidden;
-      // width: 210px;
+    }
+    &:hover {
+      border-color: white;
+      box-shadow: getShadow(second);
+    }
+    &:active {
+      box-shadow: none;
+      transform: scale(0.95);
+      opacity: 0.5;
     }
   }
   &__select {
     position: absolute;
-    top: 36px;
+    top: 40px;
     left: 0;
     right: 0;
-    border: 1px solid getColor(second-light);
+    max-height: 200px;
+    overflow-y: auto;
+    // border: 1px solid getColor(second-light);
+    transform-origin: top center;
     transition: getTransition(main);
-    transform: translateY(-50%) scale(0.8);
+    transform: translateY(-30px) scale(0.8);
     visibility: hidden;
     opacity: 0;
+    box-shadow: getShadow(main);
     &__open {
-      transform: translateY(0) scale(1);
+      transform: translateY(0px) scale(1);
       visibility: visible;
       opacity: 1;
     }
   }
   &__triangle {
-    font-size: 0.8em;
+    font-size: 13px;
     margin-left: 15px;
     transition: getTransition(main);
     &__rotate {
@@ -162,15 +175,19 @@
     width: 100%;
     background-color: getColor(secondary);
     transition: getTransition(main);
+    border-top: 1px solid getColor(main);
+    overflow: hidden;
+    display: flex;
+    & > span {
+      margin: auto;
+      height: 23px;
+    }
     &__active {
-      background-color: getColor(second-light-accent);
+      background-color: getColor(main);
       color: getColor(accent);
-      // &:hover{
-      //   background-color: getColor(second-light-accent);
-      // }
     }
     &:hover {
-      background-color: getColor(second-light-accent);
+      background-color: getColor(main);
     }
   }
 }
