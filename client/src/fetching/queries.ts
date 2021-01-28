@@ -324,6 +324,21 @@ export const GET_STUDENTS = gql`
   }
 `
 
+export const GET_STUDENTS_NOGROUP = gql`
+  query GET_STUDENTS_NOGROUP {
+    getStudentsNoGroup {
+      id
+      username
+      email
+      ava
+      color
+      firstname
+      lastname
+      role
+    }
+  }
+`
+
 export const GET_GROUPS = gql`
   query GET_GROUPS {
     getGroups {

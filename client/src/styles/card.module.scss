@@ -6,8 +6,10 @@
   border: 1px solid getColor(main-dark);
   padding: 5px 15px;
   background-color: getColor(secondary);
-  &__minimized {
+  &__checkbox_extra {
     padding: 5px;
+  }
+  &__minimized {
     .card__link {
       width: 35px;
       height: 35px;

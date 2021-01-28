@@ -65,9 +65,9 @@ const UserCard: React.FC<IUserCardProps> = ({
 
   return (
     <div
-      className={`${styles.card} ${exClass} ${
-        minimize && styles.card__minimized
-      }`}
+      className={`${styles.card} ${
+        check && styles.card__checkbox_extra
+      } ${exClass} ${minimize && styles.card__minimized}`}
     >
       {check && (
         <button className={styles.card__checkbox} onClick={check}>

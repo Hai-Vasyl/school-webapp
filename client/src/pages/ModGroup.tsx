@@ -280,6 +280,10 @@ const ModGroup: React.FC = () => {
                 )}
               </div>
             </form>
+            <div className={styles.form__counter}>
+              Класи
+              {groups ? " (" + groups.getGroups.length + ")" : ""}
+            </div>
             <div className={styles.form__container_stack}>
               <div className={styles.form__stack}>
                 {loadGroups ? <Loader /> : groupsJSX}

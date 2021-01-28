@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ButtonTab from "./ButtonTab"
 import { BsPencilSquare, BsPlus, BsDash } from "react-icons/bs"
 import { RiPushpinLine } from "react-icons/ri"
@@ -13,24 +13,49 @@ import { Link, useHistory } from "react-router-dom"
 import { WARNING_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { GET_STUDENTS } from "../fetching/queries"
-import { useLazyQuery } from "@apollo/client"
+import { UNPIN_STUDENTS_GROUP } from "../fetching/mutations"
+import { useLazyQuery, useMutation } from "@apollo/client"
 import Button from "./Button"
+import { SET_TOAST } from "../redux/toasts/toastsTypes"
+import useCheck from "../hooks/useCheck"
 
 interface IGroupProps {
   id: string
   name: string
   date: string
   owner: IOwner
+  refetchGroups: any
 }
 
-const Group: React.FC<IGroupProps> = ({ id, name, date, owner }) => {
+const Group: React.FC<IGroupProps> = ({
+  id,
+  name,
+  date,
+  owner,
+  refetchGroups,
+}) => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const { isInclude } = useCheck()
   const [active, setActive] = useState(false)
-  const [getStudentsGroup, { data: students, loading }] = useLazyQuery(
-    GET_STUDENTS
-  )
+  const [
+    getStudentsGroup,
+    { data: students, loading, refetch: refetchStudents },
+  ] = useLazyQuery(GET_STUDENTS)
+  const [
+    unpinStudentsGroup,
+    { data: dataUnpinStudents, loading: loadUnpin },
+  ] = useMutation(UNPIN_STUDENTS_GROUP)
   const [studentUnpin, setStudentUnpin] = useState<string[]>([])
+
+  useEffect(() => {
+    const dataUnpin = dataUnpinStudents && dataUnpinStudents.unpinStudentsGroup
+    if (dataUnpin) {
+      refetchStudents && refetchStudents()
+      refetchGroups()
+      dispatch({ type: SET_TOAST, payload: dataUnpin })
+    }
+  }, [dispatch, dataUnpinStudents, refetchStudents])
 
   const handleToggleSection = () => {
     if (!active) {
@@ -39,25 +64,24 @@ const Group: React.FC<IGroupProps> = ({ id, name, date, owner }) => {
     setActive((prev) => !prev)
   }
 
-  const isCheckedStudent = (studentId: string) => {
-    let isChecked = false
-    studentUnpin.forEach((item) => {
-      if (item === studentId) {
-        isChecked = true
-      }
-    })
-    return isChecked
-  }
+  // const isCheckedStudent = (studentId: string) => {
+  //   let isChecked = false
+  //   studentUnpin.forEach((item) => {
+  //     if (item === studentId) {
+  //       isChecked = true
+  //     }
+  //   })
+  //   return isChecked
+  // }
 
   const handleCheck = (studentId: string) => {
-    if (isCheckedStudent(studentId)) {
+    if (isInclude(studentId, studentUnpin)) {
       setStudentUnpin((prev) => [...prev].filter((item) => item !== studentId))
     } else {
       setStudentUnpin((prev) => [...prev, studentId])
     }
   }
 
-  console.log({ studentUnpin })
   const studentsJSX =
     students &&
     students.getStudentsGroup.map((student: IOwner) => {
@@ -70,13 +94,13 @@ const Group: React.FC<IGroupProps> = ({ id, name, date, owner }) => {
           minimize
           exClass={styles.group__student}
           check={() => handleCheck(student.id)}
-          checked={isCheckedStudent(student.id)}
+          checked={isInclude(student.id, studentUnpin)}
         />
       )
     })
 
   const handleUnpinStudentsGroup = () => {
-    console.log("UNPIN")
+    unpinStudentsGroup({ variables: { groupId: id, students: studentUnpin } })
   }
 
   return (

@@ -98,6 +98,24 @@ export const Query = {
       throw new Error(`Getting all students of group error: ${error.message}`)
     }
   },
+  async getStudentsNoGroup(_: any, __: any, { isAuth }: { isAuth: IIsAuth }) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: add validation and check in models
+
+      const students = await User.find({
+        group: { $exists: true },
+        role: "student",
+      })
+      return students
+    } catch (error) {
+      throw new Error(
+        `Getting all students without group error: ${error.message}`
+      )
+    }
+  },
 }
 
 export const Mutation = {
@@ -113,7 +131,7 @@ export const Mutation = {
       //TODO: add validation and check in models
 
       for (let i = 0; i < students.length; i++) {
-        await User.findByIdAndUpdate(students[i], { group: "" })
+        await User.findByIdAndUpdate(students[i], { group: null })
       }
       await Group.findByIdAndUpdate(groupId, { date: new Date() })
 

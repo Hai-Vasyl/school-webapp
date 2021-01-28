@@ -108,6 +108,7 @@ export default gql`
     getTeachers: [User]!
     getStudentsGroup(groupId: ID!): [User]!
     getGroups: [Group]!
+    getStudentsNoGroup: [User]!
   }
   type Mutation {
     createGroup(owner: ID!, name: String!): Group!

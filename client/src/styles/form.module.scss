@@ -2,6 +2,15 @@
 
 .form {
   display: flex;
+  &__extend {
+    box-shadow: getShadow(main);
+    .form__content {
+      box-shadow: none;
+      &:first-child {
+        border-right: 1px solid getColor(main-dark);
+      }
+    }
+  }
   &__content {
     width: 50%;
     background-color: getColor(secondary);
@@ -58,5 +67,10 @@
     top: 50%;
     left: 20px;
     transform: translateY(-50%);
+  }
+  &__counter {
+    padding: 5px 25px;
+    font-size: 0.8em;
+    border-bottom: 1px solid getColor(main-dark);
   }
 }

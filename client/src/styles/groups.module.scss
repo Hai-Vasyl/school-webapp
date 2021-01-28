@@ -97,4 +97,9 @@
     margin-bottom: 5px;
     background-color: getColor(main);
   }
+  &__student_extend {
+    border: none;
+    border-bottom: 1px solid getColor(main-dark);
+    box-shadow: getShadow(second);
+  }
 }
