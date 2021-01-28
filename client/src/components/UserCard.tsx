@@ -10,14 +10,27 @@ import { SET_ACTIVE_CHAT } from "../redux/chatActive/chatActiveTypes"
 import keyWords from "../modules/keyWords"
 import UserAva from "./UserAva"
 import { getUserAccess } from "../modules/accessModifiers"
+import { BsCheck } from "react-icons/bs"
 
 interface IUserCardProps {
   isEnvChat: boolean
   isLink: boolean
   user: IOwner
+  minimize?: boolean
+  check?(): any
+  checked?: boolean
+  exClass?: string
 }
 
-const UserCard: React.FC<IUserCardProps> = ({ user, isEnvChat, isLink }) => {
+const UserCard: React.FC<IUserCardProps> = ({
+  user,
+  isEnvChat,
+  isLink,
+  minimize,
+  check,
+  checked,
+  exClass,
+}) => {
   const { chats } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -51,7 +64,20 @@ const UserCard: React.FC<IUserCardProps> = ({ user, isEnvChat, isLink }) => {
   const userAccess = getUserAccess(user.role)
 
   return (
-    <div className={styles.card}>
+    <div
+      className={`${styles.card} ${exClass} ${
+        minimize && styles.card__minimized
+      }`}
+    >
+      {check && (
+        <button className={styles.card__checkbox} onClick={check}>
+          <BsCheck
+            className={`${styles.card__check} ${
+              checked && styles.card__check__active
+            }`}
+          />
+        </button>
+      )}
       <button onClick={handleLink} className={styles.card__link}>
         {userAccess.Icon && (
           <div className={styles.card__icon}>

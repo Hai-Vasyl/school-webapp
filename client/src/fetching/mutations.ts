@@ -325,3 +325,12 @@ export const DELETE_GROUP = gql`
     }
   }
 `
+
+export const UNPIN_STUDENTS_GROUP = gql`
+  mutation UNPIN_STUDENTS_GROUP($groupId: ID!, $students: [ID]!) {
+    unpinStudentsGroup(groupId: $groupId, students: $students) {
+      message
+      type
+    }
+  }
+`

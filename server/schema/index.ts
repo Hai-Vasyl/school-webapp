@@ -1,5 +1,5 @@
 import typeDefs from "./typeDefs"
-import { Query as QUsers } from "./resolvers/users"
+import { Query as QUsers, Mutation as MUsers } from "./resolvers/users"
 import { Query as QChats, Mutation as MChats } from "./resolvers/chats"
 import {
   Query as QMessages,
@@ -37,6 +37,7 @@ const schema = {
       ...QGroups,
     },
     Mutation: {
+      ...MUsers,
       ...MChats,
       ...MMessages,
       ...MNotifications,

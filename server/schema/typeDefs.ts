@@ -106,12 +106,14 @@ export default gql`
     getChatUsers(chatId: ID!): [User]!
     getUnreadMessages: [Message]!
     getTeachers: [User]!
+    getStudentsGroup(groupId: ID!): [User]!
     getGroups: [Group]!
   }
   type Mutation {
     createGroup(owner: ID!, name: String!): Group!
     editGroup(groupId: ID!, owner: ID!, name: String!): Group!
     deleteGroup(groupId: ID!): Msg!
+    unpinStudentsGroup(groupId: ID!, students: [ID]!): Msg!
     createChat(
       title: String!
       description: String

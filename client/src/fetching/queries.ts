@@ -309,6 +309,21 @@ export const GET_TEACHERS = gql`
   }
 `
 
+export const GET_STUDENTS = gql`
+  query GET_STUDENTS($groupId: ID!) {
+    getStudentsGroup(groupId: $groupId) {
+      id
+      username
+      email
+      ava
+      color
+      firstname
+      lastname
+      role
+    }
+  }
+`
+
 export const GET_GROUPS = gql`
   query GET_GROUPS {
     getGroups {

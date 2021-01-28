@@ -7,6 +7,25 @@
   box-shadow: getShadow(main);
   @extend %popup-fade-out;
   background-color: getColor(main);
+  &__btn_back,
+  &__btn_close {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    // visibility: visible;
+    pointer-events: visible;
+    opacity: 1;
+    &__close {
+      opacity: 0;
+      // visibility: hidden;
+      pointer-events: hidden;
+    }
+  }
+  &__btn_close {
+    left: auto;
+    right: 30px;
+  }
   &__active {
     @extend %popup-fade-in;
   }
@@ -41,7 +60,7 @@
     font-size: 2em;
     margin-top: 5px;
     font-weight: normal;
-    font-family: getFont(second);
+    // font-family: getFont(second);
     padding: 20px 0;
     color: getColor(font-light);
     background-color: getColor(main);
@@ -85,23 +104,23 @@
       width: 0px;
     }
   }
-  &__btn_back,
-  &__btn_close {
-    position: absolute;
-    top: 50%;
-    left: 25px;
-    transform: translateY(-50%);
-    visibility: visible;
-    opacity: 1;
-    &__close {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-  &__btn_close {
-    left: auto;
-    right: 30px;
-  }
+  // &__btn_back,
+  // &__btn_close {
+  //   position: absolute;
+  //   top: 50%;
+  //   left: 25px;
+  //   transform: translateY(-50%);
+  //   visibility: visible;
+  //   opacity: 1;
+  //   &__close {
+  //     opacity: 0;
+  //     visibility: hidden;
+  //   }
+  // }
+  // &__btn_close {
+  //   left: auto;
+  //   right: 30px;
+  // }
   &__sidebar_title {
     // letter-spacing: 2px;
     font-weight: normal;

@@ -6,6 +6,20 @@
   border: 1px solid getColor(main-dark);
   padding: 5px 15px;
   background-color: getColor(secondary);
+  &__minimized {
+    padding: 5px;
+    .card__link {
+      width: 35px;
+      height: 35px;
+      padding: 0px;
+    }
+    .card__icon {
+      display: none;
+    }
+    .card__subtitle {
+      display: none;
+    }
+  }
   &__link {
     position: relative;
     border-radius: 50%;
@@ -55,9 +69,9 @@
     height: 30px;
     border: 1px solid getColor(main-dark);
     display: flex;
+    background-color: getColor(secondary);
     margin-right: 10px;
     margin-left: 5px;
-    background-color: transparent;
   }
   &__check {
     transition: getTransition(main);

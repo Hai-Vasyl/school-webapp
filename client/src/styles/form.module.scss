@@ -16,14 +16,14 @@
     // @extend %background-accent;
   }
   &__title {
-    height: 80px;
+    height: 50px;
     @extend %flex-center;
     border-bottom: 1px solid getColor(main-dark);
     background-color: getColor(main);
     position: relative;
   }
   &__title_text {
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: getColor(font-light);
   }
   &__btns {
@@ -42,10 +42,10 @@
     padding-bottom: 10px;
   }
   &__container_stack {
-    padding: 20px;
+    padding: 25px;
   }
   &__stack {
-    height: 60vh;
+    height: 70vh;
     overflow-y: auto;
     position: relative;
     border: 1px solid getColor(main-dark);

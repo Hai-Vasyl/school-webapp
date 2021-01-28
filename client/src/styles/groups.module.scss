@@ -16,6 +16,9 @@
     border-bottom: 1px dashed getColor(main-dark);
     position: relative;
   }
+  &__header_self {
+    border-bottom: none;
+  }
   &__name {
     padding: 10px 0;
     font-size: 1em;
@@ -24,8 +27,22 @@
     @extend %link-reset;
     display: inline-block;
   }
+  &__btn_section {
+    background-color: transparent;
+    color: getColor(font);
+  }
   &__body {
     padding: 10px 15px;
+  }
+  &__details {
+    height: 0;
+    overflow-y: auto;
+    @extend %scrollbar;
+    transition: getTransition(main);
+    position: relative;
+    &__open {
+      height: 35vh;
+    }
   }
   &__owner_text {
     font-size: 0.8em;
@@ -60,5 +77,24 @@
     top: 50%;
     right: 15px;
     transform: translateY(-50%);
+  }
+  &__btns_section {
+    border-top: 1px solid getColor(main-dark);
+    padding: 0px 15px;
+    transition: getTransition(main);
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    border-width: 0px;
+    &__open {
+      opacity: 1;
+      height: 76px;
+      padding: 10px 15px;
+      border-width: 1px;
+    }
+  }
+  &__student {
+    margin-bottom: 5px;
+    background-color: getColor(main);
   }
 }
