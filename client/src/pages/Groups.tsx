@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react"
 import Title from "../components/Title"
 import { GET_GROUPS } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import { useHistory } from "react-router-dom"
+import { useQuery, useMutation } from "@apollo/client"
 import { RiPushpin2Line } from "react-icons/ri"
-import ButtonTab from "../components/ButtonTab"
 // @ts-ignore
 import styles from "../styles/form.module"
 // @ts-ignore
 import stylesGroups from "../styles/groups.module"
+// @ts-ignore
+import stylesBtn from "../styles/button.module"
 import Group from "../components/Group"
 import { IGroup, IOwner } from "../interfaces"
 import { GET_STUDENTS_NOGROUP } from "../fetching/queries"
@@ -18,9 +18,12 @@ import LoaderData from "../components/LoaderData"
 import Button from "../components/Button"
 import FieldPicker from "../components/FieldPicker"
 import useCheck from "../hooks/useCheck"
+import { PINUNPIN_STUDENTS_GROUP } from "../fetching/mutations"
+import { SET_TOAST } from "../redux/toasts/toastsTypes"
+import { useDispatch } from "react-redux"
 
 const Groups: React.FC = () => {
-  const history = useHistory()
+  const dispatch = useDispatch()
   const {
     data: groups,
     loading: loadGroups,
@@ -31,11 +34,20 @@ const Groups: React.FC = () => {
     loading: loadStudents,
     refetch: refetchStudents,
   } = useQuery(GET_STUDENTS_NOGROUP)
+  const [
+    pinUnpinStudentsGroup,
+    { data: dataPinStudents, loading: loadPin },
+  ] = useMutation(PINUNPIN_STUDENTS_GROUP)
   const [form, setForm] = useState([
     { title: "Список класів", param: "groups", msg: "", value: "" },
   ])
-  const [studentUnpin, setStudentUnpin] = useState<string[]>([])
+  const [studentPin, setStudentPin] = useState<string[]>([])
+  const [isPinnedStudents, setIsPinnedStudents] = useState(false)
   const { isInclude } = useCheck()
+
+  const resetIsPinnedStudents = () => {
+    setIsPinnedStudents(false)
+  }
 
   useEffect(() => {
     const groupsData = groups && groups.getGroups
@@ -54,10 +66,29 @@ const Groups: React.FC = () => {
     }
   }, [groups])
 
+  useEffect(() => {
+    const dataPin = dataPinStudents && dataPinStudents.pinUnpinStudentsGroup
+    if (dataPin) {
+      refetchGroups()
+      refetchStudents()
+      setIsPinnedStudents(true)
+      dispatch({ type: SET_TOAST, payload: dataPin })
+    }
+  }, [dispatch, dataPinStudents, refetchStudents])
+
   const groupsJSX =
     groups &&
     groups.getGroups.map((group: IGroup) => {
-      return <Group key={group.id} {...group} refetchGroups={refetchGroups} />
+      return (
+        <Group
+          key={group.id}
+          {...group}
+          isPinnedStudents={form[0].value === group.id && isPinnedStudents}
+          refetchUnpinedStudents={refetchStudents}
+          refetchGroups={refetchGroups}
+          resetIsPinnedStudents={resetIsPinnedStudents}
+        />
+      )
     })
 
   const options = groups
@@ -67,11 +98,19 @@ const Groups: React.FC = () => {
     : []
 
   const handleCheck = (studentId: string) => {
-    if (isInclude(studentId, studentUnpin)) {
-      setStudentUnpin((prev) => [...prev].filter((item) => item !== studentId))
+    if (isInclude(studentId, studentPin)) {
+      setStudentPin((prev) => [...prev].filter((item) => item !== studentId))
     } else {
-      setStudentUnpin((prev) => [...prev, studentId])
+      setStudentPin((prev) => [...prev, studentId])
     }
+  }
+
+  const handlePinStudentsGroup = () => {
+    const [group] = form
+    pinUnpinStudentsGroup({
+      variables: { groupId: group.value, students: studentPin, pin: true },
+    })
+    setStudentPin([])
   }
 
   const studentsJSX =
@@ -84,13 +123,12 @@ const Groups: React.FC = () => {
           isLink
           user={student}
           check={() => handleCheck(student.id)}
-          checked={isInclude(student.id, studentUnpin)}
+          checked={isInclude(student.id, studentPin)}
           exClass={stylesGroups.group__student_extend}
         />
       )
     })
 
-  console.log({ studentUnpin })
   return (
     <div className='container'>
       <Title title='Список класів' />
@@ -128,13 +166,26 @@ const Groups: React.FC = () => {
               Учні
               {students ? " (" + students.getStudentsNoGroup.length + ")" : ""}
             </div>
-            <div className={styles.form__container_stack}>
-              <div className={styles.form__stack}>
+            <div className={stylesGroups.group__container_stack}>
+              <div
+                className={`${styles.form__container_stack} ${stylesGroups.group__stack}`}
+              >
                 {loadStudents ? <Loader /> : studentsJSX}
               </div>
-            </div>
-            <div>
-              <RiPushpin2Line />
+              <div
+                className={`${styles.form__btns} ${stylesGroups.group__btns} ${
+                  studentPin.length && stylesGroups.group__btns__open
+                }`}
+              >
+                <Button
+                  exClass={stylesBtn.btn_primary}
+                  Icon={RiPushpin2Line}
+                  title={`Долучити учнів${
+                    studentPin.length ? " (" + studentPin.length + ")" : ""
+                  }`}
+                  click={handlePinStudentsGroup}
+                />
+              </div>
             </div>
           </div>
         </div>

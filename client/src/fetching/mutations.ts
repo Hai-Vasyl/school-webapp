@@ -326,9 +326,13 @@ export const DELETE_GROUP = gql`
   }
 `
 
-export const UNPIN_STUDENTS_GROUP = gql`
-  mutation UNPIN_STUDENTS_GROUP($groupId: ID!, $students: [ID]!) {
-    unpinStudentsGroup(groupId: $groupId, students: $students) {
+export const PINUNPIN_STUDENTS_GROUP = gql`
+  mutation PINUNPIN_STUDENTS_GROUP(
+    $groupId: ID!
+    $students: [ID]!
+    $pin: Boolean!
+  ) {
+    pinUnpinStudentsGroup(groupId: $groupId, students: $students, pin: $pin) {
       message
       type
     }

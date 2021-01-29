@@ -102,4 +102,34 @@
     border-bottom: 1px solid getColor(main-dark);
     box-shadow: getShadow(second);
   }
+  &__student_extend:last-child {
+    border-bottom: none;
+  }
+  &__container_stack {
+    display: flex;
+    flex-direction: column;
+    height: 52vh;
+  }
+  &__stack {
+    flex: 1;
+    overflow-y: auto;
+    margin: 20px 25px;
+    padding: 0px;
+    border: 1px solid getColor(main-dark);
+    @extend %scrollbar;
+    background-color: getColor(main);
+    box-shadow: inset getShadow(main-equal);
+  }
+  &__btns {
+    padding-bottom: 0 !important;
+    height: 0px;
+    transition: getTransition(main);
+    opacity: 0;
+    overflow: hidden;
+    align-items: center;
+    &__open {
+      height: 65px;
+      opacity: 1;
+    }
+  }
 }

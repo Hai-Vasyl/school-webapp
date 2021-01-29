@@ -114,7 +114,7 @@ export default gql`
     createGroup(owner: ID!, name: String!): Group!
     editGroup(groupId: ID!, owner: ID!, name: String!): Group!
     deleteGroup(groupId: ID!): Msg!
-    unpinStudentsGroup(groupId: ID!, students: [ID]!): Msg!
+    pinUnpinStudentsGroup(groupId: ID!, students: [ID]!, pin: Boolean!): Msg!
     createChat(
       title: String!
       description: String

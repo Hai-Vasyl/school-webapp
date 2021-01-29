@@ -13,7 +13,7 @@ import { Link, useHistory } from "react-router-dom"
 import { WARNING_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { GET_STUDENTS } from "../fetching/queries"
-import { UNPIN_STUDENTS_GROUP } from "../fetching/mutations"
+import { PINUNPIN_STUDENTS_GROUP } from "../fetching/mutations"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import Button from "./Button"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
@@ -25,6 +25,9 @@ interface IGroupProps {
   date: string
   owner: IOwner
   refetchGroups: any
+  refetchUnpinedStudents: any
+  isPinnedStudents: boolean
+  resetIsPinnedStudents(): any
 }
 
 const Group: React.FC<IGroupProps> = ({
@@ -33,6 +36,9 @@ const Group: React.FC<IGroupProps> = ({
   date,
   owner,
   refetchGroups,
+  refetchUnpinedStudents,
+  isPinnedStudents,
+  resetIsPinnedStudents,
 }) => {
   const history = useHistory()
   const dispatch = useDispatch()
@@ -43,16 +49,26 @@ const Group: React.FC<IGroupProps> = ({
     { data: students, loading, refetch: refetchStudents },
   ] = useLazyQuery(GET_STUDENTS)
   const [
-    unpinStudentsGroup,
+    pinUnpinStudentsGroup,
     { data: dataUnpinStudents, loading: loadUnpin },
-  ] = useMutation(UNPIN_STUDENTS_GROUP)
+  ] = useMutation(PINUNPIN_STUDENTS_GROUP)
   const [studentUnpin, setStudentUnpin] = useState<string[]>([])
 
   useEffect(() => {
-    const dataUnpin = dataUnpinStudents && dataUnpinStudents.unpinStudentsGroup
+    if (isPinnedStudents) {
+      console.log("REFETCH!")
+      refetchStudents && refetchStudents()
+      resetIsPinnedStudents()
+    }
+  }, [isPinnedStudents, resetIsPinnedStudents, refetchStudents])
+
+  useEffect(() => {
+    const dataUnpin =
+      dataUnpinStudents && dataUnpinStudents.pinUnpinStudentsGroup
     if (dataUnpin) {
       refetchStudents && refetchStudents()
       refetchGroups()
+      refetchUnpinedStudents()
       dispatch({ type: SET_TOAST, payload: dataUnpin })
     }
   }, [dispatch, dataUnpinStudents, refetchStudents])
@@ -63,16 +79,6 @@ const Group: React.FC<IGroupProps> = ({
     }
     setActive((prev) => !prev)
   }
-
-  // const isCheckedStudent = (studentId: string) => {
-  //   let isChecked = false
-  //   studentUnpin.forEach((item) => {
-  //     if (item === studentId) {
-  //       isChecked = true
-  //     }
-  //   })
-  //   return isChecked
-  // }
 
   const handleCheck = (studentId: string) => {
     if (isInclude(studentId, studentUnpin)) {
@@ -100,7 +106,10 @@ const Group: React.FC<IGroupProps> = ({
     })
 
   const handleUnpinStudentsGroup = () => {
-    unpinStudentsGroup({ variables: { groupId: id, students: studentUnpin } })
+    pinUnpinStudentsGroup({
+      variables: { groupId: id, students: studentUnpin, pin: false },
+    })
+    setStudentUnpin([])
   }
 
   return (
@@ -148,7 +157,7 @@ const Group: React.FC<IGroupProps> = ({
           exClass={stylesBtn.btn_primary}
           Icon={RiPushpinLine}
           title={`Відкріпити учнів${
-            studentUnpin ? " (" + studentUnpin.length + ")" : ""
+            studentUnpin.length ? " (" + studentUnpin.length + ")" : ""
           }`}
           click={handleUnpinStudentsGroup}
         />

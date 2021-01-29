@@ -106,7 +106,7 @@ export const Query = {
       //TODO: add validation and check in models
 
       const students = await User.find({
-        group: { $exists: true },
+        group: null,
         role: "student",
       })
       return students
@@ -119,9 +119,9 @@ export const Query = {
 }
 
 export const Mutation = {
-  async unpinStudentsGroup(
+  async pinUnpinStudentsGroup(
     _: any,
-    { groupId, students }: IField,
+    { groupId, students, pin }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
@@ -130,17 +130,21 @@ export const Mutation = {
       }
       //TODO: add validation and check in models
 
+      const query = pin ? { group: groupId } : { group: null }
+
       for (let i = 0; i < students.length; i++) {
-        await User.findByIdAndUpdate(students[i], { group: null })
+        await User.findByIdAndUpdate(students[i], { ...query })
       }
       await Group.findByIdAndUpdate(groupId, { date: new Date() })
 
       return {
-        message: "Учні були успішно відкріплені!",
+        message: pin
+          ? "Учні були успішно долучені!"
+          : "Учні були успішно відкріплені!",
         type: types.success.keyWord,
       }
     } catch (error) {
-      throw new Error(`Unpin students of group error: ${error.message}`)
+      throw new Error(`Pin-unpin students of group error: ${error.message}`)
     }
   },
 }
