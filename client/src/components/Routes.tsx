@@ -10,6 +10,7 @@ import Navbar from "./Navbar"
 import Auth from "./Auth"
 import Warning from "./Warning"
 import Chat from "./Chat"
+import ImageMod from "./ImageMod"
 import Notifications from "./Notifications"
 
 const Routes = () => {
@@ -67,6 +68,7 @@ const Routes = () => {
       <Auth />
       <Warning />
       {/* <Chat /> */}
+      <ImageMod />
       <Notifications />
       <div
         className={`background ${

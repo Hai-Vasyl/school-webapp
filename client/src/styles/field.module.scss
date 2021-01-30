@@ -80,7 +80,7 @@
 .field_file {
   width: 100%;
   margin-bottom: 0.5em;
-  &__fileWrapper {
+  &__file_wrapper {
     display: flex;
     border: 1px solid getColor(main-dark);
   }
@@ -94,17 +94,30 @@
   }
   &__label {
     width: 50%;
-    background-image: getGradient(main);
     cursor: pointer;
+    background-color: transparent;
+    background-image: getGradient(main);
     @extend %flex-center;
     transition: getTransition(main);
+    padding: 0px 10px;
+    border-radius: getRadius(main);
+    box-shadow: getShadow(main);
+    z-index: 3;
+    color: getColor(font-white);
+    border: 1px solid getColor(main-white);
+    &:hover {
+      border-color: white;
+      box-shadow: getShadow(second);
+    }
     &:active {
+      box-shadow: none;
+      transform: scale(0.95);
       opacity: 0.5;
     }
   }
   &__upload_icon {
     margin-right: 10px;
-    font-size: 1.1em;
+    font-size: 20px;
   }
 }
 

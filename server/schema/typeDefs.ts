@@ -3,19 +3,14 @@ import { gql } from "apollo-server"
 export default gql`
   type UploadFile {
     id: ID!
-    owner: ID!
+    owner: User!
     date: String!
     location: String!
-    content: ID!
+    content: ID
     type: String!
     key: String!
-  }
-  type Image {
-    id: ID!
-    owner: User!
+    hashtags: String
     description: String
-    date: String!
-    upload: UploadFile!
   }
   type Page {
     id: ID!
@@ -127,7 +122,13 @@ export default gql`
     getStudentsNoGroup: [User]!
   }
   type Mutation {
-    createImage(description: String, upload: Upload!): Image!
+    createUpload(
+      hashtags: String
+      description: String
+      upload: Upload!
+      content: ID
+      type: String
+    ): Msg!
     createGroup(owner: ID!, name: String!): Group!
     editGroup(groupId: ID!, owner: ID!, name: String!): Group!
     deleteGroup(groupId: ID!): Msg!

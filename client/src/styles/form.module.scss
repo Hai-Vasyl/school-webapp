@@ -17,15 +17,16 @@
     box-shadow: getShadow(main);
   }
   &__container_fields {
-    border-bottom: 1px solid getColor(main-dark);
+    // border-bottom: 1px solid getColor(main-dark);
     position: relative;
   }
   &__sidebar {
     width: 50%;
+    background-color: getColor(main);
     // @extend %background-accent;
   }
   &__title {
-    height: 50px;
+    height: 70px;
     @extend %flex-center;
     border-bottom: 1px solid getColor(main-dark);
     background-color: getColor(main);
@@ -76,6 +77,77 @@
 }
 
 .form_popup {
+  @extend %popup-fade-out;
+  width: 900px;
+  max-width: 100%;
   &__active {
+    @extend %popup-fade-in;
+  }
+}
+
+.droparea {
+  display: flex;
+  max-height: 400px;
+  outline: 7px dashed getColor(main-dark);
+  outline-offset: -20px;
+  &__preview {
+    @extend %image;
+    position: relative;
+    z-index: 5;
+  }
+  &__wrapper_overlay {
+    position: relative;
+  }
+  &__overlay {
+    @extend %position-extend;
+    opacity: 0;
+    z-index: 6;
+    background-color: getColor(main);
+    transition: getTransition(main);
+    outline: 7px dashed getColor(main-dark);
+    outline-offset: -20px;
+    display: flex;
+    &__active {
+      opacity: 1;
+    }
+  }
+  &__overlay_icon {
+    margin: auto;
+    font-size: 5em;
+    color: getColor(main-dark);
+    pointer-events: none;
+  }
+  &__plug {
+    margin: auto;
+    display: inline-block;
+    width: 70%;
+    height: 70%;
+    position: relative;
+  }
+  &__image {
+    position: absolute;
+    @extend %image;
+    object-fit: contain;
+    padding-bottom: 40px;
+  }
+  &__container_text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    @extend %flex-center;
+  }
+  &__icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    margin-right: 7px;
+    & > * {
+      margin: auto;
+      font-size: 25px;
+      color: getColor(bg);
+    }
+  }
+  &__text {
   }
 }

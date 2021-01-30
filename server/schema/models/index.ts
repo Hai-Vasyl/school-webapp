@@ -6,7 +6,6 @@ import Notification from "./Notification"
 import UnreadMessage from "./UnreadMessage"
 import Group from "./Group"
 import Page from "./Page"
-import Image from "./Image"
 import Upload from "./Upload"
 
 export {
@@ -18,6 +17,5 @@ export {
   UnreadMessage,
   Group,
   Page,
-  Image,
   Upload,
 }

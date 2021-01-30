@@ -27,7 +27,7 @@ const FieldFile: React.FC<IFieldFileProps> = ({
 }) => {
   return (
     <div className={styles.field_file}>
-      <div className={styles.field_file__fileWrapper}>
+      <div className={styles.field_file__file_wrapper}>
         <div className={styles.field_file__title}>
           <span
             className={`${styles.field__title} ${
@@ -46,9 +46,9 @@ const FieldFile: React.FC<IFieldFileProps> = ({
           <span>
             {file
               ? multiple
-                ? `${numFiles} ${numFiles === 1 ? "File" : "Files"} chosen`
-                : "File chosen"
-              : `Choose ${multiple ? "files" : "file"}`}
+                ? `${numFiles} ${numFiles === 1 ? "Файл" : "Файли"} вибрано`
+                : "Файл вибрано"
+              : `Bиберіть ${multiple ? "файли" : "файл"}`}
           </span>
           <input
             className='btn-handler'

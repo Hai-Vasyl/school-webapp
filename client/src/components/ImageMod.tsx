@@ -15,14 +15,20 @@ import { BsPencil, BsPlus } from "react-icons/bs"
 import FieldFile from "./FieldFile"
 import Field from "./Field"
 import useChangeInput from "../hooks/useChangeInput"
+import { IField } from "../interfaces"
+import DragAndDropFiles from "./DragAndDropFiles"
+// @ts-ignore
+import imageDropArea from "../images/undraw_Images_re_0kll.svg"
+import { RiDragDropLine } from "react-icons/ri"
 
 const ImageMod: React.FC = () => {
   const [createImage, { data, loading, error }] = useMutation(CREATE_IMAGE)
-  const [form, setForm] = useState([
+  const [form, setForm] = useState<IField[]>([
     {
       param: "upload",
       type: "file",
       title: "Зображення",
+      value: null,
       msg: "",
     },
     {
@@ -33,6 +39,7 @@ const ImageMod: React.FC = () => {
       msg: "",
     },
   ])
+  const [preview, setPreview] = useState("")
   const {
     toggle: {
       modImage: { description, toggle, upload },
@@ -44,24 +51,41 @@ const ImageMod: React.FC = () => {
     console.log("SUBMITED")
   }
 
-  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const setFile = (file: any) => {
     setForm((prevForm) =>
       prevForm.map((field) => {
         if (field.param === "upload") {
-          return { ...field, value: event.target.files[0], msg: "" }
+          return {
+            ...field,
+            value: file,
+            msg: "",
+          }
         }
         return field
       })
     )
+    setPreview(URL.createObjectURL(file))
+  }
+
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFile(event.target.files[0])
+    }
+  }
+
+  const handleDropFiles = (files: any) => {
+    if (files) {
+      setFile(files[0])
+    }
   }
 
   const fields = form.map((field) => {
-    if (field.param === "upload") {
+    if (field.type === "file") {
       return (
         <FieldFile
           key={field.param}
           field={field}
-          file={true}
+          file={!!form[0].value}
           change={handleChangeFile}
           numFiles={1}
         />
@@ -78,7 +102,7 @@ const ImageMod: React.FC = () => {
 
   return (
     <div
-      className={`${styles.form} ${styles.form_popup} ${
+      className={`${styles.form} ${styles.form__extend} ${styles.form_popup} ${
         toggle && styles.form_popup__active
       }`}
     >
@@ -99,7 +123,7 @@ const ImageMod: React.FC = () => {
           className={styles.form__container_fields}
           onSubmit={handleSubmitForm}
         >
-          <LoaderData load={loadCreateGroup || loadEditGroup || loadUsers} />
+          {/* <LoaderData load={loadCreateGroup || loadEditGroup || loadUsers} /> */}
           <div className={styles.form__fields}>{fields}</div>
           <button className='btn-handler'></button>
           <div className={styles.form__btns}>
@@ -122,7 +146,31 @@ const ImageMod: React.FC = () => {
           </div>
         </form>
       </div>
-      <div className={styles.form__sidebar}></div>
+      <DragAndDropFiles
+        exClass={`${styles.droparea} ${styles.form__sidebar}`}
+        handleDropFiles={handleDropFiles}
+      >
+        {preview ? (
+          <img
+            className={styles.droparea__preview}
+            src={preview}
+            alt='imgPreview'
+          />
+        ) : (
+          <div className={styles.droparea__plug}>
+            <img
+              src={imageDropArea}
+              className={styles.droparea__image}
+              alt='imgDropArea'
+            />
+            <div className={styles.droparea__container_text}>
+              <div className={styles.droparea__text}>
+                Перетягніть зображення
+              </div>
+            </div>
+          </div>
+        )}
+      </DragAndDropFiles>
     </div>
   )
 }

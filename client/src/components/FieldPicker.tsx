@@ -58,7 +58,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
 
   return (
     <div className={styles.field_file}>
-      <div className={styles.field_file__fileWrapper}>
+      <div className={styles.field_file__file_wrapper}>
         <div className={styles.field_file__title}>
           <span
             className={`${styles.field__title} ${

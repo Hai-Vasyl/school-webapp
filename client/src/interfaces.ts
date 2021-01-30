@@ -81,7 +81,7 @@ export interface IChatCard {
 export interface IField {
   param: string
   type: string
-  value?: string | File
+  value?: any
   title: string
   msg: string
 }
