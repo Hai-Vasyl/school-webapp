@@ -1,10 +1,9 @@
 import { Page } from "../models"
 import { IIsAuth, IField } from "../interfaces"
-import {
-  uploadUserChatBucket,
-  deleteUserChatBucket,
-  updateUserChatBucket,
-} from "../helpers/crudUserChatBucket"
+import { uploadFile, deleteFile, updateFile } from "../helpers/crudBucket"
+import { config } from "dotenv"
+config({ path: "../../../.env" })
+const { AWS_CHAT_USER_BUCKET: chatUserBucket } = process.env
 
 export const Query = {
   async getPage(_: any, { url }: { url: string }) {
@@ -46,7 +45,7 @@ export const Mutation = {
       if (!page) {
         let uploaded
         if (image) {
-          uploaded = await uploadUserChatBucket(image)
+          uploaded = await uploadFile(image, chatUserBucket || "")
         }
         const newPage = new Page({
           url,
@@ -60,11 +59,15 @@ export const Mutation = {
         let imageKey = ""
         if (deleting) {
           if (page.image) {
-            await deleteUserChatBucket(page.imageKey)
+            await deleteFile(page.imageKey, chatUserBucket || "")
           }
         } else {
           if (image) {
-            const uploaded = await updateUserChatBucket(image, page.imageKey)
+            const uploaded = await updateFile(
+              image,
+              page.imageKey,
+              chatUserBucket || ""
+            )
             image = uploaded.Location
             imageKey = uploaded.Key
           }

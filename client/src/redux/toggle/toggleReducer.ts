@@ -2,6 +2,8 @@ import {
   ToggleReducerTypes,
   WARNING_OPEN,
   WARNING_CLOSE,
+  MODIMAGE_OPEN,
+  MODIMAGE_CLOSE,
   DROPDOWN_TOGGLE,
   AUTHFORM_TOGGLE,
   RESET_TOGGLE,
@@ -20,6 +22,11 @@ interface IInitState {
     action(): any
     title: string
   }
+  modImage: {
+    toggle: boolean
+    upload: string
+    description: string
+  }
 }
 
 const initState: IInitState = {
@@ -31,6 +38,11 @@ const initState: IInitState = {
     toggle: false,
     action: () => {},
     title: "",
+  },
+  modImage: {
+    toggle: false,
+    upload: "",
+    description: "",
   },
 }
 
@@ -83,10 +95,29 @@ const toggleReducer = (
           action: () => {},
         },
       }
+    case MODIMAGE_OPEN:
+      const { upload, description } = action.payload
+      return {
+        ...initState,
+        modImage: {
+          toggle: true,
+          upload,
+          description,
+        },
+      }
+    case MODIMAGE_CLOSE:
+      return {
+        ...initState,
+        modImage: {
+          ...state.modImage,
+          toggle: false,
+        },
+      }
     case RESET_TOGGLE:
       return {
         ...initState,
         warning: { ...state.warning, action: () => {}, toggle: false },
+        modImage: { ...state.modImage, toggle: false },
       }
     default:
       return state

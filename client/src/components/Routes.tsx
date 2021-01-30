@@ -21,6 +21,7 @@ const Routes = () => {
       notifications,
       chat,
       warning: { toggle: warnToggle },
+      modImage: { toggle: modImageToggle },
     },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
@@ -69,7 +70,12 @@ const Routes = () => {
       <Notifications />
       <div
         className={`background ${
-          (dropDown || authForm || notifications || chat || warnToggle) &&
+          (dropDown ||
+            authForm ||
+            notifications ||
+            chat ||
+            warnToggle ||
+            modImageToggle) &&
           "background--active"
         }`}
         onClick={() => dispatch({ type: RESET_TOGGLE })}

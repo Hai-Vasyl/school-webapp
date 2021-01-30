@@ -1,12 +1,11 @@
 import { Chat, User, UserChat, Message } from "../models"
 import { IUser, IIsAuth, IField, IChat } from "../interfaces"
-import {
-  uploadUserChatBucket,
-  updateUserChatBucket,
-  deleteUserChatBucket,
-} from "../helpers/crudUserChatBucket"
+import { uploadFile, updateFile, deleteFile } from "../helpers/crudBucket"
 import { v4 as uuidv4 } from "uuid"
 import { createEditValid } from "../validation/chats"
+import { config } from "dotenv"
+config({ path: "../../../.env" })
+const { AWS_CHAT_USER_BUCKET: chatUserBucket } = process.env
 
 interface IAllAnyFields {
   [key: string]: any
@@ -230,7 +229,7 @@ export const Mutation = {
       if (vType.value === "public" || vType.value === "privet") {
         let uploaded
         if (image) {
-          uploaded = await uploadUserChatBucket(image)
+          uploaded = await uploadFile(image, chatUserBucket || "")
         }
 
         const newChat = await createChat(
@@ -299,7 +298,7 @@ export const Mutation = {
 
       let uploaded
       if (image) {
-        uploaded = await updateUserChatBucket(image, chat.imageKey)
+        uploaded = await updateFile(image, chat.imageKey, chatUserBucket || "")
       }
 
       await Chat.findByIdAndUpdate(chat.id, {
@@ -401,7 +400,7 @@ export const Mutation = {
           if (String(chat.owner) === isAuth.userId) {
             await Message.deleteMany({ chat: chatId })
             await UserChat.deleteMany({ chatId })
-            await deleteUserChatBucket(chat.imageKey)
+            await deleteFile(chat.imageKey, chatUserBucket || "")
             await Chat.findByIdAndDelete(chatId)
           } else {
             // Delete yourself from chat (UserChat model)

@@ -6,8 +6,8 @@ import Notification from "./Notification"
 import UnreadMessage from "./UnreadMessage"
 import Group from "./Group"
 import Page from "./Page"
-// import Post from "./Post"
-// import Uploads from "./Uploads"
+import Image from "./Image"
+import Upload from "./Upload"
 
 export {
   User,
@@ -18,5 +18,6 @@ export {
   UnreadMessage,
   Group,
   Page,
-  //  Post, Uploads
+  Image,
+  Upload,
 }
