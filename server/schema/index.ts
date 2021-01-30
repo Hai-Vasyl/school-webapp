@@ -17,12 +17,14 @@ import {
 } from "./resolvers/unreadmessages"
 import { Query as QPages, Mutation as MPages } from "./resolvers/pages"
 import { Query as QGroups, Mutation as MGroups } from "./resolvers/groups"
+import { Query as QImages, Mutation as MImages } from "./resolvers/images"
 import { Chat } from "./resolvers/chat"
 import { Message } from "./resolvers/message"
 import { UserChat } from "./resolvers/userchat"
 import { Notification } from "./resolvers/notification"
 import { User } from "./resolvers/user"
 import { Group } from "./resolvers/group"
+import { Image } from "./resolvers/image"
 
 const schema = {
   typeDefs,
@@ -35,6 +37,7 @@ const schema = {
       ...QUnreadMessages,
       ...QPages,
       ...QGroups,
+      ...QImages,
     },
     Mutation: {
       ...MUsers,
@@ -44,6 +47,7 @@ const schema = {
       ...MUnreadMessages,
       ...MPages,
       ...MGroups,
+      ...MImages,
     },
     Subscription: {
       ...SMessages,
@@ -55,6 +59,7 @@ const schema = {
     Notification,
     User,
     Group,
+    Image,
   },
 }
 

@@ -2,39 +2,43 @@ import { config } from "dotenv"
 import { v4 as uuidv4 } from "uuid"
 import AWS from "aws-sdk"
 config()
-const { AWS_ID, AWS_SECRET, AWS_CHAT_USER_BUCKET } = process.env
+const { AWS_ID, AWS_SECRET } = process.env
 
 const s3 = new AWS.S3({
   accessKeyId: AWS_ID,
   secretAccessKey: AWS_SECRET,
 })
 
-const getInitParams = (filename: string, createReadStream: any) => {
+const getInitParams = (
+  filename: string,
+  createReadStream: any,
+  Bucket: string
+) => {
   return {
     ACL: "public-read",
-    Bucket: AWS_CHAT_USER_BUCKET,
+    Bucket,
     Key: `${uuidv4()}.${filename}`,
     Body: createReadStream(),
     Conditions: [{ acl: "public-read" }],
   }
 }
 
-const deleteFile = async (fileKey: string) => {
+const deleteFileBucket = async (fileKey: string, Bucket: string) => {
   if (fileKey) {
     // @ts-ignore
     await s3
       .deleteObject({
         Key: fileKey,
-        Bucket: AWS_CHAT_USER_BUCKET,
+        Bucket,
       })
       .promise()
   }
 }
 
-export const uploadUserChatBucket = async (file: any) => {
+export const uploadFile = async (file: any, Bucket: string) => {
   try {
     const { createReadStream, filename } = await file
-    const params: any = getInitParams(filename, createReadStream)
+    const params: any = getInitParams(filename, createReadStream, Bucket)
 
     const uploaded = await s3.upload(params).promise()
     return uploaded
@@ -43,13 +47,17 @@ export const uploadUserChatBucket = async (file: any) => {
   }
 }
 
-export const updateUserChatBucket = async (file: any, fileKey: string) => {
+export const updateFile = async (
+  file: any,
+  fileKey: string,
+  Bucket: string
+) => {
   try {
     const { createReadStream, filename } = await file
 
-    deleteFile(fileKey)
+    deleteFileBucket(fileKey, Bucket)
 
-    const params: any = getInitParams(filename, createReadStream)
+    const params: any = getInitParams(filename, createReadStream, Bucket)
 
     const uploaded = await s3.upload(params).promise()
     return uploaded
@@ -58,9 +66,9 @@ export const updateUserChatBucket = async (file: any, fileKey: string) => {
   }
 }
 
-export const deleteUserChatBucket = async (fileKey: string) => {
+export const deleteFile = async (fileKey: string, Bucket: string) => {
   try {
-    deleteFile(fileKey)
+    deleteFileBucket(fileKey, Bucket)
   } catch (error) {
     throw new Error(`Deleting file in aws bucket error: ${error.message}`)
   }

@@ -2,6 +2,7 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
+import { BsCheck, BsUpload } from "react-icons/bs"
 
 interface IFieldFileProps {
   field: {
@@ -10,9 +11,10 @@ interface IFieldFileProps {
     msg: string
   }
   change(event: React.ChangeEvent<HTMLInputElement>): any
-  file: any
+  file: boolean
   isImportant?: boolean
-  Icon: any
+  multiple?: boolean
+  numFiles?: number
 }
 
 const FieldFile: React.FC<IFieldFileProps> = ({
@@ -20,7 +22,8 @@ const FieldFile: React.FC<IFieldFileProps> = ({
   change,
   file,
   isImportant,
-  Icon
+  multiple,
+  numFiles,
 }) => {
   return (
     <div className={styles.field_file}>
@@ -35,14 +38,25 @@ const FieldFile: React.FC<IFieldFileProps> = ({
           </span>
         </div>
         <label className={styles.field_file__label}>
-          <Icon className={styles.field_file__upload_icon}/>
-          <span>{file ? "File chosen" : "Choose file"}</span>
+          {file ? (
+            <BsCheck className={styles.field_file__upload_icon} />
+          ) : (
+            <BsUpload className={styles.field_file__upload_icon} />
+          )}
+          <span>
+            {file
+              ? multiple
+                ? `${numFiles} ${numFiles === 1 ? "File" : "Files"} chosen`
+                : "File chosen"
+              : `Choose ${multiple ? "files" : "file"}`}
+          </span>
           <input
             className='btn-handler'
             name={field.param}
             type='file'
             onChange={change}
             autoComplete='off'
+            multiple={multiple}
           />
         </label>
       </div>

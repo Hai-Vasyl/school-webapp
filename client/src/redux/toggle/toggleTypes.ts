@@ -6,6 +6,8 @@ export const WARNING_OPEN = "WARNING_OPEN"
 export const WARNING_CLOSE = "WARNING_CLOSE"
 export const NOTIFICATIONS_TOGGLE = "NOTIFICATIONS_TOGGLE"
 export const RESET_TOGGLE = "RESET_TOGGLE"
+export const MODIMAGE_OPEN = "MODIMAGE_OPEN"
+export const MODIMAGE_CLOSE = "MODIMAGE_CLOSE"
 
 export interface ToggleDropDown {
   type: typeof DROPDOWN_TOGGLE
@@ -32,8 +34,18 @@ export interface WarningOpen {
     title: string
   }
 }
+export interface ModImageOpen {
+  type: typeof MODIMAGE_OPEN
+  payload: {
+    description: string
+    upload: string
+  }
+}
 export interface WarningClose {
   type: typeof WARNING_CLOSE
+}
+export interface ModImageClose {
+  type: typeof MODIMAGE_CLOSE
 }
 
 export type ToggleReducerTypes =
@@ -45,3 +57,5 @@ export type ToggleReducerTypes =
   | ChatOpen
   | WarningOpen
   | WarningClose
+  | ModImageOpen
+  | ModImageClose

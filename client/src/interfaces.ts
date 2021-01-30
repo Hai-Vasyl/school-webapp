@@ -81,7 +81,7 @@ export interface IChatCard {
 export interface IField {
   param: string
   type: string
-  value?: string
+  value?: string | File
   title: string
   msg: string
 }
@@ -133,7 +133,6 @@ export interface IGroup {
   name: string
   date: string
 }
-
 
 export interface IToast {
   type: string

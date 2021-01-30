@@ -338,3 +338,13 @@ export const PINUNPIN_STUDENTS_GROUP = gql`
     }
   }
 `
+
+export const CREATE_IMAGE = gql`
+  mutation CREATE_IMAGE($description: String, $upload: Upload!) {
+    createImage(description: $description, upload: $upload) {
+      id
+      description
+      date
+    }
+  }
+`

@@ -56,7 +56,6 @@ const Group: React.FC<IGroupProps> = ({
 
   useEffect(() => {
     if (isPinnedStudents) {
-      console.log("REFETCH!")
       refetchStudents && refetchStudents()
       resetIsPinnedStudents()
     }
