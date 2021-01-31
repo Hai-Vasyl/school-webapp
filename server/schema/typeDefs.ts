@@ -94,6 +94,10 @@ export default gql`
     channel: String!
     active: Boolean!
   }
+  type Images {
+    images: [UploadFile]!
+    quantity: Int!
+  }
   type Query {
     login(email: String!, password: String!): Auth
     register(
@@ -107,6 +111,8 @@ export default gql`
       group: String
     ): Auth
     getPages: [Page]!
+    # getImages(from: Int!, to: Int!, search: String, type: String): [UploadFile]!
+    getImages(from: Int!, to: Int!, search: String, type: String): Images!
     getPage(url: String!): Page
     userChats(userId: ID): [Chat]!
     chatMessages(chat: ID!): [Message]!
@@ -125,7 +131,7 @@ export default gql`
     createUpload(
       hashtags: String
       description: String
-      upload: Upload!
+      upload: Upload
       content: ID
       type: String
     ): Msg!

@@ -358,3 +358,31 @@ export const GET_GROUPS = gql`
     }
   }
 `
+
+export const GET_IMAGES = gql`
+  query GET_IMAGES($from: Int!, $to: Int!, $search: String, $type: String) {
+    getImages(from: $from, to: $to, search: $search, type: $type) {
+      images {
+        id
+        # owner {
+        #   id
+        #   username
+        #   email
+        #   ava
+        #   color
+        #   firstname
+        #   lastname
+        #   role
+        # }
+        date
+        location
+        # content
+        type
+        # key
+        # hashtags
+        # description
+      }
+      quantity
+    }
+  }
+`

@@ -29,7 +29,7 @@
   background-image: getGradient(main);
   border: 1px solid getColor(main-white);
   &:hover {
-    border-color: white;
+    border-color: getColor(font-white);
     box-shadow: getShadow(second);
   }
 }

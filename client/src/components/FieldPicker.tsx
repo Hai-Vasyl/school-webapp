@@ -19,6 +19,9 @@ interface IFieldPickerProps {
   change: any
   Icon?: any
   isImportant?: boolean
+  noError?: boolean
+  submit?: boolean
+  exClass?: string
 }
 
 const FieldPicker: React.FC<IFieldPickerProps> = ({
@@ -27,6 +30,9 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
   options,
   Icon,
   isImportant,
+  noError,
+  submit,
+  exClass,
 }) => {
   const [toggleDrop, setToggleDrop] = useState(false)
   const { pichOpton } = usePickOption()
@@ -57,7 +63,11 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
   }
 
   return (
-    <div className={styles.field_file}>
+    <div
+      className={`${styles.field_file} ${exClass} ${
+        noError && styles.field_file__noerrror
+      }`}
+    >
       <div className={styles.field_file__file_wrapper}>
         <div className={styles.field_file__title}>
           <span
@@ -90,7 +100,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
             {options.map((option) => {
               return (
                 <button
-                  type='button'
+                  type={submit ? "submit" : "button"}
                   title={option.label}
                   key={option.value}
                   className={`${styles.field_picker__option} ${
@@ -106,13 +116,15 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
           </div>
         </div>
       </div>
-      <span
-        className={`${styles.field__msg} ${
-          field.msg?.length && styles.field__msg__error
-        }`}
-      >
-        <BiError className={styles.field__error} /> <span>{field.msg}</span>
-      </span>
+      {!noError && (
+        <span
+          className={`${styles.field__msg} ${
+            field.msg?.length && styles.field__msg__error
+          }`}
+        >
+          <BiError className={styles.field__error} /> <span>{field.msg}</span>
+        </span>
+      )}
     </div>
   )
 }

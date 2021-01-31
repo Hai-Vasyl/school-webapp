@@ -138,3 +138,10 @@ export interface IToast {
   type: string
   message: string
 }
+
+export interface IImage {
+  id: string
+  date: string
+  location: string
+  type: string
+}

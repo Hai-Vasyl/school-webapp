@@ -37,8 +37,9 @@ export interface WarningOpen {
 export interface ModImageOpen {
   type: typeof MODIMAGE_OPEN
   payload: {
-    description: string
-    upload: string
+    id: string
+    content: string
+    type: string
   }
 }
 export interface WarningClose {

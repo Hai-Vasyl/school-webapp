@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 // @ts-ignore
 import styles from "../styles/form.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
-import { CREATE_IMAGE } from "../fetching/mutations"
+import { CREATE_UPLOAD } from "../fetching/mutations"
 import { useMutation } from "@apollo/client"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import ButtonTab from "./ButtonTab"
@@ -19,10 +19,14 @@ import { IField } from "../interfaces"
 import DragAndDropFiles from "./DragAndDropFiles"
 // @ts-ignore
 import imageDropArea from "../images/undraw_Images_re_0kll.svg"
-import { RiDragDropLine } from "react-icons/ri"
+import useSetErrorsFields from "../hooks/useSetErrorsFields"
+import { types } from "../modules/messageTypes"
 
 const ImageMod: React.FC = () => {
-  const [createImage, { data, loading, error }] = useMutation(CREATE_IMAGE)
+  const [
+    createUpload,
+    { data: dataCreate, loading: loadCreate, error: errorCreate },
+  ] = useMutation(CREATE_UPLOAD)
   const [form, setForm] = useState<IField[]>([
     {
       param: "upload",
@@ -38,17 +42,68 @@ const ImageMod: React.FC = () => {
       title: "Заголовок",
       msg: "",
     },
+    {
+      param: "hashtags",
+      type: "text",
+      value: "",
+      title: "Хештеги",
+      msg: "",
+    },
   ])
   const [preview, setPreview] = useState("")
   const {
     toggle: {
-      modImage: { description, toggle, upload },
+      modImage: { content, toggle, type, id: imageId },
     },
   } = useSelector((state: RootStore) => state)
+  const dispatch = useDispatch()
+  const { setErrors } = useSetErrorsFields()
   const { changeInput } = useChangeInput()
 
+  const clearDataForm = useCallback(() => {
+    setForm((prevForm) =>
+      prevForm.map((field) => {
+        if (field.param === "upload") {
+          return { ...field, value: null }
+        } else if (field.param === "hashtags") {
+          return field
+        } else {
+          return { ...field, value: "" }
+        }
+      })
+    )
+    setPreview("")
+  }, [])
+
+  useEffect(() => {
+    const dataCreateUpload = dataCreate && dataCreate.createUpload
+    if (errorCreate) {
+      console.log({ errorCreate })
+      setErrors(errorCreate.message, setForm)
+      dispatch({
+        type: SET_TOAST,
+        payload: {
+          type: types.error.keyWord,
+          message: "Помилка перевірки полів форми!",
+        },
+      })
+    } else if (dataCreateUpload) {
+      clearDataForm()
+      dispatch({ type: SET_TOAST, payload: dataCreateUpload })
+    }
+  }, [dispatch, dataCreate, clearDataForm, errorCreate])
+
   const handleSubmitForm = () => {
-    console.log("SUBMITED")
+    const [upload, description, hashtags] = form
+    createUpload({
+      variables: {
+        hashtags: hashtags.value,
+        description: description.value,
+        upload: upload.value,
+        content,
+        type,
+      },
+    })
   }
 
   const setFile = (file: any) => {
@@ -116,21 +171,21 @@ const ImageMod: React.FC = () => {
                 />
               )} */}
           <div className={styles.form__title_text}>
-            {upload ? "Редагування зображення" : "Створення зображення"}
+            {imageId ? "Редагування зображення" : "Створення зображення"}
           </div>
         </div>
         <form
           className={styles.form__container_fields}
           onSubmit={handleSubmitForm}
         >
-          {/* <LoaderData load={loadCreateGroup || loadEditGroup || loadUsers} /> */}
+          <LoaderData load={loadCreate} />
           <div className={styles.form__fields}>{fields}</div>
           <button className='btn-handler'></button>
           <div className={styles.form__btns}>
             <Button
-              title={upload ? "Застосувати зміни" : "Створити зображення"}
+              title={imageId ? "Застосувати зміни" : "Створити зображення"}
               exClass={stylesBtn.btn_primary}
-              Icon={upload ? BsPencil : BsPlus}
+              Icon={imageId ? BsPencil : BsPlus}
               click={handleSubmitForm}
               type='button'
             />

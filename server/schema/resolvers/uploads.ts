@@ -6,7 +6,31 @@ const { AWS_UPLOADS_BUCKET: uploadBucket } = process.env
 import { IField, IIsAuth } from "../interfaces"
 import { types as msgTypes } from "../../modules/messageTypes"
 
-export const Query = {}
+export const Query = {
+  async getImages(_: any, { from, to, search, type }: IField) {
+    try {
+      let query
+      if (search) {
+        query = {
+          $text: { $search: search },
+          type: type ? type : { $exists: true },
+        }
+      } else {
+        query = { type: type ? type : { $exists: true } }
+      }
+
+      const images = await Upload.find({ ...query })
+        .sort({ date: -1 })
+        .skip(from)
+        .limit(to)
+      const quantity = await Upload.find({ ...query }).countDocuments()
+
+      return { images, quantity }
+    } catch (error) {
+      throw new Error(`Getting images errror: ${error.message}`)
+    }
+  },
+}
 
 export const Mutation = {
   async createUpload(
@@ -20,7 +44,8 @@ export const Mutation = {
       }
       //TODO: validation for each field and check in models
 
-      if (uploadImage) {
+      console.log({ uploadImage })
+      if (!!uploadImage) {
         if (type) {
           const uploaded = await uploadFile(uploadImage, uploadBucket || "")
 

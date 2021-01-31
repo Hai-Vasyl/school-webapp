@@ -87,7 +87,7 @@
 
 .droparea {
   display: flex;
-  max-height: 400px;
+  max-height: 450px;
   outline: 7px dashed getColor(main-dark);
   outline-offset: -20px;
   &__preview {
@@ -149,5 +149,61 @@
     }
   }
   &__text {
+  }
+}
+
+.form_filter {
+  display: flex;
+  &__search {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    margin-right: 10px;
+  }
+  &__picker {
+    width: 500px;
+  }
+  &__search_input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid getColor(main-dark);
+    transition: getTransition(main);
+    background-color: getColor(main);
+    outline: none;
+    padding-right: 53px;
+    // padding: 0;
+    margin: 0;
+
+    &:focus {
+      border-color: getColor(accent);
+    }
+  }
+  &__search_btn {
+    position: absolute;
+    right: 0.5px;
+    top: 1px;
+    bottom: 1px;
+    display: flex;
+    width: 45px;
+    transition: getTransition(main);
+    border: 1px solid getColor(font-white);
+    color: getColor(font-white);
+    box-shadow: getShadow(main);
+    background-image: getGradient(main);
+    &:hover {
+      border-color: getColor(font-white);
+      box-shadow: getShadow(second);
+    }
+    &:active {
+      box-shadow: none;
+      transform: scale(0.95);
+      opacity: 0.5;
+    }
+    & > * {
+      margin: auto;
+      font-size: 17px;
+    }
   }
 }

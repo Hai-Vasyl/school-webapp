@@ -340,8 +340,20 @@ export const PINUNPIN_STUDENTS_GROUP = gql`
 `
 
 export const CREATE_UPLOAD = gql`
-  mutation CREATE_UPLOAD($hashtags: String, $description: String, $upload: Upload!, content: ID, type: String!) {
-    createUpload(hashtags: $hashtags, description: $description, upload: $upload, content: $content, type: $type) {
+  mutation CREATE_UPLOAD(
+    $hashtags: String
+    $description: String
+    $upload: Upload
+    $content: ID
+    $type: String!
+  ) {
+    createUpload(
+      hashtags: $hashtags
+      description: $description
+      upload: $upload
+      content: $content
+      type: $type
+    ) {
       message
       type
     }

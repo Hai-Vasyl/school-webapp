@@ -80,6 +80,9 @@
 .field_file {
   width: 100%;
   margin-bottom: 0.5em;
+  &__noerrror {
+    margin-bottom: 0em;
+  }
   &__file_wrapper {
     display: flex;
     border: 1px solid getColor(main-dark);
@@ -155,7 +158,7 @@
   }
   &__select {
     position: absolute;
-    top: 40px;
+    top: 41px;
     left: 0;
     right: 0;
     max-height: 200px;

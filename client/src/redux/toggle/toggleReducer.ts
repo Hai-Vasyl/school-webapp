@@ -24,8 +24,9 @@ interface IInitState {
   }
   modImage: {
     toggle: boolean
-    upload: string
-    description: string
+    id: string
+    content: string
+    type: string
   }
 }
 
@@ -41,8 +42,9 @@ const initState: IInitState = {
   },
   modImage: {
     toggle: false,
-    upload: "",
-    description: "",
+    id: "",
+    content: "",
+    type: "",
   },
 }
 
@@ -96,13 +98,13 @@ const toggleReducer = (
         },
       }
     case MODIMAGE_OPEN:
-      const { upload, description } = action.payload
       return {
         ...initState,
         modImage: {
           toggle: true,
-          upload,
-          description,
+          id: action.payload.id,
+          content: action.payload.content,
+          type: action.payload.type,
         },
       }
     case MODIMAGE_CLOSE:
