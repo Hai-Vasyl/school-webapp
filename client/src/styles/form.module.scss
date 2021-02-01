@@ -154,6 +154,11 @@
 
 .form_filter {
   display: flex;
+  position: relative;
+  z-index: 3;
+  padding: 30px 20px;
+  background-color: getColor(secondary);
+  margin-bottom: 20px;
   &__search {
     flex: 1;
     position: relative;
@@ -173,9 +178,6 @@
     background-color: getColor(main);
     outline: none;
     padding-right: 53px;
-    // padding: 0;
-    margin: 0;
-
     &:focus {
       border-color: getColor(accent);
     }
@@ -187,20 +189,7 @@
     bottom: 1px;
     display: flex;
     width: 45px;
-    transition: getTransition(main);
-    border: 1px solid getColor(font-white);
-    color: getColor(font-white);
-    box-shadow: getShadow(main);
-    background-image: getGradient(main);
-    &:hover {
-      border-color: getColor(font-white);
-      box-shadow: getShadow(second);
-    }
-    &:active {
-      box-shadow: none;
-      transform: scale(0.95);
-      opacity: 0.5;
-    }
+    @extend %btn-accent;
     & > * {
       margin: auto;
       font-size: 17px;

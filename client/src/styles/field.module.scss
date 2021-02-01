@@ -99,24 +99,10 @@
     width: 50%;
     cursor: pointer;
     background-color: transparent;
-    background-image: getGradient(main);
     @extend %flex-center;
-    transition: getTransition(main);
     padding: 0px 10px;
-    border-radius: getRadius(main);
-    box-shadow: getShadow(main);
     z-index: 3;
-    color: getColor(font-white);
-    border: 1px solid getColor(main-white);
-    &:hover {
-      border-color: white;
-      box-shadow: getShadow(second);
-    }
-    &:active {
-      box-shadow: none;
-      transform: scale(0.95);
-      opacity: 0.5;
-    }
+    @extend %btn-accent;
   }
   &__upload_icon {
     margin-right: 10px;
@@ -132,28 +118,14 @@
   &__button {
     flex: 1;
     background-color: transparent;
-    background-image: getGradient(main);
     @extend %flex-center;
     justify-content: space-between;
-    transition: getTransition(main);
     padding: 0px 10px;
-    border-radius: getRadius(main);
-    box-shadow: getShadow(main);
     z-index: 3;
-    color: getColor(font-white);
-    border: 1px solid getColor(main-white);
+    @extend %btn-accent;
     & > span {
       height: 22.4px;
       overflow: hidden;
-    }
-    &:hover {
-      border-color: white;
-      box-shadow: getShadow(second);
-    }
-    &:active {
-      box-shadow: none;
-      transform: scale(0.95);
-      opacity: 0.5;
     }
   }
   &__select {

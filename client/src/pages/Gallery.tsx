@@ -17,6 +17,7 @@ import stylesForm from "../styles/form.module"
 import styles from "../styles/gallery.module"
 import { IImage } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
+import Pagination from "../components/Pagination"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
@@ -25,9 +26,6 @@ const Gallery: React.FC = () => {
   const type = params.get("type") || ""
   const search = params.get("search") || ""
   const amountItems = 15
-  // const [getImages, { data: dataImages, loading: loadImages }] = useLazyQuery(
-  //   GET_IMAGES
-  // )
   const [searchStr, setSearchStr] = useState(search)
   const [typeImage, setTypeImage] = useState([
     {
@@ -46,14 +44,6 @@ const Gallery: React.FC = () => {
       type,
     },
   })
-  // const { data: dataImages, loading: loadImages } = useQuery(GET_IMAGES, {
-  //   variables: {
-  //     from: 0,
-  //     to: 15,
-  //     search: "",
-  //     type: "",
-  //   },
-  // })
   const dispatch = useDispatch()
 
   let options = Object.keys(uploadTypes).map((item) => {
@@ -68,6 +58,13 @@ const Gallery: React.FC = () => {
   }
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchStr(event.target.value)
+  }
+
+  const getRedirectLink = (number: number) => {
+    const typeQuery = `${type ? "type=" + type + "&" : ""}`
+    const searchQuery = `${search ? "search=" + search + "&" : ""}`
+    let link = `/gallery?page=${number}&${typeQuery}${searchQuery}`
+    return link.slice(0, link.length - 1)
   }
 
   const imagesJSX =
@@ -90,7 +87,6 @@ const Gallery: React.FC = () => {
       )
     })
 
-  console.log({ dataImages: dataImages && dataImages.getImages, loadImages })
   return (
     <div className='container'>
       <Title title='Галерея' />
@@ -119,6 +115,14 @@ const Gallery: React.FC = () => {
           <button className='btn-handler'></button>
         </form>
         <div className={styles.images}>{imagesJSX}</div>
+        <div>
+          <Pagination
+            getRedirectLink={getRedirectLink}
+            quantityItem={143}
+            amountItemsPage={15}
+            currentPageNumber={1}
+          />
+        </div>
         <ButtonTab
           Icon={BsPlus}
           click={() =>

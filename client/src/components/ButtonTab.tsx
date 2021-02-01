@@ -1,6 +1,6 @@
 import React from "react"
 // @ts-ignore
-import styles from "../styles/buttontab.module"
+import styles from "../styles/button.module"
 
 interface ButtonTabProps {
   Icon: any
@@ -12,7 +12,7 @@ const ButtonTab: React.FC<ButtonTabProps> = ({ Icon, click, exClass }) => {
   return (
     <button
       type='button'
-      className={`${styles.wrapper} ${exClass}`}
+      className={`${styles.btn_tab} ${exClass}`}
       onClick={click}
     >
       <Icon />

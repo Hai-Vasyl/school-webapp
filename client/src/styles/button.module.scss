@@ -71,3 +71,74 @@
     background-color: getColor(main);
   }
 }
+
+.btns_pagination {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid getColor(main-dark);
+  padding: 20px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.btn_pagination {
+  height: 35px;
+  min-width: 35px;
+  padding: 0 5px;
+  display: flex;
+  margin: 0px 2px;
+  border: 1px solid getColor(main-dark);
+  background-color: getColor(secondary);
+  border-radius: getRadius(main);
+  box-shadow: getShadow(thin);
+  transition: getTransition(main);
+  &:hover {
+    box-shadow: none;
+  }
+  &:active {
+    opacity: 0.5;
+  }
+  & > * {
+    margin: auto;
+  }
+  &__active {
+    @extend %btn-accent;
+  }
+}
+
+.btn_pagin_arrow {
+  padding: 0px 15px;
+  margin-left: 5px;
+  margin-right: 3px;
+  &:first-child {
+    margin-right: 5px;
+    margin-left: 3px;
+  }
+  &__disabled {
+    background-color: getColor(main);
+    color: getColor(font);
+    cursor: default;
+    box-shadow: none;
+  }
+}
+
+.btn_tab {
+  display: flex;
+  background-color: getColor(secondary);
+  border: 1px solid getColor(main-dark);
+  border-radius: getRadius(main);
+  width: 30px;
+  height: 30px;
+  box-shadow: getShadow(thin);
+  transition: getTransition(main);
+  & > * {
+    font-size: 18px;
+    margin: auto;
+  }
+  &:hover {
+    box-shadow: none;
+  }
+  &:active {
+    opacity: 0.5;
+  }
+}
