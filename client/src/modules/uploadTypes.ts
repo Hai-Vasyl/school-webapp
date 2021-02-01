@@ -16,6 +16,10 @@ export const types = {
     label: "Події",
     Icon: BsCalendar,
   },
+  all: {
+    keyWord: "all",
+    label: "Усі",
+  },
 }
 
 export const getParamsByType = (type: string) => {

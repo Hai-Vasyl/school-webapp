@@ -1,7 +1,6 @@
 import React from "react"
 // @ts-ignore
 import styles from "../styles/button.module"
-import { useHistory } from "react-router-dom"
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs"
 
 interface IPaginatonProps {
@@ -9,6 +8,7 @@ interface IPaginatonProps {
   amountItemsPage: number
   currentPageNumber: number
   getRedirectLink(number: number): any
+  isTop?: boolean
 }
 
 const Pagination: React.FC<IPaginatonProps> = ({
@@ -16,12 +16,10 @@ const Pagination: React.FC<IPaginatonProps> = ({
   amountItemsPage,
   currentPageNumber,
   getRedirectLink,
+  isTop,
 }) => {
-  const history = useHistory()
-
   const handleRedirectPage = (number: number) => {
-    history.push(getRedirectLink(number))
-    console.log("Redirect to another page")
+    getRedirectLink(number)
   }
 
   const getQuantityPages = () => {
@@ -61,9 +59,7 @@ const Pagination: React.FC<IPaginatonProps> = ({
   }
 
   const handleMoveToPage = (isRight: boolean) => {
-    history.push(
-      getRedirectLink(isRight ? currentPageNumber + 1 : currentPageNumber - 1)
-    )
+    getRedirectLink(isRight ? currentPageNumber + 1 : currentPageNumber - 1)
   }
 
   const pageNumbersJSX = pageNumbers.map((number) => {
@@ -87,7 +83,11 @@ const Pagination: React.FC<IPaginatonProps> = ({
       : false
   const btnArrowRight = checkPageNumber(currentPageNumber + 1).current
   return (
-    <div className={styles.btns_pagination}>
+    <div
+      className={`${styles.btns_pagination} ${
+        isTop && styles.btns_pagination__top
+      }`}
+    >
       <button
         className={`${styles.btn_pagination} ${styles.btn_pagin_arrow} ${
           !btnArrowLeft && styles.btn_pagin_arrow__disabled

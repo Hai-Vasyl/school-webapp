@@ -152,19 +152,40 @@
   }
 }
 
+.form_filter_container {
+  background-color: getColor(secondary);
+  border-bottom: 1px solid getColor(main-dark);
+}
+
 .form_filter {
   display: flex;
   position: relative;
   z-index: 3;
-  padding: 30px 20px;
-  background-color: getColor(secondary);
-  margin-bottom: 20px;
+  padding: 20px;
+  padding-bottom: 5px;
   &__search {
     flex: 1;
     position: relative;
     display: flex;
     align-items: stretch;
     margin-right: 10px;
+  }
+  &__footer {
+    padding: 20px;
+    padding-top: 5px;
+  }
+  &__results {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+  }
+  &__results_counter {
+    margin-left: 7px;
+    font-weight: bold;
+  }
+  &__search_string {
+    font-style: italic;
+    font-weight: bold;
   }
   &__picker {
     width: 500px;
@@ -178,8 +199,12 @@
     background-color: getColor(main);
     outline: none;
     padding-right: 53px;
+    padding-left: 53px;
     &:focus {
       border-color: getColor(accent);
+    }
+    &__close {
+      padding-left: 8px;
     }
   }
   &__search_btn {
@@ -189,7 +214,23 @@
     bottom: 1px;
     display: flex;
     width: 45px;
-    @extend %btn-accent;
+    // @extend %btn-accent;
+    // box-shadow:
+    background-color: getColor(secondary);
+    border-left: 1px solid getColor(main-dark);
+    overflow: hidden;
+    opacity: 1;
+    transition: getTransition(main);
+    &__reset {
+      left: 1px;
+      right: auto;
+      border-left: none;
+      border-right: 1px solid getColor(main-dark);
+    }
+    &__close {
+      width: 0;
+      opacity: 0;
+    }
     & > * {
       margin: auto;
       font-size: 17px;

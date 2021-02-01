@@ -48,7 +48,7 @@
     color: getColor(font-white);
     & > * {
       margin: auto;
-      font-size: 1.3vw;
+      font-size: 20px;
       filter: drop-shadow(getShadow(main-dark));
     }
   }
@@ -64,4 +64,11 @@
     border-top: 1px solid getColor(bg-light);
     transition: getTransition(second);
   }
+}
+
+.btn_create_image {
+  width: 42.4px;
+  height: 42.4px;
+  margin-right: 10px;
+  @extend %btn-accent;
 }

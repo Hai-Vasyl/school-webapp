@@ -76,9 +76,15 @@
   display: flex;
   justify-content: center;
   border-top: 1px solid getColor(main-dark);
-  padding: 20px;
+  padding: 20px 0px;
   margin: 0 auto;
   margin-top: 20px;
+  &__top {
+    border-bottom: 1px solid getColor(main-dark);
+    border-top: none;
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
 }
 
 .btn_pagination {
