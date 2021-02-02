@@ -27,7 +27,7 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 5;
+  z-index: 10;
   &__spinner {
     @extend %center-position;
     @extend %spinner;

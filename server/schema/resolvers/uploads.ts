@@ -30,6 +30,14 @@ export const Query = {
       throw new Error(`Getting images errror: ${error.message}`)
     }
   },
+  async getImage(_: any, { imageId }: IField) {
+    try {
+      const image = await Upload.findById(imageId)
+      return image
+    } catch (error) {
+      throw new Error(`Getting image errror: ${error.message}`)
+    }
+  },
 }
 
 export const Mutation = {
@@ -44,7 +52,6 @@ export const Mutation = {
       }
       //TODO: validation for each field and check in models
 
-      console.log({ uploadImage })
       if (!!uploadImage) {
         if (type) {
           const uploaded = await uploadFile(uploadImage, uploadBucket || "")
@@ -80,6 +87,46 @@ export const Mutation = {
       }
     } catch (error) {
       throw new Error(error.message)
+    }
+  },
+  async editUpload(
+    _: any,
+    { imageId, hashtags, description, upload: uploadImage }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: validation for each field and check in models
+
+      const upload: any = await Upload.findById(imageId)
+      let uploaded = {
+        key: upload.key,
+        location: upload.location,
+      }
+      if (!!uploadImage) {
+        const file = await updateFile(
+          uploadImage,
+          upload.key,
+          uploadBucket || ""
+        )
+        uploaded.key = file.Key
+        uploaded.location = file.Location
+      }
+
+      await Upload.findByIdAndUpdate(imageId, {
+        ...uploaded,
+        hashtags,
+        description,
+        date: new Date(),
+      })
+      return {
+        message: "Зображення успішно оновлено!",
+        type: msgTypes.success.keyWord,
+      }
+    } catch (error) {
+      throw new Error(`Updating image error: ${error.message}`)
     }
   },
 }

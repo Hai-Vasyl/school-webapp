@@ -144,4 +144,28 @@ export interface IImage {
   date: string
   location: string
   type: string
+  owner: {
+    id: string
+  }
+}
+
+export interface IImageDetailed {
+  id: string
+  owner: {
+    id: string
+    username: string
+    email: string
+    ava: string
+    color: string
+    firstname: string
+    lastname: string
+    role: string
+  }
+  date: string
+  location: string
+  content: string
+  type: string
+  key: string
+  hashtags: string
+  description: string
 }

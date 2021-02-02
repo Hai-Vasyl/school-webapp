@@ -364,16 +364,16 @@ export const GET_IMAGES = gql`
     getImages(from: $from, to: $to, search: $search, type: $type) {
       images {
         id
-        # owner {
-        #   id
-        #   username
-        #   email
-        #   ava
-        #   color
-        #   firstname
-        #   lastname
-        #   role
-        # }
+        owner {
+          id
+          # username
+          # email
+          # ava
+          # color
+          # firstname
+          # lastname
+          # role
+        }
         date
         location
         # content
@@ -383,6 +383,31 @@ export const GET_IMAGES = gql`
         # description
       }
       quantity
+    }
+  }
+`
+
+export const GET_IMAGE = gql`
+  query GET_IMAGE($imageId: ID!) {
+    getImage(imageId: $imageId) {
+      id
+      owner {
+        id
+        username
+        email
+        ava
+        color
+        firstname
+        lastname
+        role
+      }
+      date
+      location
+      content
+      type
+      key
+      hashtags
+      description
     }
   }
 `

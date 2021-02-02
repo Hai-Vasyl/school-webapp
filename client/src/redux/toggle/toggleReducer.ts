@@ -27,6 +27,9 @@ interface IInitState {
     id: string
     content: string
     type: string
+    onCreate?(): any
+    onEdit?(): any
+    onRemove?(): any
   }
 }
 
@@ -45,6 +48,9 @@ const initState: IInitState = {
     id: "",
     content: "",
     type: "",
+    onCreate: () => {},
+    onEdit: () => {},
+    onRemove: () => {},
   },
 }
 
@@ -105,6 +111,9 @@ const toggleReducer = (
           id: action.payload.id,
           content: action.payload.content,
           type: action.payload.type,
+          onCreate: action.payload.onCreate,
+          onEdit: action.payload.onEdit,
+          onRemove: action.payload.onRemove,
         },
       }
     case MODIMAGE_CLOSE:
@@ -113,13 +122,22 @@ const toggleReducer = (
         modImage: {
           ...state.modImage,
           toggle: false,
+          onCreate: () => {},
+          onEdit: () => {},
+          onRemove: () => {},
         },
       }
     case RESET_TOGGLE:
       return {
         ...initState,
         warning: { ...state.warning, action: () => {}, toggle: false },
-        modImage: { ...state.modImage, toggle: false },
+        modImage: {
+          ...state.modImage,
+          toggle: false,
+          onCreate: () => {},
+          onEdit: () => {},
+          onRemove: () => {},
+        },
       }
     default:
       return state

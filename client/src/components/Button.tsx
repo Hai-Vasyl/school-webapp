@@ -5,7 +5,7 @@ import styles from "../styles/button.module"
 interface IButtonProps {
   click(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): any
   Icon: any
-  title: string
+  title?: string
   exClass?: string
   type?: any
 }
@@ -20,7 +20,7 @@ const Button: React.FC<IButtonProps> = ({
   return (
     <button className={`${styles.btn} ${exClass}`} onClick={click} type={type}>
       <Icon className={styles.btn__icon} />
-      <span className={styles.btn__title}>{title}</span>
+      {title && <span className={styles.btn__title}>{title}</span>}
     </button>
   )
 }

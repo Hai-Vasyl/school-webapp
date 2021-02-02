@@ -111,8 +111,8 @@ export default gql`
       group: String
     ): Auth
     getPages: [Page]!
-    # getImages(from: Int!, to: Int!, search: String, type: String): [UploadFile]!
     getImages(from: Int!, to: Int!, search: String, type: String): Images!
+    getImage(imageId: ID!): UploadFile!
     getPage(url: String!): Page
     userChats(userId: ID): [Chat]!
     chatMessages(chat: ID!): [Message]!
@@ -134,6 +134,12 @@ export default gql`
       upload: Upload
       content: ID
       type: String
+    ): Msg!
+    editUpload(
+      imageId: ID!
+      hashtags: String
+      description: String
+      upload: Upload
     ): Msg!
     createGroup(owner: ID!, name: String!): Group!
     editGroup(groupId: ID!, owner: ID!, name: String!): Group!

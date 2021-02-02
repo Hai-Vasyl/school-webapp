@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import Title from "../components/Title"
 import ButtonTab from "../components/ButtonTab"
-import { BsPlus, BsX } from "react-icons/bs"
+import { BsPencilSquare, BsPlus, BsX } from "react-icons/bs"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/uploadTypes"
@@ -18,10 +18,16 @@ import styles from "../styles/gallery.module"
 import { IImage } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
 import Pagination from "../components/Pagination"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
   const history = useHistory()
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
   const params = new URLSearchParams(location)
   const page = Number(params.get("page")) || 1
   const type = params.get("type") || "all"
@@ -44,7 +50,11 @@ const Gallery: React.FC = () => {
       msg: "",
     },
   ])
-  const { data: dataImages, loading: loadImages } = useQuery(GET_IMAGES, {
+  const {
+    data: dataImages,
+    loading: loadImages,
+    refetch: refetchImages,
+  } = useQuery(GET_IMAGES, {
     variables: {
       from: (page - 1) * amountItems,
       to: page * amountItems,
@@ -93,6 +103,42 @@ const Gallery: React.FC = () => {
     event.preventDefault()
     getRedirectLink(1, typeImage[0].value, searchStr.trim())
   }
+
+  const handlePopupEditImage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    imageId: string
+  ) => {
+    event.stopPropagation()
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: imageId,
+        content: null,
+        type: types.image.keyWord,
+        onEdit: () => {
+          refetchImages()
+        },
+        onRemove: () => {
+          refetchImages()
+        },
+      },
+    })
+  }
+
+  const handlePopupCreateImage = () => {
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: "",
+        content: null,
+        type: types.image.keyWord,
+        onCreate: () => {
+          refetchImages()
+        },
+      },
+    })
+  }
+
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     if (!value) {
@@ -107,7 +153,7 @@ const Gallery: React.FC = () => {
     dataImages.getImages.images.map((image: IImage) => {
       const imageParams: any = getParamsByType(image.type)
       return (
-        <button className={styles.image} key={image.id}>
+        <div className={styles.image} key={image.id}>
           <img
             className={styles.image__preview}
             src={image.location}
@@ -117,9 +163,17 @@ const Gallery: React.FC = () => {
           <span className={styles.image__icon}>
             <imageParams.Icon />
           </span>
-          {/* <button className={styles.image__icon}></button> */}
+          {(user.role === access.admin.keyWord ||
+            user.id === image.owner.id) && (
+            <button
+              onClick={(event) => handlePopupEditImage(event, image.id)}
+              className={`${styles.image__icon} ${styles.image__btn_edit}`}
+            >
+              <BsPencilSquare />
+            </button>
+          )}
           <span className={styles.image__date}>{convertDate(image.date)}</span>
-        </button>
+        </div>
       )
     })
 
@@ -133,12 +187,7 @@ const Gallery: React.FC = () => {
             <ButtonTab
               exClass={styles.btn_create_image}
               Icon={BsPlus}
-              click={() =>
-                dispatch({
-                  type: MODIMAGE_OPEN,
-                  payload: { id: "", content: null, type: types.image.keyWord },
-                })
-              }
+              click={handlePopupCreateImage}
             />
             <div className={stylesForm.form_filter__search}>
               <button

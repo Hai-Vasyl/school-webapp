@@ -13,6 +13,7 @@
   display: block;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   &:hover {
     .image__overlay {
       opacity: 1;
@@ -23,6 +24,11 @@
     }
     .image__date {
       padding: 25px 0;
+    }
+    .image__btn_edit {
+      opacity: 1;
+      right: 20px;
+      visibility: visible;
     }
   }
   &__preview {
@@ -63,6 +69,28 @@
     color: getColor(font-white);
     border-top: 1px solid getColor(bg-light);
     transition: getTransition(second);
+  }
+  &__btn_edit {
+    border: 1px solid getColor(main-dark);
+    right: 0px;
+    left: auto;
+    width: 30px;
+    height: 30px;
+    border-radius: getRadius(main);
+    transition: getTransition(main);
+    background-color: transparent;
+    opacity: 0;
+    visibility: hidden;
+    & > * {
+      font-size: 15px;
+    }
+    &:hover {
+      background-color: getColor(bg-light);
+      border-color: transparent;
+    }
+    &:active {
+      transform: scale(0.9);
+    }
   }
 }
 

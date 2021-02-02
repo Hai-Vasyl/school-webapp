@@ -359,3 +359,22 @@ export const CREATE_UPLOAD = gql`
     }
   }
 `
+
+export const EDIT_UPLOAD = gql`
+  mutation EDIT_UPLOAD(
+    $imageId: ID!
+    $hashtags: String
+    $description: String
+    $upload: Upload
+  ) {
+    editUpload(
+      imageId: $imageId
+      hashtags: $hashtags
+      description: $description
+      upload: $upload
+    ) {
+      message
+      type
+    }
+  }
+`

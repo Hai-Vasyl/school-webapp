@@ -90,6 +90,7 @@
   max-height: 450px;
   outline: 7px dashed getColor(main-dark);
   outline-offset: -20px;
+  position: relative;
   &__preview {
     @extend %image;
     position: relative;
@@ -230,6 +231,9 @@
     &__close {
       width: 0;
       opacity: 0;
+    }
+    &:active {
+      opacity: 0.5;
     }
     & > * {
       margin: auto;

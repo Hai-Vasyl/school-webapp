@@ -40,6 +40,9 @@ export interface ModImageOpen {
     id: string
     content: string
     type: string
+    onCreate?(): any
+    onEdit?(): any
+    onRemove?(): any
   }
 }
 export interface WarningClose {
