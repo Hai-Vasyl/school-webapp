@@ -148,3 +148,18 @@
     opacity: 0.5;
   }
 }
+
+.btn_tab_glass {
+  background-color: transparent;
+  border: 1px solid getColor(main-dark);
+  box-shadow: none;
+  color: getColor(font-white);
+  &:hover {
+    background-color: getColor(bg-light);
+    border-color: transparent;
+  }
+  &:active {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+}

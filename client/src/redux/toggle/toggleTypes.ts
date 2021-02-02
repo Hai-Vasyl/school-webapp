@@ -8,6 +8,9 @@ export const NOTIFICATIONS_TOGGLE = "NOTIFICATIONS_TOGGLE"
 export const RESET_TOGGLE = "RESET_TOGGLE"
 export const MODIMAGE_OPEN = "MODIMAGE_OPEN"
 export const MODIMAGE_CLOSE = "MODIMAGE_CLOSE"
+export const LIGHTBOX_OPEN = "LIGHTBOX_OPEN"
+export const LIGHTBOX_CLOSE = "LIGHTBOX_CLOSE"
+export const LIGHTBOX_MOVE = "LIGHTBOX_MOVE"
 
 export interface ToggleDropDown {
   type: typeof DROPDOWN_TOGGLE
@@ -20,6 +23,27 @@ export interface NotificationsToggle {
 }
 export interface ChatToggle {
   type: typeof CHAT_TOGGLE
+}
+export interface LightBoxOpen {
+  type: typeof LIGHTBOX_OPEN
+  payload: {
+    imageId: string
+    onMove(isRight: boolean): any
+    isLeft: boolean
+    isRight: boolean
+    handleEditImage(): any
+  }
+}
+export interface LightBoxClose {
+  type: typeof LIGHTBOX_CLOSE
+}
+export interface LightBoxMove {
+  type: typeof LIGHTBOX_MOVE
+  payload: {
+    imageId: string
+    isLeft: boolean
+    isRight: boolean
+  }
 }
 export interface ChatOpen {
   type: typeof CHAT_OPEN
@@ -63,3 +87,6 @@ export type ToggleReducerTypes =
   | WarningClose
   | ModImageOpen
   | ModImageClose
+  | LightBoxOpen
+  | LightBoxClose
+  | LightBoxMove

@@ -378,3 +378,12 @@ export const EDIT_UPLOAD = gql`
     }
   }
 `
+
+export const DELETE_UPLOAD = gql`
+  mutation DELETE_UPLOAD($imageId: ID!) {
+    deleteUpload(imageId: $imageId) {
+      message
+      type
+    }
+  }
+`

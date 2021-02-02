@@ -141,6 +141,7 @@ export default gql`
       description: String
       upload: Upload
     ): Msg!
+    deleteUpload(imageId: ID!): Msg!
     createGroup(owner: ID!, name: String!): Group!
     editGroup(groupId: ID!, owner: ID!, name: String!): Group!
     deleteGroup(groupId: ID!): Msg!

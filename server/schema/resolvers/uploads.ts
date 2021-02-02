@@ -129,4 +129,27 @@ export const Mutation = {
       throw new Error(`Updating image error: ${error.message}`)
     }
   },
+  async deleteUpload(
+    _: any,
+    { imageId }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: validation for each field and check in models
+
+      const upload: any = await Upload.findById(imageId)
+      await deleteFile(upload.key, uploadBucket || "")
+      await Upload.findByIdAndDelete(imageId)
+
+      return {
+        message: "Зображення успішно видалено!",
+        type: msgTypes.success.keyWord,
+      }
+    } catch (error) {
+      throw new Error(`Deleting image error: ${error.message}`)
+    }
+  },
 }

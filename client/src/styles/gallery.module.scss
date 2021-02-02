@@ -25,10 +25,13 @@
     .image__date {
       padding: 25px 0;
     }
-    .image__btn_edit {
+    .image__btn_overlay {
       opacity: 1;
       right: 20px;
       visibility: visible;
+      &:active {
+        opacity: 0.5;
+      }
     }
   }
   &__preview {
@@ -70,27 +73,14 @@
     border-top: 1px solid getColor(bg-light);
     transition: getTransition(second);
   }
-  &__btn_edit {
-    border: 1px solid getColor(main-dark);
+  &__btn_overlay {
+    position: absolute;
     right: 0px;
+    top: 20px;
+    z-index: 2;
     left: auto;
-    width: 30px;
-    height: 30px;
-    border-radius: getRadius(main);
-    transition: getTransition(main);
-    background-color: transparent;
     opacity: 0;
     visibility: hidden;
-    & > * {
-      font-size: 15px;
-    }
-    &:hover {
-      background-color: getColor(bg-light);
-      border-color: transparent;
-    }
-    &:active {
-      transform: scale(0.9);
-    }
   }
 }
 

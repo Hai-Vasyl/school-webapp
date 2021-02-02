@@ -69,6 +69,10 @@
     left: 20px;
     transform: translateY(-50%);
   }
+  &__btn_close {
+    left: auto;
+    right: 20px;
+  }
   &__counter {
     padding: 5px 25px;
     font-size: 0.8em;

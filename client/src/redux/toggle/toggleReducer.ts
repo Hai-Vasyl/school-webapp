@@ -10,6 +10,9 @@ import {
   NOTIFICATIONS_TOGGLE,
   CHAT_OPEN,
   CHAT_TOGGLE,
+  LIGHTBOX_OPEN,
+  LIGHTBOX_CLOSE,
+  LIGHTBOX_MOVE,
 } from "./toggleTypes"
 
 interface IInitState {
@@ -30,6 +33,14 @@ interface IInitState {
     onCreate?(): any
     onEdit?(): any
     onRemove?(): any
+  }
+  lightbox: {
+    toggle: boolean
+    imageId: string
+    onMove(isRight: boolean): any
+    isLeft: boolean
+    isRight: boolean
+    handleEditImage(): any
   }
 }
 
@@ -52,6 +63,14 @@ const initState: IInitState = {
     onEdit: () => {},
     onRemove: () => {},
   },
+  lightbox: {
+    toggle: false,
+    imageId: "",
+    onMove: () => {},
+    isLeft: false,
+    isRight: false,
+    handleEditImage: () => {},
+  },
 }
 
 const toggleReducer = (
@@ -73,6 +92,38 @@ const toggleReducer = (
       return {
         ...initState,
         notifications: !state.notifications,
+      }
+    case LIGHTBOX_OPEN:
+      return {
+        ...initState,
+        lightbox: {
+          ...state.lightbox,
+          toggle: true,
+          imageId: action.payload.imageId,
+          onMove: action.payload.onMove,
+          isLeft: action.payload.isLeft,
+          isRight: action.payload.isRight,
+          handleEditImage: action.payload.handleEditImage,
+        },
+      }
+    case LIGHTBOX_CLOSE:
+      return {
+        ...initState,
+        lightbox: {
+          ...state.lightbox,
+          toggle: false,
+          handleEditImage: () => {},
+        },
+      }
+    case LIGHTBOX_MOVE:
+      return {
+        ...initState,
+        lightbox: {
+          ...state.lightbox,
+          imageId: action.payload.imageId,
+          isLeft: action.payload.isLeft,
+          isRight: action.payload.isRight,
+        },
       }
     case CHAT_TOGGLE:
       return {
@@ -137,6 +188,11 @@ const toggleReducer = (
           onCreate: () => {},
           onEdit: () => {},
           onRemove: () => {},
+        },
+        lightbox: {
+          ...state.lightbox,
+          toggle: false,
+          handleEditImage: () => {},
         },
       }
     default:

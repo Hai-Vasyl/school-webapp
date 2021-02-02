@@ -1,0 +1,44 @@
+@import "base";
+
+.lightbox {
+  @extend %popup-fade-out;
+  width: 1160px;
+  max-width: 100%;
+  height: 90vh;
+  border: 1px solid black;
+  z-index: 10;
+  background-color: getColor(bg);
+  // backdrop-filter: blur(10px);
+  &__open {
+    @extend %popup-fade-in;
+  }
+  &__image {
+    @extend %image;
+    object-fit: contain;
+  }
+  &__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    @extend %flex-center;
+    justify-content: flex-end;
+    border-bottom: 1px solid getColor(bg-light);
+    background-color: getColor(bg);
+    padding: 0px 25px;
+  }
+  &__icon {
+    display: flex;
+    color: getColor(font-white);
+    margin-right: auto;
+    & > * {
+      margin: auto;
+      font-size: 20px;
+      // filter: drop-shadow(getShadow(main-dark));
+    }
+  }
+  &__btn_overlay {
+    margin-left: 10px;
+  }
+}

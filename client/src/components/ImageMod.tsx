@@ -3,7 +3,11 @@ import React, { useState, useEffect, useCallback } from "react"
 import styles from "../styles/form.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
-import { CREATE_UPLOAD, EDIT_UPLOAD } from "../fetching/mutations"
+import {
+  CREATE_UPLOAD,
+  EDIT_UPLOAD,
+  DELETE_UPLOAD,
+} from "../fetching/mutations"
 import { GET_IMAGE } from "../fetching/queries"
 import { useMutation, useQuery } from "@apollo/client"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
@@ -12,7 +16,14 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootStore } from "../redux/store"
 import LoaderData from "./LoaderData"
 import Button from "./Button"
-import { BsPencil, BsPlus, BsArrowClockwise, BsTrash } from "react-icons/bs"
+import {
+  BsPencil,
+  BsPlus,
+  BsArrowClockwise,
+  BsTrash,
+  BsX,
+  BsArrowLeft,
+} from "react-icons/bs"
 import FieldFile from "./FieldFile"
 import Field from "./Field"
 import useChangeInput from "../hooks/useChangeInput"
@@ -22,6 +33,7 @@ import DragAndDropFiles from "./DragAndDropFiles"
 import imageDropArea from "../images/undraw_Images_re_0kll.svg"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { types } from "../modules/messageTypes"
+import { MODIMAGE_OPEN, MODIMAGE_CLOSE } from "../redux/toggle/toggleTypes"
 
 const ImageMod: React.FC = () => {
   const {
@@ -44,6 +56,9 @@ const ImageMod: React.FC = () => {
   ] = useMutation(CREATE_UPLOAD)
   const [editUpload, { data: dataEdit, loading: loadEdit }] = useMutation(
     EDIT_UPLOAD
+  )
+  const [deleteUpload, { data: dataDelete, loading: loadDelete }] = useMutation(
+    DELETE_UPLOAD
   )
   const {
     data: dataImage,
@@ -162,7 +177,15 @@ const ImageMod: React.FC = () => {
     }
   }, [dispatch, dataEdit, refetchImage])
 
-  console.log({ dataImage, onCreate, onEdit })
+  useEffect(() => {
+    const dataDeleteUpload = dataDelete && dataDelete.deleteUpload
+    if (dataDeleteUpload) {
+      onRemove && onRemove()
+      dispatch({ type: SET_TOAST, payload: dataDeleteUpload })
+      dispatch({ type: MODIMAGE_CLOSE })
+    }
+  }, [dispatch, dataDelete])
+
   const handleSubmitForm = (
     event:
       | React.FormEvent<HTMLFormElement>
@@ -226,7 +249,19 @@ const ImageMod: React.FC = () => {
   }
 
   const handleDeleteImage = () => {
-    console.log("DELETE IMAGE!")
+    deleteUpload({ variables: { imageId } })
+  }
+
+  const handleGoToCreateImage = () => {
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: "",
+        content,
+        type,
+        onCreate,
+      },
+    })
   }
 
   const fields = form.map((field) => {
@@ -259,22 +294,29 @@ const ImageMod: React.FC = () => {
     >
       <div className={styles.form__content}>
         <div className={styles.form__title}>
-          {/* {groupId && (
-                <ButtonTab
-                  Icon={BsArrowLeft}
-                  click={handleGoBack}
-                  exClass={styles.form__btn_back}
-                />
-              )} */}
+          {imageId && (
+            <ButtonTab
+              Icon={BsArrowLeft}
+              click={handleGoToCreateImage}
+              exClass={styles.form__btn_back}
+            />
+          )}
           <div className={styles.form__title_text}>
             {imageId ? "Редагування зображення" : "Створення зображення"}
           </div>
+          <ButtonTab
+            exClass={`${styles.form__btn_back} ${styles.form__btn_close}`}
+            Icon={BsX}
+            click={() => dispatch({ type: MODIMAGE_CLOSE })}
+          />
         </div>
         <form
           className={styles.form__container_fields}
           onSubmit={handleSubmitForm}
         >
-          <LoaderData load={loadImage || loadCreate || loadEdit} />
+          <LoaderData
+            load={loadImage || loadCreate || loadEdit || loadDelete}
+          />
           <div className={styles.form__fields}>{fields}</div>
           <button className='btn-handler'></button>
           <div className={styles.form__btns}>

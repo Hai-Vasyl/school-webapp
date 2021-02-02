@@ -14,6 +14,8 @@ import { BsSearch } from "react-icons/bs"
 // @ts-ignore
 import stylesForm from "../styles/form.module"
 // @ts-ignore
+import stylesBtn from "../styles/button.module"
+// @ts-ignore
 import styles from "../styles/gallery.module"
 import { IImage } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
@@ -21,12 +23,16 @@ import Pagination from "../components/Pagination"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
+import { LIGHTBOX_OPEN, LIGHTBOX_MOVE } from "../redux/toggle/toggleTypes"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
   const history = useHistory()
   const {
     auth: { user },
+    toggle: {
+      lightbox: { imageId: imageIdToggle, isLeft, isRight },
+    },
   } = useSelector((state: RootStore) => state)
   const params = new URLSearchParams(location)
   const page = Number(params.get("page")) || 1
@@ -39,7 +45,7 @@ const Gallery: React.FC = () => {
     searchWords[i] = searchWords[i].replace("hash_", "#")
   }
   search = searchWords.join(" ")
-  console.log({ search })
+
   const [searchStr, setSearchStr] = useState(search)
   const [typeImage, setTypeImage] = useState([
     {
@@ -105,10 +111,10 @@ const Gallery: React.FC = () => {
   }
 
   const handlePopupEditImage = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    imageId: string
+    imageId: string,
+    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.stopPropagation()
+    event && event.stopPropagation()
     dispatch({
       type: MODIMAGE_OPEN,
       payload: {
@@ -119,6 +125,9 @@ const Gallery: React.FC = () => {
           refetchImages()
         },
         onRemove: () => {
+          refetchImages()
+        },
+        onCreate: () => {
           refetchImages()
         },
       },
@@ -148,12 +157,191 @@ const Gallery: React.FC = () => {
     }
   }
 
+  // const handleMoveBackForward = (isRightArrow: boolean, imageId: string) => {
+  //   const images = dataImages && dataImages.getImages.images
+  //   const imageParams = images.find((item: IImage) => item.id === imageId)
+  //   const indexImage = images.indexOf(imageParams)
+  //   let isLeft = false
+  //   let isRight = false
+  //   if(!!images[indexImage+1]){
+  //     isLeft = true
+  //   }
+  //   if(!!images[indexImage-1]){
+  //     isRight = true
+  //   }
+  // }
+
+  // const onMove = (isRightArrow: boolean) => {
+  //   const images = dataImages && dataImages.getImages.images
+  //   const imageParams = images.find((item: IImage) => item.id === imageIdToggle)
+  //   const indexImage = images.indexOf(imageParams)
+  //   let isLeft = false
+  //   let isRight = false
+  //   const imageRight = images[indexImage+1] && images[indexImage+1].id
+  //   const imageLeft = images[indexImage-1] && images[indexImage-1].id
+  //   if(!!imageRight){
+  //     isRight = true
+  //   }
+  //   if(!!imageLeft){
+  //     isLeft = true
+  //   }
+
+  //   dispatch({type: LIGHTBOX_MOVE, payload: {
+  //     imageId: isRightArrow ? imageRight : imageLeft,
+  //     isLeft,
+  //     isRight,
+  //   }})
+  // }
+
+  // const checkReletedDirection = (imageId: string) => {
+  //   const images = dataImages && dataImages.getImages.images
+  //   const quantity = dataImages && dataImages.getImages.quantity
+  //   const imageParams = images.find((item: IImage) => item.id === imageId)
+  //   const indexImage = images.indexOf(imageParams)
+  //   const itemsPassed = (page - 1) * amountItems
+  //   const relatedIndex = itemsPassed + indexImage
+
+  //   let isLeft = false
+  //   let isRight = false
+  //   if (relatedIndex + 1 < quantity) {
+  //     isRight = true
+  //   }
+  //   if (relatedIndex + 1 > quantity) {
+  //     isLeft = true
+  //   }
+  //   return { isLeft, isRight }
+  // }
+
+  // useEffect(() => {
+  //   const images = dataImages && dataImages.getImages.images
+  //   if(imageIdToggle && images){
+  //     let newImageId
+  //     let newIsRight = isRight
+  //     let newIsLeft = isLeft
+  //     if(!isRight){
+  //       newImageId = images[0].id
+  //       const {isRight} = checkReletedDirection(newImageId)
+  //       newIsRight = isRight
+  //     }else{
+  //       newImageId = images[images.length-1].id
+  //       const {isLeft} = checkReletedDirection(newImageId)
+  //       newIsLeft = isLeft
+  //     }
+
+  //     dispatch({type: LIGHTBOX_MOVE, payload: {
+  //       imageId: newImageId,
+  //       isLeft: newIsLeft,
+  //       isRight: newIsRight,
+  //     }})
+  //   }
+  // }, [dispatch, dataImages, imageIdToggle, isLeft, isRight, checkReletedDirection])
+
+  // const onMove = (isRightArrow: boolean) => {
+  //   const images = dataImages && dataImages.getImages.images
+  //   const imageParams = images.find((item: IImage) => item.id === imageIdToggle)
+  //   const indexImage = images.indexOf(imageParams)
+
+  //   if(isRightArrow){
+  //     if(indexImage+1 === amountItems){
+  //       getRedirectLink(page+1)
+  //     }
+  //   }else{
+  //     if(indexImage+1 === 1){
+  //     getRedirectLink(page-1)
+  //     }
+  //   }
+
+  //   if(indexImage === amountItems){
+  //     getRedirectLink(isRightArrow ? page+1: page-1)
+  //   }else
+
+  //   let isLeft = false
+  //   let isRight = false
+  //   const imageRight = images[indexImage+1] && images[indexImage+1].id
+  //   const imageLeft = images[indexImage-1] && images[indexImage-1].id
+  //   if(!!imageRight){
+  //     isRight = true
+  //   }
+  //   if(!!imageLeft){
+  //     isLeft = true
+  //   }
+
+  //   dispatch({type: LIGHTBOX_MOVE, payload: {
+  //     imageId: isRightArrow ? imageRight : imageLeft,
+  //     isLeft,
+  //     isRight,
+  //   }})
+  // }
+
+  const getIndexImage = (imageId: string) => {
+    const images = dataImages && dataImages.getImages.images
+
+    let index
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].id === imageId) {
+        index = i
+        break
+      }
+    }
+
+    return { index, images }
+  }
+
+  const checkMoveAccess = (indexImage: number) => {
+    let isLeft = false
+    let isRight = false
+    if (indexImage + 1 < amountItems) {
+      isRight = true
+    }
+    if (indexImage + 1 > 1) {
+      isLeft = true
+    }
+    return { isLeft, isRight }
+  }
+
+  const onMove = (isRightArrow: boolean) => {
+    const { index = 0, images } = getIndexImage(imageIdToggle)
+
+    const newIndexImage = isRightArrow ? index + 1 : index - 1
+    const nextImageId = images[newIndexImage].id
+    const { isLeft, isRight } = checkMoveAccess(newIndexImage)
+
+    dispatch({
+      type: LIGHTBOX_MOVE,
+      payload: {
+        imageId: nextImageId,
+        isLeft,
+        isRight,
+      },
+    })
+  }
+
+  const handlePopupLightBox = (imageId: string) => {
+    const { index = 0 } = getIndexImage(imageId)
+    const { isLeft, isRight } = checkMoveAccess(index)
+
+    dispatch({
+      type: LIGHTBOX_OPEN,
+      payload: {
+        imageId,
+        onMove,
+        isLeft,
+        isRight,
+        handleEditImage: () => handlePopupEditImage(imageId),
+      },
+    })
+  }
+
   const imagesJSX =
     dataImages &&
     dataImages.getImages.images.map((image: IImage) => {
       const imageParams: any = getParamsByType(image.type)
       return (
-        <div className={styles.image} key={image.id}>
+        <div
+          className={styles.image}
+          key={image.id}
+          onClick={() => handlePopupLightBox(image.id)}
+        >
           <img
             className={styles.image__preview}
             src={image.location}
@@ -165,12 +353,11 @@ const Gallery: React.FC = () => {
           </span>
           {(user.role === access.admin.keyWord ||
             user.id === image.owner.id) && (
-            <button
-              onClick={(event) => handlePopupEditImage(event, image.id)}
-              className={`${styles.image__icon} ${styles.image__btn_edit}`}
-            >
-              <BsPencilSquare />
-            </button>
+            <ButtonTab
+              exClass={`${stylesBtn.btn_tab_glass} ${styles.image__btn_overlay}`}
+              Icon={BsPencilSquare}
+              click={(event) => handlePopupEditImage(image.id, event)}
+            />
           )}
           <span className={styles.image__date}>{convertDate(image.date)}</span>
         </div>

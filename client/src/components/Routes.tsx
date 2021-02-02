@@ -12,6 +12,7 @@ import Warning from "./Warning"
 import Chat from "./Chat"
 import ImageMod from "./ImageMod"
 import Notifications from "./Notifications"
+import ImageLightBox from "./ImageLightBox"
 
 const Routes = () => {
   const {
@@ -23,6 +24,7 @@ const Routes = () => {
       chat,
       warning: { toggle: warnToggle },
       modImage: { toggle: modImageToggle },
+      lightbox: { toggle: lightboxToggle },
     },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
@@ -70,6 +72,7 @@ const Routes = () => {
       {/* <Chat /> */}
       <ImageMod />
       <Notifications />
+      <ImageLightBox />
       <div
         className={`background ${
           (dropDown ||
@@ -77,7 +80,8 @@ const Routes = () => {
             notifications ||
             chat ||
             warnToggle ||
-            modImageToggle) &&
+            modImageToggle ||
+            lightboxToggle) &&
           "background--active"
         }`}
         onClick={() => dispatch({ type: RESET_TOGGLE })}
