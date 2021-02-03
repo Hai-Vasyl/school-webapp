@@ -83,7 +83,7 @@ const Routes = () => {
             modImageToggle ||
             lightboxToggle) &&
           "background--active"
-        }`}
+        } ${lightboxToggle && "background--over"}`}
         onClick={() => dispatch({ type: RESET_TOGGLE })}
       ></div>
       <Switch>

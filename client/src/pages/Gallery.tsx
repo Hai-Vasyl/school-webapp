@@ -23,7 +23,9 @@ import Pagination from "../components/Pagination"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
-import { LIGHTBOX_OPEN, LIGHTBOX_MOVE } from "../redux/toggle/toggleTypes"
+import { LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
+import Loader from "../components/Loader"
+import useLightBox from "../hooks/useLightBox"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
@@ -45,7 +47,7 @@ const Gallery: React.FC = () => {
     searchWords[i] = searchWords[i].replace("hash_", "#")
   }
   search = searchWords.join(" ")
-
+  const { getLightBox } = useLightBox()
   const [searchStr, setSearchStr] = useState(search)
   const [typeImage, setTypeImage] = useState([
     {
@@ -69,6 +71,10 @@ const Gallery: React.FC = () => {
     },
   })
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    setSearchStr(search)
+  }, [search])
 
   // useEffect(() => {
   //   anchor.current && anchor.current.scrollIntoView({ behavior: "smooth" })
@@ -157,52 +163,11 @@ const Gallery: React.FC = () => {
     }
   }
 
-  const getIndexImage = (imageId: string) => {
-    const images = dataImages && dataImages.getImages.images
-    let index
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].id === imageId) {
-        index = i
-        break
-      }
-    }
-
-    return { index, images }
-  }
-
-  const checkMoveAccess = (indexImage: number) => {
-    const quantity = dataImages && dataImages.getImages.images.length
-    let isLeft = false
-    let isRight = false
-    if (indexImage + 1 < quantity) {
-      isRight = true
-    }
-    if (indexImage + 1 > 1) {
-      isLeft = true
-    }
-    return { isLeft, isRight }
-  }
-
-  const onMove = (isRightArrow: boolean, imageId: string) => {
-    const { index = 0, images } = getIndexImage(imageId)
-    const newIndexImage = isRightArrow ? index + 1 : index - 1
-    const nextImageId = images[newIndexImage].id
-    const { isLeft, isRight } = checkMoveAccess(newIndexImage)
-
-    dispatch({
-      type: LIGHTBOX_MOVE,
-      payload: {
-        imageId: nextImageId,
-        isLeft,
-        isRight,
-      },
-    })
-  }
-
   const handlePopupLightBox = (imageId: string) => {
-    const { index = 0 } = getIndexImage(imageId)
-    const { isLeft, isRight } = checkMoveAccess(index)
-
+    const { getIndexImage, checkMoveAccess, onMove } = getLightBox(
+      dataImages && dataImages.getImages.images
+    )
+    const { isLeft, isRight } = checkMoveAccess(getIndexImage(imageId))
     dispatch({
       type: LIGHTBOX_OPEN,
       payload: {
@@ -323,7 +288,11 @@ const Gallery: React.FC = () => {
             isTop
           />
         </div>
-        <div className={styles.images}>{imagesJSX}</div>
+        <div
+          className={`${styles.images} ${loadImages && styles.images__load}`}
+        >
+          {loadImages ? <Loader /> : imagesJSX}
+        </div>
         <div>
           <Pagination
             getRedirectLink={getRedirectLink}

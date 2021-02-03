@@ -137,12 +137,12 @@ $gradients: (
   position: fixed;
   top: 50%;
   left: 50%;
-  box-shadow: getShadow(main);
+  // box-shadow: getShadow(main);
   transition: getTransition(main);
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, -50%) scale(0.9);
-  z-index: 8;
+  z-index: 11;
 }
 %popup-fade-in {
   opacity: 1;

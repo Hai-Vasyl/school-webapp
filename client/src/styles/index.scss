@@ -36,18 +36,22 @@ button {
 }
 
 .background {
-  top: 89.4px;
+  top: 0px;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: getColor(bg-light);
   position: fixed;
   opacity: 0;
   visibility: hidden;
   transition: getTransition(main);
+  z-index: 10;
+  background-color: getColor(bg);
   &--active {
     opacity: 1;
     visibility: visible;
+  }
+  &--over {
+    z-index: 15;
   }
 }
 

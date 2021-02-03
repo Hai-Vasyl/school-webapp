@@ -84,6 +84,7 @@
   @extend %popup-fade-out;
   width: 900px;
   max-width: 100%;
+  box-shadow: none;
   &__active {
     @extend %popup-fade-in;
   }
