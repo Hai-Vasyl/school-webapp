@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 // @ts-ignore
@@ -10,14 +10,24 @@ import { useQuery } from "@apollo/client"
 import Loader from "./Loader"
 import { getParamsByType } from "../modules/uploadTypes"
 import { access } from "../modules/accessModifiers"
-import { BsPencilSquare, BsX } from "react-icons/bs"
+import {
+  BsPencilSquare,
+  BsX,
+  BsChevronLeft,
+  BsChevronRight,
+  BsCheck,
+} from "react-icons/bs"
 import { MODIMAGE_OPEN, LIGHTBOX_CLOSE } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/uploadTypes"
 import ButtonTab from "./ButtonTab"
+import { convertDate } from "../helpers/convertDate"
+import UserCard from "./UserCard"
+import { Link } from "react-router-dom"
 
 const ImageLightBox: React.FC = () => {
   const dispatch = useDispatch()
+  const link = useRef<HTMLDivElement>(null)
   const {
     auth: { user },
     toggle: {
@@ -27,10 +37,39 @@ const ImageLightBox: React.FC = () => {
   const { data: dataImage, loading: loadImage } = useQuery(GET_IMAGE, {
     variables: { imageId },
   })
-
+  let image = {
+    id: "",
+    owner: {
+      id: "",
+      username: "",
+      email: "",
+      ava: "",
+      color: "",
+      firstname: "",
+      lastname: "",
+      role: "",
+    },
+    date: "",
+    location: "",
+    content: "",
+    type: "",
+    key: "",
+    hashtags: "",
+    description: "",
+  }
   console.log({ dataImage })
-  const image = dataImage && dataImage.getImage
-  const imageParams: any = getParamsByType(image && image.type)
+  const hashtags =
+    dataImage &&
+    dataImage.getImage.hashtags.split(" ").map((tag: string, index: number) => {
+      return (
+        <button className={styles.btn_hashtag} key={tag + index}>
+          <span className={styles.btn_hashtag__text}>{tag}</span>
+        </button>
+      )
+    })
+
+  image = dataImage ? dataImage.getImage : image
+  const imageParams: any = getParamsByType(image.type)
   return (
     <div className={`${styles.lightbox} ${toggle && styles.lightbox__open}`}>
       {loadImage ? (
@@ -39,28 +78,93 @@ const ImageLightBox: React.FC = () => {
         <>
           <img
             className={styles.lightbox__image}
-            src={image && image.location}
+            src={image.location}
             alt='image'
           />
-          <div className={styles.lightbox__header}>
-            <span className={styles.lightbox__icon}>
-              {imageParams && <imageParams.Icon />}
-            </span>
-            {(user.role === access.admin.keyWord ||
-              (user.id === image && image.owner.id)) && (
+          <div className={styles.lightbox__header_area}>
+            <div className={styles.lightbox__header}>
+              <span className={styles.lightbox__icon}>
+                {imageParams && <imageParams.Icon />}
+              </span>
+              <span className={styles.lightbox__date}>
+                {convertDate(image.date)}
+              </span>
+              {(user.role === access.admin.keyWord ||
+                user.id === image.owner.id) && (
+                <ButtonTab
+                  exClass={`${stylesBtn.btn_tab_glass} ${styles.lightbox__btn_overlay}`}
+                  Icon={BsPencilSquare}
+                  click={handleEditImage}
+                />
+              )}
               <ButtonTab
                 exClass={`${stylesBtn.btn_tab_glass} ${styles.lightbox__btn_overlay}`}
-                Icon={BsPencilSquare}
-                click={handleEditImage}
+                Icon={BsX}
+                click={() => dispatch({ type: LIGHTBOX_CLOSE })}
               />
-            )}
-            <ButtonTab
-              exClass={`${stylesBtn.btn_tab_glass} ${styles.lightbox__btn_overlay}`}
-              Icon={BsX}
-              click={() => dispatch({ type: LIGHTBOX_CLOSE })}
-            />
+            </div>
           </div>
-          <div></div>
+          <div className={styles.lightbox__body_area}>
+            <div className={styles.lightbox__body}>
+              <button
+                className={`${styles.lightbox__btn_arrow} ${
+                  !isLeft && styles.lightbox__btn_arrow__disabled
+                }`}
+                onClick={() => (isLeft ? onMove(false, imageId) : {})}
+              >
+                <BsChevronLeft />
+              </button>
+            </div>
+          </div>
+          <div
+            className={`${styles.lightbox__body_area} ${styles.lightbox__body_area__right}`}
+          >
+            <div
+              className={`${styles.lightbox__body} ${styles.lightbox__body__right}`}
+            >
+              <button
+                className={`${styles.lightbox__btn_arrow} ${
+                  !isRight && styles.lightbox__btn_arrow__disabled
+                }`}
+                onClick={() => (isRight ? onMove(true, imageId) : {})}
+              >
+                <BsChevronRight />
+              </button>
+            </div>
+          </div>
+          <div className={styles.lightbox__footer}>
+            <div className={styles.lightbox__description}>
+              {image.description}
+            </div>
+            <div className={styles.lightbox__details}>
+              <div className={styles.lightbox__owner}>
+                <span className={styles.lightbox__owner_title}>Власник</span>
+                {image.owner.role && (
+                  <UserCard
+                    isEnvChat={false}
+                    isLink={true}
+                    user={image.owner}
+                    minimize
+                    exClass={styles.lightbox__usercard}
+                  />
+                )}
+              </div>
+              <div className={styles.lightbox__adition}>
+                <div className={styles.lightbox__content_link}>
+                  <span className={styles.lightbox__link_title}>
+                    {imageParams && imageParams.labelSingle}:
+                  </span>
+                  <Link
+                    to={(imageParams && imageParams.getLink(image.id)) || ""}
+                    className={styles.lightbox__link}
+                  >
+                    ...{imageParams && imageParams.getLink(image.id)}
+                  </Link>
+                </div>
+                <div className={styles.lightbox__hashtags}>{hashtags}</div>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>

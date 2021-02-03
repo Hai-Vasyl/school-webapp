@@ -18,6 +18,9 @@
     .card__icon {
       display: none;
     }
+    .card__title {
+      color: getColor(font-white);
+    }
     .card__subtitle {
       display: none;
     }

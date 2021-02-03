@@ -28,7 +28,7 @@ export interface LightBoxOpen {
   type: typeof LIGHTBOX_OPEN
   payload: {
     imageId: string
-    onMove(isRight: boolean): any
+    onMove(isRight: boolean, imageId: string): any
     isLeft: boolean
     isRight: boolean
     handleEditImage(): any

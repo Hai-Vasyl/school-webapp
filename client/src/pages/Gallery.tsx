@@ -157,125 +157,8 @@ const Gallery: React.FC = () => {
     }
   }
 
-  // const handleMoveBackForward = (isRightArrow: boolean, imageId: string) => {
-  //   const images = dataImages && dataImages.getImages.images
-  //   const imageParams = images.find((item: IImage) => item.id === imageId)
-  //   const indexImage = images.indexOf(imageParams)
-  //   let isLeft = false
-  //   let isRight = false
-  //   if(!!images[indexImage+1]){
-  //     isLeft = true
-  //   }
-  //   if(!!images[indexImage-1]){
-  //     isRight = true
-  //   }
-  // }
-
-  // const onMove = (isRightArrow: boolean) => {
-  //   const images = dataImages && dataImages.getImages.images
-  //   const imageParams = images.find((item: IImage) => item.id === imageIdToggle)
-  //   const indexImage = images.indexOf(imageParams)
-  //   let isLeft = false
-  //   let isRight = false
-  //   const imageRight = images[indexImage+1] && images[indexImage+1].id
-  //   const imageLeft = images[indexImage-1] && images[indexImage-1].id
-  //   if(!!imageRight){
-  //     isRight = true
-  //   }
-  //   if(!!imageLeft){
-  //     isLeft = true
-  //   }
-
-  //   dispatch({type: LIGHTBOX_MOVE, payload: {
-  //     imageId: isRightArrow ? imageRight : imageLeft,
-  //     isLeft,
-  //     isRight,
-  //   }})
-  // }
-
-  // const checkReletedDirection = (imageId: string) => {
-  //   const images = dataImages && dataImages.getImages.images
-  //   const quantity = dataImages && dataImages.getImages.quantity
-  //   const imageParams = images.find((item: IImage) => item.id === imageId)
-  //   const indexImage = images.indexOf(imageParams)
-  //   const itemsPassed = (page - 1) * amountItems
-  //   const relatedIndex = itemsPassed + indexImage
-
-  //   let isLeft = false
-  //   let isRight = false
-  //   if (relatedIndex + 1 < quantity) {
-  //     isRight = true
-  //   }
-  //   if (relatedIndex + 1 > quantity) {
-  //     isLeft = true
-  //   }
-  //   return { isLeft, isRight }
-  // }
-
-  // useEffect(() => {
-  //   const images = dataImages && dataImages.getImages.images
-  //   if(imageIdToggle && images){
-  //     let newImageId
-  //     let newIsRight = isRight
-  //     let newIsLeft = isLeft
-  //     if(!isRight){
-  //       newImageId = images[0].id
-  //       const {isRight} = checkReletedDirection(newImageId)
-  //       newIsRight = isRight
-  //     }else{
-  //       newImageId = images[images.length-1].id
-  //       const {isLeft} = checkReletedDirection(newImageId)
-  //       newIsLeft = isLeft
-  //     }
-
-  //     dispatch({type: LIGHTBOX_MOVE, payload: {
-  //       imageId: newImageId,
-  //       isLeft: newIsLeft,
-  //       isRight: newIsRight,
-  //     }})
-  //   }
-  // }, [dispatch, dataImages, imageIdToggle, isLeft, isRight, checkReletedDirection])
-
-  // const onMove = (isRightArrow: boolean) => {
-  //   const images = dataImages && dataImages.getImages.images
-  //   const imageParams = images.find((item: IImage) => item.id === imageIdToggle)
-  //   const indexImage = images.indexOf(imageParams)
-
-  //   if(isRightArrow){
-  //     if(indexImage+1 === amountItems){
-  //       getRedirectLink(page+1)
-  //     }
-  //   }else{
-  //     if(indexImage+1 === 1){
-  //     getRedirectLink(page-1)
-  //     }
-  //   }
-
-  //   if(indexImage === amountItems){
-  //     getRedirectLink(isRightArrow ? page+1: page-1)
-  //   }else
-
-  //   let isLeft = false
-  //   let isRight = false
-  //   const imageRight = images[indexImage+1] && images[indexImage+1].id
-  //   const imageLeft = images[indexImage-1] && images[indexImage-1].id
-  //   if(!!imageRight){
-  //     isRight = true
-  //   }
-  //   if(!!imageLeft){
-  //     isLeft = true
-  //   }
-
-  //   dispatch({type: LIGHTBOX_MOVE, payload: {
-  //     imageId: isRightArrow ? imageRight : imageLeft,
-  //     isLeft,
-  //     isRight,
-  //   }})
-  // }
-
   const getIndexImage = (imageId: string) => {
     const images = dataImages && dataImages.getImages.images
-
     let index
     for (let i = 0; i < images.length; i++) {
       if (images[i].id === imageId) {
@@ -288,9 +171,10 @@ const Gallery: React.FC = () => {
   }
 
   const checkMoveAccess = (indexImage: number) => {
+    const quantity = dataImages && dataImages.getImages.images.length
     let isLeft = false
     let isRight = false
-    if (indexImage + 1 < amountItems) {
+    if (indexImage + 1 < quantity) {
       isRight = true
     }
     if (indexImage + 1 > 1) {
@@ -299,9 +183,8 @@ const Gallery: React.FC = () => {
     return { isLeft, isRight }
   }
 
-  const onMove = (isRightArrow: boolean) => {
-    const { index = 0, images } = getIndexImage(imageIdToggle)
-
+  const onMove = (isRightArrow: boolean, imageId: string) => {
+    const { index = 0, images } = getIndexImage(imageId)
     const newIndexImage = isRightArrow ? index + 1 : index - 1
     const nextImageId = images[newIndexImage].id
     const { isLeft, isRight } = checkMoveAccess(newIndexImage)

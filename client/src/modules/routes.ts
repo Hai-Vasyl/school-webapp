@@ -16,6 +16,10 @@ import Schedule from "../pages/Schedule"
 import RegisterUser from "../pages/RegisterUser"
 import ModGroup from "../pages/ModGroup"
 import Groups from "../pages/Groups"
+import NewsDetails from "../pages/NewsDetails"
+import Events from "../pages/Events"
+import Event from "../pages/Event"
+import ImageDetails from "../pages/ImageDetails"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
@@ -123,14 +127,18 @@ const mainRoutes = [
   { path: "/team", Component: Team },
   { path: "/graduates", Component: Graduates },
   { path: "/achievement", Component: Achievement },
-  { path: "/news", Component: News },
+  { path: "/news", exact: true, Component: News },
+  { path: "/events", exact: true, Component: Events },
   { path: "/library", Component: Library },
-  { path: "/gallery", Component: Gallery },
+  { path: "/gallery", exact: true, Component: Gallery },
   { path: "/projects", Component: Projects },
   { path: "/management", Component: Management },
   { path: "/contacts", Component: Contacts },
   { path: "/schedule", Component: Schedule },
   { path: "/profile/:userId", exact: true, Component: Profile },
+  { path: "/news/:newsId", Component: NewsDetails },
+  { path: "/events/:eventId", Component: Event },
+  { path: "/gallery/:imageId", exact: true, Component: ImageDetails },
 ]
 
 export const routes = {

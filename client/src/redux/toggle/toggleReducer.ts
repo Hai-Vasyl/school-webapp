@@ -37,7 +37,7 @@ interface IInitState {
   lightbox: {
     toggle: boolean
     imageId: string
-    onMove(isRight: boolean): any
+    onMove(isRight: boolean, imageId: string): any
     isLeft: boolean
     isRight: boolean
     handleEditImage(): any

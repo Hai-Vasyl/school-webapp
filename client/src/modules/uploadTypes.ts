@@ -4,17 +4,29 @@ export const types = {
   image: {
     keyWord: "image",
     label: "Зображення",
+    labelSingle: "Зображення",
     Icon: BsImage,
+    getLink(itemId: string) {
+      return `/gallery/${itemId}`
+    },
   },
   news: {
     keyWord: "news",
     label: "Новини",
+    labelSingle: "Новина",
     Icon: BsNewspaper,
+    getLink(itemId: string) {
+      return `/news/${itemId}`
+    },
   },
   event: {
     keyWord: "event",
     label: "Події",
+    labelSingle: "Подія",
     Icon: BsCalendar,
+    getLink(itemId: string) {
+      return `/events/${itemId}`
+    },
   },
   all: {
     keyWord: "all",

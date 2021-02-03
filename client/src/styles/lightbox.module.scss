@@ -5,16 +5,30 @@
   width: 1160px;
   max-width: 100%;
   height: 90vh;
-  border: 1px solid black;
   z-index: 10;
   background-color: getColor(bg);
   // backdrop-filter: blur(10px);
+  overflow: hidden;
   &__open {
     @extend %popup-fade-in;
   }
   &__image {
     @extend %image;
     object-fit: contain;
+  }
+  &__header_area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 150px;
+    height: 35%;
+    &:hover {
+      .lightbox__header {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+    }
   }
   &__header {
     position: absolute;
@@ -24,9 +38,13 @@
     height: 100px;
     @extend %flex-center;
     justify-content: flex-end;
-    border-bottom: 1px solid getColor(bg-light);
+    // border-bottom: 1px solid getColor(bg-light);
     background-color: getColor(bg);
     padding: 0px 25px;
+    z-index: 2;
+    transform: translateY(-50%);
+    transition: getTransition(main);
+    opacity: 0;
   }
   &__icon {
     display: flex;
@@ -35,10 +53,166 @@
     & > * {
       margin: auto;
       font-size: 20px;
-      // filter: drop-shadow(getShadow(main-dark));
     }
   }
   &__btn_overlay {
     margin-left: 10px;
+  }
+  &__body_area {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    min-width: 150px;
+    width: 35%;
+    &__right {
+      right: 0;
+      left: auto;
+    }
+    &:hover {
+      .lightbox__body {
+        transform: translateX(0%);
+        opacity: 1;
+      }
+    }
+  }
+  &__body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    background-color: getColor(bg);
+    transition: getTransition(main);
+    transform: translateX(-50%);
+    opacity: 0;
+    &__right {
+      right: 0;
+      left: auto;
+      transform: translateX(50%);
+    }
+  }
+  &__btn_arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    border: 1px solid getColor(main-dark);
+    background-color: transparent;
+    @extend %center-position;
+    color: getColor(font-white);
+    transition: getTransition(main);
+    & > * {
+      margin: auto;
+    }
+    &__disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    &:hover {
+      background-color: getColor(bg-light);
+      border-color: transparent;
+    }
+    &:active {
+      transform: translate(-50%, -50%) scale(0.9);
+      opacity: 0.5;
+    }
+    &__disabled:hover {
+      background-color: transparent;
+      border-color: getColor(main-dark);
+    }
+  }
+  &__date {
+    @extend %center-position;
+    color: getColor(font-white);
+  }
+  &__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 100px;
+    background-color: getColor(bg);
+    color: getColor(font-white);
+    transform: translateY(98px);
+    transition: getTransition(main);
+    &:hover {
+      transform: translateY(0px);
+    }
+  }
+  &__description {
+    padding: 10px 25px;
+    font-size: 1.2em;
+    border-bottom: 1px solid getColor(bg-light);
+  }
+  &__details {
+    display: flex;
+  }
+  &__owner {
+    width: 50%;
+    padding: 10px 25px;
+  }
+  &__owner_title {
+    font-size: 0.8em;
+    display: inline-block;
+  }
+  &__usercard {
+    background-color: transparent;
+    border: 1px solid getColor(bg-light);
+  }
+  &__adition {
+    padding: 10px 25px;
+    width: 50%;
+    border-left: 1px solid getColor(bg-light);
+  }
+  &__content_link {
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    height: 18px;
+  }
+  &__link_title {
+    margin-right: 7px;
+  }
+  &__link {
+    color: getColor(accent);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-top: 10px;
+    height: 50px;
+    overflow-y: auto;
+    @extend %scrollbar;
+  }
+}
+
+.btn_hashtag {
+  background-color: transparent;
+  border: 1px solid getColor(bg-light);
+  color: getColor(font-white);
+  padding: 5px;
+  border-radius: getRadius(main);
+  margin-left: 5px;
+  font-size: 0.8em;
+  margin-bottom: 5px;
+  transition: getTransition(main);
+  &:first-child {
+    margin-left: 0;
+  }
+  &__text {
+  }
+  &:hover {
+    background-color: getColor(bg-light);
+    border-color: transparent;
+  }
+  &:active {
+    transform: scale(0.9);
+    opacity: 0.5;
   }
 }
