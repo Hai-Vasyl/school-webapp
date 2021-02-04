@@ -101,3 +101,9 @@ button {
 
 .container {
 }
+
+.ck.ck-editor__main > .ck-editor__editable {
+  min-height: 40vh;
+  @extend %scrollbar;
+  background-color: getColor(main);
+}

@@ -36,6 +36,15 @@
     font-size: 1.2em;
     color: getColor(font-light);
   }
+  &__title_simple {
+    background-color: getColor(main);
+    border-top: 1px solid getColor(main-dark);
+    border-bottom: 1px solid getColor(main-dark);
+    text-align: center;
+    font-size: 1em;
+    color: getColor(font-light);
+    padding: 10px 0;
+  }
   &__btns {
     padding: 25px;
     padding-top: 0;
@@ -58,10 +67,15 @@
     height: 70vh;
     overflow-y: auto;
     position: relative;
+    margin: 25px;
+    margin-top: 0;
     border: 1px solid getColor(main-dark);
     background-color: getColor(main);
     box-shadow: inset getShadow(main-equal);
     @extend %scrollbar;
+  }
+  &__stack_short {
+    height: 20vh;
   }
   &__btn_back {
     position: absolute;

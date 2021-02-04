@@ -38,6 +38,17 @@
   background-color: transparent;
   border: 1px solid getColor(main-dark);
 }
+.btn_disabled {
+  color: getColor(font);
+  background-color: getColor(main-dark);
+  border: 1px solid transparent;
+  &:active {
+    transform: none;
+  }
+  &:hover {
+    border-color: transparent;
+  }
+}
 .btn_activated {
   background-color: getColor(secondary);
   border: 1px solid transparent;
