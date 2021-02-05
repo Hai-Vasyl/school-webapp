@@ -1,6 +1,26 @@
 import { gql } from "apollo-server"
 
 export default gql`
+  type ExtraLink {
+    link: String!
+    label: String!
+    content: ID!
+    date: String!
+  }
+  input InputLink {
+    link: String!
+    label: String!
+  }
+  type NewsEvent {
+    title: String!
+    content: String!
+    type: String!
+    owner: User!
+    date: String!
+    category: String!
+    dateEvent: String!
+    links: [ExtraLink]!
+  }
   type UploadFile {
     id: ID!
     owner: User!
@@ -128,6 +148,14 @@ export default gql`
     getStudentsNoGroup: [User]!
   }
   type Mutation {
+    createNewsEvent(
+      title: String!
+      content: String!
+      type: String!
+      category: String!
+      dateEvent: String!
+      links: [InputLink]
+    ): String!
     createUpload(
       hashtags: String
       description: String

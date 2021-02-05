@@ -7,6 +7,8 @@ import UnreadMessage from "./UnreadMessage"
 import Group from "./Group"
 import Page from "./Page"
 import Upload from "./Upload"
+import NewsEvent from "./NewsEvent"
+import ExtraLink from "./ExtraLink"
 
 export {
   User,
@@ -18,4 +20,6 @@ export {
   Group,
   Page,
   Upload,
+  NewsEvent,
+  ExtraLink,
 }

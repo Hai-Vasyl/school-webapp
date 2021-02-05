@@ -8,8 +8,8 @@ export const createEditValid = async (fields: IField, id?: string) => {
 
     title = { value: title, msg: [] }
     type = { value: type, msg: [] }
-    title = isEmpty(title, "This field cannot be empty!")
-    type = isEmpty(type, "This field cannot be empty!")
+    title = isEmpty(title, "Це поле не може бути порожнім!")
+    type = isEmpty(type, "Це поле не може бути порожнім!")
     if (title.msg.length || type.msg.length) {
       return { title, type, isError: true }
     }
@@ -17,8 +17,8 @@ export const createEditValid = async (fields: IField, id?: string) => {
     title = isLength(title, {
       min: 3,
       max: 15,
-      minMsg: "Chat name must contain at least 3 characters!",
-      maxMsg: "Chat name must be no more than 15 characters!",
+      minMsg: "Назва чату повинна містити принаймні 3 символи!",
+      maxMsg: "Назва чату повинна містити не більше 15 символів!",
     })
     if (title.msg.length) {
       return { title, type, isError: true }
@@ -26,7 +26,7 @@ export const createEditValid = async (fields: IField, id?: string) => {
 
     title = await isUnique(
       title,
-      "This chat name already exists, choose another one!",
+      "Ця назва чату вже існує, оберіть іншу!",
       Chat,
       "title",
       id
@@ -36,7 +36,7 @@ export const createEditValid = async (fields: IField, id?: string) => {
     }
     return { title, type, isError: false }
   } catch (error) {
-    const errorMsg = `Create or edit chat validation error: ${error.message}`
+    const errorMsg = `Помилка перевірки полів вводу при створенні або редагуванні чату: ${error.message}`
 
     const setError = (value: string) => {
       return { value, msg: [errorMsg] }

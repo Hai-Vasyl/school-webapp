@@ -18,6 +18,10 @@ import {
 import { Query as QPages, Mutation as MPages } from "./resolvers/pages"
 import { Query as QGroups, Mutation as MGroups } from "./resolvers/groups"
 import { Query as QUploads, Mutation as MUploads } from "./resolvers/uploads"
+import {
+  Query as QNewsEvents,
+  Mutation as MNewsEvents,
+} from "./resolvers/newsevents"
 import { Chat } from "./resolvers/chat"
 import { Message } from "./resolvers/message"
 import { UserChat } from "./resolvers/userchat"
@@ -25,6 +29,7 @@ import { Notification } from "./resolvers/notification"
 import { User } from "./resolvers/user"
 import { Group } from "./resolvers/group"
 import { UploadFile } from "./resolvers/upload"
+import { NewsEvent } from "./resolvers/newsevent"
 
 const schema = {
   typeDefs,
@@ -38,6 +43,7 @@ const schema = {
       ...QPages,
       ...QGroups,
       ...QUploads,
+      ...QNewsEvents,
     },
     Mutation: {
       ...MUsers,
@@ -48,6 +54,7 @@ const schema = {
       ...MPages,
       ...MGroups,
       ...MUploads,
+      ...MNewsEvents,
     },
     Subscription: {
       ...SMessages,
@@ -60,6 +67,7 @@ const schema = {
     User,
     Group,
     UploadFile,
+    NewsEvent,
   },
 }
 

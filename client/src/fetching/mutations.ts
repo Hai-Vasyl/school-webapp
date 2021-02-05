@@ -387,3 +387,23 @@ export const DELETE_UPLOAD = gql`
     }
   }
 `
+
+export const CREATE_NEWS_EVENT = gql`
+  mutation CREATE_NEWS_EVENT(
+    $title: String!
+    $content: String!
+    $type: String!
+    $category: String!
+    $dateEvent: String!
+    $links: [InputLink]
+  ) {
+    createNewsEvent(
+      title: $title
+      content: $content
+      type: $type
+      category: $category
+      dateEvent: $dateEvent
+      links: $links
+    )
+  }
+`

@@ -142,11 +142,9 @@ const mainRoutes = [
   { path: "/management", Component: Management },
   { path: "/contacts", Component: Contacts },
   { path: "/schedule", Component: Schedule },
-  // { path: "/edit-news/:contentId", Component: ModNewsEvent },
-  // { path: "/edit-event/:contentId", Component: ModNewsEvent },
   { path: "/profile/:userId", exact: true, Component: Profile },
-  { path: "/news/:contentId", Component: NewsDetails },
-  { path: "/events/:contentId", Component: Event },
+  { path: "/news/details/:contentId", Component: NewsDetails },
+  { path: "/events/details/:contentId", Component: Event },
   { path: "/gallery/:imageId", exact: true, Component: ImageDetails },
 ]
 

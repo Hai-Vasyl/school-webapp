@@ -1,7 +1,7 @@
 @import "base";
 
 .btn {
-  padding: 14px 13px;
+  padding: 12px 12px;
   display: flex;
   align-items: center;
   border-radius: getRadius(main);
@@ -60,6 +60,38 @@
   &:hover {
     background-color: getColor(bg-light);
     border-color: transparent;
+  }
+}
+
+.btn_link {
+  background-color: getColor(font-white);
+  padding: 7px 10px;
+  margin: 4px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  border-radius: getRadius(main);
+  border: 1px solid getColor(main-dark);
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: getShadow(thin);
+  cursor: pointer;
+  &__delete {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    border-radius: 50%;
+    background-color: getColor(main-dark);
+    color: getColor(font-white);
+    margin-left: 7px;
+    & > * {
+      margin: auto;
+    }
+  }
+  &__title {
+    font-size: 0.9em;
   }
 }
 
