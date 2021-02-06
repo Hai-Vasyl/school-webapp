@@ -2,6 +2,7 @@ import { gql } from "apollo-server"
 
 export default gql`
   type ExtraLink {
+    id: ID!
     link: String!
     label: String!
     content: ID!
@@ -12,6 +13,7 @@ export default gql`
     label: String!
   }
   type NewsEvent {
+    id: ID!
     title: String!
     content: String!
     type: String!
@@ -20,6 +22,7 @@ export default gql`
     category: String!
     dateEvent: String!
     links: [ExtraLink]!
+    preview: UploadFile
   }
   type UploadFile {
     id: ID!
@@ -118,7 +121,20 @@ export default gql`
     images: [UploadFile]!
     quantity: Int!
   }
+  type NewsEvents {
+    items: [NewsEvent]!
+    quantity: Int!
+  }
   type Query {
+    getNewsEvents(
+      search: String
+      type: String!
+      category: String
+      dateFrom: String
+      dateTo: String
+      from: Int!
+      to: Int!
+    ): NewsEvents!
     login(email: String!, password: String!): Auth
     register(
       firstname: String!

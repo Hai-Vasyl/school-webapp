@@ -32,9 +32,6 @@ const Gallery: React.FC = () => {
   const history = useHistory()
   const {
     auth: { user },
-    toggle: {
-      lightbox: { imageId: imageIdToggle, isLeft, isRight },
-    },
   } = useSelector((state: RootStore) => state)
   const params = new URLSearchParams(location)
   const page = Number(params.get("page")) || 1
@@ -219,11 +216,14 @@ const Gallery: React.FC = () => {
       <div className='wrapper'>
         <div className={stylesForm.form_filter_container}>
           <form onSubmit={handleSubmitForm} className={stylesForm.form_filter}>
-            <ButtonTab
-              exClass={styles.btn_create_image}
-              Icon={BsPlus}
-              click={handlePopupCreateImage}
-            />
+            {(user.role === access.admin.keyWord ||
+              user.role === access.teacher.keyWord) && (
+              <ButtonTab
+                exClass={styles.btn_create_image}
+                Icon={BsPlus}
+                click={handlePopupCreateImage}
+              />
+            )}
             <div className={stylesForm.form_filter__search}>
               <button
                 type='button'

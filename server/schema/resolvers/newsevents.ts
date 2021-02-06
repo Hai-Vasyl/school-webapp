@@ -1,25 +1,40 @@
 import { NewsEvent, ExtraLink } from "../models"
 import { IField, IIsAuth } from "../interfaces"
 import { createEditValid } from "../validation/newsEvents"
-import { types } from "../../modules/messageTypes"
 
 export const Query = {
-  // async chatMessages(
-  //   _: any,
-  //   { chat }: IField,
-  //   { isAuth }: { isAuth: IIsAuth }
-  // ) {
-  //   try {
-  //     if (!isAuth.auth) {
-  //       throw new Error("Access denied!")
-  //     }
-  //     //TODO: validation for each field and check in models
-  //     const messages = await Message.find({ chat })
-  //     return messages
-  //   } catch (error) {
-  //     throw new Error(`Getting all chat messages error: ${error.message}`)
-  //   }
-  // },
+  async getNewsEvents(
+    _: any,
+    { search, type, category, dateFrom, dateTo, from, to }: IField
+  ) {
+    try {
+      const searchQuery = search && { $text: { $search: search } }
+      const rangeDates =
+        dateFrom && dateTo
+          ? { $gte: dateFrom, $lte: dateTo }
+          : dateFrom
+          ? { $gte: dateFrom }
+          : dateTo
+          ? { $lte: dateTo }
+          : { $exists: true }
+      const query = {
+        ...searchQuery,
+        type,
+        dateEvent: rangeDates,
+        category: category ? category : { $exists: true },
+      }
+
+      const newsEvents = await NewsEvent.find(query)
+        .sort({ date: -1 })
+        .skip(from)
+        .limit(to)
+      const quantity = await NewsEvent.find(query).countDocuments()
+
+      return { items: newsEvents, quantity }
+    } catch (error) {
+      throw new Error(`Getting news or events error: ${error.message}`)
+    }
+  },
 }
 
 // createNewsEvent(

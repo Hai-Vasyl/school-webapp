@@ -1,4 +1,4 @@
-import { User, ExtraLink } from "../models"
+import { User, ExtraLink, Upload } from "../models"
 import { IField } from "../interfaces"
 
 export const NewsEvent = {
@@ -17,6 +17,16 @@ export const NewsEvent = {
     } catch (error) {
       throw new Error(
         `Getting extra links to news or event error: ${error.message}`
+      )
+    }
+  },
+  async preview({ _id }: IField) {
+    try {
+      const image: any = await Upload.findOne({ content: _id })
+      return image
+    } catch (error) {
+      throw new Error(
+        `Getting preview image to news or event error: ${error.message}`
       )
     }
   },

@@ -1,0 +1,74 @@
+@import "base";
+
+.content_wrapper {
+  width: 800px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  background-color: getColor(secondary);
+  border-bottom: 1px solid getColor(main-dark);
+  margin-bottom: 15px;
+  padding: 10px;
+  &__preview {
+    display: flex;
+    width: 120px;
+    height: 120px;
+    background-color: getColor(main);
+  }
+  &__image {
+    @extend %image;
+  }
+  &__icon {
+    margin: auto;
+    display: flex;
+    & > * {
+      margin: auto;
+      font-size: 2em;
+      color: getColor(main-dark);
+    }
+  }
+  &__main {
+    flex: 1;
+    margin-left: 10px;
+  }
+  &__date {
+    font-size: 0.9em;
+    color: getColor(font-light);
+  }
+  &__title {
+    @extend %link-reset;
+    display: block;
+    font-weight: bold;
+    font-size: 1.4em;
+    &:hover {
+      text-decoration: underline;
+      text-decoration-color: getColor(accent);
+      text-decoration-style: dashed;
+    }
+  }
+  &__categoty {
+    @extend %link-reset;
+    display: block;
+    color: getColor(accent);
+  }
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__link {
+    @extend %link-reset;
+    color: getColor(accent);
+    padding: 5px 10px;
+    border: 1px solid getColor(main-dark);
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    border-radius: getRadius(main);
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
+}

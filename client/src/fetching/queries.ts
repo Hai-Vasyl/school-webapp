@@ -411,3 +411,70 @@ export const GET_IMAGE = gql`
     }
   }
 `
+
+export const GET_NEWS_EVENTS = gql`
+  query GET_NEWS_EVENTS(
+    $search: String
+    $type: String!
+    $category: String
+    $dateFrom: String
+    $dateTo: String
+    $from: Int!
+    $to: Int!
+  ) {
+    getNewsEvents(
+      search: $search
+      type: $type
+      category: $category
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+      from: $from
+      to: $to
+    ) {
+      items {
+        id
+        title
+        date
+        category
+        dateEvent
+        links {
+          link
+          label
+        }
+        preview {
+          id
+          location
+        }
+      }
+      quantity
+    }
+  }
+`
+
+export const GET_NEWS_EVENT = gql`
+  query GET_NEWS_EVENT($contentId: ID!) {
+    getNewsEvent(contentId: $contentId) {
+      id
+      title
+      content
+      type
+      owner {
+        id
+        username
+        email
+        ava
+        color
+        firstname
+        lastname
+        role
+      }
+      date
+      category
+      dateEvent
+      links {
+        link
+        label
+      }
+    }
+  }
+`

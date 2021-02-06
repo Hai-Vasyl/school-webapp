@@ -6,7 +6,7 @@ import OurValues from "../pages/OurValues"
 import Team from "../pages/Team"
 import Graduates from "../pages/Graduates"
 import Achievement from "../pages/Achievement"
-import News from "../pages/News"
+import NewsEvents from "../pages/NewsEvents"
 import Library from "../pages/Library"
 import Gallery from "../pages/Gallery"
 import Management from "../pages/Management"
@@ -134,8 +134,8 @@ const mainRoutes = [
   { path: "/team", Component: Team },
   { path: "/graduates", Component: Graduates },
   { path: "/achievement", Component: Achievement },
-  { path: "/news", exact: true, Component: News },
-  { path: "/events", exact: true, Component: Events },
+  { path: "/news", exact: true, Component: NewsEvents },
+  { path: "/events", exact: true, Component: NewsEvents },
   { path: "/library", Component: Library },
   { path: "/gallery", exact: true, Component: Gallery },
   { path: "/projects", Component: Projects },

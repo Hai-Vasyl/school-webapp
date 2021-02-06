@@ -169,3 +169,43 @@ export interface IImageDetailed {
   hashtags: string
   description: string
 }
+
+export interface INewsEvent {
+  id: string
+  title: string
+  date: string
+  category: string
+  dateEvent: string
+  links: {
+    link: string
+    label: string
+  }[]
+  preview: {
+    id: string
+    location: string
+  }
+}
+
+export interface INewsEventDetailed {
+  id: string
+  title: string
+  content: string
+  type: string
+  owner: {
+    id: string
+    username: string
+    email: string
+    ava: string
+    color: string
+    firstname: string
+    lastname: string
+    role: string
+  }
+  date: string
+  category: string
+  dateEvent: string
+  links: {
+    link: string
+    label: string
+  }[]
+}
