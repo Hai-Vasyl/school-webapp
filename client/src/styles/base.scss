@@ -45,6 +45,13 @@ $shadows: (
     0px 6px 27px rgba(41, 41, 41, 0.4),
     0px 2px 4px rgba(32, 32, 32, 0.4),
   ),
+  card: (
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  ),
+  danger: (
+    0px 0px 10px rgba(181, 55, 55, 0.285),
+  ),
 );
 
 $fonts: (

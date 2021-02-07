@@ -189,10 +189,17 @@
 
 .form_filter {
   display: flex;
+  align-items: center;
   position: relative;
-  z-index: 3;
+  z-index: 4;
   padding: 20px;
   padding-bottom: 5px;
+  &__date {
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    border-top: 1px solid getColor(main);
+  }
   &__search {
     flex: 1;
     position: relative;
@@ -219,6 +226,13 @@
   }
   &__picker {
     width: 500px;
+  }
+  &__picker_date {
+    margin-right: 10px;
+  }
+  &__btn_search {
+    align-self: stretch;
+    padding: 0px 12px !important;
   }
   &__search_input {
     display: block;

@@ -3,8 +3,8 @@ import React from "react"
 import styles from "../styles/button.module"
 
 interface IButtonProps {
-  click(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): any
-  Icon: any
+  click?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): any
+  Icon?: any
   title?: string
   exClass?: string
   type?: any
@@ -26,7 +26,7 @@ const Button: React.FC<IButtonProps> = ({
       type={type}
       disabled={disabled}
     >
-      <Icon className={styles.btn__icon} />
+      {Icon && <Icon className={styles.btn__icon} />}
       {title && <span className={styles.btn__title}>{title}</span>}
     </button>
   )

@@ -1,18 +1,14 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import Title from "../components/Title"
 import ButtonTab from "../components/ButtonTab"
-import { BsPencilSquare, BsPlus, BsX } from "react-icons/bs"
+import { BsPencilSquare } from "react-icons/bs"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/uploadTypes"
 import { useLocation, useHistory } from "react-router-dom"
 import { GET_IMAGES } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
-import FieldPicker from "../components/FieldPicker"
 import { types as uploadTypes, getParamsByType } from "../modules/uploadTypes"
-import { BsSearch } from "react-icons/bs"
-// @ts-ignore
-import stylesForm from "../styles/form.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 // @ts-ignore
@@ -26,6 +22,7 @@ import { access } from "../modules/accessModifiers"
 import { LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
 import Loader from "../components/Loader"
 import useLightBox from "../hooks/useLightBox"
+import FilterSearch from "../components/FilterSearch"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
@@ -151,15 +148,6 @@ const Gallery: React.FC = () => {
     })
   }
 
-  const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    if (!value) {
-      handleResetSearch()
-    } else {
-      setSearchStr(value)
-    }
-  }
-
   const handlePopupLightBox = (imageId: string) => {
     const { getIndexImage, checkMoveAccess, onMove } = getLightBox(
       dataImages && dataImages.getImages.images
@@ -214,71 +202,18 @@ const Gallery: React.FC = () => {
     <div className='container'>
       <Title title='Галерея' />
       <div className='wrapper'>
-        <div className={stylesForm.form_filter_container}>
-          <form onSubmit={handleSubmitForm} className={stylesForm.form_filter}>
-            {(user.role === access.admin.keyWord ||
-              user.role === access.teacher.keyWord) && (
-              <ButtonTab
-                exClass={styles.btn_create_image}
-                Icon={BsPlus}
-                click={handlePopupCreateImage}
-              />
-            )}
-            <div className={stylesForm.form_filter__search}>
-              <button
-                type='button'
-                onClick={handleResetSearch}
-                className={`${stylesForm.form_filter__search_btn} ${
-                  stylesForm.form_filter__search_btn__reset
-                } ${!search && stylesForm.form_filter__search_btn__close}`}
-              >
-                <BsX />
-              </button>
-              <input
-                className={`${stylesForm.form_filter__search_input} ${
-                  !search && stylesForm.form_filter__search_input__close
-                }`}
-                type='text'
-                value={searchStr}
-                onChange={handleChangeSearch}
-                placeholder='Пошук зображення'
-              />
-              <button className={stylesForm.form_filter__search_btn}>
-                <BsSearch />
-              </button>
-            </div>
-            <FieldPicker
-              submit
-              exClass={stylesForm.form_filter__picker}
-              noError
-              change={setTypeImage}
-              field={typeImage[0]}
-              options={options}
-            />
-            <button className='btn-handler'></button>
-          </form>
-          <p className={stylesForm.form_filter__footer}>
-            {!search ? (
-              <span className={stylesForm.form_filter__results}>
-                Кількість результатів:
-                <span className={stylesForm.form_filter__results_counter}>
-                  {quantityItems}
-                </span>
-              </span>
-            ) : (
-              <span className={stylesForm.form_filter__results}>
-                Кількість результатів пошуку "
-                <span className={stylesForm.form_filter__search_string}>
-                  {search}
-                </span>
-                ":
-                <span className={stylesForm.form_filter__results_counter}>
-                  {quantityItems}
-                </span>
-              </span>
-            )}
-          </p>
-        </div>
+        <FilterSearch
+          handleSubmit={handleSubmitForm}
+          quantityItems={quantityItems}
+          search={search}
+          searchStr={searchStr}
+          options={options}
+          onClickBtnPlus={handlePopupCreateImage}
+          handleResetSearch={handleResetSearch}
+          setSearchStr={setSearchStr}
+          setFormPicker={setTypeImage}
+          fieldPicker={typeImage[0]}
+        />
         <div>
           <Pagination
             getRedirectLink={getRedirectLink}

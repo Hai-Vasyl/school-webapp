@@ -1,21 +1,33 @@
 @import "base";
 
 .content_wrapper {
-  width: 800px;
-  max-width: 100%;
-  margin: 0 auto;
+  display: grid;
+  // height: 160vw;
+  // max-height: 1945px;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  // grid-auto-rows: 1fr;
+  align-items: flex-start;
+  grid-row-gap: 50px;
+  grid-column-gap: 20px;
+  position: relative;
 }
 
 .content {
   display: flex;
+  flex-direction: column;
   background-color: getColor(secondary);
-  border-bottom: 1px solid getColor(main-dark);
-  margin-bottom: 15px;
-  padding: 10px;
+  // border-bottom: 3px solid getColor(accent);
+  // margin-bottom: 15px;
+  // padding: 10px;
+  // box-shadow: getShadow(card);
+  &__row {
+    flex-direction: row;
+  }
   &__preview {
     display: flex;
-    width: 120px;
-    height: 120px;
+    // width: 120px;
+    height: 250px;
     background-color: getColor(main);
   }
   &__image {
@@ -26,23 +38,30 @@
     display: flex;
     & > * {
       margin: auto;
-      font-size: 2em;
+      font-size: 3em;
       color: getColor(main-dark);
     }
   }
   &__main {
-    flex: 1;
-    margin-left: 10px;
+    // flex: 1;
+    // margin-left: 10px;
+    padding: 15px;
+    padding-top: 0;
+    border-top: 3px solid getColor(accent);
   }
   &__date {
     font-size: 0.9em;
-    color: getColor(font-light);
+    color: getColor(font-white);
+    background-color: getColor(accent);
+    display: inline-block;
+    padding: 10px;
+    transform: translateY(-15px);
   }
   &__title {
     @extend %link-reset;
     display: block;
-    font-weight: bold;
-    font-size: 1.4em;
+    font-weight: bolder;
+    font-size: 1.5em;
     &:hover {
       text-decoration: underline;
       text-decoration-color: getColor(accent);
@@ -51,12 +70,16 @@
   }
   &__categoty {
     @extend %link-reset;
-    display: block;
+    display: inline-block;
     color: getColor(accent);
+    margin-bottom: 10px;
+    padding: 5px 0px;
   }
   &__links {
     display: flex;
     flex-wrap: wrap;
+    padding-top: 10px;
+    border-top: 1px solid getColor(main-dark);
   }
   &__link {
     @extend %link-reset;

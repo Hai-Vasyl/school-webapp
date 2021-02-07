@@ -192,6 +192,28 @@
   }
 }
 
+.btn_form_plus {
+  width: 42.4px;
+  height: 42.4px;
+  margin-right: 10px;
+
+  transition: getTransition(main);
+  border: 1px solid getColor(font-white);
+  color: getColor(font-white);
+  box-shadow: getShadow(main);
+  background-image: getGradient(main);
+  border-radius: getRadius(main);
+  &:hover {
+    border-color: getColor(font-white);
+    box-shadow: getShadow(second);
+  }
+  &:active {
+    box-shadow: none;
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
 .btn_tab_glass {
   background-color: transparent;
   border: 1px solid getColor(main-dark);

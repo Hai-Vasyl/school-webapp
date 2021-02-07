@@ -79,6 +79,7 @@
 
 .field_file {
   // width: 100%;
+  flex: 1;
   margin-bottom: 0.5em;
   &__noerrror {
     margin-bottom: 0em;
@@ -86,6 +87,12 @@
   &__file_wrapper {
     display: flex;
     border: 1px solid getColor(main-dark);
+    box-shadow: none;
+    transition: getTransition(main);
+    &__error {
+      border-color: getColor(danger);
+      box-shadow: getShadow(danger);
+    }
   }
   &__title {
     width: 50%;

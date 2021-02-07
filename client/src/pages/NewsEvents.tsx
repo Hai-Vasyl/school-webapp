@@ -18,6 +18,7 @@ import FieldPicker from "../components/FieldPicker"
 import { categories } from "../modules/newsCategories"
 import { access } from "../modules/accessModifiers"
 import FilterSearch from "../components/FilterSearch"
+import Pagination from "../components/Pagination"
 
 const NewsEvents: React.FC = () => {
   const location = useLocation()
@@ -32,9 +33,9 @@ const NewsEvents: React.FC = () => {
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
   const category = params.get("category") || "all"
-  const from = params.get("from")
-  const to = params.get("to")
-  const amountItems = 15
+  const from = params.get("from") || ""
+  const to = params.get("to") || ""
+  const amountItems = 3
 
   const [searchStr, setSearchStr] = useState(search)
   const [categoryContent, setCategoryContent] = useState([
@@ -46,6 +47,16 @@ const NewsEvents: React.FC = () => {
       msg: "",
     },
   ])
+  const [date, setDate] = useState([
+    { param: "from", type: "date", value: from, title: "Дата від", msg: "" },
+    {
+      param: "to",
+      type: "date",
+      value: to,
+      title: "Дата до",
+      msg: "",
+    },
+  ])
 
   const { data: dataNewsEvents, loading: loadNewsEvents } = useQuery(
     GET_NEWS_EVENTS,
@@ -53,7 +64,7 @@ const NewsEvents: React.FC = () => {
       variables: {
         search,
         type: isNews ? "news" : "event",
-        category,
+        category: category === "all" ? "" : category,
         dateFrom: from,
         dateTo: to,
         from: (page - 1) * amountItems,
@@ -71,8 +82,31 @@ const NewsEvents: React.FC = () => {
     history.push(isNews ? "/create-news" : "/create-event")
   }
 
+  const getRedirectLink = (
+    pageNumber: number,
+    category: string,
+    dateFrom?: string,
+    dateTo?: string,
+    searchStr?: string
+  ) => {
+    const fromQuery = `${dateFrom ? "from=" + dateFrom + "&" : ""}`
+    const toQuery = `${dateTo ? "to=" + dateTo + "&" : ""}`
+    const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`
+
+    let link = `/${
+      isNews ? "news" : "events"
+    }?page=${pageNumber}&category=${category}&${fromQuery}${toQuery}${searchQuery}`
+    history.push(link.slice(0, link.length - 1))
+  }
+
+  const getRedirectPagination = (number: number) => {
+    getRedirectLink(number, categoryContent[0].value, from, to, search)
+  }
+
   const handleResetSearch = () => {
     console.log("ResetSearch!")
+    setSearchStr("")
+    getRedirectLink(1, categoryContent[0].value)
   }
 
   const options = Object.keys(categories).map((option) => {
@@ -93,7 +127,7 @@ const NewsEvents: React.FC = () => {
         : `/events/details/${item.id}`
       const linkParams = getNewsParamsByKey(item.category)
       return (
-        <div className={styles.content}>
+        <div className={styles.content} key={item.id}>
           <Link className={styles.content__preview} key={item.id} to={linkPath}>
             {item.preview ? (
               <img
@@ -109,12 +143,16 @@ const NewsEvents: React.FC = () => {
           </Link>
           <div className={styles.content__main}>
             <div className={styles.content__date}>{convertDate(item.date)}</div>
-            <Link className={styles.content__title} to={linkPath}>
-              {item.title}
-            </Link>
-            <Link className={styles.content__categoty} to='/news'>
-              {linkParams?.title}
-            </Link>
+            <div>
+              <Link className={styles.content__title} to={linkPath}>
+                {item.title}
+              </Link>
+            </div>
+            <div>
+              <Link className={styles.content__categoty} to='/news'>
+                {linkParams?.title}
+              </Link>
+            </div>
             <div className={styles.content__links}>
               {item.links.map((link, index) => {
                 return (
@@ -149,8 +187,28 @@ const NewsEvents: React.FC = () => {
           setSearchStr={setSearchStr}
           setFormPicker={setCategoryContent}
           fieldPicker={categoryContent[0]}
+          fieldDateFrom={date[0]}
+          fieldDateTo={date[1]}
+          setFormDate={setDate}
         />
+        <div>
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+            isTop
+          />
+        </div>
         <div className={styles.content_wrapper}>{newsEventsJSX}</div>
+        <div>
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+          />
+        </div>
       </div>
     </div>
   )
