@@ -16,9 +16,8 @@ import Schedule from "../pages/Schedule"
 import RegisterUser from "../pages/RegisterUser"
 import ModGroup from "../pages/ModGroup"
 import Groups from "../pages/Groups"
-import NewsDetails from "../pages/NewsDetails"
+import NewsEvent from "../pages/NewsEvent"
 import Events from "../pages/Events"
-import Event from "../pages/Event"
 import ModNewsEvent from "../pages/ModNewsEvent"
 import ImageDetails from "../pages/ImageDetails"
 import { ILink } from "../interfaces"
@@ -143,8 +142,8 @@ const mainRoutes = [
   { path: "/contacts", Component: Contacts },
   { path: "/schedule", Component: Schedule },
   { path: "/profile/:userId", exact: true, Component: Profile },
-  { path: "/news/details/:contentId", Component: NewsDetails },
-  { path: "/events/details/:contentId", Component: Event },
+  { path: "/news/details/:contentId", Component: NewsEvent },
+  { path: "/events/details/:contentId", Component: NewsEvent },
   { path: "/gallery/:imageId", exact: true, Component: ImageDetails },
 ]
 

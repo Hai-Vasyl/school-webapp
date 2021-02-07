@@ -59,7 +59,7 @@ const Gallery: React.FC = () => {
   } = useQuery(GET_IMAGES, {
     variables: {
       from: (page - 1) * amountItems,
-      to: page * amountItems,
+      to: amountItems,
       search,
       type: type === "all" ? "" : type,
     },
@@ -201,20 +201,20 @@ const Gallery: React.FC = () => {
   return (
     <div className='container'>
       <Title title='Галерея' />
+      <FilterSearch
+        handleSubmit={handleSubmitForm}
+        quantityItems={quantityItems}
+        search={search}
+        searchStr={searchStr}
+        options={options}
+        onClickBtnPlus={handlePopupCreateImage}
+        handleResetSearch={handleResetSearch}
+        setSearchStr={setSearchStr}
+        setFormPicker={setTypeImage}
+        fieldPicker={typeImage[0]}
+      />
       <div className='wrapper'>
-        <FilterSearch
-          handleSubmit={handleSubmitForm}
-          quantityItems={quantityItems}
-          search={search}
-          searchStr={searchStr}
-          options={options}
-          onClickBtnPlus={handlePopupCreateImage}
-          handleResetSearch={handleResetSearch}
-          setSearchStr={setSearchStr}
-          setFormPicker={setTypeImage}
-          fieldPicker={typeImage[0]}
-        />
-        <div>
+        {!!quantityItems && (
           <Pagination
             getRedirectLink={getRedirectLink}
             quantityItem={quantityItems}
@@ -222,20 +222,26 @@ const Gallery: React.FC = () => {
             currentPageNumber={page}
             isTop
           />
-        </div>
+        )}
         <div
           className={`${styles.images} ${loadImages && styles.images__load}`}
         >
-          {loadImages ? <Loader /> : imagesJSX}
+          {loadImages ? (
+            <Loader />
+          ) : imagesJSX.length ? (
+            imagesJSX
+          ) : (
+            <div className='plug-text'>Порожньо</div>
+          )}
         </div>
-        <div>
+        {!!quantityItems && (
           <Pagination
             getRedirectLink={getRedirectLink}
             quantityItem={quantityItems}
             amountItemsPage={amountItems}
             currentPageNumber={page}
           />
-        </div>
+        )}
       </div>
     </div>
   )

@@ -28,7 +28,7 @@ const ModNewsEvent: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const isNews =
-    pathname === "/edit-news/:newsId" || pathname === "/create-news"
+    pathname.split("/")[1] === "edit-news" || pathname === "/create-news"
   const [form, setForm] = useState([
     {
       param: "title",

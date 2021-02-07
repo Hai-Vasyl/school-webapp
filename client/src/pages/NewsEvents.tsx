@@ -1,24 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { GET_NEWS_EVENTS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "../components/Title"
 import { useLocation, useHistory, Link } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { INewsEvent } from "../interfaces"
-import { BsImage, BsPlus, BsSearch, BsX } from "react-icons/bs"
-import { convertDate } from "../helpers/convertDate"
+import { BsImage } from "react-icons/bs"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
-// @ts-ignore
-import stylesForm from "../styles/form.module"
-import ButtonTab from "../components/ButtonTab"
-import FieldPicker from "../components/FieldPicker"
 import { categories } from "../modules/newsCategories"
-import { access } from "../modules/accessModifiers"
 import FilterSearch from "../components/FilterSearch"
 import Pagination from "../components/Pagination"
+import Loader from "../components/Loader"
 
 const NewsEvents: React.FC = () => {
   const location = useLocation()
@@ -48,7 +43,13 @@ const NewsEvents: React.FC = () => {
     },
   ])
   const [date, setDate] = useState([
-    { param: "from", type: "date", value: from, title: "Дата від", msg: "" },
+    {
+      param: "from",
+      type: "date",
+      value: from,
+      title: "Дата від",
+      msg: "",
+    },
     {
       param: "to",
       type: "date",
@@ -68,14 +69,21 @@ const NewsEvents: React.FC = () => {
         dateFrom: from,
         dateTo: to,
         from: (page - 1) * amountItems,
-        to: page * amountItems,
+        to: amountItems,
       },
+      fetchPolicy: "cache-and-network",
     }
   )
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log("FORM SUBMITED!")
+    getRedirectLink(
+      page,
+      categoryContent[0].value,
+      date[0].value,
+      date[1].value,
+      searchStr
+    )
   }
 
   const handleRedirectCreateContent = () => {
@@ -104,9 +112,8 @@ const NewsEvents: React.FC = () => {
   }
 
   const handleResetSearch = () => {
-    console.log("ResetSearch!")
     setSearchStr("")
-    getRedirectLink(1, categoryContent[0].value)
+    getRedirectLink(1, categoryContent[0].value, from, to)
   }
 
   const options = Object.keys(categories).map((option) => {
@@ -118,7 +125,6 @@ const NewsEvents: React.FC = () => {
     }
   })
 
-  console.log({ dataNewsEvents })
   const newsEventsJSX =
     dataNewsEvents &&
     dataNewsEvents.getNewsEvents.items.map((item: INewsEvent) => {
@@ -142,7 +148,9 @@ const NewsEvents: React.FC = () => {
             )}
           </Link>
           <div className={styles.content__main}>
-            <div className={styles.content__date}>{convertDate(item.date)}</div>
+            <div className={styles.content__date}>
+              {item.date.split("-").join(" / ")}
+            </div>
             <div>
               <Link className={styles.content__title} to={linkPath}>
                 {item.title}
@@ -174,24 +182,24 @@ const NewsEvents: React.FC = () => {
   const quantityItems = dataNewsEvents && dataNewsEvents.getNewsEvents.quantity
   return (
     <div className='container'>
-      <Title title='Галерея' />
+      <Title title={isNews ? "Усі новини" : "Усі події"} />
+      <FilterSearch
+        handleSubmit={handleSubmitForm}
+        quantityItems={quantityItems}
+        search={search}
+        searchStr={searchStr}
+        options={options}
+        onClickBtnPlus={handleRedirectCreateContent}
+        handleResetSearch={handleResetSearch}
+        setSearchStr={setSearchStr}
+        setFormPicker={setCategoryContent}
+        fieldPicker={categoryContent[0]}
+        fieldDateFrom={date[0]}
+        fieldDateTo={date[1]}
+        setFormDate={setDate}
+      />
       <div className='wrapper'>
-        <FilterSearch
-          handleSubmit={handleSubmitForm}
-          quantityItems={quantityItems}
-          search={search}
-          searchStr={searchStr}
-          options={options}
-          onClickBtnPlus={handleRedirectCreateContent}
-          handleResetSearch={handleResetSearch}
-          setSearchStr={setSearchStr}
-          setFormPicker={setCategoryContent}
-          fieldPicker={categoryContent[0]}
-          fieldDateFrom={date[0]}
-          fieldDateTo={date[1]}
-          setFormDate={setDate}
-        />
-        <div>
+        {!!quantityItems && (
           <Pagination
             getRedirectLink={getRedirectPagination}
             quantityItem={quantityItems}
@@ -199,16 +207,28 @@ const NewsEvents: React.FC = () => {
             currentPageNumber={page}
             isTop
           />
+        )}
+        <div
+          className={`${styles.content_wrapper} ${
+            loadNewsEvents && styles.content_wrapper__load
+          }`}
+        >
+          {loadNewsEvents ? (
+            <Loader />
+          ) : newsEventsJSX.length ? (
+            newsEventsJSX
+          ) : (
+            <div className='plug-text'>Порожньо</div>
+          )}
         </div>
-        <div className={styles.content_wrapper}>{newsEventsJSX}</div>
-        <div>
+        {!!quantityItems && (
           <Pagination
             getRedirectLink={getRedirectPagination}
             quantityItem={quantityItems}
             amountItemsPage={amountItems}
             currentPageNumber={page}
           />
-        </div>
+        )}
       </div>
     </div>
   )

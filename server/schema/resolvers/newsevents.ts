@@ -20,14 +20,16 @@ export const Query = {
       const query = {
         ...searchQuery,
         type,
-        dateEvent: rangeDates,
+        date: type === "news" ? rangeDates : { $exists: true },
+        dateEvent: type === "event" ? rangeDates : { $exists: true },
         category: category ? category : { $exists: true },
       }
 
       const newsEvents = await NewsEvent.find(query)
-        .sort({ date: -1 })
         .skip(from)
         .limit(to)
+        .sort({ date: -1 })
+
       const quantity = await NewsEvent.find(query).countDocuments()
 
       return { items: newsEvents, quantity }
@@ -35,16 +37,17 @@ export const Query = {
       throw new Error(`Getting news or events error: ${error.message}`)
     }
   },
-}
+  async getNewsEvent(_: any, { contentId, type }: IField) {
+    try {
+      //TODO: validation for each field and check in models
 
-// createNewsEvent(
-//   title: String!  isEmpty, isLength
-//   content: String!  isEmpty
-//   type: String!
-//   category: String!
-//   dateEvent: String!  isEmpty
-//   links: [InputLink]
-// ): Msg!
+      const newsEvent = await NewsEvent.findOne({ _id: contentId, type })
+      return newsEvent
+    } catch (error) {
+      throw new Error(`Getting news or event error: ${error.message}`)
+    }
+  },
+}
 
 export const Mutation = {
   async createNewsEvent(
@@ -79,7 +82,7 @@ export const Mutation = {
         type,
         category,
         dateEvent,
-        date: new Date(),
+        date: new Date().toISOString().split("T")[0],
         owner: isAuth.userId,
       })
       const newNewsEvent = await newsEvent.save()

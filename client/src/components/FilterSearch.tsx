@@ -6,7 +6,7 @@ import styles from "../styles/form.module"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
-import { BsPlus, BsX, BsSearch } from "react-icons/bs"
+import { BsPlus, BsX, BsSearch, BsArrowClockwise } from "react-icons/bs"
 import FieldPicker from "./FieldPicker"
 import ButtonTab from "./ButtonTab"
 import { IField } from "../interfaces"
@@ -60,6 +60,15 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
     }
   }
 
+  const handleResetDate = () => {
+    setFormDate((prev: IField[]) =>
+      prev.map((field: IField) => {
+        return { ...field, value: "" }
+      })
+    )
+    setIsDateError(false)
+  }
+
   const onChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     const from = fieldDateFrom && fieldDateFrom.value
@@ -79,102 +88,112 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
 
   return (
     <div className={styles.form_filter_container}>
-      <form onSubmit={handleSubmit} className={styles.form_filter}>
-        {(user.role === access.admin.keyWord ||
-          user.role === access.teacher.keyWord) && (
-          <ButtonTab
-            exClass={stylesBtn.btn_form_plus}
-            Icon={BsPlus}
-            click={onClickBtnPlus}
-          />
-        )}
-        <div className={styles.form_filter__search}>
-          <button
-            type='button'
-            onClick={handleResetSearch}
-            className={`${styles.form_filter__search_btn} ${
-              styles.form_filter__search_btn__reset
-            } ${!search && styles.form_filter__search_btn__close}`}
-          >
-            <BsX />
-          </button>
-          <input
-            className={`${styles.form_filter__search_input} ${
-              !search && styles.form_filter__search_input__close
-            }`}
-            type='text'
-            value={searchStr}
-            onChange={handleChangeSearch}
-            placeholder='Пошук зображення'
-          />
-          <button className={styles.form_filter__search_btn}>
-            <BsSearch />
-          </button>
-        </div>
-        <FieldPicker
-          submit
-          exClass={styles.form_filter__picker}
-          noError
-          change={setFormPicker}
-          field={fieldPicker}
-          options={options}
-        />
-        <button className='btn-handler'></button>
-      </form>
-      {setFormDate && (
-        <form
-          onSubmit={
-            isDateError
-              ? (event) => {
-                  event.preventDefault()
-                }
-              : handleSubmit
-          }
-          className={styles.form_filter__date}
-        >
-          <FieldDate
-            field={fieldDateFrom}
-            change={onChangeDate}
+      <div className='wrapper-clear'>
+        <form onSubmit={handleSubmit} className={styles.form_filter}>
+          {(user.role === access.admin.keyWord ||
+            user.role === access.teacher.keyWord) && (
+            <ButtonTab
+              exClass={stylesBtn.btn_form_plus}
+              Icon={BsPlus}
+              click={onClickBtnPlus}
+            />
+          )}
+          <div className={styles.form_filter__search}>
+            <button
+              type='button'
+              onClick={handleResetSearch}
+              className={`${styles.form_filter__search_btn} ${
+                styles.form_filter__search_btn__reset
+              } ${!search && styles.form_filter__search_btn__close}`}
+            >
+              <BsX />
+            </button>
+            <input
+              className={`${styles.form_filter__search_input} ${
+                !search && styles.form_filter__search_input__close
+              }`}
+              type='text'
+              value={searchStr}
+              onChange={handleChangeSearch}
+              placeholder='Пошук зображення'
+            />
+            <button className={styles.form_filter__search_btn}>
+              <BsSearch />
+            </button>
+          </div>
+          <FieldPicker
+            submit
+            exClass={styles.form_filter__picker}
             noError
-            error={isDateError}
-            exClass={styles.form_filter__picker_date}
-          />
-          <FieldDate
-            field={fieldDateTo}
-            change={onChangeDate}
-            noError
-            error={isDateError}
-            exClass={styles.form_filter__picker_date}
-          />
-          <Button
-            exClass={`${
-              isDateError ? stylesBtn.btn_disabled : stylesBtn.btn_primary
-            } ${styles.form_filter__btn_search} `}
-            title='Шукати'
-            disabled={isDateError}
+            change={setFormPicker}
+            field={fieldPicker}
+            options={options}
           />
           <button className='btn-handler'></button>
         </form>
-      )}
-      <p className={styles.form_filter__footer}>
-        {!search ? (
-          <span className={styles.form_filter__results}>
-            Кількість результатів:
-            <span className={styles.form_filter__results_counter}>
-              {quantityItems}
-            </span>
-          </span>
-        ) : (
-          <span className={styles.form_filter__results}>
-            Кількість результатів пошуку "
-            <span className={styles.form_filter__search_string}>{search}</span>
-            ":
-            <span className={styles.form_filter__results_counter}>
-              {quantityItems}
-            </span>
-          </span>
+        {setFormDate && (
+          <form
+            onSubmit={
+              isDateError
+                ? (event) => {
+                    event.preventDefault()
+                  }
+                : handleSubmit
+            }
+            className={styles.form_filter__date}
+          >
+            <FieldDate
+              field={fieldDateFrom}
+              change={onChangeDate}
+              noError
+              error={isDateError}
+              exClass={styles.form_filter__picker_date}
+            />
+            <FieldDate
+              field={fieldDateTo}
+              change={onChangeDate}
+              noError
+              error={isDateError}
+              exClass={`${styles.form_filter__picker_date} ${styles.form_filter__picker_date__to}`}
+            />
+            <Button
+              exClass={`${stylesBtn.btn_simple} ${styles.form_filter__btn}`}
+              Icon={BsArrowClockwise}
+              type='button'
+              click={handleResetDate}
+            />
+            <Button
+              exClass={`${
+                isDateError ? stylesBtn.btn_disabled : stylesBtn.btn_primary
+              } ${styles.form_filter__btn} `}
+              title='Шукати'
+              disabled={isDateError}
+            />
+            <button className='btn-handler'></button>
+          </form>
         )}
-      </p>
+        <p className={styles.form_filter__footer}>
+          {!search ? (
+            <span className={styles.form_filter__results}>
+              Кількість результатів:
+              <span className={styles.form_filter__results_counter}>
+                {quantityItems}
+              </span>
+            </span>
+          ) : (
+            <span className={styles.form_filter__results}>
+              Кількість результатів пошуку "
+              <span className={styles.form_filter__search_string}>
+                {search}
+              </span>
+              ":
+              <span className={styles.form_filter__results_counter}>
+                {quantityItems}
+              </span>
+            </span>
+          )}
+        </p>
+      </div>
     </div>
   )
 }

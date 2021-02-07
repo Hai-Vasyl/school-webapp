@@ -135,6 +135,8 @@ export default gql`
       from: Int!
       to: Int!
     ): NewsEvents!
+    getNewsEvent(contentId: ID!, type: String!): NewsEvent!
+    getContentImages(contentId: ID!): [UploadFile]!
     login(email: String!, password: String!): Auth
     register(
       firstname: String!

@@ -366,21 +366,10 @@ export const GET_IMAGES = gql`
         id
         owner {
           id
-          # username
-          # email
-          # ava
-          # color
-          # firstname
-          # lastname
-          # role
         }
         date
         location
-        # content
         type
-        # key
-        # hashtags
-        # description
       }
       quantity
     }
@@ -452,8 +441,8 @@ export const GET_NEWS_EVENTS = gql`
 `
 
 export const GET_NEWS_EVENT = gql`
-  query GET_NEWS_EVENT($contentId: ID!) {
-    getNewsEvent(contentId: $contentId) {
+  query GET_NEWS_EVENT($contentId: ID!, $type: String!) {
+    getNewsEvent(contentId: $contentId, type: $type) {
       id
       title
       content
@@ -475,6 +464,28 @@ export const GET_NEWS_EVENT = gql`
         link
         label
       }
+    }
+  }
+`
+
+export const GET_CONTENT_IMAGES = gql`
+  query GET_CONTENT_IMAGES($contentId: ID!) {
+    getContentImages(contentId: $contentId) {
+      id
+      # owner {
+      #   id
+      #   username
+      #   email
+      #   ava
+      #   color
+      #   firstname
+      #   lastname
+      #   role
+      # }
+      date
+      location
+      hashtags
+      description
     }
   }
 `

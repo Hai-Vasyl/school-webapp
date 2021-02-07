@@ -2,6 +2,8 @@ import React from "react"
 import { NavLink } from "react-router-dom"
 // @ts-ignore
 import styles from "../styles/navbar.module.scss"
+import { RESET_TOGGLE } from "../redux/toggle/toggleTypes"
+import { useDispatch } from "react-redux"
 
 interface INavLinkProps {
   to: string
@@ -18,8 +20,11 @@ const NavigLink: React.FC<INavLinkProps> = ({
   dropdown,
   Icon,
 }) => {
+  const dispatch = useDispatch()
+
   return (
     <NavLink
+      onClick={() => dispatch({ type: RESET_TOGGLE })}
       to={to}
       exact={exact}
       className={`${styles.link} ${dropdown && styles.link__dropdown_menu}`}

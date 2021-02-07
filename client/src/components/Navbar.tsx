@@ -86,6 +86,7 @@ const Navbar: React.FC = () => {
   }
 
   const handleLogout = () => {
+    dispatch({ type: RESET_TOGGLE })
     console.log("LOGOUT!")
   }
 
@@ -126,7 +127,10 @@ const Navbar: React.FC = () => {
       if (extraLinks) {
         return (
           <div key={title} className={styles.link__wrapper_dropdown}>
-            <button className={`${styles.link} ${styles.link__drop}`}>
+            <button
+              className={`${styles.link} ${styles.link__drop}`}
+              onClick={() => dispatch({ type: RESET_TOGGLE })}
+            >
               <span className={styles.link__text}>{title}</span>
               <BsCaretRightFill className={styles.link__icon} />
             </button>
@@ -162,11 +166,17 @@ const Navbar: React.FC = () => {
     <div className={`${styles.nav} ${changeNav && styles.nav__reduce}`}>
       <div className={styles.nav__actions_wrapper}>
         <div className={styles.nav__actions}>
-          <Link to='/' className={styles.nav__logo}>
+          <Link
+            to='/'
+            className={styles.nav__logo}
+            onClick={() => dispatch({ type: RESET_TOGGLE })}
+          >
             <img src={logo} className={styles.nav__logo_img} alt='logotype' />
           </Link>
           <div className={styles.nav__title}>
-            <Link to='/'>Назва навчального закладу</Link>
+            <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
+              Назва навчального закладу
+            </Link>
           </div>
           <form onSubmit={handleSubmitSearch} className={styles.search}>
             <input
@@ -187,7 +197,10 @@ const Navbar: React.FC = () => {
           </div>
           {token.length ? (
             <div className={`${styles.link__wrapper_dropdown} ${styles.user}`}>
-              <button className={`${styles.user__btn} ${styles.link__drop}`}>
+              <button
+                className={`${styles.user__btn} ${styles.link__drop}`}
+                onClick={() => dispatch({ type: RESET_TOGGLE })}
+              >
                 <div className={styles.user__name}>
                   <span className={styles.user__firstname}>
                     {user.firstname.slice(0, 1)}

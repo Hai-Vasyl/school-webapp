@@ -119,14 +119,16 @@
   display: flex;
   justify-content: center;
   border-top: 1px solid getColor(main-dark);
-  padding: 20px 0px;
   margin: 0 auto;
-  margin-top: 20px;
+  padding-top: 20px;
+  margin-top: 15px;
   &__top {
     border-bottom: 1px solid getColor(main-dark);
     border-top: none;
+    padding-top: 0px;
     margin-top: 0px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    padding-bottom: 20px;
   }
 }
 

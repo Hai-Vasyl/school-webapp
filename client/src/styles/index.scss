@@ -99,6 +99,11 @@ button {
   padding: 20px;
 }
 
+.wrapper-clear {
+  @extend %wrapper;
+  padding: 0px;
+}
+
 .container {
 }
 

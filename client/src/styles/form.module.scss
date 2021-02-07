@@ -229,10 +229,14 @@
   }
   &__picker_date {
     margin-right: 10px;
+    &__to {
+      margin-right: 0px;
+    }
   }
-  &__btn_search {
+  &__btn {
     align-self: stretch;
     padding: 0px 12px !important;
+    margin-left: 10px;
   }
   &__search_input {
     display: block;
@@ -251,6 +255,7 @@
       padding-left: 8px;
     }
   }
+
   &__search_btn {
     position: absolute;
     right: 0.5px;

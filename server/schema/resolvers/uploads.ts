@@ -38,6 +38,17 @@ export const Query = {
       throw new Error(`Getting image errror: ${error.message}`)
     }
   },
+  async getContentImages(_: any, { contentId }: IField) {
+    try {
+      //TODO: validation for each field and check in models
+
+      const images = await Upload.find({ content: contentId })
+
+      return images
+    } catch (error) {
+      throw new Error(`Getting content images error: ${error.message}`)
+    }
+  },
 }
 
 export const Mutation = {

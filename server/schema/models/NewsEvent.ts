@@ -5,7 +5,7 @@ const schema = new Schema({
   content: { type: String, required: true },
   type: { type: String, enum: ["news", "event"], required: true },
   owner: { type: Types.ObjectId, ref: "User", required: true },
-  date: { type: Date, required: true },
+  date: { type: String, required: true },
   category: {
     type: String,
     enum: [
@@ -18,7 +18,7 @@ const schema = new Schema({
     ],
     required: true,
   },
-  dateEvent: { type: Date, required: true },
+  dateEvent: { type: String, required: true },
 })
 
 export default model("NewsEvent", schema)

@@ -11,16 +11,16 @@
   grid-row-gap: 50px;
   grid-column-gap: 20px;
   position: relative;
+  &__load {
+    display: block;
+  }
 }
 
 .content {
   display: flex;
   flex-direction: column;
   background-color: getColor(secondary);
-  // border-bottom: 3px solid getColor(accent);
-  // margin-bottom: 15px;
-  // padding: 10px;
-  // box-shadow: getShadow(card);
+  box-shadow: getShadow(card);
   &__row {
     flex-direction: row;
   }
