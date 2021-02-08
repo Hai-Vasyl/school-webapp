@@ -224,7 +224,10 @@ const Gallery: React.FC = () => {
           />
         )}
         <div
-          className={`${styles.images} ${loadImages && styles.images__load}`}
+          className={`${styles.images} ${
+            (loadImages || !(imagesJSX && imagesJSX.length)) &&
+            styles.images__load
+          }`}
         >
           {loadImages ? (
             <Loader />

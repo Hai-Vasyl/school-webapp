@@ -95,3 +95,13 @@
     }
   }
 }
+
+.newsevent {
+  &__carousel {
+    position: relative;
+    height: 70vh;
+    background-color: getColor(main);
+    overflow: hidden;
+    // margin-top: -22vh;
+  }
+}

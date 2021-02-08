@@ -1,19 +1,16 @@
 import React, { useState } from "react"
-import {
-  GET_NEWS_EVENT,
-  GET_CONTENT_IMAGES,
-  GET_NEWS_EVENTS,
-} from "../fetching/queries"
+import { GET_NEWS_EVENT, GET_CONTENT_IMAGES } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useParams, useLocation } from "react-router-dom"
 import Title from "../components/Title"
 // @ts-ignore
-import styles from "../styles/carousel.module"
+import styles from "../styles/newsevents.module"
 import ButtonTab from "../components/ButtonTab"
 import { BsPlus } from "react-icons/bs"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/uploadTypes"
+import Carousel from "../components/Carousel"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -50,12 +47,15 @@ const NewsEvent: React.FC = () => {
     })
   }
 
+  const images = dataImages ? dataImages.getContentImages : []
   console.log({ dataNewsEvent, dataImages })
   return (
     <div className='container'>
       <Title title={isNews ? "Новина" : "Подія"} />
       <div className='wrapper'>
-        <div>sfsdf</div>
+        <div className={styles.newsevent__carousel}>
+          <Carousel slides={images} load={loadImages} />
+        </div>
         <ButtonTab click={handleAddImage} Icon={BsPlus} />
       </div>
     </div>

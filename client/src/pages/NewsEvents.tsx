@@ -210,7 +210,8 @@ const NewsEvents: React.FC = () => {
         )}
         <div
           className={`${styles.content_wrapper} ${
-            loadNewsEvents && styles.content_wrapper__load
+            (loadNewsEvents || !(newsEventsJSX && newsEventsJSX.length)) &&
+            styles.content_wrapper__load
           }`}
         >
           {loadNewsEvents ? (

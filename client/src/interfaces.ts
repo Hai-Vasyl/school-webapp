@@ -209,3 +209,11 @@ export interface INewsEventDetailed {
     label: string
   }[]
 }
+
+export interface IImageSlide {
+  id: string
+  date: string
+  location: string
+  hashtags?: string
+  description?: string
+}
