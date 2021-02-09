@@ -5,7 +5,8 @@
   justify-content: flex-start;
   border: 1px solid getColor(main-dark);
   padding: 5px 15px;
-  background-color: getColor(secondary);
+  // background-color: getColor(secondary);
+  border-radius: 30px;
   &__checkbox_extra {
     padding: 5px;
   }
@@ -19,7 +20,6 @@
       display: none;
     }
     .card__title {
-      color: getColor(font-white);
     }
     .card__subtitle {
       display: none;
@@ -64,6 +64,10 @@
     color: getColor(accent);
     font-size: 1.1em;
     background-color: transparent;
+    transition: getTransition(main);
+    &:hover {
+      color: getColor(accent-second);
+    }
   }
   &__subtitle {
     color: getColor(font-light);

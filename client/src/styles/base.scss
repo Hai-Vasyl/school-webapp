@@ -48,8 +48,8 @@ $shadows: (
     0px 0px 3px rgba(92, 90, 99, 0.5),
   ),
   deep: (
-    0px 6px 27px rgba(41, 41, 41, 0.4),
-    0px 2px 4px rgba(32, 32, 32, 0.4),
+    0px 6px 27px rgba(0, 0, 0, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.2),
   ),
   card: (
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
@@ -65,10 +65,25 @@ $fonts: (
     "Nunito",
     sans-serif,
   ),
-  second: (
-    "Cormorant Garamond",
-    serif,
-  ),
+  // second: (
+  //   "Cormorant Garamond",
+  //   serif,
+  // ),
+  // second:
+  //   (
+  //     "Cormorant Infant",
+  //     serif,
+  //   ),
+  second:
+    (
+      "Marck Script",
+      cursive,
+    ),
+  // second:
+  //   (
+  //     "Caveat",
+  //     cursive,
+  //   ),,,,
 );
 $logo-side: 123px;
 
@@ -219,6 +234,11 @@ $gradients: (
   padding: 0px 20px;
   margin: auto;
   max-width: 100%;
+}
+
+%wrapper-text {
+  @extend %wrapper;
+  width: 750px;
 }
 
 %position-extend {

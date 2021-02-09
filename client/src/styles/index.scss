@@ -2,7 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap");
+
+// @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Cormorant+Infant&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Marck+Script&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
 
 // @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
@@ -33,6 +37,43 @@ input {
 
 button {
   cursor: pointer;
+}
+
+ol,
+ul {
+  padding: 10px 0;
+  padding-left: 40px;
+}
+
+a {
+  color: getColor(accent);
+  text-decoration: none;
+  transition: getTransition(main);
+  &:hover {
+    color: getColor(accent-second);
+  }
+}
+
+blockquote {
+  border-left: 5px solid getColor(main-dark);
+  padding: 20px;
+  padding-right: 0px;
+  padding-left: 30px;
+  margin: 15px;
+  margin-right: 0px;
+  min-height: 50px;
+  position: relative;
+  font-style: italic;
+  &::before {
+    content: "“";
+    left: 5px;
+    top: -30px;
+    font-family: getFont(second);
+    font-size: 5em;
+    color: getColor(main-dark);
+    position: absolute;
+    z-index: -1;
+  }
 }
 
 .background {
@@ -111,4 +152,11 @@ button {
   min-height: 40vh;
   @extend %scrollbar;
   background-color: getColor(main);
+}
+
+.carousel {
+  position: relative;
+  height: 100vh;
+  background-color: getColor(main);
+  overflow: hidden;
 }

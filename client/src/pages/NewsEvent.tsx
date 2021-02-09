@@ -9,8 +9,14 @@ import ButtonTab from "../components/ButtonTab"
 import { BsPlus } from "react-icons/bs"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
-import { types } from "../modules/uploadTypes"
+import { getParamsByType, types } from "../modules/uploadTypes"
 import Carousel from "../components/Carousel"
+import { Link } from "react-router-dom"
+import { getNewsParamsByKey } from "../modules/newsCategories"
+import Loader from "../components/Loader"
+import HTMLparse from "html-react-parser"
+import UserCard from "../components/UserCard"
+import { RiExternalLinkLine } from "react-icons/ri"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -47,17 +53,83 @@ const NewsEvent: React.FC = () => {
     })
   }
 
+  if (loadNewsEvent) {
+    return <Loader />
+  }
+
   const images = dataImages ? dataImages.getContentImages : []
+  const newsevent = dataNewsEvent ? dataNewsEvent.getNewsEvent : {}
+  const newseventParams = getNewsParamsByKey(newsevent.category)
+  const { Icon }: any = getParamsByType(newsevent.type)
+  const content = HTMLparse(newsevent.content)
   console.log({ dataNewsEvent, dataImages })
+  // console.log({ contentFirstletter: content[0].type })
+
   return (
     <div className='container'>
-      <Title title={isNews ? "Новина" : "Подія"} />
-      <div className='wrapper'>
-        <div className={styles.newsevent__carousel}>
-          <Carousel slides={images} load={loadImages} />
-        </div>
-        <ButtonTab click={handleAddImage} Icon={BsPlus} />
+      <div className='carousel'>
+        <Carousel slides={images} load={loadImages} />
       </div>
+      {loadNewsEvent ? (
+        <Loader />
+      ) : (
+        <>
+          <div className='wrapper'>
+            <div>
+              <Link
+                className={styles.newsevent__category}
+                to={`/news?page=1&category=${newsevent && newsevent.category}`}
+              >
+                <RiExternalLinkLine className={styles.newsevent__icon_link} />
+                <span>{newseventParams?.title}</span>
+              </Link>
+            </div>
+            <h1 className={styles.newsevent__title}>{newsevent.title}</h1>
+            <div className={styles.newsevent__date}>
+              <Icon className={styles.newsevent__date_icon} />
+              <span>{newsevent.date}</span>
+            </div>
+            <div className={styles.newsevent__content}>{content}</div>
+          </div>
+          <div className={styles.newsevent__footer}>
+            <div
+              className={`${styles.content__links} ${styles.newsevent__links}`}
+            >
+              {newsevent.links.map(
+                (link: { label: string; link: string }, index: number) => {
+                  return (
+                    <a
+                      className={styles.content__link}
+                      key={index}
+                      href={link.link}
+                    >
+                      <span>{link.label}</span>
+                    </a>
+                  )
+                }
+              )}
+            </div>
+            <div className={styles.newsevent__info}>
+              <span className={styles.newsevent__info_title}>Дата події:</span>
+              <span className={styles.newsevent__info_text}>
+                {newsevent.dateEvent}
+              </span>
+            </div>
+            <div className={styles.newsevent__info}>
+              <span className={styles.newsevent__info_title}>Автор:</span>
+              <UserCard
+                exClass={styles.newsevent__info_text}
+                user={newsevent.owner}
+                isEnvChat={false}
+                isLink
+                minimize
+              />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* <ButtonTab click={handleAddImage} Icon={BsPlus} /> */}
     </div>
   )
 }

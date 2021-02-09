@@ -62,11 +62,6 @@
     display: block;
     font-weight: bolder;
     font-size: 1.5em;
-    &:hover {
-      text-decoration: underline;
-      text-decoration-color: getColor(accent);
-      text-decoration-style: dashed;
-    }
   }
   &__categoty {
     @extend %link-reset;
@@ -97,11 +92,68 @@
 }
 
 .newsevent {
-  &__carousel {
-    position: relative;
-    height: 70vh;
-    background-color: getColor(main);
-    overflow: hidden;
-    // margin-top: -22vh;
+  &__category {
+    font-size: 1.2em;
+    color: getColor(accent);
+    @extend %link-reset;
+    display: inline-flex;
+    align-items: center;
+  }
+  &__icon_link {
+    color: getColor(accent);
+    font-size: 1.2em;
+    margin-right: 7px;
+  }
+  &__title {
+    font-size: 3em;
+    line-height: 55px;
+    padding: 15px 0;
+  }
+  &__date {
+    @extend %flex-center;
+    justify-content: flex-start;
+  }
+  &__date_icon {
+    margin-right: 10px;
+    font-size: 2em;
+    color: getColor(font-light);
+  }
+  &__content {
+    @extend %wrapper-text;
+    border-top: 1px solid getColor(main-dark);
+    margin-top: 20px;
+    padding-top: 20px;
+    font-size: 1.3em;
+    &::first-letter {
+      border: 4px dashed getColor(main-dark);
+      font-size: 2.1em;
+      padding: 0px 10px;
+      float: left;
+      margin-right: 15px;
+      font-weight: bold;
+      color: getColor(font-light);
+      letter-spacing: 5px;
+      font-family: getFont(second);
+    }
+  }
+  &__footer {
+    border-top: 1px solid getColor(main-dark);
+  }
+  &__info {
+    @extend %wrapper-text;
+    @extend %flex-center;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+  &__links {
+    @extend %wrapper-text;
+    border-top: none;
+    padding: 20px;
+  }
+  &__info_title {
+    margin-right: 7px;
+  }
+  &__info_text {
+    font-weight: bold;
   }
 }

@@ -2,18 +2,17 @@ import React, { useState } from "react"
 import { GET_NEWS_EVENTS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "../components/Title"
-import { useLocation, useHistory, Link } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { INewsEvent } from "../interfaces"
-import { BsImage } from "react-icons/bs"
-import { getNewsParamsByKey } from "../modules/newsCategories"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
 import { categories } from "../modules/newsCategories"
 import FilterSearch from "../components/FilterSearch"
 import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
+import NewsEvent from "../components/NewsEvent"
 
 const NewsEvents: React.FC = () => {
   const location = useLocation()
@@ -128,55 +127,7 @@ const NewsEvents: React.FC = () => {
   const newsEventsJSX =
     dataNewsEvents &&
     dataNewsEvents.getNewsEvents.items.map((item: INewsEvent) => {
-      const linkPath = isNews
-        ? `/news/details/${item.id}`
-        : `/events/details/${item.id}`
-      const linkParams = getNewsParamsByKey(item.category)
-      return (
-        <div className={styles.content} key={item.id}>
-          <Link className={styles.content__preview} key={item.id} to={linkPath}>
-            {item.preview ? (
-              <img
-                className={styles.content__image}
-                src={item.preview.location}
-                alt='image'
-              />
-            ) : (
-              <div className={styles.content__icon}>
-                <BsImage />
-              </div>
-            )}
-          </Link>
-          <div className={styles.content__main}>
-            <div className={styles.content__date}>
-              {item.date.split("-").join(" / ")}
-            </div>
-            <div>
-              <Link className={styles.content__title} to={linkPath}>
-                {item.title}
-              </Link>
-            </div>
-            <div>
-              <Link className={styles.content__categoty} to='/news'>
-                {linkParams?.title}
-              </Link>
-            </div>
-            <div className={styles.content__links}>
-              {item.links.map((link, index) => {
-                return (
-                  <a
-                    className={styles.content__link}
-                    key={index}
-                    href={link.link}
-                  >
-                    <span>{link.label}</span>
-                  </a>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )
+      return <NewsEvent info={item} isNews={isNews} />
     })
 
   const quantityItems = dataNewsEvents && dataNewsEvents.getNewsEvents.quantity
