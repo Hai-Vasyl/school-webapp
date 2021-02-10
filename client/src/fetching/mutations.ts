@@ -432,3 +432,12 @@ export const EDIT_NEWS_EVENT = gql`
     }
   }
 `
+
+export const DELETE_NEWS_EVENT = gql`
+  mutation DELETE_NEWS_EVENT($contentId: ID!) {
+    deleteNewsEvent(contentId: $contentId) {
+      message
+      type
+    }
+  }
+`

@@ -184,6 +184,7 @@ export default gql`
       dateEvent: String!
       links: [InputLink]
     ): Msg!
+    deleteNewsEvent(contentId: ID!): Msg!
     createUpload(
       hashtags: String
       description: String

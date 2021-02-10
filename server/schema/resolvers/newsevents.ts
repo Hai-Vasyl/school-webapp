@@ -1,7 +1,11 @@
-import { NewsEvent, ExtraLink } from "../models"
+import { NewsEvent, ExtraLink, Upload } from "../models"
 import { IField, IIsAuth } from "../interfaces"
 import { createEditValid } from "../validation/newsEvents"
 import { types as msgTypes } from "../../modules/messageTypes"
+import { deleteFile } from "../helpers/crudBucket"
+import { config } from "dotenv"
+config({ path: "../../../.env" })
+const { AWS_UPLOADS_BUCKET: uploadsBucket } = process.env
 
 export const Query = {
   async getNewsEvents(
@@ -161,6 +165,38 @@ export const Mutation = {
       }
     } catch (error) {
       throw new Error(error.message)
+    }
+  },
+  async deleteNewsEvent(
+    _: any,
+    { contentId }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const images: any = await Upload.find({ content: contentId })
+      if (images.length) {
+        for (let i = 0; i < images.length; i++) {
+          await deleteFile(images[i].key, uploadsBucket || "")
+        }
+        await Upload.deleteMany({ content: contentId })
+      }
+
+      await ExtraLink.deleteMany({ content: contentId })
+      const content: any = await NewsEvent.findById(contentId)
+      await NewsEvent.findByIdAndDelete(contentId)
+
+      return {
+        message: `${
+          content?.type === "news" ? "Новина" : "Подія"
+        } була успішно видалена!`,
+        type: msgTypes.success.keyWord,
+      }
+    } catch (error) {
+      throw new Error(`Deleting news or event error: ${error.message}`)
     }
   },
 }

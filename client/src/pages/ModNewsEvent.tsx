@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 // @ts-ignore
 import HTMLparse from "html-react-parser"
 import Title from "../components/Title"
@@ -13,16 +13,31 @@ import LoaderData from "../components/LoaderData"
 import Button from "../components/Button"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
-import { BsPencil, BsPlus, BsLink45Deg, BsX } from "react-icons/bs"
+import {
+  BsPencil,
+  BsPlus,
+  BsLink45Deg,
+  BsX,
+  BsTrash,
+  BsArrowClockwise,
+  BsArrowLeft,
+} from "react-icons/bs"
 import useChangeInput from "../hooks/useChangeInput"
 import { categories } from "../modules/newsCategories"
-import { CREATE_NEWS_EVENT, EDIT_NEWS_EVENT } from "../fetching/mutations"
+import {
+  CREATE_NEWS_EVENT,
+  EDIT_NEWS_EVENT,
+  DELETE_NEWS_EVENT,
+} from "../fetching/mutations"
 import { useMutation, useLazyQuery } from "@apollo/client"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/messageTypes"
 import { GET_NEWS_EVENT } from "../fetching/queries"
+import { INewsEventDetailed } from "../interfaces"
+import { WARNING_OPEN, WARNING_CLOSE } from "../redux/toggle/toggleTypes"
+import ButtonTab from "../components/ButtonTab"
 
 const ModNewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -86,7 +101,7 @@ const ModNewsEvent: React.FC = () => {
 
   const [
     getNewsEvent,
-    { data: dataDataEdit, loading: loadDataEdit },
+    { data: dataDataEdit, loading: loadDataEdit, refetch: refetchData },
   ] = useLazyQuery(GET_NEWS_EVENT, { fetchPolicy: "cache-and-network" })
   const [
     createNewsEvent,
@@ -96,6 +111,26 @@ const ModNewsEvent: React.FC = () => {
     editNewsEvent,
     { data: dataEdit, loading: loadEdit, error: errorEdit },
   ] = useMutation(EDIT_NEWS_EVENT)
+  const [
+    deleteNewsEvent,
+    { data: dataDelete, loading: loadDelete },
+  ] = useMutation(DELETE_NEWS_EVENT)
+
+  const setDataForms = useCallback((newsEventData: INewsEventDetailed) => {
+    setForm((prevForm) =>
+      prevForm.map((field) => {
+        let newField = field
+        Object.keys(newsEventData).forEach((key) => {
+          if (field.param === key) {
+            // @ts-ignore
+            newField = { ...newField, value: newsEventData[key] }
+          }
+        })
+        return newField
+      })
+    )
+    setExtraLinks(newsEventData.links)
+  }, [])
 
   useEffect(() => {
     if (contentId) {
@@ -111,20 +146,9 @@ const ModNewsEvent: React.FC = () => {
   useEffect(() => {
     const editNewsEvent = dataDataEdit && dataDataEdit.getNewsEvent
     if (editNewsEvent) {
-      setForm((prevForm) =>
-        prevForm.map((field) => {
-          let newField = field
-          Object.keys(editNewsEvent).forEach((key) => {
-            if (field.param === key) {
-              newField = { ...newField, value: editNewsEvent[key] }
-            }
-          })
-          return newField
-        })
-      )
-      setExtraLinks(editNewsEvent.links)
+      setDataForms(editNewsEvent)
     }
-  }, [dataDataEdit])
+  }, [dataDataEdit, setDataForms])
 
   useEffect(() => {
     const dataCreateNewsEvent = dataCreate && dataCreate.createNewsEvent
@@ -174,6 +198,17 @@ const ModNewsEvent: React.FC = () => {
       )
     }
   }, [dispatch, dataEdit, errorEdit, contentId, isNews])
+
+  useEffect(() => {
+    const dataDeleteNewsEvent = dataDelete && dataDelete.deleteNewsEvent
+    if (dataDeleteNewsEvent) {
+      dispatch({
+        type: SET_TOAST,
+        payload: dataDeleteNewsEvent,
+      })
+      history.push(isNews ? "/news" : "/events")
+    }
+  }, [dispatch, dataDelete, contentId, isNews])
 
   const handleSubmitForm = (
     event:
@@ -270,9 +305,16 @@ const ModNewsEvent: React.FC = () => {
     )
   }
 
-  const options = Object.keys(categories).map((key) => {
-    // @ts-ignore
-    return { label: categories[key].title, value: categories[key].keyWord }
+  let options: { label: string; value: string }[] = []
+  Object.keys(categories).forEach((key) => {
+    if (key !== categories.all.keyWord) {
+      options.push({
+        // @ts-ignore
+        label: categories[key].title,
+        // @ts-ignore
+        value: categories[key].keyWord,
+      })
+    }
   })
 
   const checkFormLinkFilled = () => {
@@ -299,6 +341,34 @@ const ModNewsEvent: React.FC = () => {
           return field
         })
       )
+    }
+  }
+
+  const handleDeleteNewsEvent = () => {
+    deleteNewsEvent({
+      variables: {
+        contentId,
+      },
+    })
+    dispatch({ type: WARNING_CLOSE })
+  }
+
+  const handlePopupWarning = () => {
+    dispatch({
+      type: WARNING_OPEN,
+      payload: {
+        action: handleDeleteNewsEvent,
+        title: `Ви впевнені, що хочете назавжди видалити цю ${
+          isNews ? "новину" : "подію"
+        }?`,
+      },
+    })
+  }
+
+  const handleRefreshForms = () => {
+    const editNewsEvent = dataDataEdit && dataDataEdit.getNewsEvent
+    if (editNewsEvent) {
+      setDataForms(editNewsEvent)
     }
   }
 
@@ -375,20 +445,22 @@ const ModNewsEvent: React.FC = () => {
   const isFormLinkFilled = checkFormLinkFilled()
   return (
     <div className='container'>
-      <Title title='Редагування' />
+      <Title title={contentId ? "Редагування" : "Створення"} />
       <div className='wrapper'>
         <div className={styles.form}>
           <div
             className={`${styles.form__content} ${styles.form__content__article}`}
           >
             <div className={styles.form__title}>
-              {/* {groupId && (
+              {contentId && (
                 <ButtonTab
                   Icon={BsArrowLeft}
-                  click={handleGoBack}
+                  click={() =>
+                    history.push(isNews ? "/create-news" : "/create-event")
+                  }
                   exClass={styles.form__btn_back}
                 />
-              )} */}
+              )}
               <div className={styles.form__title_text}>
                 {contentId ? "Редагування " : "Створення "}
                 {isNews ? "новини" : "події"}
@@ -398,7 +470,9 @@ const ModNewsEvent: React.FC = () => {
               className={styles.form__container_fields}
               onSubmit={handleSubmitForm}
             >
-              <LoaderData load={loadDataEdit || loadCreate} />
+              <LoaderData
+                load={loadDataEdit || loadCreate || loadEdit || loadDelete}
+              />
               <div className={styles.form__fields}>{fields}</div>
               <button className='btn-handler'></button>
             </form>
@@ -412,7 +486,9 @@ const ModNewsEvent: React.FC = () => {
                     }
               }
             >
-              <LoaderData load={loadDataEdit || loadCreate} />
+              <LoaderData
+                load={loadDataEdit || loadCreate || loadEdit || loadDelete}
+              />
               <div className={styles.form__title_simple}>
                 Додаткові посилання
               </div>
@@ -456,15 +532,23 @@ const ModNewsEvent: React.FC = () => {
                 click={handleSubmitForm}
                 type='button'
               />
-              {/* {groupId && (
+              {contentId && (
+                <>
                   <Button
-                    title='Скасувати'
                     exClass={stylesBtn.btn_simple}
-                    Icon={BsX}
-                    click={handleGoBack}
+                    Icon={BsArrowClockwise}
+                    click={handleRefreshForms}
                     type='button'
                   />
-                )} */}
+                  <Button
+                    title='Видалити'
+                    exClass={stylesBtn.btn_simple}
+                    Icon={BsTrash}
+                    click={handlePopupWarning}
+                    type='button'
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>
