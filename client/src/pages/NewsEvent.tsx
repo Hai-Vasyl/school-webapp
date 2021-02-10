@@ -1,13 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import { GET_NEWS_EVENT, GET_CONTENT_IMAGES } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useParams, useLocation } from "react-router-dom"
-import Title from "../components/Title"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
-import ButtonTab from "../components/ButtonTab"
-import { BsPlus } from "react-icons/bs"
-import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
+import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { getParamsByType, types } from "../modules/uploadTypes"
 import Carousel from "../components/Carousel"
@@ -17,12 +14,21 @@ import Loader from "../components/Loader"
 import HTMLparse from "html-react-parser"
 import UserCard from "../components/UserCard"
 import { RiExternalLinkLine } from "react-icons/ri"
+import NewsEventsModule from "../components/NewsEventsModule"
+import useLightBox from "../hooks/useLightBox"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
   const { pathname } = useLocation()
   const isNews = pathname.split("/")[1] === "news"
   const dispatch = useDispatch()
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
+  const { getLightBox } = useLightBox()
 
   const { data: dataNewsEvent, loading: loadNewsEvent } = useQuery(
     GET_NEWS_EVENT,
@@ -39,7 +45,31 @@ const NewsEvent: React.FC = () => {
     refetch: refetchImages,
   } = useQuery(GET_CONTENT_IMAGES, { variables: { contentId } })
 
-  const handleAddImage = () => {
+  const handlePopupEditImage = (
+    imageId: string,
+    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event && event.stopPropagation()
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: imageId,
+        content: contentId,
+        type: isNews ? types.news.keyWord : types.event.keyWord,
+        onEdit: () => {
+          refetchImages()
+        },
+        onRemove: () => {
+          refetchImages()
+        },
+        onCreate: () => {
+          refetchImages()
+        },
+      },
+    })
+  }
+
+  const handlePopupCreateImage = () => {
     dispatch({
       type: MODIMAGE_OPEN,
       payload: {
@@ -53,22 +83,51 @@ const NewsEvent: React.FC = () => {
     })
   }
 
-  if (loadNewsEvent) {
-    return <Loader />
+  const handlePopupLightBox = (imageId: string) => {
+    const { getIndexImage, checkMoveAccess, onMove } = getLightBox(
+      dataImages && dataImages.getContentImages
+    )
+    const { isLeft, isRight } = checkMoveAccess(getIndexImage(imageId))
+    dispatch({
+      type: LIGHTBOX_OPEN,
+      payload: {
+        imageId,
+        onMove,
+        isLeft,
+        isRight,
+        handleEditImage: handlePopupEditImage,
+      },
+    })
   }
 
   const images = dataImages ? dataImages.getContentImages : []
   const newsevent = dataNewsEvent ? dataNewsEvent.getNewsEvent : {}
   const newseventParams = getNewsParamsByKey(newsevent.category)
-  const { Icon }: any = getParamsByType(newsevent.type)
-  const content = HTMLparse(newsevent.content)
+  const newsEventExtraParams: any = newsevent && getParamsByType(newsevent.type)
+  const content = newsevent && HTMLparse(newsevent.content || "")
+  const isOwnerContent =
+    user.role === access.admin.keyWord || user.id === newsevent.owner.id
   console.log({ dataNewsEvent, dataImages })
-  // console.log({ contentFirstletter: content[0].type })
 
   return (
     <div className='container'>
-      <div className='carousel'>
-        <Carousel slides={images} load={loadImages} />
+      <div
+        className={`carousel ${
+          !loadImages &&
+          !images.length &&
+          (isOwnerContent
+            ? styles.newsevent__slider__minimize
+            : styles.newsevent__slider__close)
+        }`}
+      >
+        <Carousel
+          slides={images}
+          load={loadImages}
+          isContentOwner={isOwnerContent}
+          popupLightBox={handlePopupLightBox}
+          popupCreateImage={handlePopupCreateImage}
+          popupEditImage={handlePopupEditImage}
+        />
       </div>
       {loadNewsEvent ? (
         <Loader />
@@ -86,7 +145,9 @@ const NewsEvent: React.FC = () => {
             </div>
             <h1 className={styles.newsevent__title}>{newsevent.title}</h1>
             <div className={styles.newsevent__date}>
-              <Icon className={styles.newsevent__date_icon} />
+              <newsEventExtraParams.Icon
+                className={styles.newsevent__date_icon}
+              />
               <span>{newsevent.date}</span>
             </div>
             <div className={styles.newsevent__content}>{content}</div>
@@ -128,8 +189,7 @@ const NewsEvent: React.FC = () => {
           </div>
         </>
       )}
-
-      {/* <ButtonTab click={handleAddImage} Icon={BsPlus} /> */}
+      <NewsEventsModule isNews={isNews} exceptId={contentId} />
     </div>
   )
 }

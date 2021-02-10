@@ -410,6 +410,7 @@ export const GET_NEWS_EVENTS = gql`
     $dateTo: String
     $from: Int!
     $to: Int!
+    $exceptId: ID
   ) {
     getNewsEvents(
       search: $search
@@ -419,6 +420,7 @@ export const GET_NEWS_EVENTS = gql`
       dateTo: $dateTo
       from: $from
       to: $to
+      exceptId: $exceptId
     ) {
       items {
         id
@@ -472,20 +474,13 @@ export const GET_CONTENT_IMAGES = gql`
   query GET_CONTENT_IMAGES($contentId: ID!) {
     getContentImages(contentId: $contentId) {
       id
-      # owner {
-      #   id
-      #   username
-      #   email
-      #   ava
-      #   color
-      #   firstname
-      #   lastname
-      #   role
-      # }
       date
       location
       hashtags
       description
+      owner {
+        id
+      }
     }
   }
 `

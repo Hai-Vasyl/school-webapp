@@ -12,6 +12,13 @@
 .loader {
   @extend %flex-center;
   padding: 25px 0;
+  &__center {
+    @extend %position-extend;
+    display: flex;
+    .loader__spinner {
+      margin: auto;
+    }
+  }
   &__spinner {
     @extend %spinner;
   }

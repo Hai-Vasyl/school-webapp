@@ -159,4 +159,5 @@ blockquote {
   height: 100vh;
   background-color: getColor(main);
   overflow: hidden;
+  transition: getTransition(main);
 }

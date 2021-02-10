@@ -12,16 +12,47 @@
       rgba(0, 0, 0, 0.5)
     );
   }
-  &__toolbar {
+  &__toolbar_wrapper {
     position: absolute;
     bottom: 0px;
     left: 0px;
     right: 0px;
     z-index: 6;
-    background-color: getColor(bg-night);
-    @extend %flex-center;
     height: 60px;
     border-top: 1px solid getColor(bg-light);
+    background-color: getColor(bg-night);
+    &__minimize {
+      background-color: getColor(main);
+      border-bottom: 1px solid getColor(main-dark);
+    }
+  }
+  &__toolbar {
+    @extend %wrapper;
+    @extend %flex-center;
+    height: 60px;
+    position: relative;
+  }
+  &__btn_create {
+  }
+  &__btns {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    @extend %flex-center;
+    & > *:last-child {
+      margin-left: 10px;
+    }
+  }
+  &__add_img {
+    @extend %flex-center;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    & > span {
+      margin-right: 7px;
+    }
   }
 }
 

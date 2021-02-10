@@ -7,6 +7,9 @@
   border-radius: getRadius(main);
   transition: getTransition(main);
   color: getColor(font-white);
+  &__reverse_icon {
+    flex-direction: row-reverse;
+  }
   &:active {
     box-shadow: none;
     transform: scale(0.95);
@@ -198,7 +201,6 @@
   width: 42.4px;
   height: 42.4px;
   margin-right: 10px;
-
   transition: getTransition(main);
   border: 1px solid getColor(font-white);
   color: getColor(font-white);
@@ -218,7 +220,7 @@
 
 .btn_tab_glass {
   background-color: transparent;
-  border: 1px solid getColor(main-dark);
+  border: 1px solid getColor(bg-light);
   box-shadow: none;
   color: getColor(font-white);
   &:hover {

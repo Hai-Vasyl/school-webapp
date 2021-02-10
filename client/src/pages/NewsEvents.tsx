@@ -127,7 +127,7 @@ const NewsEvents: React.FC = () => {
   const newsEventsJSX =
     dataNewsEvents &&
     dataNewsEvents.getNewsEvents.items.map((item: INewsEvent) => {
-      return <NewsEvent info={item} isNews={isNews} />
+      return <NewsEvent key={item.id} info={item} isNews={isNews} />
     })
 
   const quantityItems = dataNewsEvents && dataNewsEvents.getNewsEvents.quantity

@@ -214,6 +214,9 @@ export interface IImageSlide {
   id: string
   date: string
   location: string
+  owner: {
+    id: string
+  }
   hashtags?: string
   description?: string
 }

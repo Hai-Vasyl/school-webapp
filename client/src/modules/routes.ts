@@ -60,6 +60,10 @@ export const getLinks = (role: string) => {
       title: "Новини",
     },
     {
+      to: "/events",
+      title: "Події",
+    },
+    {
       to: "/library",
       title: "Бібліотека",
     },

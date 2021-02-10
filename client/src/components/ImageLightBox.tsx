@@ -100,7 +100,7 @@ const ImageLightBox: React.FC = () => {
             <ButtonTab
               exClass={`${stylesBtn.btn_tab_glass} ${styles.lightbox__btn_overlay}`}
               Icon={BsPencilSquare}
-              click={handleEditImage}
+              click={() => handleEditImage(imageId)}
             />
           )}
           <ButtonTab

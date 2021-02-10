@@ -31,7 +31,7 @@ export interface LightBoxOpen {
     onMove(isRight: boolean, imageId: string): any
     isLeft: boolean
     isRight: boolean
-    handleEditImage(): any
+    handleEditImage(imageId: string): any
   }
 }
 export interface LightBoxClose {

@@ -160,7 +160,7 @@ const Gallery: React.FC = () => {
         onMove,
         isLeft,
         isRight,
-        handleEditImage: () => handlePopupEditImage(imageId),
+        handleEditImage: handlePopupEditImage,
       },
     })
   }

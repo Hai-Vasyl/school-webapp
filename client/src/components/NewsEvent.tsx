@@ -4,7 +4,8 @@ import styles from "../styles/newsevents.module"
 import { INewsEvent } from "../interfaces"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import { Link } from "react-router-dom"
-import { BsImage } from "react-icons/bs"
+import { BsImage, BsInfoSquare } from "react-icons/bs"
+import { getParamsByType } from "../modules/uploadTypes"
 
 interface INewsEventProps {
   isNews: boolean
@@ -16,10 +17,17 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
     ? `/news/details/${info.id}`
     : `/events/details/${info.id}`
   const linkParams = getNewsParamsByKey(info.category)
+  const contentType = getParamsByType(isNews ? "news" : "event")
 
   return (
     <div className={styles.content} key={info.id}>
       <Link className={styles.content__preview} key={info.id} to={linkPath}>
+        <span className={styles.content__overlay}>
+          <span className={styles.content__more}>
+            <BsInfoSquare className={styles.content__more_icon} />
+            <span className={styles.content__more_text}>Детальніше</span>
+          </span>
+        </span>
         {info.preview ? (
           <img
             className={styles.content__image}
@@ -34,7 +42,10 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
       </Link>
       <div className={styles.content__main}>
         <div className={styles.content__date}>
-          {info.date.split("-").join(" / ")}
+          {contentType && (
+            <contentType.Icon className={styles.content__date_icon} />
+          )}
+          <span>{info.date.split("-").join(" / ")}</span>
         </div>
         <div>
           <Link className={styles.content__title} to={linkPath}>

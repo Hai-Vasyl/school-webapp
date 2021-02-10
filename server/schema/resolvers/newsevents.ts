@@ -5,7 +5,7 @@ import { createEditValid } from "../validation/newsEvents"
 export const Query = {
   async getNewsEvents(
     _: any,
-    { search, type, category, dateFrom, dateTo, from, to }: IField
+    { search, type, category, dateFrom, dateTo, from, to, exceptId }: IField
   ) {
     try {
       const searchQuery = search && { $text: { $search: search } }
@@ -19,6 +19,7 @@ export const Query = {
           : { $exists: true }
       const query = {
         ...searchQuery,
+        _id: exceptId ? { $ne: exceptId } : { $exists: true },
         type,
         date: type === "news" ? rangeDates : { $exists: true },
         dateEvent: type === "event" ? rangeDates : { $exists: true },

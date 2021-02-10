@@ -134,6 +134,7 @@ export default gql`
       dateTo: String
       from: Int!
       to: Int!
+      exceptId: ID
     ): NewsEvents!
     getNewsEvent(contentId: ID!, type: String!): NewsEvent!
     getContentImages(contentId: ID!): [UploadFile]!
