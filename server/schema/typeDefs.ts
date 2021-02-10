@@ -175,6 +175,15 @@ export default gql`
       dateEvent: String!
       links: [InputLink]
     ): String!
+    editNewsEvent(
+      contentId: ID!
+      title: String!
+      content: String!
+      type: String!
+      category: String!
+      dateEvent: String!
+      links: [InputLink]
+    ): Msg!
     createUpload(
       hashtags: String
       description: String

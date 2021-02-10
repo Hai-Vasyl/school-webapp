@@ -56,7 +56,10 @@ $shadows: (
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
   ),
   danger: (
-    0px 0px 10px rgba(181, 55, 55, 0.285),
+    0px 0px 10px rgba(181, 55, 55, 0.3),
+  ),
+  success: (
+    0px 0px 10px rgba(57, 189, 92, 0.3),
   ),
 );
 
@@ -83,7 +86,7 @@ $fonts: (
   //   (
   //     "Caveat",
   //     cursive,
-  //   ),,,,
+  //   ),,,,,
 );
 $logo-side: 123px;
 

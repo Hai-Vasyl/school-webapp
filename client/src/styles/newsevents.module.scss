@@ -167,6 +167,10 @@
 }
 
 .newsevent {
+  &__categoty_wrapper {
+    @extend %flex-center;
+    justify-content: space-between;
+  }
   &__category {
     font-size: 1.2em;
     color: getColor(accent);
@@ -178,6 +182,8 @@
     color: getColor(accent);
     font-size: 1.2em;
     margin-right: 7px;
+  }
+  &__btn_edit {
   }
   &__title {
     font-size: 3em;

@@ -407,3 +407,28 @@ export const CREATE_NEWS_EVENT = gql`
     )
   }
 `
+
+export const EDIT_NEWS_EVENT = gql`
+  mutation EDIT_NEWS_EVENT(
+    $contentId: ID!
+    $title: String!
+    $content: String!
+    $type: String!
+    $category: String!
+    $dateEvent: String!
+    $links: [InputLink]
+  ) {
+    editNewsEvent(
+      contentId: $contentId
+      title: $title
+      content: $content
+      type: $type
+      category: $category
+      dateEvent: $dateEvent
+      links: $links
+    ) {
+      message
+      type
+    }
+  }
+`

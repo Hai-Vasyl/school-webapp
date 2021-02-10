@@ -81,6 +81,11 @@
   justify-content: center;
   box-shadow: getShadow(thin);
   cursor: pointer;
+  transition: getTransition(main);
+  &__active {
+    border-color: getColor(success);
+    box-shadow: getShadow(success);
+  }
   &__delete {
     width: 20px;
     height: 20px;

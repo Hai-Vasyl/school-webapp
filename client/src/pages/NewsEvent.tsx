@@ -8,7 +8,7 @@ import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { getParamsByType, types } from "../modules/uploadTypes"
 import Carousel from "../components/Carousel"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import Loader from "../components/Loader"
 import HTMLparse from "html-react-parser"
@@ -19,6 +19,8 @@ import useLightBox from "../hooks/useLightBox"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
+import ButtonTab from "../components/ButtonTab"
+import { BsPencilSquare } from "react-icons/bs"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -29,6 +31,7 @@ const NewsEvent: React.FC = () => {
     auth: { user },
   } = useSelector((state: RootStore) => state)
   const { getLightBox } = useLightBox()
+  const history = useHistory()
 
   const { data: dataNewsEvent, loading: loadNewsEvent } = useQuery(
     GET_NEWS_EVENT,
@@ -37,6 +40,7 @@ const NewsEvent: React.FC = () => {
         contentId,
         type: isNews ? "news" : "event",
       },
+      fetchPolicy: "cache-and-network",
     }
   )
   const {
@@ -107,7 +111,6 @@ const NewsEvent: React.FC = () => {
   const content = newsevent && HTMLparse(newsevent.content || "")
   const isOwnerContent =
     user.role === access.admin.keyWord || user.id === newsevent.owner.id
-  console.log({ dataNewsEvent, dataImages })
 
   return (
     <div className='container'>
@@ -134,7 +137,7 @@ const NewsEvent: React.FC = () => {
       ) : (
         <>
           <div className='wrapper'>
-            <div>
+            <div className={styles.newsevent__categoty_wrapper}>
               <Link
                 className={styles.newsevent__category}
                 to={`/news?page=1&category=${newsevent && newsevent.category}`}
@@ -142,6 +145,15 @@ const NewsEvent: React.FC = () => {
                 <RiExternalLinkLine className={styles.newsevent__icon_link} />
                 <span>{newseventParams?.title}</span>
               </Link>
+              <ButtonTab
+                exClass={styles.newsevent__btn_edit}
+                click={() =>
+                  history.push(
+                    `${isNews ? "/edit-news/" : "/edit-event/"}${contentId}`
+                  )
+                }
+                Icon={BsPencilSquare}
+              />
             </div>
             <h1 className={styles.newsevent__title}>{newsevent.title}</h1>
             <div className={styles.newsevent__date}>

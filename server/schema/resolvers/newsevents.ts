@@ -1,6 +1,7 @@
 import { NewsEvent, ExtraLink } from "../models"
 import { IField, IIsAuth } from "../interfaces"
 import { createEditValid } from "../validation/newsEvents"
+import { types as msgTypes } from "../../modules/messageTypes"
 
 export const Query = {
   async getNewsEvents(
@@ -99,6 +100,65 @@ export const Mutation = {
       }
 
       return newNewsEvent._id
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  },
+  async editNewsEvent(
+    _: any,
+    { contentId, title, content, type, category, dateEvent, links }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const {
+        title: vTitle,
+        content: vContent,
+        dateEvent: vDateEvent,
+        isError,
+      }: any = await createEditValid({ title, content, dateEvent })
+      if (isError) {
+        throw new Error(
+          JSON.stringify({
+            title: vTitle,
+            content: vContent,
+            dateEvent: vDateEvent,
+          })
+        )
+      }
+
+      await NewsEvent.updateOne(
+        { _id: contentId, type },
+        {
+          title,
+          content,
+          category,
+          dateEvent,
+          date: new Date().toISOString().split("T")[0],
+        }
+      )
+
+      await ExtraLink.deleteMany({ content: contentId })
+
+      for (let i = 0; i < links.length; i++) {
+        const extraLink = new ExtraLink({
+          link: links[i].link,
+          label: links[i].label,
+          content: contentId,
+          date: new Date(),
+        })
+        await extraLink.save()
+      }
+
+      return {
+        message: `${
+          type === "news" ? "Новина" : "Подія"
+        } була успішно оновлена!`,
+        type: msgTypes.success.keyWord,
+      }
     } catch (error) {
       throw new Error(error.message)
     }

@@ -16,12 +16,13 @@ import stylesBtn from "../styles/button.module"
 import { BsPencil, BsPlus, BsLink45Deg, BsX } from "react-icons/bs"
 import useChangeInput from "../hooks/useChangeInput"
 import { categories } from "../modules/newsCategories"
-import { CREATE_NEWS_EVENT } from "../fetching/mutations"
-import { useMutation } from "@apollo/client"
+import { CREATE_NEWS_EVENT, EDIT_NEWS_EVENT } from "../fetching/mutations"
+import { useMutation, useLazyQuery } from "@apollo/client"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/messageTypes"
+import { GET_NEWS_EVENT } from "../fetching/queries"
 
 const ModNewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -29,6 +30,7 @@ const ModNewsEvent: React.FC = () => {
   const history = useHistory()
   const isNews =
     pathname.split("/")[1] === "edit-news" || pathname === "/create-news"
+  const [activeEditItem, setActiveEditItem] = useState("")
   const [form, setForm] = useState([
     {
       param: "title",
@@ -83,14 +85,50 @@ const ModNewsEvent: React.FC = () => {
   const dispatch = useDispatch()
 
   const [
+    getNewsEvent,
+    { data: dataDataEdit, loading: loadDataEdit },
+  ] = useLazyQuery(GET_NEWS_EVENT, { fetchPolicy: "cache-and-network" })
+  const [
     createNewsEvent,
     { data: dataCreate, loading: loadCreate, error: errorCreate },
   ] = useMutation(CREATE_NEWS_EVENT)
+  const [
+    editNewsEvent,
+    { data: dataEdit, loading: loadEdit, error: errorEdit },
+  ] = useMutation(EDIT_NEWS_EVENT)
+
+  useEffect(() => {
+    if (contentId) {
+      getNewsEvent({
+        variables: {
+          contentId,
+          type: isNews ? "news" : "event",
+        },
+      })
+    }
+  }, [getNewsEvent, contentId, isNews])
+
+  useEffect(() => {
+    const editNewsEvent = dataDataEdit && dataDataEdit.getNewsEvent
+    if (editNewsEvent) {
+      setForm((prevForm) =>
+        prevForm.map((field) => {
+          let newField = field
+          Object.keys(editNewsEvent).forEach((key) => {
+            if (field.param === key) {
+              newField = { ...newField, value: editNewsEvent[key] }
+            }
+          })
+          return newField
+        })
+      )
+      setExtraLinks(editNewsEvent.links)
+    }
+  }, [dataDataEdit])
 
   useEffect(() => {
     const dataCreateNewsEvent = dataCreate && dataCreate.createNewsEvent
     if (errorCreate) {
-      console.log({ errorCreate })
       setErrors(errorCreate.message, setForm)
       dispatch({
         type: SET_TOAST,
@@ -115,6 +153,28 @@ const ModNewsEvent: React.FC = () => {
     }
   }, [dispatch, dataCreate, errorCreate, contentId, isNews])
 
+  useEffect(() => {
+    const dataEditNewsEvent = dataEdit && dataEdit.editNewsEvent
+    if (errorEdit) {
+      setErrors(errorEdit.message, setForm)
+      dispatch({
+        type: SET_TOAST,
+        payload: {
+          type: types.error.keyWord,
+          message: "Помилка перевірки полів форми!",
+        },
+      })
+    } else if (dataEditNewsEvent) {
+      dispatch({
+        type: SET_TOAST,
+        payload: dataEditNewsEvent,
+      })
+      history.push(
+        isNews ? `/news/details/${contentId}` : `/events/details/${contentId}`
+      )
+    }
+  }, [dispatch, dataEdit, errorEdit, contentId, isNews])
+
   const handleSubmitForm = (
     event:
       | React.FormEvent<HTMLFormElement>
@@ -124,7 +184,19 @@ const ModNewsEvent: React.FC = () => {
     const [title, dateEvent, category, content] = form
 
     if (contentId) {
-      console.log("START EDIT NEWS EVENT")
+      editNewsEvent({
+        variables: {
+          contentId,
+          title: title.value.trim(),
+          content: content.value.trim(),
+          type: isNews ? "news" : "event",
+          category: category.value,
+          dateEvent: dateEvent.value.trim(),
+          links: extraLinks.map((item) => {
+            return { label: item.label, link: item.link }
+          }),
+        },
+      })
     } else {
       createNewsEvent({
         variables: {
@@ -150,14 +222,7 @@ const ModNewsEvent: React.FC = () => {
     )
   }
 
-  const handleAddExtraLink = (
-    event:
-      | React.FormEvent<HTMLFormElement>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault()
-    const [link, label] = formLink
-    setExtraLinks((prev) => [...prev, { link: link.value, label: label.value }])
+  const resetFormLink = () => {
     setFormLink((prevForm) =>
       prevForm.map((field) => {
         return { ...field, value: "" }
@@ -165,7 +230,41 @@ const ModNewsEvent: React.FC = () => {
     )
   }
 
-  const handleDeleteLink = (linkAddress: string) => {
+  const handleAddExtraLink = (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault()
+    const [link, label] = formLink
+    if (activeEditItem) {
+      setExtraLinks((prevLinks) =>
+        prevLinks.map((item) => {
+          if (item.link === activeEditItem) {
+            return { label: label.value, link: link.value }
+          }
+          return item
+        })
+      )
+      setActiveEditItem("")
+    } else {
+      setExtraLinks((prev) => [
+        ...prev,
+        { link: link.value, label: label.value },
+      ])
+    }
+    resetFormLink()
+  }
+
+  const handleDeleteLink = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    linkAddress: string
+  ) => {
+    event.stopPropagation()
+    if (linkAddress === activeEditItem) {
+      setActiveEditItem("")
+      resetFormLink()
+    }
     setExtraLinks((prev) =>
       [...prev].filter((link) => link.link !== linkAddress)
     )
@@ -184,13 +283,38 @@ const ModNewsEvent: React.FC = () => {
     return check
   }
 
+  const handleSetEditItem = (link: { label: string; link: string }) => {
+    if (activeEditItem === link.link) {
+      setActiveEditItem("")
+      resetFormLink()
+    } else {
+      setActiveEditItem(link.link)
+      setFormLink((prevForm) =>
+        prevForm.map((field) => {
+          if (field.param === "label") {
+            return { ...field, value: link.label }
+          } else if (field.param === "link") {
+            return { ...field, value: link.link }
+          }
+          return field
+        })
+      )
+    }
+  }
+
   const extraLinksJSX = extraLinks.map((link, index) => {
     return (
-      <div className={stylesBtn.btn_link} key={link.link + index}>
+      <div
+        className={`${stylesBtn.btn_link} ${
+          activeEditItem === link.link && stylesBtn.btn_link__active
+        }`}
+        key={link.link + index}
+        onClick={() => handleSetEditItem(link)}
+      >
         <span className={stylesBtn.btn_link__title}>{link.label}</span>
         <button
           className={stylesBtn.btn_link__delete}
-          onClick={() => handleDeleteLink(link.link)}
+          onClick={(event) => handleDeleteLink(event, link.link)}
         >
           <BsX />
         </button>
@@ -248,11 +372,10 @@ const ModNewsEvent: React.FC = () => {
     )
   })
 
-  console.log({ form, formLink })
   const isFormLinkFilled = checkFormLinkFilled()
   return (
     <div className='container'>
-      <Title title='Галерея' />
+      <Title title='Редагування' />
       <div className='wrapper'>
         <div className={styles.form}>
           <div
@@ -275,15 +398,21 @@ const ModNewsEvent: React.FC = () => {
               className={styles.form__container_fields}
               onSubmit={handleSubmitForm}
             >
-              <LoaderData load={loadCreate} />
+              <LoaderData load={loadDataEdit || loadCreate} />
               <div className={styles.form__fields}>{fields}</div>
               <button className='btn-handler'></button>
             </form>
             <form
               className={styles.form__container_fields}
-              onSubmit={handleAddExtraLink}
+              onSubmit={
+                isFormLinkFilled
+                  ? handleAddExtraLink
+                  : (event) => {
+                      event.preventDefault()
+                    }
+              }
             >
-              <LoaderData load={loadCreate} />
+              <LoaderData load={loadDataEdit || loadCreate} />
               <div className={styles.form__title_simple}>
                 Додаткові посилання
               </div>
@@ -291,7 +420,9 @@ const ModNewsEvent: React.FC = () => {
               <button className='btn-handler'></button>
               <div className={styles.form__btns}>
                 <Button
-                  title='Добавити посилання'
+                  title={
+                    activeEditItem ? "Оновити посилання" : "Добавити посилання"
+                  }
                   exClass={
                     isFormLinkFilled
                       ? stylesBtn.btn_primary
