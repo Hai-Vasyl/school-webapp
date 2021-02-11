@@ -6,6 +6,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 // @ts-ignore
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
+import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldEditProps {
   field: {
@@ -15,7 +16,8 @@ interface IFieldEditProps {
     title: string
     msg?: string
   }
-  change: (value: string) => any
+  change: any
+  check?: any
   exClass?: string
   transparent?: boolean
   isImportant?: boolean
@@ -24,10 +26,12 @@ interface IFieldEditProps {
 const FieldEditor: React.FC<IFieldEditProps> = ({
   field,
   change,
+  check,
   isImportant,
   exClass,
   transparent,
 }) => {
+  const { changeEditor } = useChangeInput()
   const editorConfiguration = {
     toolbar: [
       "heading",
@@ -43,6 +47,11 @@ const FieldEditor: React.FC<IFieldEditProps> = ({
       "undo",
       "redo",
     ],
+  }
+
+  const handleChange = (value: string) => {
+    check && check()
+    changeEditor(change, field.param, value)
   }
 
   return (
@@ -64,7 +73,7 @@ const FieldEditor: React.FC<IFieldEditProps> = ({
           data={field.value}
           config={editorConfiguration}
           onChange={(event: any, editor: any) => {
-            change(editor.getData())
+            handleChange(editor.getData())
           }}
         />
       </div>

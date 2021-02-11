@@ -26,7 +26,6 @@ import {
 } from "react-icons/bs"
 import FieldFile from "./FieldFile"
 import Field from "./Field"
-import useChangeInput from "../hooks/useChangeInput"
 import { IField, IImageDetailed } from "../interfaces"
 import DragAndDropFiles from "./DragAndDropFiles"
 // @ts-ignore
@@ -92,7 +91,6 @@ const ImageMod: React.FC = () => {
   ])
   const [preview, setPreview] = useState("")
   const { setErrors } = useSetErrorsFields()
-  const { changeInput } = useChangeInput()
 
   const resetForm = useCallback(() => {
     setForm((prevForm) =>
@@ -216,32 +214,8 @@ const ImageMod: React.FC = () => {
     }
   }
 
-  const setFile = (file: any) => {
-    setForm((prevForm) =>
-      prevForm.map((field) => {
-        if (field.param === "upload") {
-          return {
-            ...field,
-            value: file,
-            msg: "",
-          }
-        }
-        return field
-      })
-    )
+  const afterChangeFile = (file: any) => {
     setPreview(URL.createObjectURL(file))
-  }
-
-  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0])
-    }
-  }
-
-  const handleDropFiles = (files: any) => {
-    if (files) {
-      setFile(files[0])
-    }
   }
 
   const handleRefreshForm = () => {
@@ -272,18 +246,13 @@ const ImageMod: React.FC = () => {
           isImportant={!imageId}
           field={field}
           file={!!form[0].value}
-          change={handleChangeFile}
+          change={setForm}
+          afterChange={afterChangeFile}
           numFiles={1}
         />
       )
     }
-    return (
-      <Field
-        field={field}
-        key={field.param}
-        change={(event) => changeInput(event, setForm)}
-      />
-    )
+    return <Field field={field} key={field.param} change={setForm} />
   })
 
   return (
@@ -348,7 +317,9 @@ const ImageMod: React.FC = () => {
       </div>
       <DragAndDropFiles
         exClass={`${styles.droparea} ${styles.form__sidebar}`}
-        handleDropFiles={handleDropFiles}
+        change={setForm}
+        afterChange={afterChangeFile}
+        param='upload'
       >
         <LoaderData load={loadImage} />
         {preview ? (

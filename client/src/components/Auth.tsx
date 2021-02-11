@@ -14,7 +14,6 @@ import Field from "./Field"
 import styles from "../styles/auth.module"
 // @ts-ignore
 import stylesButton from "../styles/button.module"
-import useChangeInput from "../hooks/useChangeInput"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import ButtonTab from "./ButtonTab"
 import LoaderData from "./LoaderData"
@@ -25,7 +24,6 @@ const Auth: React.FC = () => {
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
   const [isLogin, setIslogin] = useState(true)
-  const { changeInput } = useChangeInput()
   const { setErrors } = useSetErrorsFields()
   const [form, setForm] = useState([
     {
@@ -147,13 +145,7 @@ const Auth: React.FC = () => {
 
   const reduceMapFields = (form: IField[], setForm: any) => {
     return form.map((field) => {
-      return (
-        <Field
-          key={field.param}
-          field={field}
-          change={(event) => changeInput(event, setForm)}
-        />
-      )
+      return <Field key={field.param} field={field} change={setForm} />
     })
   }
 

@@ -2,21 +2,27 @@ import React, { useEffect, useState, useRef } from "react"
 import { BsCloudUpload } from "react-icons/bs"
 // @ts-ignore
 import styles from "../styles/form.module"
+import useChangeInput from "../hooks/useChangeInput"
 
 interface DragAndDropFilesProps {
   exClass: string
-  handleDropFiles: any
+  change: any
+  afterChange?: any
   children: React.ReactNode
+  param: string
 }
 
 const DragAndDropFiles: React.FC<DragAndDropFilesProps> = ({
   exClass,
-  handleDropFiles,
+  change,
   children,
+  afterChange,
+  param,
 }) => {
   const [dragging, setDragging] = useState(false)
   const [dragCounter, setDragCounter] = useState(0)
   const dropElem = useRef<HTMLDivElement>(null)
+  const { changeFile } = useChangeInput()
 
   useEffect(() => {
     setDragCounter(0)
@@ -60,8 +66,11 @@ const DragAndDropFiles: React.FC<DragAndDropFilesProps> = ({
     event.preventDefault()
     event.stopPropagation()
     setDragging(false)
-    if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-      handleDropFiles(event.dataTransfer.files)
+    const { files } = event.dataTransfer
+    if (files && files.length > 0) {
+      changeFile(change, param, files[0])
+      afterChange && afterChange(files[0])
+
       event.dataTransfer.clearData()
       setDragCounter(0)
     }

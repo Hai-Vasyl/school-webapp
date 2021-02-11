@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
 import { BsCaretDownFill } from "react-icons/bs"
-import usePickOption from "../hooks/usePickOption"
+import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldPickerProps {
   field: {
@@ -17,6 +17,7 @@ interface IFieldPickerProps {
     label: string
   }[]
   change: any
+  check?: any
   Icon?: any
   isImportant?: boolean
   noError?: boolean
@@ -29,13 +30,14 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
   field,
   options,
   Icon,
+  check,
   isImportant,
   noError,
   submit,
   exClass,
 }) => {
   const [toggleDrop, setToggleDrop] = useState(false)
-  const { pichOpton } = usePickOption()
+  const { pichOpton } = useChangeInput()
 
   const handleToggleDrop = () => {
     setToggleDrop((prev) => !prev)
@@ -59,6 +61,7 @@ const FieldPicker: React.FC<IFieldPickerProps> = ({
   }
 
   const handlePickOption = (value: string) => {
+    check && check()
     pichOpton(change, field.param, value)
   }
 

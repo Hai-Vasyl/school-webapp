@@ -10,7 +10,6 @@ import { useLocation } from "react-router-dom"
 import Field from "./Field"
 import FieldNumber from "./FieldNumber"
 import FieldEditor from "./FieldEditor"
-import useChangeInput from "../hooks/useChangeInput"
 import Button from "./Button"
 import { BsPencil, BsPlus } from "react-icons/bs"
 
@@ -39,7 +38,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({ sectionId }) => {
     {
       param: "priority",
       type: "number",
-      value: "",
+      value: "0",
       title: "Пріорітет",
       msg: "",
     },
@@ -49,8 +48,6 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({ sectionId }) => {
     createPageSection,
     { data: dataCreate, loading: loadCreate, error },
   ] = useMutation(CREATE_PAGE_SECTION)
-
-  const { changeInput, changeEditor } = useChangeInput()
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -70,18 +67,11 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({ sectionId }) => {
 
   const fields = form.map((field) => {
     if (field.param === "content") {
-      return (
-        <FieldEditor
-          field={field}
-          change={(value) => changeEditor(setForm, "content", value)}
-        />
-      )
+      return <FieldEditor field={field} change={setForm} />
     } else if (field.type === "number") {
-      return <FieldNumber />
+      return <FieldNumber field={field} change={setForm} />
     }
-    return (
-      <Field field={field} change={(event) => changeInput(event, setForm)} />
-    )
+    return <Field field={field} change={setForm} />
   })
 
   return (

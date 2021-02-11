@@ -4,6 +4,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs"
 // @ts-ignore
 import styles from "../styles/field.module"
 import ButtonTab from "./ButtonTab"
+import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldProps {
   field: {
@@ -13,7 +14,8 @@ interface IFieldProps {
     title: string
     msg?: string
   }
-  change: (event: React.ChangeEvent<HTMLInputElement>) => any
+  change: any
+  check?(event: React.ChangeEvent<HTMLInputElement>): any
   exClass?: string
   transparent?: boolean
   isImportant?: boolean
@@ -22,6 +24,7 @@ interface IFieldProps {
 const Field: React.FC<IFieldProps> = ({
   field,
   change,
+  check,
   exClass,
   transparent,
   isImportant,
@@ -30,6 +33,13 @@ const Field: React.FC<IFieldProps> = ({
 
   const handleViewPassword = () => {
     setViewPass((prev) => !prev)
+  }
+
+  const { changeInput } = useChangeInput()
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    check && check(event)
+    changeInput(event, change)
   }
 
   const isPassword = field.type === "password"
@@ -54,7 +64,7 @@ const Field: React.FC<IFieldProps> = ({
           name={field.param}
           type={viewPass && isPassword ? "text" : field.type}
           value={field.value}
-          onChange={change}
+          onChange={handleChange}
           autoComplete='off'
         />
         {isPassword && (

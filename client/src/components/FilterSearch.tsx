@@ -82,8 +82,6 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
     } else {
       setIsDateError(false)
     }
-
-    changeInput(event, setFormDate)
   }
 
   return (
@@ -144,14 +142,16 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
           >
             <FieldDate
               field={fieldDateFrom}
-              change={onChangeDate}
+              change={setFormDate}
+              check={onChangeDate}
               noError
               error={isDateError}
               exClass={styles.form_filter__picker_date}
             />
             <FieldDate
               field={fieldDateTo}
-              change={onChangeDate}
+              change={setFormDate}
+              check={onChangeDate}
               noError
               error={isDateError}
               exClass={`${styles.form_filter__picker_date} ${styles.form_filter__picker_date__to}`}

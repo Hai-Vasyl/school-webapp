@@ -22,7 +22,6 @@ import {
   BsArrowClockwise,
   BsArrowLeft,
 } from "react-icons/bs"
-import useChangeInput from "../hooks/useChangeInput"
 import { categories } from "../modules/newsCategories"
 import {
   CREATE_NEWS_EVENT,
@@ -95,7 +94,6 @@ const ModNewsEvent: React.FC = () => {
   const [extraLinks, setExtraLinks] = useState<
     { link: string; label: string }[]
   >([])
-  const { changeInput, changeEditor } = useChangeInput()
   const { setErrors } = useSetErrorsFields()
   const dispatch = useDispatch()
 
@@ -387,7 +385,7 @@ const ModNewsEvent: React.FC = () => {
         <FieldDate
           key={field.param}
           field={field}
-          change={(event: any) => changeInput(event, setForm)}
+          change={setForm}
           isImportant
         />
       )
@@ -406,29 +404,18 @@ const ModNewsEvent: React.FC = () => {
         <FieldEditor
           key={field.param}
           field={field}
-          change={(value) => changeEditor(setForm, "content", value)}
+          change={setForm}
           isImportant
         />
       )
     }
     return (
-      <Field
-        key={field.param}
-        field={field}
-        change={(event) => changeInput(event, setForm)}
-        isImportant
-      />
+      <Field key={field.param} field={field} change={setForm} isImportant />
     )
   })
 
   const fieldsLink = formLink.map((field) => {
-    return (
-      <Field
-        key={field.param}
-        field={field}
-        change={(event) => changeInput(event, setFormLink)}
-      />
-    )
+    return <Field key={field.param} field={field} change={setFormLink} />
   })
 
   const isFormLinkFilled = checkFormLinkFilled()

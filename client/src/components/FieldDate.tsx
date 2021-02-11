@@ -2,6 +2,7 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
+import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldDateProps {
   field?: {
@@ -11,7 +12,8 @@ interface IFieldDateProps {
     title: string
     msg?: string
   }
-  change(event: React.ChangeEvent<HTMLInputElement>): any
+  change: any
+  check?(event: React.ChangeEvent<HTMLInputElement>): any
   isImportant?: boolean
   noError?: boolean
   error?: boolean
@@ -21,11 +23,19 @@ interface IFieldDateProps {
 const FieldDate: React.FC<IFieldDateProps> = ({
   field,
   change,
+  check,
   isImportant,
   noError,
   exClass,
   error,
 }) => {
+  const { changeInput } = useChangeInput()
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    check && check(event)
+    changeInput(event, change)
+  }
+
   return (
     <div
       className={`${styles.field_file} ${exClass} ${
@@ -50,7 +60,7 @@ const FieldDate: React.FC<IFieldDateProps> = ({
           className={`${styles.field_file__label} ${styles.field_date__label}`}
           type='date'
           value={field?.value}
-          onChange={change}
+          onChange={handleChange}
           name={field?.param}
         />
       </div>
