@@ -1,6 +1,15 @@
 import { gql } from "apollo-server"
 
 export default gql`
+  type PageSection {
+    id: ID!
+    page: ID!
+    title: String!
+    content: String!
+    priority: Int!
+    owner: User!
+    date: String
+  }
   type ExtraLink {
     id: ID!
     link: String!
@@ -126,6 +135,7 @@ export default gql`
     quantity: Int!
   }
   type Query {
+    getPageSections(url: String!): [PageSection]!
     getNewsEvents(
       search: String
       type: String!
@@ -167,6 +177,12 @@ export default gql`
     getStudentsNoGroup: [User]!
   }
   type Mutation {
+    createPageSection(
+      url: String!
+      title: String!
+      content: String!
+      priority: Int!
+    ): Msg!
     createNewsEvent(
       title: String!
       content: String!

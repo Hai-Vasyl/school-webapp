@@ -95,13 +95,13 @@ const ModNewsEvent: React.FC = () => {
   const [extraLinks, setExtraLinks] = useState<
     { link: string; label: string }[]
   >([])
-  const { changeInput } = useChangeInput()
+  const { changeInput, changeEditor } = useChangeInput()
   const { setErrors } = useSetErrorsFields()
   const dispatch = useDispatch()
 
   const [
     getNewsEvent,
-    { data: dataDataEdit, loading: loadDataEdit, refetch: refetchData },
+    { data: dataDataEdit, loading: loadDataEdit },
   ] = useLazyQuery(GET_NEWS_EVENT, { fetchPolicy: "cache-and-network" })
   const [
     createNewsEvent,
@@ -244,17 +244,6 @@ const ModNewsEvent: React.FC = () => {
         },
       })
     }
-  }
-
-  const handleChangeEditor = (value: string) => {
-    setForm((prevForm) =>
-      prevForm.map((field) => {
-        if (field.param === "content") {
-          return { ...field, value, msg: "" }
-        }
-        return field
-      })
-    )
   }
 
   const resetFormLink = () => {
@@ -417,7 +406,7 @@ const ModNewsEvent: React.FC = () => {
         <FieldEditor
           key={field.param}
           field={field}
-          change={handleChangeEditor}
+          change={(value) => changeEditor(setForm, "content", value)}
           isImportant
         />
       )

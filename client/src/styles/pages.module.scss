@@ -1,0 +1,22 @@
+@import "base";
+
+.create_section {
+  @extend %flex-center;
+  border-bottom: 1px solid getColor(main-dark);
+  background-color: getColor(secondary);
+  padding: 10px 0;
+  &__title {
+    margin-right: 7px;
+    font-size: 1.1em;
+  }
+}
+
+.page {
+  &__form {
+    transition: getTransition(main);
+    display: block;
+    &__close {
+      display: none;
+    }
+  }
+}

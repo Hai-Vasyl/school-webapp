@@ -22,6 +22,10 @@ import {
   Query as QNewsEvents,
   Mutation as MNewsEvents,
 } from "./resolvers/newsevents"
+import {
+  Query as QPageSections,
+  Mutation as MPageSections,
+} from "./resolvers/pagesections"
 import { Chat } from "./resolvers/chat"
 import { Message } from "./resolvers/message"
 import { UserChat } from "./resolvers/userchat"
@@ -30,6 +34,7 @@ import { User } from "./resolvers/user"
 import { Group } from "./resolvers/group"
 import { UploadFile } from "./resolvers/upload"
 import { NewsEvent } from "./resolvers/newsevent"
+import { PageSection } from "./resolvers/pagesection"
 
 const schema = {
   typeDefs,
@@ -44,6 +49,7 @@ const schema = {
       ...QGroups,
       ...QUploads,
       ...QNewsEvents,
+      ...QPageSections,
     },
     Mutation: {
       ...MUsers,
@@ -55,6 +61,7 @@ const schema = {
       ...MGroups,
       ...MUploads,
       ...MNewsEvents,
+      ...MPageSections,
     },
     Subscription: {
       ...SMessages,
@@ -68,6 +75,7 @@ const schema = {
     Group,
     UploadFile,
     NewsEvent,
+    PageSection,
   },
 }
 

@@ -1,7 +1,7 @@
 import Home from "../pages/Home"
 import Profile from "../pages/Profile"
 import { BsChat, BsSearch, BsBell } from "react-icons/bs"
-import EduInst from "../pages/EduInst"
+import About from "../pages/About"
 import OurValues from "../pages/OurValues"
 import Team from "../pages/Team"
 import Graduates from "../pages/Graduates"
@@ -132,7 +132,7 @@ export const getLinks = (role: string) => {
 
 const mainRoutes = [
   { path: "/", exact: true, Component: Home },
-  { path: "/about", Component: EduInst },
+  { path: "/about", Component: About },
   { path: "/values", Component: OurValues },
   { path: "/team", Component: Team },
   { path: "/graduates", Component: Graduates },

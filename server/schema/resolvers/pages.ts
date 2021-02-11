@@ -14,19 +14,19 @@ export const Query = {
       throw new Error(`Getting page error: ${error.message}`)
     }
   },
-  async getPages(_: any, __: any, { isAuth }: { isAuth: IIsAuth }) {
-    try {
-      if (!isAuth.auth) {
-        throw new Error("Access denied!")
-      }
-      //TODO: add validation and check in models
+  // async getPages(_: any, __: any, { isAuth }: { isAuth: IIsAuth }) {
+  //   try {
+  //     if (!isAuth.auth) {
+  //       throw new Error("Access denied!")
+  //     }
+  //     //TODO: add validation and check in models
 
-      const pages = await Page.find()
-      return pages
-    } catch (error) {
-      throw new Error(`Getting all pages error: ${error.message}`)
-    }
-  },
+  //     const pages = await Page.find()
+  //     return pages
+  //   } catch (error) {
+  //     throw new Error(`Getting all pages error: ${error.message}`)
+  //   }
+  // },
 }
 
 export const Mutation = {

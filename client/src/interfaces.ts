@@ -220,3 +220,12 @@ export interface IImageSlide {
   hashtags?: string
   description?: string
 }
+
+export interface IPageSection {
+  id: string
+  page: string
+  title: string
+  content: string
+  priority: string
+  date: string
+}

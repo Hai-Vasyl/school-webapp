@@ -39,6 +39,7 @@ const FieldEditor: React.FC<IFieldEditProps> = ({
       "numberedList",
       "blockQuote",
       "insertTable",
+      "mediaEmbed",
       "undo",
       "redo",
     ],

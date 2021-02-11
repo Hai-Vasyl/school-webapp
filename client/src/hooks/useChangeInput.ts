@@ -16,7 +16,18 @@ const useChangeInput = () => {
     )
   }
 
-  return { changeInput }
+  const changeEditor = (setForm: any, param: string, value: string) => {
+    setForm((prevForm: IField[]) =>
+      prevForm.map((field) => {
+        if (field.param === param) {
+          return { ...field, value, msg: "" }
+        }
+        return field
+      })
+    )
+  }
+
+  return { changeInput, changeEditor }
 }
 
 export default useChangeInput

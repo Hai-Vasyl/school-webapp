@@ -484,3 +484,16 @@ export const GET_CONTENT_IMAGES = gql`
     }
   }
 `
+
+export const GET_PAGE_SECTIONS = gql`
+  query GET_PAGE_SECTIONS($url: String!) {
+    getPageSections(url: $url) {
+      id
+      page
+      title
+      content
+      priority
+      date
+    }
+  }
+`

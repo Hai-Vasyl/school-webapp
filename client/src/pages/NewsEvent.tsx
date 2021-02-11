@@ -11,7 +11,6 @@ import Carousel from "../components/Carousel"
 import { Link, useHistory } from "react-router-dom"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import Loader from "../components/Loader"
-import HTMLparse from "html-react-parser"
 import UserCard from "../components/UserCard"
 import { RiExternalLinkLine } from "react-icons/ri"
 import NewsEventsModule from "../components/NewsEventsModule"
@@ -21,6 +20,7 @@ import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
 import ButtonTab from "../components/ButtonTab"
 import { BsPencilSquare } from "react-icons/bs"
+import { convertContent } from "../helpers/convertContentEditor"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -108,7 +108,7 @@ const NewsEvent: React.FC = () => {
   const newsevent = dataNewsEvent ? dataNewsEvent.getNewsEvent : {}
   const newseventParams = getNewsParamsByKey(newsevent.category)
   const newsEventExtraParams: any = newsevent && getParamsByType(newsevent.type)
-  const content = newsevent && HTMLparse(newsevent.content || "")
+  const content = newsevent && convertContent(newsevent.content)
   const isOwnerContent =
     user.role === access.admin.keyWord || user.id === newsevent.owner.id
 

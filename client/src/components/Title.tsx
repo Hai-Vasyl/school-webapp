@@ -10,20 +10,20 @@ interface ITitleProps {
 }
 
 const Title: React.FC<ITitleProps> = ({ title }) => {
-  const location = useLocation()
-  const { data: dataImage, loading, error } = useQuery(GET_PAGE, {
-    variables: { url: location.pathname },
-  })
+  // const location = useLocation()
+  // const { data: dataImage, loading, error } = useQuery(GET_PAGE, {
+  //   variables: { url: location.pathname },
+  // })
 
   return (
     <div className={styles.title}>
-      {dataImage && (
+      {/* {dataImage && (
         <img
           src={dataImage.image}
           className={styles.title__image}
           alt='bgImage'
         />
-      )}
+      )} */}
       <div className={styles.title__layer}></div>
       <h2 className={styles.title__text}>{title}</h2>
     </div>

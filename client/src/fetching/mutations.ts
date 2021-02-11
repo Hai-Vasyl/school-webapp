@@ -441,3 +441,22 @@ export const DELETE_NEWS_EVENT = gql`
     }
   }
 `
+
+export const CREATE_PAGE_SECTION = gql`
+  mutation CREATE_PAGE_SECTION(
+    $url: String!
+    $title: String!
+    $content: String!
+    $priority: Int!
+  ) {
+    createPageSection(
+      url: $url
+      title: $title
+      content: $content
+      priority: $priority
+    ) {
+      message
+      type
+    }
+  }
+`
