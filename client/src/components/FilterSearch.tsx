@@ -12,7 +12,6 @@ import ButtonTab from "./ButtonTab"
 import { IField } from "../interfaces"
 import FieldDate from "../components/FieldDate"
 import Button from "../components/Button"
-import useChangeInput from "../hooks/useChangeInput"
 
 interface IFilterSearchProps {
   handleSubmit(event: React.FormEvent<HTMLFormElement>): any
@@ -48,7 +47,6 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
-  const { changeInput } = useChangeInput()
   const [isDateError, setIsDateError] = useState(false)
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {

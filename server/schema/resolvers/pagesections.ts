@@ -1,13 +1,16 @@
 import { PageSection, Page } from "../models"
 import { IField, IIsAuth } from "../interfaces"
 import { types } from "../../modules/messageTypes"
+import { createEditValid } from "../validation/pageSections"
 
 export const Query = {
   async getPageSections(_: any, { url }: IField) {
     try {
       //TODO: validation for each field and check in models
 
-      const pagesSections = await PageSection.find({ url })
+      const pagesSections = await PageSection.find({ url }).sort({
+        priority: 1,
+      })
       return pagesSections
     } catch (error) {
       throw new Error(`Getting page sections error: ${error.message}`)
@@ -25,20 +28,37 @@ export const Mutation = {
       if (!isAuth.auth) {
         throw new Error("Access denied!")
       }
-      //TODO: validation for each field and check in models
+
+      const {
+        title: vTitle,
+        content: vContent,
+        priority: vPriority,
+        url: vUrl,
+        isError,
+      }: any = await createEditValid({ title, content, priority, url })
+      if (isError) {
+        throw new Error(
+          JSON.stringify({
+            title: vTitle,
+            content: vContent,
+            priority: vPriority,
+            url: vUrl,
+          })
+        )
+      }
 
       const page = await Page.findOne({ url })
-      let newPage: any
+      let savedPage: any
       if (!page) {
-        newPage = new Page({
+        const newPage = new Page({
           url,
           date: new Date(),
         })
-        await newPage.save()
+        savedPage = await newPage.save()
       }
 
       const newSection = new PageSection({
-        page: page ? page.id : newPage.id,
+        page: page ? page.id : savedPage.id,
         title,
         url,
         content,
@@ -53,7 +73,7 @@ export const Mutation = {
         type: types.success.keyWord,
       }
     } catch (error) {
-      throw new Error(`Creating section error: ${error.message}`)
+      throw new Error(error.message)
     }
   },
 }

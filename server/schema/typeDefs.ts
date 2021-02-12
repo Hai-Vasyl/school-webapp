@@ -4,6 +4,7 @@ export default gql`
   type PageSection {
     id: ID!
     page: ID!
+    url: String!
     title: String!
     content: String!
     priority: Int!

@@ -494,6 +494,9 @@ export const GET_PAGE_SECTIONS = gql`
       content
       priority
       date
+      owner {
+        id
+      }
     }
   }
 `

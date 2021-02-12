@@ -140,6 +140,10 @@ blockquote {
   padding: 20px;
 }
 
+.wrapper-text {
+  @extend %wrapper-text;
+}
+
 .wrapper-clear {
   @extend %wrapper;
   padding: 0px;
@@ -162,6 +166,24 @@ blockquote {
   transition: getTransition(main);
 }
 
+.title-second {
+  padding: 20px 0px;
+  font-size: 2.3em;
+  position: relative;
+  &::before {
+    content: "";
+    width: 50px;
+    height: 5px;
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    z-index: 3;
+    border-top: 2px solid getColor(font-light);
+    background-color: getColor(main-dark);
+  }
+}
+
 figure {
   position: relative;
   padding-bottom: 56.25%;
@@ -174,5 +196,7 @@ iframe {
   top: 0;
   left: 0;
   width: 100%;
+  max-width: 710px;
   height: 100%;
+  margin: 0 auto;
 }

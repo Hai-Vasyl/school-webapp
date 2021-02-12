@@ -228,4 +228,7 @@ export interface IPageSection {
   content: string
   priority: string
   date: string
+  owner: {
+    id: string
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 // @ts-ignore
 import styles from "../styles/form.module"
 // @ts-ignore
@@ -12,13 +12,26 @@ import FieldNumber from "./FieldNumber"
 import FieldEditor from "./FieldEditor"
 import Button from "./Button"
 import { BsPencil, BsPlus } from "react-icons/bs"
+import useSetErrorsFields from "../hooks/useSetErrorsFields"
+import { useDispatch } from "react-redux"
+import { SET_TOAST } from "../redux/toasts/toastsTypes"
+import { types } from "../modules/messageTypes"
 
 interface ModSectionFormProps {
   sectionId?: string
+  onCreate?(): any
+  onDelete?(): any
+  onEdit?(): any
 }
 
-const ModSectionForm: React.FC<ModSectionFormProps> = ({ sectionId }) => {
+const ModSectionForm: React.FC<ModSectionFormProps> = ({
+  sectionId,
+  onCreate,
+  onDelete,
+  onEdit,
+}) => {
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
 
   const [form, setForm] = useState([
     {
@@ -46,32 +59,56 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({ sectionId }) => {
 
   const [
     createPageSection,
-    { data: dataCreate, loading: loadCreate, error },
+    { data: dataCreate, loading: loadCreate, error: errorCreate },
   ] = useMutation(CREATE_PAGE_SECTION)
+
+  const { setErrors } = useSetErrorsFields()
+
+  useEffect(() => {
+    const data = dataCreate && dataCreate.createPageSection
+    if (errorCreate) {
+      setErrors(errorCreate.message, setForm)
+      dispatch({
+        type: SET_TOAST,
+        payload: {
+          type: types.error.keyWord,
+          message: "Помилка перевірки полів форми!",
+        },
+      })
+    } else if (data) {
+      dispatch({
+        type: SET_TOAST,
+        payload: data,
+      })
+      onCreate && onCreate()
+    }
+  }, [dispatch, dataCreate, errorCreate])
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const [title, content, priority] = form
+
     if (sectionId) {
       console.log("EDIT_SECTION")
-    }
-    {
-      // const [] = form
-      // createPageSection({variables: {
-      //   url: pathname,
-      //   title: $title
-      //   content: $content
-      //   priority
-      // }})
+    } else {
+      createPageSection({
+        variables: {
+          url: pathname,
+          title: title.value.trim(),
+          content: content.value.trim(),
+          priority: Number(priority.value),
+        },
+      })
     }
   }
 
   const fields = form.map((field) => {
     if (field.param === "content") {
-      return <FieldEditor field={field} change={setForm} />
+      return <FieldEditor key={field.param} field={field} change={setForm} />
     } else if (field.type === "number") {
-      return <FieldNumber field={field} change={setForm} />
+      return <FieldNumber key={field.param} field={field} change={setForm} />
     }
-    return <Field field={field} change={setForm} />
+    return <Field key={field.param} field={field} change={setForm} />
   })
 
   return (
@@ -88,9 +125,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({ sectionId }) => {
           className={styles.form__container_fields}
           onSubmit={handleSubmitForm}
         >
-          {/* <LoaderData
-                load={loadDataEdit || loadCreate || loadEdit || loadDelete}
-              /> */}
+          <LoaderData load={loadCreate} />
           <div className={styles.form__fields}>{fields}</div>
           <div className={styles.form__btns}>
             <Button

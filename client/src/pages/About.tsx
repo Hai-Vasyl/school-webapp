@@ -15,6 +15,7 @@ import { access } from "../modules/accessModifiers"
 import { IPageSection } from "../interfaces"
 import PageSection from "../components/PageSection"
 import ModSectionForm from "../components/ModSectionForm"
+import ButtonMenu from "../components/ButtonMenu"
 
 const About: React.FC = () => {
   const { pathname } = useLocation()
@@ -23,53 +24,76 @@ const About: React.FC = () => {
   } = useSelector((state: RootStore) => state)
 
   const [toggleFormCreate, setToggleFormCreate] = useState(false)
+  const [activeSection, setActiveSection] = useState("")
 
   const { data: dataPage, loading: loadPage } = useQuery(GET_PAGE, {
     variables: {
       url: pathname,
     },
   })
-  const { data: dataSections, loading: loadSections } = useQuery(
-    GET_PAGE_SECTIONS,
-    {
-      variables: {
-        url: pathname,
-      },
-    }
-  )
+  const {
+    data: dataSections,
+    loading: loadSections,
+    refetch: refetchSections,
+  } = useQuery(GET_PAGE_SECTIONS, {
+    variables: {
+      url: pathname,
+    },
+  })
 
-  const sections =
-    dataSections &&
-    dataSections.getPageSections.map((section: IPageSection) => {
-      return <PageSection info={section} />
+  useEffect(() => {
+    const data = dataSections && dataSections.getPageSections
+    if (data) {
+      setActiveSection(data[0].title)
+    }
+  }, [dataSections])
+
+  const onCreate = () => {
+    refetchSections()
+    setToggleFormCreate(false)
+  }
+
+  const sections = dataSections && dataSections.getPageSections
+  const sectionsJSX =
+    sections &&
+    sections.map((section: IPageSection) => {
+      return <PageSection key={section.id} info={section} />
     })
 
   return (
     <div className='container'>
       <Title title='Про школу' />
-      {user.role === access.admin.keyWord && (
-        <div>
-          <div className={styles.create_section}>
-            <div className={styles.create_section__title}>
-              Створити розділ сторінки
-            </div>
-            <ButtonTab
-              click={() => setToggleFormCreate((prev) => !prev)}
-              Icon={BsPlus}
-            />
-          </div>
 
-          <div
-            className={`${styles.page__form} ${
-              toggleFormCreate && styles.page__form__close
-            }`}
-          >
-            <ModSectionForm />
-          </div>
+      <div className={styles.page__navbar_wrapper}>
+        <div className={styles.page__navbar}>
+          <ButtonMenu
+            links={
+              sections ? sections.map((item: IPageSection) => item.title) : []
+            }
+            active={activeSection}
+            click={() => {}}
+          />
+          {user.role === access.admin.keyWord && (
+            <div className={styles.page__create}>
+              <p>Створити розділ сторінки</p>
+              <ButtonTab
+                click={() => setToggleFormCreate((prev) => !prev)}
+                Icon={BsPlus}
+              />
+            </div>
+          )}
         </div>
-      )}
-      <div className='wrapper'>
-        {loadSections ? <Loader /> : <div>{sections}</div>}
+
+        <div
+          className={`${styles.page__form} ${
+            !toggleFormCreate && styles.page__form__close
+          }`}
+        >
+          <ModSectionForm onCreate={onCreate} />
+        </div>
+      </div>
+      <div className='wrapper-text'>
+        {loadSections ? <Loader /> : <div>{sectionsJSX}</div>}
       </div>
     </div>
   )

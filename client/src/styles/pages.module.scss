@@ -1,22 +1,45 @@
 @import "base";
 
-.create_section {
-  @extend %flex-center;
-  border-bottom: 1px solid getColor(main-dark);
-  background-color: getColor(secondary);
-  padding: 10px 0;
-  &__title {
-    margin-right: 7px;
-    font-size: 1.1em;
-  }
-}
-
 .page {
+  &__navbar_wrapper {
+    border-bottom: 1px solid getColor(main-dark);
+    background-color: getColor(secondary);
+  }
+  &__navbar {
+    @extend %wrapper;
+    @extend %flex-center;
+    justify-content: space-between;
+  }
+  &__create {
+    @extend %flex-center;
+    & > p {
+      margin-right: 7px;
+      font-size: 1.1em;
+    }
+  }
   &__form {
     transition: getTransition(main);
     display: block;
     &__close {
       display: none;
     }
+  }
+}
+
+.section {
+  &__title {
+  }
+  &__date {
+    @extend %flex-center;
+    justify-content: flex-start;
+    color: getColor(font-light);
+  }
+  &__icon_date {
+    margin-right: 6px;
+    font-size: 1.1em;
+  }
+  &__content {
+    padding: 20px 0;
+    font-size: 1.2em;
   }
 }

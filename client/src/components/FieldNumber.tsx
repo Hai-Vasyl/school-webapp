@@ -2,6 +2,7 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
+import { BsDash, BsPlus } from "react-icons/bs"
 import { IField } from "../interfaces"
 import useChangeInput from "../hooks/useChangeInput"
 
@@ -45,9 +46,21 @@ const FieldNumber: React.FC<IFieldNumberProps> = ({
           </span>
         </div>
         <div className={styles.field_number__btns}>
-          <button onClick={() => handleChange(true)}>+</button>
-          <span>{field.value}</span>
-          <button onClick={() => handleChange(false)}>-</button>
+          <button
+            type='button'
+            className={styles.field_number__btn_action}
+            onClick={() => handleChange(false)}
+          >
+            <BsDash />
+          </button>
+          <span className={styles.field_number__counter}>{field.value}</span>
+          <button
+            type='button'
+            className={styles.field_number__btn_action}
+            onClick={() => handleChange(true)}
+          >
+            <BsPlus />
+          </button>
         </div>
       </div>
       <span
