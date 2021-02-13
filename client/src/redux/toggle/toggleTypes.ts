@@ -1,5 +1,6 @@
 export const DROPDOWN_TOGGLE = "DROPDOWN_TOGGLE"
 export const AUTHFORM_TOGGLE = "AUTHFORM_TOGGLE"
+export const MENU_PAGE_TOGGLE = "MENU_PAGE_TOGGLE"
 export const CHAT_TOGGLE = "CHAT_TOGGLE"
 export const CHAT_OPEN = "CHAT_OPEN"
 export const WARNING_OPEN = "WARNING_OPEN"
@@ -23,6 +24,9 @@ export interface NotificationsToggle {
 }
 export interface ChatToggle {
   type: typeof CHAT_TOGGLE
+}
+export interface MenuPagetToggle {
+  type: typeof MENU_PAGE_TOGGLE
 }
 export interface LightBoxOpen {
   type: typeof LIGHTBOX_OPEN
@@ -90,3 +94,4 @@ export type ToggleReducerTypes =
   | LightBoxOpen
   | LightBoxClose
   | LightBoxMove
+  | MenuPagetToggle

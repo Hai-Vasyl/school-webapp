@@ -13,6 +13,7 @@ import {
   LIGHTBOX_OPEN,
   LIGHTBOX_CLOSE,
   LIGHTBOX_MOVE,
+  MENU_PAGE_TOGGLE,
 } from "./toggleTypes"
 
 interface IInitState {
@@ -20,6 +21,7 @@ interface IInitState {
   authForm: boolean
   chat: boolean
   notifications: boolean
+  menuPage: boolean
   warning: {
     toggle: boolean
     action(): any
@@ -49,6 +51,7 @@ const initState: IInitState = {
   authForm: false,
   chat: false,
   notifications: false,
+  menuPage: false,
   warning: {
     toggle: false,
     action: () => {},
@@ -129,6 +132,11 @@ const toggleReducer = (
       return {
         ...initState,
         chat: !state.chat,
+      }
+    case MENU_PAGE_TOGGLE:
+      return {
+        ...initState,
+        menuPage: !state.menuPage,
       }
     case CHAT_OPEN:
       return {

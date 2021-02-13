@@ -240,21 +240,40 @@
 
 .btn_menu {
   position: relative;
+  z-index: 10;
   &__toggle {
     @extend %flex-center;
     flex-direction: column;
     width: 45px;
     height: 45px;
     background-color: getColor(secondary);
-    border: 1px solid getColor(main-dark);
+    transition: getTransition(main);
+    &:hover {
+      background-color: getColor(main);
+    }
+    &__active {
+      .btn_menu__line {
+        &:nth-child(1) {
+          transform: translateY(7.5px) rotate(-45deg);
+        }
+        &:nth-child(2) {
+          opacity: 0;
+        }
+        &:nth-child(3) {
+          width: 25px;
+          transform: translateY(-8px) rotate(45deg);
+        }
+      }
+    }
   }
   &__line {
     display: block;
     width: 25px;
-    height: 3px;
+    height: 2px;
     background-color: getColor(font);
-    margin-top: 5px;
+    margin-top: 6px;
     margin-left: auto;
+    transition: getTransition(main);
     &:nth-child(1) {
       margin-top: 0px;
     }
@@ -268,9 +287,19 @@
   &__dropdown {
     position: absolute;
     box-shadow: getShadow(main);
+    transition: getTransition(main);
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top center;
+    transform: translateY(30px);
+    &__open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0px);
+    }
   }
   &__link {
-    width: 200px;
+    min-width: 200px;
     padding: 7px 10px;
     background-color: getColor(secondary);
     text-align: start;
@@ -281,6 +310,10 @@
     &__active {
       background-color: getColor(accent);
       color: getColor(font-white);
+      &:hover {
+        background-color: getColor(accent);
+        color: getColor(font-white);
+      }
     }
   }
 }

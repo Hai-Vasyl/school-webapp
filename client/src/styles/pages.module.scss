@@ -9,6 +9,7 @@
     @extend %wrapper;
     @extend %flex-center;
     justify-content: space-between;
+    height: 50px;
   }
   &__create {
     @extend %flex-center;
@@ -20,9 +21,46 @@
   &__form {
     transition: getTransition(main);
     display: block;
+    background-color: getColor(main);
+    border-top: 1px solid getColor(main-dark);
+    animation: close getTransition(second);
+    padding-bottom: 20px;
     &__close {
       display: none;
     }
+  }
+}
+
+@keyframes close {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.section_tab {
+  display: none;
+  animation: fade getTransition(second);
+  position: relative;
+  &__open {
+    display: block;
+  }
+  &__btn_edit {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
   }
 }
 

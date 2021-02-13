@@ -142,6 +142,7 @@ blockquote {
 
 .wrapper-text {
   @extend %wrapper-text;
+  position: relative;
 }
 
 .wrapper-clear {

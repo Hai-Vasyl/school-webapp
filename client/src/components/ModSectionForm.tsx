@@ -11,21 +11,31 @@ import Field from "./Field"
 import FieldNumber from "./FieldNumber"
 import FieldEditor from "./FieldEditor"
 import Button from "./Button"
-import { BsPencil, BsPlus } from "react-icons/bs"
+import {
+  BsPencil,
+  BsPlus,
+  BsArrowLeft,
+  BsArrowClockwise,
+  BsTrash,
+} from "react-icons/bs"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { useDispatch } from "react-redux"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { types } from "../modules/messageTypes"
+import { IPageSection } from "../interfaces"
+import ButtonTab from "./ButtonTab"
 
 interface ModSectionFormProps {
-  sectionId?: string
+  data?: IPageSection
+  toggleEdiForm?: any
   onCreate?(): any
   onDelete?(): any
   onEdit?(): any
 }
 
 const ModSectionForm: React.FC<ModSectionFormProps> = ({
-  sectionId,
+  data,
+  toggleEdiForm,
   onCreate,
   onDelete,
   onEdit,
@@ -37,21 +47,21 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     {
       param: "title",
       type: "text",
-      value: "",
+      value: data ? data.title : "",
       title: "Заголовок",
       msg: "",
     },
     {
       param: "content",
       type: "text",
-      value: "",
+      value: data ? data.content : "",
       title: "Категорія",
       msg: "",
     },
     {
       param: "priority",
       type: "number",
-      value: "0",
+      value: data ? data?.priority : "",
       title: "Пріорітет",
       msg: "",
     },
@@ -88,7 +98,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     event.preventDefault()
     const [title, content, priority] = form
 
-    if (sectionId) {
+    if (data) {
       console.log("EDIT_SECTION")
     } else {
       createPageSection({
@@ -100,6 +110,14 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
         },
       })
     }
+  }
+
+  const handleRefreshForm = () => {
+    console.log("REFRESH")
+  }
+
+  const handlePopupWarning = () => {
+    console.log("DELETE")
   }
 
   const fields = form.map((field) => {
@@ -117,8 +135,15 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
         className={`${styles.form__content} ${styles.form__content__article}`}
       >
         <div className={styles.form__title}>
+          {data && (
+            <ButtonTab
+              Icon={BsArrowLeft}
+              click={toggleEdiForm}
+              exClass={styles.form__btn_back}
+            />
+          )}
           <div className={styles.form__title_text}>
-            {sectionId ? "Редагування розділу" : "Створення розділу"}
+            {data ? "Редагування розділу" : "Створення розділу"}
           </div>
         </div>
         <form
@@ -129,27 +154,27 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           <div className={styles.form__fields}>{fields}</div>
           <div className={styles.form__btns}>
             <Button
-              title={sectionId ? "Застосувати зміни" : "Створити розділ"}
+              title={data ? "Застосувати зміни" : "Створити розділ"}
               exClass={stylesBtn.btn_primary}
-              Icon={sectionId ? BsPencil : BsPlus}
+              Icon={data ? BsPencil : BsPlus}
             />
-            {/* {contentId && (
-                <>
-                  <Button
-                    exClass={stylesBtn.btn_simple}
-                    Icon={BsArrowClockwise}
-                    click={handleRefreshForms}
-                    type='button'
-                  />
-                  <Button
-                    title='Видалити'
-                    exClass={stylesBtn.btn_simple}
-                    Icon={BsTrash}
-                    click={handlePopupWarning}
-                    type='button'
-                  />
-                </>
-              )} */}
+            {data && (
+              <>
+                <Button
+                  exClass={stylesBtn.btn_simple}
+                  Icon={BsArrowClockwise}
+                  click={handleRefreshForm}
+                  type='button'
+                />
+                <Button
+                  title='Видалити'
+                  exClass={stylesBtn.btn_simple}
+                  Icon={BsTrash}
+                  click={handlePopupWarning}
+                  type='button'
+                />
+              </>
+            )}
           </div>
         </form>
       </div>

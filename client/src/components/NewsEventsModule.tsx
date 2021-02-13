@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom"
 
 interface INewsEventsModuleProps {
   isNews: boolean
-  exceptId: string
+  exceptId?: string
 }
 
 const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({

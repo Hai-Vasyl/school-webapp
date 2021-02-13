@@ -22,6 +22,7 @@ const Routes = () => {
       authForm,
       notifications,
       chat,
+      menuPage,
       warning: { toggle: warnToggle },
       modImage: { toggle: modImageToggle },
       lightbox: { toggle: lightboxToggle },
@@ -81,7 +82,8 @@ const Routes = () => {
             chat ||
             warnToggle ||
             modImageToggle ||
-            lightboxToggle) &&
+            lightboxToggle ||
+            menuPage) &&
           "background--active"
         } ${lightboxToggle && "background--over"}`}
         onClick={() => dispatch({ type: RESET_TOGGLE })}
