@@ -77,6 +77,23 @@
   background-color: transparent;
 }
 
+.field_fliper {
+  position: relative;
+  &__btn_new {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    z-index: 2;
+    &__close {
+      left: auto;
+      right: 0px;
+      top: -5px;
+      transform: translateY(0);
+    }
+  }
+}
+
 .field_file {
   // width: 100%;
   flex: 1;

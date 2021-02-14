@@ -7,6 +7,7 @@ const schema = new Schema({
   content: { type: String, required: true },
   priority: { type: Number, required: true },
   owner: { type: Types.ObjectId, ref: "User", required: true },
+  filters: [{ type: Types.ObjectId, ref: "Filter", required: true }],
   date: { type: Date, required: true },
 })
 

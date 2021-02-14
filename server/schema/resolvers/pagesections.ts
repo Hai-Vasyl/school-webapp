@@ -1,4 +1,4 @@
-import { PageSection, Page } from "../models"
+import { PageSection, Page, Filter } from "../models"
 import { IField, IIsAuth } from "../interfaces"
 import { types } from "../../modules/messageTypes"
 import { createEditValid } from "../validation/pageSections"
@@ -21,7 +21,7 @@ export const Query = {
 export const Mutation = {
   async createPageSection(
     _: any,
-    { title, content, priority, url }: IField,
+    { title, content, priority, url, filters }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
@@ -46,8 +46,22 @@ export const Mutation = {
           })
         )
       }
+      let errors: any = {}
+      if (filters.length) {
+        for (let i = 0; i < filters.length; i++) {
+          if (!filters[i].value) {
+            errors[filters[i].keyWord] = {
+              value: filters[i].value,
+              msg: ["Це поле не може бути порожнім!"],
+            }
+          }
+        }
+      }
+      if (Object.keys(errors).length) {
+        throw new Error(JSON.stringify(errors))
+      }
 
-      const page = await Page.findOne({ url })
+      const page: any = await Page.findOne({ url })
       let savedPage: any
       if (!page) {
         const newPage = new Page({
@@ -56,9 +70,10 @@ export const Mutation = {
         })
         savedPage = await newPage.save()
       }
+      let pageCollection = page || savedPage
 
       const newSection = new PageSection({
-        page: page ? page.id : savedPage.id,
+        page: pageCollection._id,
         title,
         url,
         content,
@@ -66,7 +81,23 @@ export const Mutation = {
         owner: isAuth.userId,
         date: new Date(),
       })
-      await newSection.save()
+      const section: any = await newSection.save()
+
+      if (filters.length) {
+        for (let i = 0; i < filters.length; i++) {
+          const filter = new Filter({
+            page: pageCollection._id,
+            url,
+            section: section._id,
+            keyWord: filters[i].keyWord,
+            value: filters[i].value,
+            date: new Date(),
+          })
+          const newFilter = await filter.save()
+          section.filters.push(newFilter._id)
+        }
+        await section.save()
+      }
 
       return {
         message: "Розділ створено успішно!",

@@ -10,6 +10,7 @@ import Upload from "./Upload"
 import NewsEvent from "./NewsEvent"
 import ExtraLink from "./ExtraLink"
 import PageSection from "./PageSection"
+import Filter from "./Filter"
 
 export {
   User,
@@ -24,4 +25,5 @@ export {
   NewsEvent,
   ExtraLink,
   PageSection,
+  Filter,
 }

@@ -70,10 +70,6 @@ const Gallery: React.FC = () => {
     setSearchStr(search)
   }, [search])
 
-  // useEffect(() => {
-  //   anchor.current && anchor.current.scrollIntoView({ behavior: "smooth" })
-  // }, [page])
-
   let options = Object.keys(uploadTypes).map((item) => {
     // @ts-ignore
     return { value: uploadTypes[item].keyWord, label: uploadTypes[item].label }

@@ -3,15 +3,10 @@ import React from "react"
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
 import useChangeInput from "../hooks/useChangeInput"
+import { IField } from "../interfaces"
 
 interface IFieldDateProps {
-  field?: {
-    param: string
-    type?: string
-    value?: string
-    title: string
-    msg?: string
-  }
+  field?: IField
   change: any
   check?(event: React.ChangeEvent<HTMLInputElement>): any
   isImportant?: boolean

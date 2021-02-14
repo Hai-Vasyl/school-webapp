@@ -7,12 +7,7 @@ import { IField } from "../interfaces"
 import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldNumberProps {
-  field: {
-    title: string
-    param: string
-    msg: string
-    value: string
-  }
+  field: IField
   change: any
   check?: any
   isImportant?: boolean

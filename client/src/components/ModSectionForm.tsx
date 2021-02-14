@@ -22,12 +22,15 @@ import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { useDispatch } from "react-redux"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { types } from "../modules/messageTypes"
-import { IPageSection } from "../interfaces"
+import { IPageSection, IField } from "../interfaces"
 import ButtonTab from "./ButtonTab"
+import FieldFliper from "./FieldFliper"
 
 interface ModSectionFormProps {
   data?: IPageSection
   toggleEdiForm?: any
+  filters?: IField[]
+  setFilters?: any
   onCreate?(): any
   onDelete?(): any
   onEdit?(): any
@@ -36,6 +39,8 @@ interface ModSectionFormProps {
 const ModSectionForm: React.FC<ModSectionFormProps> = ({
   data,
   toggleEdiForm,
+  filters,
+  setFilters,
   onCreate,
   onDelete,
   onEdit,
@@ -55,13 +60,13 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
       param: "content",
       type: "text",
       value: data ? data.content : "",
-      title: "Категорія",
+      title: "Контент",
       msg: "",
     },
     {
       param: "priority",
       type: "number",
-      value: data ? data?.priority : "",
+      value: data ? data?.priority : "0",
       title: "Пріорітет",
       msg: "",
     },
@@ -77,7 +82,9 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   useEffect(() => {
     const data = dataCreate && dataCreate.createPageSection
     if (errorCreate) {
+      console.log({ errorCreate })
       setErrors(errorCreate.message, setForm)
+      setErrors(errorCreate.message, setFilters)
       dispatch({
         type: SET_TOAST,
         payload: {
@@ -107,6 +114,12 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           title: title.value.trim(),
           content: content.value.trim(),
           priority: Number(priority.value),
+          filters: filters
+            ? filters.map((field) => ({
+                keyWord: field.param,
+                value: field.value.trim(),
+              }))
+            : [],
         },
       })
     }
@@ -120,6 +133,14 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     console.log("DELETE")
   }
 
+  const filtersJSX =
+    filters &&
+    filters.map((filter) => {
+      return (
+        <FieldFliper key={filter.param} field={filter} change={setFilters} />
+      )
+    })
+
   const fields = form.map((field) => {
     if (field.param === "content") {
       return <FieldEditor key={field.param} field={field} change={setForm} />
@@ -129,6 +150,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     return <Field key={field.param} field={field} change={setForm} />
   })
 
+  console.log({ form, filters })
   return (
     <div className={styles.form}>
       <div
@@ -151,7 +173,10 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           onSubmit={handleSubmitForm}
         >
           <LoaderData load={loadCreate} />
-          <div className={styles.form__fields}>{fields}</div>
+          <div className={styles.form__fields}>
+            {fields}
+            {filtersJSX}
+          </div>
           <div className={styles.form__btns}>
             <Button
               title={data ? "Застосувати зміни" : "Створити розділ"}

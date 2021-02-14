@@ -4,14 +4,10 @@ import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
 import { BsCaretDownFill } from "react-icons/bs"
 import useChangeInput from "../hooks/useChangeInput"
+import { IField } from "../interfaces"
 
 interface IFieldPickerProps {
-  field: {
-    title: string
-    param: string
-    msg: string
-    value?: string
-  }
+  field: IField
   options: {
     value: string
     label: string

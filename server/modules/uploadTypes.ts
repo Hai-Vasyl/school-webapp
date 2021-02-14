@@ -8,4 +8,7 @@ export const types = {
   event: {
     keyWord: "event",
   },
+  other: {
+    keyWord: "other",
+  },
 }

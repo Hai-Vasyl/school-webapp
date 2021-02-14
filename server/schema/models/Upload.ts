@@ -5,10 +5,15 @@ const schema = new Schema({
   date: { type: Date, required: true },
   location: { type: String, required: true },
   content: { type: Types.ObjectId },
-  type: { type: String, enum: ["image", "news", "event"], required: true },
+  type: {
+    type: String,
+    enum: ["image", "news", "event", "other", "privet"],
+    required: true,
+  },
   key: { type: String, required: true },
   description: { type: String, default: "" },
   hashtags: { type: String, default: "" },
+  format: { type: String, enum: ["image", "file"], default: "image" },
 })
 
 export default model("Upload", schema)

@@ -1,4 +1,9 @@
-import { BsNewspaper, BsCalendar, BsImage } from "react-icons/bs"
+import {
+  BsNewspaper,
+  BsCalendar,
+  BsImage,
+  BsReverseLayoutTextSidebarReverse,
+} from "react-icons/bs"
 
 export const types = {
   image: {
@@ -28,6 +33,11 @@ export const types = {
       return `/events/${itemId}`
     },
   },
+  other: {
+    keyWord: "other",
+    label: "Інші",
+    Icon: BsReverseLayoutTextSidebarReverse,
+  },
   all: {
     keyWord: "all",
     label: "Усі",
@@ -42,5 +52,7 @@ export const getParamsByType = (type: string) => {
       return types.news
     case types.event.keyWord:
       return types.event
+    case types.other.keyWord:
+      return types.other
   }
 }

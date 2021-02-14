@@ -14,9 +14,10 @@ export const Query = {
         query = {
           $text: { $search: search },
           type: type ? type : { $exists: true },
+          format: "image",
         }
       } else {
-        query = { type: type ? type : { $exists: true } }
+        query = { type: type ? type : { $exists: true }, format: "image" }
       }
 
       const images = await Upload.find({ ...query })

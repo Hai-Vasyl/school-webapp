@@ -448,12 +448,14 @@ export const CREATE_PAGE_SECTION = gql`
     $title: String!
     $content: String!
     $priority: Int!
+    $filters: [InputFilter]!
   ) {
     createPageSection(
       url: $url
       title: $title
       content: $content
       priority: $priority
+      filters: $filters
     ) {
       message
       type

@@ -8,7 +8,7 @@ import stylesBtn from "../styles/button.module"
 import { GET_IMAGE } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import LoaderData from "./LoaderData"
-import { getParamsByType } from "../modules/uploadTypes"
+import { getParamsByType, types } from "../modules/uploadTypes"
 import { access } from "../modules/accessModifiers"
 import {
   BsPencilSquare,
@@ -153,20 +153,22 @@ const ImageLightBox: React.FC = () => {
               />
             )}
           </div>
-          <div className={styles.lightbox__adition}>
-            <div className={styles.lightbox__content_link}>
-              <span className={styles.lightbox__link_title}>
-                {imageParams && imageParams.labelSingle}:
-              </span>
-              <Link
-                to={(imageParams && imageParams.getLink(image.id)) || ""}
-                className={styles.lightbox__link}
-              >
-                ...{imageParams && imageParams.getLink(image.id)}
-              </Link>
+          {image.type !== types.other.keyWord && (
+            <div className={styles.lightbox__adition}>
+              <div className={styles.lightbox__content_link}>
+                <span className={styles.lightbox__link_title}>
+                  {imageParams && imageParams.labelSingle}:
+                </span>
+                <Link
+                  to={(imageParams && imageParams.getLink(image.id)) || ""}
+                  className={styles.lightbox__link}
+                >
+                  ...{imageParams && imageParams.getLink(image.id)}
+                </Link>
+              </div>
+              <div className={styles.lightbox__hashtags}>{hashtags}</div>
             </div>
-            <div className={styles.lightbox__hashtags}>{hashtags}</div>
-          </div>
+          )}
         </div>
       </div>
     </div>

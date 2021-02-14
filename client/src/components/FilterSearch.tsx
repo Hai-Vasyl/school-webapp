@@ -12,6 +12,7 @@ import ButtonTab from "./ButtonTab"
 import { IField } from "../interfaces"
 import FieldDate from "../components/FieldDate"
 import Button from "../components/Button"
+import FieldSearch from "./FieldSearch"
 
 interface IFilterSearchProps {
   handleSubmit(event: React.FormEvent<HTMLFormElement>): any
@@ -49,12 +50,11 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
   } = useSelector((state: RootStore) => state)
   const [isDateError, setIsDateError] = useState(false)
 
-  const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const checkSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     if (!value) {
       handleResetSearch()
-    } else {
-      setSearchStr(value)
+      return
     }
   }
 
@@ -94,7 +94,14 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
               click={onClickBtnPlus}
             />
           )}
-          <div className={styles.form_filter__search}>
+          <FieldSearch
+            resetSearch={handleResetSearch}
+            search={search}
+            check={checkSearch}
+            searchStr={searchStr}
+            change={setSearchStr}
+          />
+          {/* <div className={styles.form_filter__search}>
             <button
               type='button'
               onClick={handleResetSearch}
@@ -116,7 +123,7 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
             <button className={styles.form_filter__search_btn}>
               <BsSearch />
             </button>
-          </div>
+          </div> */}
           <FieldPicker
             submit
             exClass={styles.form_filter__picker}

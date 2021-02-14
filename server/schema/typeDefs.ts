@@ -1,6 +1,19 @@
 import { gql } from "apollo-server"
 
 export default gql`
+  type Filter {
+    id: ID!
+    page: ID!
+    url: String!
+    section: ID!
+    keyWord: String!
+    value: String!
+    date: String!
+  }
+  input InputFilter {
+    keyWord: String!
+    value: String!
+  }
   type PageSection {
     id: ID!
     page: ID!
@@ -8,8 +21,10 @@ export default gql`
     title: String!
     content: String!
     priority: Int!
+    filters: [Filter]!
     owner: User!
-    date: String
+    date: String!
+    uploads: [UploadFile]!
   }
   type ExtraLink {
     id: ID!
@@ -44,6 +59,7 @@ export default gql`
     key: String!
     hashtags: String
     description: String
+    format: String!
   }
   type Page {
     id: ID!
@@ -183,6 +199,7 @@ export default gql`
       title: String!
       content: String!
       priority: Int!
+      filters: [InputFilter]!
     ): Msg!
     createNewsEvent(
       title: String!

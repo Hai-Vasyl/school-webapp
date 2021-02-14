@@ -4,13 +4,10 @@ import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
 import { BsCheck, BsUpload } from "react-icons/bs"
 import useChangeInput from "../hooks/useChangeInput"
+import { IField } from "../interfaces"
 
 interface IFieldFileProps {
-  field: {
-    title: string
-    param: string
-    msg: string
-  }
+  field: IField
   change: any
   check?: any
   afterChange?: any

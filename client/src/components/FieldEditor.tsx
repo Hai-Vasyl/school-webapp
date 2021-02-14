@@ -6,16 +6,11 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 // @ts-ignore
 import styles from "../styles/field.module"
 import { BiError } from "react-icons/bi"
+import { IField } from "../interfaces"
 import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldEditProps {
-  field: {
-    param: string
-    type?: string
-    value?: string
-    title: string
-    msg?: string
-  }
+  field: IField
   change: any
   check?: any
   exClass?: string

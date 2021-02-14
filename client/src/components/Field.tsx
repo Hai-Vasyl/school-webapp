@@ -5,15 +5,10 @@ import { BsEye, BsEyeSlash } from "react-icons/bs"
 import styles from "../styles/field.module"
 import ButtonTab from "./ButtonTab"
 import useChangeInput from "../hooks/useChangeInput"
+import { IField } from "../interfaces"
 
 interface IFieldProps {
-  field: {
-    param: string
-    type?: string
-    value?: string
-    title: string
-    msg?: string
-  }
+  field: IField
   change: any
   check?(event: React.ChangeEvent<HTMLInputElement>): any
   exClass?: string

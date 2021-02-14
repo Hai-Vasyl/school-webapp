@@ -80,10 +80,12 @@ export interface IChatCard {
 
 export interface IField {
   param: string
-  type: string
+  type?: string
   value?: any
   title: string
-  msg: string
+  msg?: string
+  options?: { label: string; value: string }[]
+  isImportant?: boolean
 }
 
 export interface IMessage {
