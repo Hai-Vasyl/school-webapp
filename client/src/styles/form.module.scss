@@ -194,6 +194,16 @@
   z-index: 4;
   padding: 20px;
   padding-bottom: 5px;
+  &__wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 10px;
+    & > * {
+      margin: 0px !important;
+      // margin-bottom: 10px;
+    }
+  }
   &__date {
     display: flex;
     align-items: center;
@@ -204,6 +214,7 @@
     flex: 1;
     position: relative;
     display: flex;
+    align-self: stretch;
     align-items: stretch;
     margin-right: 10px;
   }
@@ -263,8 +274,6 @@
     bottom: 1px;
     display: flex;
     width: 45px;
-    // @extend %btn-accent;
-    // box-shadow:
     background-color: getColor(secondary);
     border-left: 1px solid getColor(main-dark);
     overflow: hidden;

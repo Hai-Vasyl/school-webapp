@@ -81,9 +81,8 @@
   position: relative;
   &__btn_new {
     position: absolute;
-    top: 50%;
-    left: 25px;
-    transform: translateY(-50%);
+    top: 6px;
+    left: 6px;
     z-index: 2;
     &__close {
       left: auto;
@@ -145,9 +144,7 @@
     @extend %flex-center;
     justify-content: space-between;
     padding: 0px 10px;
-    z-index: 3;
     @extend %btn-accent;
-    position: relative;
     & > span {
       height: 22.4px;
       overflow: hidden;
@@ -163,11 +160,11 @@
     // border: 1px solid getColor(second-light);
     transform-origin: top center;
     transition: getTransition(main);
-    transform: translateY(-30px) scale(0.8);
+    transform: translateY(20px) scale(0.8);
     visibility: hidden;
     opacity: 0;
+    z-index: 1;
     box-shadow: getShadow(main);
-    z-index: 2;
     @extend %scrollbar;
     &__open {
       transform: translateY(0px) scale(1);

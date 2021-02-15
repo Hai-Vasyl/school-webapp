@@ -150,7 +150,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     return <Field key={field.param} field={field} change={setForm} />
   })
 
-  console.log({ form, filters })
+  // console.log({ form, filters })
   return (
     <div className={styles.form}>
       <div

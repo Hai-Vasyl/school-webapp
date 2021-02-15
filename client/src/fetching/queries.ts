@@ -486,17 +486,53 @@ export const GET_CONTENT_IMAGES = gql`
 `
 
 export const GET_PAGE_SECTIONS = gql`
-  query GET_PAGE_SECTIONS($url: String!) {
-    getPageSections(url: $url) {
-      id
-      page
-      title
-      content
-      priority
-      date
-      owner {
+  query GET_PAGE_SECTIONS(
+    $search: String
+    $url: String!
+    $filters: [InputFilter]!
+    $from: Int!
+    $to: Int!
+  ) {
+    getPageSections(
+      search: $search
+      url: $url
+      filters: $filters
+      from: $from
+      to: $to
+    ) {
+      items {
         id
+        page
+        url
+        title
+        content
+        priority
+        date
+        uploads {
+          id
+          location
+          content
+          type
+          hashtags
+          description
+          format
+        }
+        owner {
+          id
+        }
       }
+      quantity
+    }
+  }
+`
+
+export const GET_PAGE_FILTERS = gql`
+  query GET_PAGE_FILTERS($url: String!) {
+    getFilters(url: $url) {
+      id
+      url
+      keyWord
+      value
     }
   }
 `

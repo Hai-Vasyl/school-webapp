@@ -234,3 +234,8 @@ export interface IPageSection {
     id: string
   }
 }
+
+export interface IOption {
+  label: string
+  value: string
+}

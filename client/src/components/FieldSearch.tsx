@@ -2,7 +2,6 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/form.module"
 import { BsSearch, BsX } from "react-icons/bs"
-import useChangeInput from "../hooks/useChangeInput"
 
 interface IFieldSearchProps {
   resetSearch: any
@@ -19,8 +18,6 @@ const FieldSearch: React.FC<IFieldSearchProps> = ({
   check,
   change,
 }) => {
-  const { changeInput } = useChangeInput()
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     check && check(event)
     change(event.target.value)

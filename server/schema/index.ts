@@ -26,6 +26,7 @@ import {
   Query as QPageSections,
   Mutation as MPageSections,
 } from "./resolvers/pagesections"
+import { Query as QFilters } from "./resolvers/filters"
 import { Chat } from "./resolvers/chat"
 import { Message } from "./resolvers/message"
 import { UserChat } from "./resolvers/userchat"
@@ -50,6 +51,7 @@ const schema = {
       ...QUploads,
       ...QNewsEvents,
       ...QPageSections,
+      ...QFilters,
     },
     Mutation: {
       ...MUsers,

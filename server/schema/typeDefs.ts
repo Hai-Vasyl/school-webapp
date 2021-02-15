@@ -151,8 +151,20 @@ export default gql`
     items: [NewsEvent]!
     quantity: Int!
   }
+  type PageSections {
+    items: [PageSection]!
+    quantity: Int!
+  }
+
   type Query {
-    getPageSections(url: String!): [PageSection]!
+    getFilters(url: String!): [Filter]!
+    getPageSections(
+      search: String
+      url: String!
+      filters: [InputFilter]!
+      from: Int!
+      to: Int!
+    ): PageSections!
     getNewsEvents(
       search: String
       type: String!

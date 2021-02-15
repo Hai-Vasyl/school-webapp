@@ -3,15 +3,111 @@ import { IField, IIsAuth } from "../interfaces"
 import { types } from "../../modules/messageTypes"
 import { createEditValid } from "../validation/pageSections"
 
-export const Query = {
-  async getPageSections(_: any, { url }: IField) {
-    try {
-      //TODO: validation for each field and check in models
+interface IFilter {
+  _id: string
+  page: string
+  url: string
+  section: string
+  keyWord: string
+  value: string
+  date: string
+}
 
-      const pagesSections = await PageSection.find({ url }).sort({
-        priority: 1,
-      })
-      return pagesSections
+interface IPageSection {
+  _id: string
+  page: string
+  url: string
+  title: string
+  content: string
+  priority: number
+  filters: IFilter[]
+  owner: string
+  date: string
+}
+
+export const Query = {
+  async getPageSections(_: any, { search, url, filters, from, to }: IField) {
+    try {
+      console.log({ search, url, filters, from, to })
+      const searchQuery = search && { $text: { $search: search } }
+      let collection: any = []
+      let quantity = 0
+      if (filters.length) {
+        console.log("+++")
+        for (let i = 0; i < filters.length; i++) {
+          const sections: any = await PageSection.find({
+            url,
+            ...searchQuery,
+          }).populate({
+            path: "filters",
+            match: { keyWord: filters[i].keyWord, value: filters[i].value },
+          })
+
+          // TODO:
+          for (let i = 0; i < sections.length; i++) {
+            console.log({
+              sectionItem: sections[i],
+              filtersItem: sections[i].filters,
+            })
+          }
+          // console.log({ sections, filters_: sections.filters })
+          // TODO:
+
+          let colectionTemp: IPageSection[] = []
+          sections.forEach((item: any) => {
+            if (item.filters.length) {
+              colectionTemp.push(item)
+            }
+          })
+          console.log({ colectionTemp })
+          if (i === 0) {
+            collection = colectionTemp
+          } else {
+            let collectionNew = []
+            for (let i = 0; i < collection.length; i++) {
+              for (let j = 0; j < colectionTemp.length; j++) {
+                if (
+                  String(collection[i]._id) === String(colectionTemp[j]._id)
+                ) {
+                  collectionNew.push(collection[i])
+                }
+              }
+            }
+            collection = collectionNew
+          }
+        }
+        let collectionNew: IPageSection[] = []
+        collection.forEach((item: IPageSection, index: number) => {
+          if (from <= index && index < from + to) {
+            collectionNew.push(item)
+          }
+        })
+        quantity = collection.length
+        collection = collectionNew
+      } else {
+        console.log("---")
+        const sections: any = await PageSection.find({ ...searchQuery, url })
+          .skip(from)
+          .limit(to)
+          .sort({
+            priority: 1,
+          })
+        quantity = await PageSection.find({
+          ...searchQuery,
+          url,
+        }).countDocuments()
+        // collection = sections.map((item: IPageSection) => ({
+        //   ...item,
+        //   filters: [],
+        // }))
+        collection = sections
+      }
+
+      console.log({ collection, quantity })
+      return {
+        items: collection,
+        quantity,
+      }
     } catch (error) {
       throw new Error(`Getting page sections error: ${error.message}`)
     }

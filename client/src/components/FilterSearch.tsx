@@ -101,29 +101,6 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
             searchStr={searchStr}
             change={setSearchStr}
           />
-          {/* <div className={styles.form_filter__search}>
-            <button
-              type='button'
-              onClick={handleResetSearch}
-              className={`${styles.form_filter__search_btn} ${
-                styles.form_filter__search_btn__reset
-              } ${!search && styles.form_filter__search_btn__close}`}
-            >
-              <BsX />
-            </button>
-            <input
-              className={`${styles.form_filter__search_input} ${
-                !search && styles.form_filter__search_input__close
-              }`}
-              type='text'
-              value={searchStr}
-              onChange={handleChangeSearch}
-              placeholder='Пошук зображення'
-            />
-            <button className={styles.form_filter__search_btn}>
-              <BsSearch />
-            </button>
-          </div> */}
           <FieldPicker
             submit
             exClass={styles.form_filter__picker}
