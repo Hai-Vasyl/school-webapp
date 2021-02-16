@@ -1,13 +1,16 @@
 import React, { useState } from "react"
 import { IPageSection, IField, IOption } from "../interfaces"
 import ModSectionForm from "./ModSectionForm"
-import PageSectionModule from "./PageSectionModule"
+// import PageSectionModule from "./PageSectionModule"
 // @ts-ignore
 import styles from "../styles/pages.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 import ButtonTab from "./ButtonTab"
 import { BsPencilSquare, BsX } from "react-icons/bs"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
 
 interface IPageSectionProps {
   info: IPageSection
@@ -25,6 +28,10 @@ const PageSection: React.FC<IPageSectionProps> = ({
   children,
   filters,
 }) => {
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
+
   const [toggleFormEdit, setToggleFormEdit] = useState(false)
   const [form, setForm] = useState<IField[]>(
     filters.map((filter) => ({
@@ -63,11 +70,13 @@ const PageSection: React.FC<IPageSectionProps> = ({
         />
       ) : (
         <div className={styles.section__content}>
-          <ButtonTab
-            exClass={styles.section__btn_edit}
-            Icon={BsPencilSquare}
-            click={handleToggleEdiForm}
-          />
+          {user.role === access.admin.keyWord && (
+            <ButtonTab
+              exClass={styles.section__btn_edit}
+              Icon={BsPencilSquare}
+              click={handleToggleEdiForm}
+            />
+          )}
           {children}
         </div>
       )}

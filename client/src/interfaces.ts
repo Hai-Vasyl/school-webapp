@@ -257,6 +257,14 @@ export interface IPageSection {
   }[]
 }
 
+export interface IPageSectionFilter {
+  id: string
+  url: string
+  section: string
+  keyWord: string
+  value: string
+}
+
 export interface IFilter {
   keyWord: string
   value: string

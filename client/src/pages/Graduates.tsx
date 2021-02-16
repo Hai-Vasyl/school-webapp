@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import Title from "../components/Title"
 import ModSectionForm from "../components/ModSectionForm"
-import Field from "../components/Field"
 import FieldPicker from "../components/FieldPicker"
 import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
-import { useLocation } from "react-router-dom"
-import { IOption, IField, IPageSection } from "../interfaces"
+import { useLocation, Link } from "react-router-dom"
+import {
+  IOption,
+  IField,
+  IPageSection,
+  IPageSectionFilter,
+} from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
 import Pagination from "../components/Pagination"
@@ -15,13 +19,15 @@ import Loader from "../components/Loader"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import PageSecion from "../components/PageSection"
+import { BsImages } from "react-icons/bs"
+import { convertContent } from "../helpers/convertContentEditor"
 
 const Graduates: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
   const amountItems = 3
-  // console.log({ pathname })
+
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
   const year = params.get("year") || "all"
@@ -34,7 +40,8 @@ const Graduates: React.FC = () => {
     let filters = []
     if (year.length) {
       filters.push({ keyWord: "year", value: year })
-    } else if (group.length) {
+    }
+    if (group.length) {
       filters.push({ keyWord: "group", value: group })
     }
     return filters
@@ -48,6 +55,7 @@ const Graduates: React.FC = () => {
       },
     }
   )
+
   const { data: dataSections, loading: loadSections } = useQuery(
     GET_PAGE_SECTIONS,
     {
@@ -66,7 +74,7 @@ const Graduates: React.FC = () => {
     {
       param: "year",
       type: "text",
-      value: year,
+      value: "",
       title: "Рік",
       msg: "",
       options: [],
@@ -75,7 +83,7 @@ const Graduates: React.FC = () => {
     {
       param: "group",
       type: "text",
-      value: group,
+      value: "",
       title: "Клас",
       msg: "",
       options: [],
@@ -86,7 +94,7 @@ const Graduates: React.FC = () => {
     {
       param: "year",
       type: "text",
-      value: "",
+      value: year,
       title: "Рік",
       msg: "",
       options: [],
@@ -94,13 +102,32 @@ const Graduates: React.FC = () => {
     {
       param: "group",
       type: "text",
-      value: "",
+      value: group,
       title: "Клас",
       msg: "",
       options: [],
     },
   ])
   const [toggleCreate, setToggleCreate] = useState(false)
+
+  const setFiltersValue = useCallback((keyWord: string, value: string) => {
+    setFilters((prev) =>
+      prev.map((field) => {
+        if (field.param === keyWord) {
+          return { ...field, value }
+        }
+        return field
+      })
+    )
+  }, [])
+
+  useEffect(() => {
+    setFiltersValue("year", year)
+  }, [setFiltersValue, year])
+
+  useEffect(() => {
+    setFiltersValue("group", group)
+  }, [setFiltersValue, group])
 
   useEffect(() => {
     let filters = dataFilters && dataFilters.getFilters
@@ -202,7 +229,6 @@ const Graduates: React.FC = () => {
   }, [dataFilters])
 
   console.log({ dataSections })
-  // console.log({ dataFilters })
 
   const filtersJSX = filters.map((field) => {
     return (
@@ -219,7 +245,6 @@ const Graduates: React.FC = () => {
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log("SUBMITED")
     const [year, group] = filters
     getRedirectLink(1, year.value, group.value, searchStr)
   }
@@ -261,15 +286,18 @@ const Graduates: React.FC = () => {
 
   const sections = dataSections && dataSections.getPageSections.items
 
-  // info,
-  // children,
-  // filters
+  const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
+    return filters.find((filter) => filter.keyWord === keyWord)
+  }
 
   const sectionsJSX =
     sections &&
     sections.map((section: IPageSection) => {
+      const year = findFilterParams(section.filters, "year")
+      const group = findFilterParams(section.filters, "group")
       return (
         <PageSecion
+          key={section.id}
           info={section}
           filters={section.filters.map((filter, index) => ({
             keyWord: filter.keyWord,
@@ -278,14 +306,49 @@ const Graduates: React.FC = () => {
             title: form[index].title,
           }))}
         >
-          <div>{section.title}</div>
+          <div className={styles.content}>
+            <div className={styles.content__preview}>
+              {section.uploads.length ? (
+                <img
+                  className={styles.content__img}
+                  src='https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg'
+                  alt='imgPreview'
+                />
+              ) : (
+                <BsImages className={styles.content__icon} />
+              )}
+            </div>
+            <div className={styles.content__body}>
+              <div className={styles.content__link}>
+                <span className={styles.content__link_title}>Рік:</span>
+                <Link
+                  className={styles.content__link_text}
+                  to={`${pathname}?year=${year?.value}`}
+                >
+                  {year?.value}
+                </Link>
+              </div>
+              <h2 className={styles.content__title}>{section.title}</h2>
+              <div className={styles.content__subtitle}>
+                <span className={styles.content__subtitle_title}>Клас:</span>
+                <Link
+                  className={styles.content__subtitle_text}
+                  to={`${pathname}?group=${group?.value}`}
+                >
+                  {group?.value}
+                </Link>
+              </div>
+              <div className={styles.content__main}>
+                {convertContent(section.content)}
+              </div>
+            </div>
+          </div>
         </PageSecion>
       )
     })
 
   const quantityItems = dataSections && dataSections.getPageSections.quantity
 
-  console.log({ form, filters })
   return (
     <div className='container'>
       <Title title='Випускники' />
@@ -316,7 +379,7 @@ const Graduates: React.FC = () => {
             isTop
           />
         )}
-        <div className={styles.page__content}>
+        <div className='wrapper-clear'>
           {loadSections ? (
             <Loader />
           ) : sections.length ? (

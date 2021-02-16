@@ -66,26 +66,22 @@ export const Query = {
         }).populate({ path: "filters" })
         collection = sections
       } else {
-        // console.log("---")
+        console.log("---")
         const sections: any = await PageSection.find({ ...searchQuery, url })
           .populate({ path: "filters" })
+          // .sort({
+          //   priority: 1,
+          // })
           .skip(from)
           .limit(to)
-          .sort({
-            priority: 1,
-          })
+        console.log({ sections })
         quantity = await PageSection.find({
           ...searchQuery,
           url,
         }).countDocuments()
-        // collection = sections.map((item: IPageSection) => ({
-        //   ...item,
-        //   filters: [],
-        // }))
         collection = sections
       }
 
-      // console.log({ collection, quantity })
       return {
         items: collection,
         quantity,

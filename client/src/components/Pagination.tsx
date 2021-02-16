@@ -38,7 +38,11 @@ const Pagination: React.FC<IPaginatonProps> = ({
     }
   }
 
-  let countNumber = currentPageNumber - 2
+  const limit = getQuantityPages()
+  let countNumber =
+    limit - currentPageNumber < 2
+      ? currentPageNumber - (4 - (limit - currentPageNumber))
+      : currentPageNumber - 2
   if (countNumber <= 0) {
     countNumber = 1
   }
