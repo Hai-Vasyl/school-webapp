@@ -78,13 +78,18 @@ export interface IChatCard {
   image: string
 }
 
+export interface IOption {
+  label: string
+  value: string
+}
+
 export interface IField {
   param: string
   type?: string
   value?: any
   title: string
   msg?: string
-  options?: { label: string; value: string }[]
+  options?: IOption[]
   isImportant?: boolean
 }
 
@@ -226,6 +231,7 @@ export interface IImageSlide {
 export interface IPageSection {
   id: string
   page: string
+  url: string
   title: string
   content: string
   priority: string
@@ -233,9 +239,25 @@ export interface IPageSection {
   owner: {
     id: string
   }
+  uploads: {
+    id: string
+    location: string
+    content: string
+    type: string
+    hashtags: string
+    description: string
+    format: string
+  }[]
+  filters: {
+    id: string
+    url: string
+    section: string
+    keyWord: string
+    value: string
+  }[]
 }
 
-export interface IOption {
-  label: string
+export interface IFilter {
+  keyWord: string
   value: string
 }

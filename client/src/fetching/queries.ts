@@ -520,6 +520,13 @@ export const GET_PAGE_SECTIONS = gql`
         owner {
           id
         }
+        filters {
+          id
+          url
+          section
+          keyWord
+          value
+        }
       }
       quantity
     }

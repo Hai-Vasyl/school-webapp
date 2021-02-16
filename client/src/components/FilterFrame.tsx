@@ -1,12 +1,19 @@
 import React from "react"
 // @ts-ignore
 import styles from "../styles/form.module"
+import ButtonTab from "./ButtonTab"
+import { BsX, BsPlus } from "react-icons/bs"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
 
 interface IFilterFrameProps {
   quantity: number
   search: string
   children: any
   submit(event: React.FormEvent<HTMLFormElement>): any
+  toggle?: boolean
+  onCreate?: any
 }
 
 const FilterFrame: React.FC<IFilterFrameProps> = ({
@@ -14,7 +21,12 @@ const FilterFrame: React.FC<IFilterFrameProps> = ({
   search,
   children,
   submit,
+  toggle,
+  onCreate,
 }) => {
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
   return (
     <div className={styles.form_filter_container}>
       <div className='wrapper-clear'>
@@ -44,6 +56,13 @@ const FilterFrame: React.FC<IFilterFrameProps> = ({
                 {quantity}
               </span>
             </span>
+          )}
+          {user.role === access.admin.keyWord && onCreate && (
+            <ButtonTab
+              exClass={styles.form_filter__btn_create}
+              click={onCreate}
+              Icon={toggle ? BsX : BsPlus}
+            />
           )}
         </p>
       </div>

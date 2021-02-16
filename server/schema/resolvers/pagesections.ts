@@ -1,29 +1,7 @@
 import { PageSection, Page, Filter } from "../models"
-import { IField, IIsAuth } from "../interfaces"
+import { IField, IIsAuth, IFilter, IPageSection } from "../interfaces"
 import { types } from "../../modules/messageTypes"
 import { createEditValid } from "../validation/pageSections"
-
-interface IFilter {
-  _id: string
-  page: string
-  url: string
-  section: string
-  keyWord: string
-  value: string
-  date: string
-}
-
-interface IPageSection {
-  _id: string
-  page: string
-  url: string
-  title: string
-  content: string
-  priority: number
-  filters: IFilter[]
-  owner: string
-  date: string
-}
 
 export const Query = {
   async getPageSections(_: any, { search, url, filters, from, to }: IField) {
@@ -33,7 +11,7 @@ export const Query = {
       let collection: any = []
       let quantity = 0
       if (filters.length) {
-        console.log("+++")
+        // console.log("+++")
         for (let i = 0; i < filters.length; i++) {
           const sections: any = await PageSection.find({
             url,
@@ -44,12 +22,12 @@ export const Query = {
           })
 
           // TODO:
-          for (let i = 0; i < sections.length; i++) {
-            console.log({
-              sectionItem: sections[i],
-              filtersItem: sections[i].filters,
-            })
-          }
+          // for (let i = 0; i < sections.length; i++) {
+          //   console.log({
+          //     sectionItem: sections[i],
+          //     filtersItem: sections[i].filters,
+          //   })
+          // }
           // console.log({ sections, filters_: sections.filters })
           // TODO:
 
@@ -59,7 +37,7 @@ export const Query = {
               colectionTemp.push(item)
             }
           })
-          console.log({ colectionTemp })
+          // console.log({ colectionTemp })
           if (i === 0) {
             collection = colectionTemp
           } else {
@@ -83,10 +61,14 @@ export const Query = {
           }
         })
         quantity = collection.length
-        collection = collectionNew
+        const sections = await PageSection.find({
+          _id: { $in: collectionNew.map((item) => item._id) },
+        }).populate({ path: "filters" })
+        collection = sections
       } else {
-        console.log("---")
+        // console.log("---")
         const sections: any = await PageSection.find({ ...searchQuery, url })
+          .populate({ path: "filters" })
           .skip(from)
           .limit(to)
           .sort({
@@ -103,7 +85,7 @@ export const Query = {
         collection = sections
       }
 
-      console.log({ collection, quantity })
+      // console.log({ collection, quantity })
       return {
         items: collection,
         quantity,

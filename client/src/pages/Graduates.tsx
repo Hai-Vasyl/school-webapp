@@ -7,18 +7,38 @@ import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useLocation } from "react-router-dom"
-import { IOption, IField } from "../interfaces"
+import { IOption, IField, IPageSection } from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
+import Pagination from "../components/Pagination"
+import Loader from "../components/Loader"
+// @ts-ignore
+import styles from "../styles/pages.module"
+import PageSecion from "../components/PageSection"
 
 const Graduates: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
   const amountItems = 3
-  console.log({ pathname })
+  // console.log({ pathname })
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
+  const year = params.get("year") || "all"
+  const group = params.get("group") || "all"
+
+  const getFilters = (year: string, group: string) => {
+    year = year === "all" ? "" : year
+    group = group === "all" ? "" : group
+
+    let filters = []
+    if (year.length) {
+      filters.push({ keyWord: "year", value: year })
+    } else if (group.length) {
+      filters.push({ keyWord: "group", value: group })
+    }
+    return filters
+  }
 
   const { data: dataFilters, loading: loadFilters } = useQuery(
     GET_PAGE_FILTERS,
@@ -31,21 +51,11 @@ const Graduates: React.FC = () => {
   const { data: dataSections, loading: loadSections } = useQuery(
     GET_PAGE_SECTIONS,
     {
-      // variables: {
-      //   search,
-      //   filters: [],
-      //   from: (page - 1) * amountItems,
-      //   to: amountItems,
-      //   url: pathname,
-      // },
       variables: {
-        search: "Emerson",
-        filters: [
-          { keyWord: "year", value: "2018" },
-          // { keyWord: "group", value: "11-A" },
-        ],
-        from: 0,
-        to: 4,
+        search,
+        filters: getFilters(year, group),
+        from: (page - 1) * amountItems,
+        to: amountItems,
         url: pathname,
       },
     }
@@ -56,7 +66,7 @@ const Graduates: React.FC = () => {
     {
       param: "year",
       type: "text",
-      value: "",
+      value: year,
       title: "Рік",
       msg: "",
       options: [],
@@ -65,7 +75,7 @@ const Graduates: React.FC = () => {
     {
       param: "group",
       type: "text",
-      value: "",
+      value: group,
       title: "Клас",
       msg: "",
       options: [],
@@ -90,17 +100,31 @@ const Graduates: React.FC = () => {
       options: [],
     },
   ])
+  const [toggleCreate, setToggleCreate] = useState(false)
 
   useEffect(() => {
     let filters = dataFilters && dataFilters.getFilters
 
-    const setOptions = (setForm: any, years: IOption[], groups: IOption[]) => {
+    const setOptions = (
+      setForm: any,
+      years: IOption[],
+      groups: IOption[],
+      isForm: boolean
+    ) => {
       setForm((prev: IField[]) =>
         prev.map((field: IField) => {
           if (field.param === "year") {
-            return { ...field, value: years[0].value, options: years }
+            return {
+              ...field,
+              value: isForm || !year ? years[0].value : year,
+              options: years,
+            }
           } else if (field.param === "group") {
-            return { ...field, value: groups[0].value, options: groups }
+            return {
+              ...field,
+              value: isForm || !group ? groups[0].value : group,
+              options: groups,
+            }
           }
           return field
         })
@@ -127,8 +151,13 @@ const Graduates: React.FC = () => {
 
       const yearOptions = years.map((item) => ({ label: item, value: item }))
       const groupOptions = groups.map((item) => ({ label: item, value: item }))
-      setOptions(setForm, yearOptions, groupOptions)
-      setOptions(setFilters, yearOptions, groupOptions)
+      setOptions(setForm, yearOptions, groupOptions, true)
+      setOptions(
+        setFilters,
+        [{ label: "Усі", value: "all" }, ...yearOptions],
+        [{ label: "Усі", value: "all" }, ...groupOptions],
+        false
+      )
 
       // setForm((prev) =>
       //   prev.map((field) => {
@@ -173,7 +202,7 @@ const Graduates: React.FC = () => {
   }, [dataFilters])
 
   console.log({ dataSections })
-  console.log({ dataFilters })
+  // console.log({ dataFilters })
 
   const filtersJSX = filters.map((field) => {
     return (
@@ -191,40 +220,35 @@ const Graduates: React.FC = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log("SUBMITED")
-    // getRedirectLink(
-    //   page,
-    //   categoryContent[0].value,
-    //   date[0].value,
-    //   date[1].value,
-    //   searchStr
-    // )
+    const [year, group] = filters
+    getRedirectLink(1, year.value, group.value, searchStr)
   }
 
-  // const getRedirectLink = (
-  //   pageNumber: number,
-  //   category: string,
-  //   dateFrom?: string,
-  //   dateTo?: string,
-  //   searchStr?: string
-  // ) => {
-  //   const fromQuery = `${dateFrom ? "from=" + dateFrom + "&" : ""}`
-  //   const toQuery = `${dateTo ? "to=" + dateTo + "&" : ""}`
-  //   const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`
+  const getRedirectLink = (
+    pageNumber: number,
+    year: string,
+    group: string,
+    searchStr?: string
+  ) => {
+    const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`
 
-  //   let link = `/${
-  //     isNews ? "news" : "events"
-  //   }?page=${pageNumber}&category=${category}&${fromQuery}${toQuery}${searchQuery}`
-  //   history.push(link.slice(0, link.length - 1))
-  // }
+    let link = `${pathname}?page=${pageNumber}&year=${year}&group=${group}&${searchQuery}`
+    history.push(link.slice(0, link.length - 1))
+  }
 
-  // const getRedirectPagination = (number: number) => {
-  //   getRedirectLink(number, categoryContent[0].value, from, to, search)
-  // }
+  const toggleCreateForm = () => {
+    setToggleCreate((prev) => !prev)
+  }
+
+  const getRedirectPagination = (number: number) => {
+    const [year, group] = filters
+    getRedirectLink(number, year.value, group.value, search)
+  }
 
   const handleResetSearch = () => {
     setSearchStr("")
-    console.log("RESET SEARCH")
-    // getRedirectLink(1, categoryContent[0].value, from, to)
+    const [year, group] = filters
+    getRedirectLink(1, year.value, group.value)
   }
 
   const checkSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -235,11 +259,43 @@ const Graduates: React.FC = () => {
     }
   }
 
+  const sections = dataSections && dataSections.getPageSections.items
+
+  // info,
+  // children,
+  // filters
+
+  const sectionsJSX =
+    sections &&
+    sections.map((section: IPageSection) => {
+      return (
+        <PageSecion
+          info={section}
+          filters={section.filters.map((filter, index) => ({
+            keyWord: filter.keyWord,
+            value: filter.value,
+            options: form[index].options,
+            title: form[index].title,
+          }))}
+        >
+          <div>{section.title}</div>
+        </PageSecion>
+      )
+    })
+
+  const quantityItems = dataSections && dataSections.getPageSections.quantity
+
   console.log({ form, filters })
   return (
     <div className='container'>
       <Title title='Випускники' />
-      <FilterFrame submit={handleSubmitForm} quantity={0} search={search}>
+      <FilterFrame
+        onCreate={toggleCreateForm}
+        toggle={toggleCreate}
+        submit={handleSubmitForm}
+        quantity={quantityItems}
+        search={search}
+      >
         <FieldSearch
           resetSearch={handleResetSearch}
           search={search}
@@ -249,7 +305,35 @@ const Graduates: React.FC = () => {
         />
         {filtersJSX}
       </FilterFrame>
-      {/* <ModSectionForm filters={form} setFilters={setForm} /> */}
+      {toggleCreate && <ModSectionForm filters={form} setFilters={setForm} />}
+      <div className='wrapper'>
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+            isTop
+          />
+        )}
+        <div className={styles.page__content}>
+          {loadSections ? (
+            <Loader />
+          ) : sections.length ? (
+            sectionsJSX
+          ) : (
+            <div className='plug-text'>Порожньо</div>
+          )}
+        </div>
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+          />
+        )}
+      </div>
     </div>
   )
 }

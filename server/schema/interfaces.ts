@@ -81,3 +81,25 @@ export interface IMessage {
   owner: string
   chat: string
 }
+
+export interface IFilter {
+  _id: string
+  page: string
+  url: string
+  section: string
+  keyWord: string
+  value: string
+  date: string
+}
+
+export interface IPageSection {
+  _id: string
+  page: string
+  url: string
+  title: string
+  content: string
+  priority: number
+  filters: IFilter[]
+  owner: string
+  date: string
+}

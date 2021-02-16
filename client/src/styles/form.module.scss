@@ -3,7 +3,7 @@
 .form {
   display: flex;
   &__extend {
-    box-shadow: getShadow(main);
+    // box-shadow: getShadow(main);
     .form__content {
       box-shadow: none;
       &:first-child {
@@ -14,7 +14,7 @@
   &__content {
     width: 50%;
     background-color: getColor(secondary);
-    box-shadow: getShadow(main);
+    // box-shadow: getShadow(main);
     &__article {
       width: 750px;
       max-width: 100%;
@@ -221,6 +221,11 @@
   &__footer {
     padding: 20px;
     padding-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__btn_create {
   }
   &__results {
     display: flex;

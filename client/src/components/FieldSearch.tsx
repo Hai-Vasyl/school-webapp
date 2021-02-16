@@ -41,7 +41,7 @@ const FieldSearch: React.FC<IFieldSearchProps> = ({
         type='text'
         value={searchStr}
         onChange={handleChange}
-        placeholder='Пошук зображення'
+        placeholder='Пошук'
       />
       <button className={styles.form_filter__search_btn}>
         <BsSearch />

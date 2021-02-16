@@ -77,7 +77,7 @@ const NewsEvents: React.FC = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     getRedirectLink(
-      page,
+      1,
       categoryContent[0].value,
       date[0].value,
       date[1].value,

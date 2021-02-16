@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { IPageSection } from "../interfaces"
+import { IPageSection, IField, IOption } from "../interfaces"
 import ModSectionForm from "./ModSectionForm"
 import PageSectionModule from "./PageSectionModule"
 // @ts-ignore
@@ -11,11 +11,32 @@ import { BsPencilSquare, BsX } from "react-icons/bs"
 
 interface IPageSectionProps {
   info: IPageSection
-  isActive: boolean
+  filters: {
+    keyWord: string
+    title: string
+    value: string
+    options?: IOption[]
+  }[]
+  children: any
 }
 
-const PageSection: React.FC<IPageSectionProps> = ({ info, isActive }) => {
+const PageSection: React.FC<IPageSectionProps> = ({
+  info,
+  children,
+  filters,
+}) => {
   const [toggleFormEdit, setToggleFormEdit] = useState(false)
+  const [form, setForm] = useState<IField[]>(
+    filters.map((filter) => ({
+      param: filter.keyWord,
+      type: "text",
+      value: filter.value,
+      title: filter.title,
+      msg: "",
+      options: filter.options,
+      isImportant: true,
+    }))
+  )
 
   const onDelete = () => {
     console.log("DELETE")
@@ -30,26 +51,24 @@ const PageSection: React.FC<IPageSectionProps> = ({ info, isActive }) => {
   }
 
   return (
-    <div
-      className={`${styles.section_tab} ${
-        isActive && styles.section_tab__open
-      }`}
-    >
+    <div className={styles.section}>
       {toggleFormEdit ? (
         <ModSectionForm
           data={info}
           onEdit={onEdit}
           onDelete={onDelete}
+          filters={form}
+          setFilters={setForm}
           toggleEdiForm={handleToggleEdiForm}
         />
       ) : (
-        <div className='wrapper-text'>
+        <div className={styles.section__content}>
           <ButtonTab
-            exClass={styles.section_tab__btn_edit}
+            exClass={styles.section__btn_edit}
+            Icon={BsPencilSquare}
             click={handleToggleEdiForm}
-            Icon={toggleFormEdit ? BsX : BsPencilSquare}
           />
-          <PageSectionModule info={info} />
+          {children}
         </div>
       )}
     </div>

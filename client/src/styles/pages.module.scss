@@ -1,83 +1,110 @@
 @import "base";
 
+// .page {
+//   &__navbar_wrapper {
+//     border-bottom: 1px solid getColor(main-dark);
+//     background-color: getColor(secondary);
+//   }
+//   &__navbar {
+//     @extend %wrapper;
+//     @extend %flex-center;
+//     justify-content: space-between;
+//     height: 50px;
+//   }
+//   &__create {
+//     @extend %flex-center;
+//     & > p {
+//       margin-right: 7px;
+//       font-size: 1.1em;
+//     }
+//   }
+//   &__form {
+//     transition: getTransition(main);
+//     display: block;
+//     background-color: getColor(main);
+//     border-top: 1px solid getColor(main-dark);
+//     animation: close getTransition(second);
+//     padding-bottom: 20px;
+//     &__close {
+//       display: none;
+//     }
+//   }
+// }
+
+// @keyframes close {
+//   from {
+//     opacity: 0;
+//   }
+//   to {
+//     opacity: 1;
+//   }
+// }
+
+// @keyframes fade {
+//   from {
+//     opacity: 0;
+//   }
+//   to {
+//     opacity: 1;
+//   }
+// }
+
+// .section_tab {
+//   display: none;
+//   animation: fade getTransition(second);
+//   position: relative;
+//   &__open {
+//     display: block;
+//   }
+//   &__btn_edit {
+//     position: absolute;
+//     top: 20px;
+//     right: 20px;
+//     z-index: 2;
+//   }
+// }
+
+// .section {
+//   &__title {
+//   }
+//   &__date {
+//     @extend %flex-center;
+//     justify-content: flex-start;
+//     color: getColor(font-light);
+//   }
+//   &__icon_date {
+//     margin-right: 6px;
+//     font-size: 1.1em;
+//   }
+//   &__content {
+//     padding: 20px 0;
+//     font-size: 1.2em;
+//   }
+// }
+
 .page {
-  &__navbar_wrapper {
-    border-bottom: 1px solid getColor(main-dark);
-    background-color: getColor(secondary);
-  }
-  &__navbar {
-    @extend %wrapper;
-    @extend %flex-center;
-    justify-content: space-between;
-    height: 50px;
-  }
-  &__create {
-    @extend %flex-center;
-    & > p {
-      margin-right: 7px;
-      font-size: 1.1em;
+  &__content {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: flex-start;
+    grid-row-gap: 50px;
+    grid-column-gap: 20px;
+    position: relative;
+    &__load {
+      display: block;
     }
-  }
-  &__form {
-    transition: getTransition(main);
-    display: block;
-    background-color: getColor(main);
-    border-top: 1px solid getColor(main-dark);
-    animation: close getTransition(second);
-    padding-bottom: 20px;
-    &__close {
-      display: none;
-    }
-  }
-}
-
-@keyframes close {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.section_tab {
-  display: none;
-  animation: fade getTransition(second);
-  position: relative;
-  &__open {
-    display: block;
-  }
-  &__btn_edit {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 2;
   }
 }
 
 .section {
-  &__title {
-  }
-  &__date {
-    @extend %flex-center;
-    justify-content: flex-start;
-    color: getColor(font-light);
-  }
-  &__icon_date {
-    margin-right: 6px;
-    font-size: 1.1em;
-  }
   &__content {
-    padding: 20px 0;
-    font-size: 1.2em;
+    position: relative;
+  }
+  &__btn_edit {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
   }
 }
