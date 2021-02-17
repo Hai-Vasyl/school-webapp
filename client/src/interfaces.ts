@@ -247,6 +247,17 @@ export interface IPageSection {
     hashtags: string
     description: string
     format: string
+    owner: {
+      id: string
+      username: string
+      email: string
+      ava: string
+      color: string
+      firstname: string
+      lastname: string
+      role: string
+    }
+    date: string
   }[]
   filters: {
     id: string

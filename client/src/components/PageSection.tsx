@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { IPageSection, IField, IOption } from "../interfaces"
 import ModSectionForm from "./ModSectionForm"
 // import PageSectionModule from "./PageSectionModule"
@@ -21,40 +21,51 @@ interface IPageSectionProps {
     options?: IOption[]
   }[]
   children: any
+  onDelete?: any
+  onEdit?: any
 }
 
 const PageSection: React.FC<IPageSectionProps> = ({
   info,
   children,
   filters,
+  onDelete,
+  onEdit,
 }) => {
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
 
   const [toggleFormEdit, setToggleFormEdit] = useState(false)
-  const [form, setForm] = useState<IField[]>(
-    filters.map((filter) => ({
-      param: filter.keyWord,
-      type: "text",
-      value: filter.value,
-      title: filter.title,
-      msg: "",
-      options: filter.options,
-      isImportant: true,
-    }))
-  )
+  const [form, setForm] = useState<IField[]>([])
 
-  const onDelete = () => {
-    console.log("DELETE")
-  }
-
-  const onEdit = () => {
-    console.log("EDIT")
-  }
+  useEffect(() => {
+    if (filters.length) {
+      setForm(
+        filters.map((filter) => ({
+          param: filter.keyWord,
+          type: "text",
+          value: filter.value,
+          title: filter.title,
+          msg: "",
+          options: filter.options,
+          isImportant: true,
+        }))
+      )
+    }
+  }, [filters])
 
   const handleToggleEdiForm = () => {
     setToggleFormEdit((prev) => !prev)
+  }
+
+  const handleDelete = () => {
+    onDelete()
+  }
+
+  const handleEdit = () => {
+    onEdit()
+    handleToggleEdiForm()
   }
 
   return (
@@ -62,8 +73,8 @@ const PageSection: React.FC<IPageSectionProps> = ({
       {toggleFormEdit ? (
         <ModSectionForm
           data={info}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
           filters={form}
           setFilters={setForm}
           toggleEdiForm={handleToggleEdiForm}

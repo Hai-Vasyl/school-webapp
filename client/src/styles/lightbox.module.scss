@@ -136,6 +136,10 @@
     &:hover {
       transform: translateY(0px);
     }
+    &__minimize {
+      min-height: auto;
+      transform: translateY(0px);
+    }
   }
   &__description {
     padding: 10px 25px;

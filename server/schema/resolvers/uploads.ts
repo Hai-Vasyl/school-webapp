@@ -9,15 +9,16 @@ import { types as msgTypes } from "../../modules/messageTypes"
 export const Query = {
   async getImages(_: any, { from, to, search, type }: IField) {
     try {
+      let typeQuery = type ? type : { $ne: "private" }
       let query
       if (search) {
         query = {
           $text: { $search: search },
-          type: type ? type : { $exists: true },
+          type: typeQuery,
           format: "image",
         }
       } else {
-        query = { type: type ? type : { $exists: true }, format: "image" }
+        query = { type: typeQuery, format: "image" }
       }
 
       const images = await Upload.find({ ...query })

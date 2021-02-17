@@ -117,6 +117,7 @@
 .droparea {
   display: flex;
   max-height: 450px;
+  min-height: 400px;
   outline: 7px dashed getColor(main-dark);
   outline-offset: -20px;
   position: relative;

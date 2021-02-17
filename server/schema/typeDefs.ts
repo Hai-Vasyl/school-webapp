@@ -14,6 +14,11 @@ export default gql`
     keyWord: String!
     value: String!
   }
+  input InputFilterEdit {
+    filterId: ID!
+    keyWord: String!
+    value: String!
+  }
   type PageSection {
     id: ID!
     page: ID!
@@ -212,6 +217,13 @@ export default gql`
       content: String!
       priority: Int!
       filters: [InputFilter]!
+    ): Msg!
+    editPageSection(
+      sectionId: ID!
+      title: String!
+      content: String!
+      priority: Int!
+      filters: [InputFilterEdit]!
     ): Msg!
     createNewsEvent(
       title: String!

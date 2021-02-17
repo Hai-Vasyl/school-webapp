@@ -33,6 +33,7 @@ import imageDropArea from "../images/undraw_Images_re_0kll.svg"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { types } from "../modules/messageTypes"
 import { MODIMAGE_OPEN, MODIMAGE_CLOSE } from "../redux/toggle/toggleTypes"
+import { types as uploadTypes } from "../modules/uploadTypes"
 
 const ImageMod: React.FC = () => {
   const {
@@ -41,6 +42,7 @@ const ImageMod: React.FC = () => {
         content,
         toggle,
         type,
+        singleImg,
         id: imageId,
         onCreate,
         onEdit,
@@ -163,6 +165,7 @@ const ImageMod: React.FC = () => {
       clearDataForm()
       onCreate && onCreate()
       dispatch({ type: SET_TOAST, payload: dataCreateUpload })
+      dispatch({ type: MODIMAGE_CLOSE })
     }
   }, [dispatch, dataCreate, clearDataForm, errorCreate])
 
@@ -172,6 +175,7 @@ const ImageMod: React.FC = () => {
       onEdit && onEdit()
       refetchImage()
       dispatch({ type: SET_TOAST, payload: dataEditUpload })
+      dispatch({ type: MODIMAGE_CLOSE })
     }
   }, [dispatch, dataEdit, refetchImage])
 
@@ -196,7 +200,7 @@ const ImageMod: React.FC = () => {
       editUpload({
         variables: {
           imageId: imageId,
-          hashtags: hashtags.value,
+          hashtags: type === uploadTypes.private.keyWord ? "" : hashtags.value,
           description: description.value,
           upload: upload.value,
         },
@@ -204,7 +208,7 @@ const ImageMod: React.FC = () => {
     } else {
       createUpload({
         variables: {
-          hashtags: hashtags.value,
+          hashtags: type === uploadTypes.private.keyWord ? "" : hashtags.value,
           description: description.value,
           upload: upload.value,
           content,
@@ -238,7 +242,15 @@ const ImageMod: React.FC = () => {
     })
   }
 
-  const fields = form.map((field) => {
+  let fields: IField[] = []
+  form.forEach((field) => {
+    if (type === uploadTypes.private.keyWord && field.param === "hashtags") {
+      return
+    } else {
+      fields.push(field)
+    }
+  })
+  const fieldsJSX = fields.map((field) => {
     if (field.type === "file") {
       return (
         <FieldFile
@@ -263,7 +275,7 @@ const ImageMod: React.FC = () => {
     >
       <div className={styles.form__content}>
         <div className={styles.form__title}>
-          {imageId && (
+          {imageId && !singleImg && (
             <ButtonTab
               Icon={BsArrowLeft}
               click={handleGoToCreateImage}
@@ -286,7 +298,7 @@ const ImageMod: React.FC = () => {
           <LoaderData
             load={loadImage || loadCreate || loadEdit || loadDelete}
           />
-          <div className={styles.form__fields}>{fields}</div>
+          <div className={styles.form__fields}>{fieldsJSX}</div>
           <button className='btn-handler'></button>
           <div className={styles.form__btns}>
             <Button

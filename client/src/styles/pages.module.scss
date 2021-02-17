@@ -116,16 +116,57 @@
   align-items: flex-start;
   border-bottom: 1px solid getColor(main-dark);
   background-color: getColor(secondary);
-  // margin-bottom: 20px;
   padding: 20px;
   &__preview {
     width: 250px;
     height: 270px;
     display: flex;
     background-color: getColor(main);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    &:hover {
+      .content__img {
+        transform: scale(1.2);
+      }
+      .content__overlay {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .content__btn {
+        right: 10px;
+        opacity: 1;
+        visibility: visible;
+        &:active {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  &__overlay {
+    @extend %position-extend;
+    z-index: 2;
+    background-color: getColor(bg);
+    opacity: 0;
+    transition: getTransition(main);
+    transform: translateX(-50%);
+  }
+  &__overlay_text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: getColor(font-white);
+    text-align: center;
+    border-top: 1px solid getColor(bg-light);
+    font-size: 0.8em;
+    padding: 15px 0;
+    transition: getTransition(second);
   }
   &__img {
     @extend %image;
+    transform: scale(1);
+    transition: getTransition(slow);
   }
   &__icon {
     margin: auto;
@@ -150,6 +191,7 @@
   }
   &__subtitle {
     font-size: 0.9em;
+    margin-top: 5px;
   }
   &__subtitle_title {
     margin-right: 7px;
@@ -159,7 +201,15 @@
   &__main {
     margin-top: 10px;
     padding-top: 5px;
-    font-size: 1.1em;
+    font-size: 1.2em;
     border-top: 1px solid getColor(main);
+  }
+  &__btn {
+    position: absolute;
+    top: 10px;
+    z-index: 3;
+    right: 0px;
+    opacity: 0;
+    visibility: hidden;
   }
 }

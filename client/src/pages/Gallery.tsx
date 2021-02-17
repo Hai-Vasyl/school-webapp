@@ -13,7 +13,7 @@ import { types as uploadTypes, getParamsByType } from "../modules/uploadTypes"
 import stylesBtn from "../styles/button.module"
 // @ts-ignore
 import styles from "../styles/gallery.module"
-import { IImage } from "../interfaces"
+import { IImage, IOption } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
 import Pagination from "../components/Pagination"
 import { useSelector } from "react-redux"
@@ -70,9 +70,18 @@ const Gallery: React.FC = () => {
     setSearchStr(search)
   }, [search])
 
-  let options = Object.keys(uploadTypes).map((item) => {
+  let options: IOption[] = []
+  Object.keys(uploadTypes).forEach((item) => {
     // @ts-ignore
-    return { value: uploadTypes[item].keyWord, label: uploadTypes[item].label }
+    if (uploadTypes[item].keyWord === uploadTypes.private.keyWord) {
+      return
+    }
+    options.push({
+      // @ts-ignore
+      value: uploadTypes[item].keyWord,
+      // @ts-ignore
+      label: uploadTypes[item].label,
+    })
   })
 
   const getRedirectLink = (

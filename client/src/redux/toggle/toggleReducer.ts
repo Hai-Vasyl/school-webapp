@@ -32,6 +32,7 @@ interface IInitState {
     id: string
     content: string
     type: string
+    singleImg: boolean
     onCreate?(): any
     onEdit?(): any
     onRemove?(): any
@@ -39,6 +40,7 @@ interface IInitState {
   lightbox: {
     toggle: boolean
     imageId: string
+    singleImg: boolean
     onMove(isRight: boolean, imageId: string): any
     isLeft: boolean
     isRight: boolean
@@ -62,6 +64,7 @@ const initState: IInitState = {
     id: "",
     content: "",
     type: "",
+    singleImg: false,
     onCreate: () => {},
     onEdit: () => {},
     onRemove: () => {},
@@ -69,6 +72,7 @@ const initState: IInitState = {
   lightbox: {
     toggle: false,
     imageId: "",
+    singleImg: false,
     onMove: () => {},
     isLeft: false,
     isRight: false,
@@ -103,6 +107,7 @@ const toggleReducer = (
           ...state.lightbox,
           toggle: true,
           imageId: action.payload.imageId,
+          singleImg: !!action.payload.singleImg,
           onMove: action.payload.onMove,
           isLeft: action.payload.isLeft,
           isRight: action.payload.isRight,
@@ -170,6 +175,7 @@ const toggleReducer = (
           id: action.payload.id,
           content: action.payload.content,
           type: action.payload.type,
+          singleImg: !!action.payload.singleImg,
           onCreate: action.payload.onCreate,
           onEdit: action.payload.onEdit,
           onRemove: action.payload.onRemove,

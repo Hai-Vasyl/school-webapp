@@ -21,12 +21,13 @@ import styles from "../styles/pages.module"
 import PageSecion from "../components/PageSection"
 import { BsImages } from "react-icons/bs"
 import { convertContent } from "../helpers/convertContentEditor"
+import SectionPerson from "../components/SectionPerson"
 
 const Graduates: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
-  const amountItems = 3
+  const amountItems = 1
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
@@ -47,27 +48,29 @@ const Graduates: React.FC = () => {
     return filters
   }
 
-  const { data: dataFilters, loading: loadFilters } = useQuery(
-    GET_PAGE_FILTERS,
-    {
-      variables: {
-        url: pathname,
-      },
-    }
-  )
+  const {
+    data: dataFilters,
+    loading: loadFilters,
+    refetch: refetchFilters,
+  } = useQuery(GET_PAGE_FILTERS, {
+    variables: {
+      url: pathname,
+    },
+  })
 
-  const { data: dataSections, loading: loadSections } = useQuery(
-    GET_PAGE_SECTIONS,
-    {
-      variables: {
-        search,
-        filters: getFilters(year, group),
-        from: (page - 1) * amountItems,
-        to: amountItems,
-        url: pathname,
-      },
-    }
-  )
+  const {
+    data: dataSections,
+    loading: loadSections,
+    refetch: refetchSections,
+  } = useQuery(GET_PAGE_SECTIONS, {
+    variables: {
+      search,
+      filters: getFilters(year, group),
+      from: (page - 1) * amountItems,
+      to: amountItems,
+      url: pathname,
+    },
+  })
 
   const [searchStr, setSearchStr] = useState(search)
   const [form, setForm] = useState<IField[]>([
@@ -185,63 +188,25 @@ const Graduates: React.FC = () => {
         [{ label: "Усі", value: "all" }, ...groupOptions],
         false
       )
-
-      // setForm((prev) =>
-      //   prev.map((field) => {
-      //     if (field.param === "year") {
-      //       return { ...field, value: years[0], options: yearOptions }
-      //     } else if (field.param === "group") {
-      //       return { ...field, value: groups[0], options: groupOptions }
-      //     }
-      //     return field
-      //   })
-      // )
-      // setFilters((prev) =>
-      //   prev.map((field) => {
-      //     if (field.param === "year") {
-      //       return { ...field, value: years[0], options: yearOptions }
-      //     } else if (field.param === "group") {
-      //       return { ...field, value: groups[0], options: groupOptions }
-      //     }
-      //     return field
-      //   })
-      // )
-
-      // setYears(years.map((item) => ({ label: item, value: item })))
-      // setGroups(groups.map((item) => ({ label: item, value: item })))
-      // for (let i = 0; i < filters.length; i++) {
-      //   if(filters[i].keyWord === "year"){
-      //     if(itemYear === filters[i].value){
-      //       sections.push(filters[i].section)
-      //     }
-      //     if(!years.includes(filters[i].value)){
-      //       years.push(filters[i].value)
-      //     }
-      //   }else if(filters[i].keyWord === "group"){
-      //     if(sections.includes(filters[i].section) ){
-      //       if(!groups.includes(filters[i].value)){
-      //         groups.push(filters[i].value)
-      //       }
-      //     }
-      //   }
-      // }
     }
   }, [dataFilters])
 
   console.log({ dataSections })
 
-  const filtersJSX = filters.map((field) => {
-    return (
-      <FieldPicker
-        key={field.param}
-        submit
-        field={field}
-        change={setFilters}
-        noError
-        options={field.options || []}
-      />
-    )
-  })
+  const filtersJSX =
+    filters.length &&
+    filters.map((field) => {
+      return (
+        <FieldPicker
+          key={field.param}
+          submit
+          field={field}
+          change={setFilters}
+          noError
+          options={field.options || []}
+        />
+      )
+    })
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -284,17 +249,21 @@ const Graduates: React.FC = () => {
     }
   }
 
-  const sections = dataSections && dataSections.getPageSections.items
-
-  const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
-    return filters.find((filter) => filter.keyWord === keyWord)
+  const handleDeleteSection = () => {
+    refetchFilters()
+    refetchSections()
   }
+
+  const handleEditSection = () => {
+    refetchFilters()
+    refetchSections()
+  }
+
+  const sections = dataSections && dataSections.getPageSections.items
 
   const sectionsJSX =
     sections &&
     sections.map((section: IPageSection) => {
-      const year = findFilterParams(section.filters, "year")
-      const group = findFilterParams(section.filters, "group")
       return (
         <PageSecion
           key={section.id}
@@ -305,44 +274,15 @@ const Graduates: React.FC = () => {
             options: form[index].options,
             title: form[index].title,
           }))}
+          onDelete={handleDeleteSection}
+          onEdit={handleEditSection}
         >
-          <div className={styles.content}>
-            <div className={styles.content__preview}>
-              {section.uploads.length ? (
-                <img
-                  className={styles.content__img}
-                  src='https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg'
-                  alt='imgPreview'
-                />
-              ) : (
-                <BsImages className={styles.content__icon} />
-              )}
-            </div>
-            <div className={styles.content__body}>
-              <div className={styles.content__link}>
-                <span className={styles.content__link_title}>Рік:</span>
-                <Link
-                  className={styles.content__link_text}
-                  to={`${pathname}?year=${year?.value}`}
-                >
-                  {year?.value}
-                </Link>
-              </div>
-              <h2 className={styles.content__title}>{section.title}</h2>
-              <div className={styles.content__subtitle}>
-                <span className={styles.content__subtitle_title}>Клас:</span>
-                <Link
-                  className={styles.content__subtitle_text}
-                  to={`${pathname}?group=${group?.value}`}
-                >
-                  {group?.value}
-                </Link>
-              </div>
-              <div className={styles.content__main}>
-                {convertContent(section.content)}
-              </div>
-            </div>
-          </div>
+          <SectionPerson
+            refetchSections={refetchSections}
+            info={section}
+            link={{ title: "Рік", text: `${pathname}?year=` }}
+            subtitle={{ title: "Клас", text: `${pathname}?group=` }}
+          />
         </PageSecion>
       )
     })

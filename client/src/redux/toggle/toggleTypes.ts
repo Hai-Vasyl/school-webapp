@@ -32,6 +32,7 @@ export interface LightBoxOpen {
   type: typeof LIGHTBOX_OPEN
   payload: {
     imageId: string
+    singleImg?: boolean
     onMove(isRight: boolean, imageId: string): any
     isLeft: boolean
     isRight: boolean
@@ -68,6 +69,7 @@ export interface ModImageOpen {
     id: string
     content: string
     type: string
+    singleImg?: boolean
     onCreate?(): any
     onEdit?(): any
     onRemove?(): any

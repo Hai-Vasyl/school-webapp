@@ -181,4 +181,66 @@ export const Mutation = {
       throw new Error(error.message)
     }
   },
+  async editPageSection(
+    _: any,
+    { sectionId, title, content, priority, filters }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const {
+        title: vTitle,
+        content: vContent,
+        priority: vPriority,
+        isError,
+      }: any = await createEditValid({ title, content, priority })
+      if (isError) {
+        throw new Error(
+          JSON.stringify({
+            title: vTitle,
+            content: vContent,
+            priority: vPriority,
+          })
+        )
+      }
+      let errors: any = {}
+      if (filters.length) {
+        for (let i = 0; i < filters.length; i++) {
+          if (!filters[i].value) {
+            errors[filters[i].keyWord] = {
+              value: filters[i].value,
+              msg: ["Це поле не може бути порожнім!"],
+            }
+          }
+        }
+      }
+      if (Object.keys(errors).length) {
+        throw new Error(JSON.stringify(errors))
+      }
+
+      await PageSection.findByIdAndUpdate(sectionId, {
+        title,
+        content,
+        priority,
+        date: new Date(),
+      })
+      if (filters.length) {
+        for (let i = 0; i < filters.length; i++) {
+          await Filter.findByIdAndUpdate(filters[i].filterId, {
+            value: filters[i].value,
+          })
+        }
+      }
+
+      return {
+        message: "Розділ оновлено успішно!",
+        type: types.success.keyWord,
+      }
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  },
 }

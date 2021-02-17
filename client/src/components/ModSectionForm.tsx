@@ -4,7 +4,7 @@ import styles from "../styles/form.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 import LoaderData from "../components/LoaderData"
-import { CREATE_PAGE_SECTION } from "../fetching/mutations"
+import { CREATE_PAGE_SECTION, EDIT_PAGE_SECTION } from "../fetching/mutations"
 import { useMutation, useQuery } from "@apollo/client"
 import { useLocation } from "react-router-dom"
 import Field from "./Field"
@@ -22,9 +22,10 @@ import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { useDispatch } from "react-redux"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { types } from "../modules/messageTypes"
-import { IPageSection, IField } from "../interfaces"
+import { IPageSection, IField, IPageSectionFilter } from "../interfaces"
 import ButtonTab from "./ButtonTab"
 import FieldFliper from "./FieldFliper"
+import { RiContactsBookLine } from "react-icons/ri"
 
 interface ModSectionFormProps {
   data?: IPageSection
@@ -76,13 +77,16 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     createPageSection,
     { data: dataCreate, loading: loadCreate, error: errorCreate },
   ] = useMutation(CREATE_PAGE_SECTION)
+  const [
+    editPageSection,
+    { data: dataEdit, loading: loadEdit, error: errorEdit },
+  ] = useMutation(EDIT_PAGE_SECTION)
 
   const { setErrors } = useSetErrorsFields()
 
   useEffect(() => {
     const data = dataCreate && dataCreate.createPageSection
     if (errorCreate) {
-      console.log({ errorCreate })
       setErrors(errorCreate.message, setForm)
       setErrors(errorCreate.message, setFilters)
       dispatch({
@@ -101,12 +105,52 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     }
   }, [dispatch, dataCreate, errorCreate])
 
+  useEffect(() => {
+    const data = dataEdit && dataEdit.editPageSection
+    if (errorEdit) {
+      console.log({ errorEdit })
+      setErrors(errorEdit.message, setForm)
+      setErrors(errorEdit.message, setFilters)
+      dispatch({
+        type: SET_TOAST,
+        payload: {
+          type: types.error.keyWord,
+          message: "Помилка перевірки полів форми!",
+        },
+      })
+    } else if (data) {
+      dispatch({
+        type: SET_TOAST,
+        payload: data,
+      })
+      onEdit && onEdit()
+    }
+  }, [dispatch, dataEdit, errorEdit])
+
+  const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
+    return filters.find((filter) => filter.keyWord === keyWord)
+  }
+
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const [title, content, priority] = form
 
     if (data) {
-      console.log("EDIT_SECTION")
+      editPageSection({
+        variables: {
+          sectionId: data.id,
+          title: title.value.trim(),
+          content: content.value.trim(),
+          priority: Number(priority.value),
+          filters: filters
+            ? filters.map((field) => ({
+                filterId: findFilterParams(data.filters, field.param)?.id,
+                keyWord: field.param,
+                value: field.value.trim(),
+              }))
+            : [],
+        },
+      })
     } else {
       createPageSection({
         variables: {
@@ -137,7 +181,14 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     filters &&
     filters.map((filter) => {
       return (
-        <FieldFliper key={filter.param} field={filter} change={setFilters} />
+        <FieldFliper
+          key={filter.param}
+          defaultField={
+            data ? findFilterParams(data.filters, filter.param)?.value : ""
+          }
+          field={filter}
+          change={setFilters}
+        />
       )
     })
 
@@ -150,7 +201,6 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     return <Field key={field.param} field={field} change={setForm} />
   })
 
-  // console.log({ form, filters })
   return (
     <div className={styles.form}>
       <div

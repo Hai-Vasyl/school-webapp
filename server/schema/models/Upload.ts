@@ -7,7 +7,7 @@ const schema = new Schema({
   content: { type: Types.ObjectId },
   type: {
     type: String,
-    enum: ["image", "news", "event", "other", "privet"],
+    enum: ["image", "news", "event", "other", "private"],
     required: true,
   },
   key: { type: String, required: true },

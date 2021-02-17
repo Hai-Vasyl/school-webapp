@@ -397,6 +397,7 @@ export const GET_IMAGE = gql`
       key
       hashtags
       description
+      format
     }
   }
 `
@@ -516,6 +517,17 @@ export const GET_PAGE_SECTIONS = gql`
           hashtags
           description
           format
+          owner {
+            id
+            username
+            email
+            ava
+            color
+            firstname
+            lastname
+            role
+          }
+          date
         }
         owner {
           id

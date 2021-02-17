@@ -38,6 +38,9 @@ export const types = {
     label: "Інші",
     Icon: BsReverseLayoutTextSidebarReverse,
   },
+  private: {
+    keyWord: "private",
+  },
   all: {
     keyWord: "all",
     label: "Усі",

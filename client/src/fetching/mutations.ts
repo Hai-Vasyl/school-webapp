@@ -462,3 +462,24 @@ export const CREATE_PAGE_SECTION = gql`
     }
   }
 `
+
+export const EDIT_PAGE_SECTION = gql`
+  mutation EDIT_PAGE_SECTION(
+    $sectionId: ID!
+    $title: String!
+    $content: String!
+    $priority: Int!
+    $filters: [InputFilterEdit]!
+  ) {
+    editPageSection(
+      sectionId: $sectionId
+      title: $title
+      content: $content
+      priority: $priority
+      filters: $filters
+    ) {
+      message
+      type
+    }
+  }
+`

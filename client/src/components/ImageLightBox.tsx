@@ -29,7 +29,15 @@ const ImageLightBox: React.FC = () => {
   const {
     auth: { user },
     toggle: {
-      lightbox: { imageId, isLeft, isRight, toggle, onMove, handleEditImage },
+      lightbox: {
+        imageId,
+        isLeft,
+        isRight,
+        toggle,
+        singleImg,
+        onMove,
+        handleEditImage,
+      },
     },
   } = useSelector((state: RootStore) => state)
   const { data: dataImage, loading: loadImage } = useQuery(GET_IMAGE, {
@@ -110,66 +118,77 @@ const ImageLightBox: React.FC = () => {
           />
         </div>
       </div>
-      <div className={styles.lightbox__body_area}>
-        <div className={styles.lightbox__body}>
-          <button
-            className={`${styles.lightbox__btn_arrow} ${
-              !isLeft && styles.lightbox__btn_arrow__disabled
-            }`}
-            onClick={() => (isLeft ? onMove(false, imageId) : {})}
+      {!singleImg && (
+        <>
+          <div className={styles.lightbox__body_area}>
+            <div className={styles.lightbox__body}>
+              <button
+                className={`${styles.lightbox__btn_arrow} ${
+                  !isLeft && styles.lightbox__btn_arrow__disabled
+                }`}
+                onClick={() => (isLeft ? onMove(false, imageId) : {})}
+              >
+                <BsChevronLeft />
+              </button>
+            </div>
+          </div>
+          <div
+            className={`${styles.lightbox__body_area} ${styles.lightbox__body_area__right}`}
           >
-            <BsChevronLeft />
-          </button>
-        </div>
-      </div>
+            <div
+              className={`${styles.lightbox__body} ${styles.lightbox__body__right}`}
+            >
+              <button
+                className={`${styles.lightbox__btn_arrow} ${
+                  !isRight && styles.lightbox__btn_arrow__disabled
+                }`}
+                onClick={() => (isRight ? onMove(true, imageId) : {})}
+              >
+                <BsChevronRight />
+              </button>
+            </div>
+          </div>
+        </>
+      )}
       <div
-        className={`${styles.lightbox__body_area} ${styles.lightbox__body_area__right}`}
+        className={`${styles.lightbox__footer} ${
+          image.type === types.private.keyWord &&
+          styles.lightbox__footer__minimize
+        }`}
       >
-        <div
-          className={`${styles.lightbox__body} ${styles.lightbox__body__right}`}
-        >
-          <button
-            className={`${styles.lightbox__btn_arrow} ${
-              !isRight && styles.lightbox__btn_arrow__disabled
-            }`}
-            onClick={() => (isRight ? onMove(true, imageId) : {})}
-          >
-            <BsChevronRight />
-          </button>
-        </div>
-      </div>
-      <div className={styles.lightbox__footer}>
         <div className={styles.lightbox__description}>{image.description}</div>
-        <div className={styles.lightbox__details}>
-          <div className={styles.lightbox__owner}>
-            <span className={styles.lightbox__owner_title}>Власник</span>
-            {image.owner.role && (
-              <UserCard
-                isEnvChat={false}
-                isLink={true}
-                user={image.owner}
-                minimize
-                exClass={styles.lightbox__usercard}
-              />
+        {image.type !== types.private.keyWord && (
+          <div className={styles.lightbox__details}>
+            <div className={styles.lightbox__owner}>
+              <span className={styles.lightbox__owner_title}>Власник</span>
+              {image.owner.role && (
+                <UserCard
+                  isEnvChat={false}
+                  isLink={true}
+                  user={image.owner}
+                  minimize
+                  exClass={styles.lightbox__usercard}
+                />
+              )}
+            </div>
+            {image.type !== types.other.keyWord && (
+              <div className={styles.lightbox__adition}>
+                <div className={styles.lightbox__content_link}>
+                  <span className={styles.lightbox__link_title}>
+                    {imageParams && imageParams.labelSingle}:
+                  </span>
+                  <Link
+                    to={(imageParams && imageParams.getLink(image.id)) || ""}
+                    className={styles.lightbox__link}
+                  >
+                    ...{imageParams && imageParams.getLink(image.id)}
+                  </Link>
+                </div>
+                <div className={styles.lightbox__hashtags}>{hashtags}</div>
+              </div>
             )}
           </div>
-          {image.type !== types.other.keyWord && (
-            <div className={styles.lightbox__adition}>
-              <div className={styles.lightbox__content_link}>
-                <span className={styles.lightbox__link_title}>
-                  {imageParams && imageParams.labelSingle}:
-                </span>
-                <Link
-                  to={(imageParams && imageParams.getLink(image.id)) || ""}
-                  className={styles.lightbox__link}
-                >
-                  ...{imageParams && imageParams.getLink(image.id)}
-                </Link>
-              </div>
-              <div className={styles.lightbox__hashtags}>{hashtags}</div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   )
