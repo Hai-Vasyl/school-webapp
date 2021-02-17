@@ -225,6 +225,7 @@ export default gql`
       priority: Int!
       filters: [InputFilterEdit]!
     ): Msg!
+    deletePageSection(sectionId: ID!): Msg!
     createNewsEvent(
       title: String!
       content: String!

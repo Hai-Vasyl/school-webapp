@@ -5,22 +5,13 @@ import FieldPicker from "../components/FieldPicker"
 import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
-import { useLocation, Link } from "react-router-dom"
-import {
-  IOption,
-  IField,
-  IPageSection,
-  IPageSectionFilter,
-} from "../interfaces"
+import { useLocation } from "react-router-dom"
+import { IOption, IField, IPageSection } from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
 import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
-// @ts-ignore
-import styles from "../styles/pages.module"
 import PageSecion from "../components/PageSection"
-import { BsImages } from "react-icons/bs"
-import { convertContent } from "../helpers/convertContentEditor"
 import SectionPerson from "../components/SectionPerson"
 
 const Graduates: React.FC = () => {
@@ -48,15 +39,14 @@ const Graduates: React.FC = () => {
     return filters
   }
 
-  const {
-    data: dataFilters,
-    loading: loadFilters,
-    refetch: refetchFilters,
-  } = useQuery(GET_PAGE_FILTERS, {
-    variables: {
-      url: pathname,
-    },
-  })
+  const { data: dataFilters, refetch: refetchFilters } = useQuery(
+    GET_PAGE_FILTERS,
+    {
+      variables: {
+        url: pathname,
+      },
+    }
+  )
 
   const {
     data: dataSections,
@@ -191,8 +181,6 @@ const Graduates: React.FC = () => {
     }
   }, [dataFilters])
 
-  console.log({ dataSections })
-
   const filtersJSX =
     filters.length &&
     filters.map((field) => {
@@ -250,13 +238,21 @@ const Graduates: React.FC = () => {
   }
 
   const handleDeleteSection = () => {
+    const [year, group] = filters
     refetchFilters()
     refetchSections()
+    getRedirectLink(1, year.value, group.value, search)
   }
 
   const handleEditSection = () => {
     refetchFilters()
     refetchSections()
+  }
+
+  const handleCreate = () => {
+    refetchFilters()
+    refetchSections()
+    setToggleCreate((prev) => !prev)
   }
 
   const sections = dataSections && dataSections.getPageSections.items
@@ -308,7 +304,13 @@ const Graduates: React.FC = () => {
         />
         {filtersJSX}
       </FilterFrame>
-      {toggleCreate && <ModSectionForm filters={form} setFilters={setForm} />}
+      {toggleCreate && (
+        <ModSectionForm
+          onCreate={handleCreate}
+          filters={form}
+          setFilters={setForm}
+        />
+      )}
       <div className='wrapper'>
         {!!quantityItems && (
           <Pagination

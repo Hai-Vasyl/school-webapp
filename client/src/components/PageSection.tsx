@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { IPageSection, IField, IOption } from "../interfaces"
 import ModSectionForm from "./ModSectionForm"
 // import PageSectionModule from "./PageSectionModule"
@@ -12,14 +12,16 @@ import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
 
+interface IFilterField {
+  keyWord: string
+  title: string
+  value: string
+  options?: IOption[]
+}
+
 interface IPageSectionProps {
   info: IPageSection
-  filters: {
-    keyWord: string
-    title: string
-    value: string
-    options?: IOption[]
-  }[]
+  filters: IFilterField[]
   children: any
   onDelete?: any
   onEdit?: any
@@ -39,21 +41,25 @@ const PageSection: React.FC<IPageSectionProps> = ({
   const [toggleFormEdit, setToggleFormEdit] = useState(false)
   const [form, setForm] = useState<IField[]>([])
 
+  const setInitFilters = useCallback((filters: IFilterField[]) => {
+    setForm(
+      filters.map((filter) => ({
+        param: filter.keyWord,
+        type: "text",
+        value: filter.value,
+        title: filter.title,
+        msg: "",
+        options: filter.options,
+        isImportant: true,
+      }))
+    )
+  }, [])
+
   useEffect(() => {
     if (filters.length) {
-      setForm(
-        filters.map((filter) => ({
-          param: filter.keyWord,
-          type: "text",
-          value: filter.value,
-          title: filter.title,
-          msg: "",
-          options: filter.options,
-          isImportant: true,
-        }))
-      )
+      setInitFilters(filters)
     }
-  }, [filters])
+  }, [filters, setInitFilters])
 
   const handleToggleEdiForm = () => {
     setToggleFormEdit((prev) => !prev)
@@ -78,6 +84,7 @@ const PageSection: React.FC<IPageSectionProps> = ({
           filters={form}
           setFilters={setForm}
           toggleEdiForm={handleToggleEdiForm}
+          resetFilters={() => setInitFilters(filters)}
         />
       ) : (
         <div className={styles.section__content}>

@@ -483,3 +483,12 @@ export const EDIT_PAGE_SECTION = gql`
     }
   }
 `
+
+export const DELETE_PAGE_SECTION = gql`
+  mutation DELETE_PAGE_SECTION($sectionId: ID!) {
+    deletePageSection(sectionId: $sectionId) {
+      message
+      type
+    }
+  }
+`

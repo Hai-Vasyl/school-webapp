@@ -1,7 +1,11 @@
-import { PageSection, Page, Filter } from "../models"
+import { PageSection, Page, Filter, Upload } from "../models"
 import { IField, IIsAuth, IFilter, IPageSection } from "../interfaces"
 import { types } from "../../modules/messageTypes"
 import { createEditValid } from "../validation/pageSections"
+import { deleteFile } from "../helpers/crudBucket"
+import { config } from "dotenv"
+config({ path: "../../../.env" })
+const { AWS_UPLOADS_BUCKET: uploadsBucket } = process.env
 
 export const Query = {
   async getPageSections(_: any, { search, url, filters, from, to }: IField) {
@@ -20,16 +24,6 @@ export const Query = {
             path: "filters",
             match: { keyWord: filters[i].keyWord, value: filters[i].value },
           })
-
-          // TODO:
-          // for (let i = 0; i < sections.length; i++) {
-          //   console.log({
-          //     sectionItem: sections[i],
-          //     filtersItem: sections[i].filters,
-          //   })
-          // }
-          // console.log({ sections, filters_: sections.filters })
-          // TODO:
 
           let colectionTemp: IPageSection[] = []
           sections.forEach((item: any) => {
@@ -74,7 +68,6 @@ export const Query = {
           // })
           .skip(from)
           .limit(to)
-        console.log({ sections })
         quantity = await PageSection.find({
           ...searchQuery,
           url,
@@ -110,16 +103,6 @@ export const Mutation = {
         url: vUrl,
         isError,
       }: any = await createEditValid({ title, content, priority, url })
-      if (isError) {
-        throw new Error(
-          JSON.stringify({
-            title: vTitle,
-            content: vContent,
-            priority: vPriority,
-            url: vUrl,
-          })
-        )
-      }
       let errors: any = {}
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
@@ -131,8 +114,16 @@ export const Mutation = {
           }
         }
       }
-      if (Object.keys(errors).length) {
-        throw new Error(JSON.stringify(errors))
+      if (isError || Object.keys(errors).length) {
+        throw new Error(
+          JSON.stringify({
+            title: vTitle,
+            content: vContent,
+            priority: vPriority,
+            url: vUrl,
+            ...errors,
+          })
+        )
       }
 
       const page: any = await Page.findOne({ url })
@@ -197,15 +188,6 @@ export const Mutation = {
         priority: vPriority,
         isError,
       }: any = await createEditValid({ title, content, priority })
-      if (isError) {
-        throw new Error(
-          JSON.stringify({
-            title: vTitle,
-            content: vContent,
-            priority: vPriority,
-          })
-        )
-      }
       let errors: any = {}
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
@@ -217,8 +199,15 @@ export const Mutation = {
           }
         }
       }
-      if (Object.keys(errors).length) {
-        throw new Error(JSON.stringify(errors))
+      if (isError || Object.keys(errors).length) {
+        throw new Error(
+          JSON.stringify({
+            title: vTitle,
+            content: vContent,
+            priority: vPriority,
+            ...errors,
+          })
+        )
       }
 
       await PageSection.findByIdAndUpdate(sectionId, {
@@ -241,6 +230,35 @@ export const Mutation = {
       }
     } catch (error) {
       throw new Error(error.message)
+    }
+  },
+  async deletePageSection(
+    _: any,
+    { sectionId }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const uploads: any = await Upload.find({ content: sectionId })
+      if (uploads.length) {
+        for (let i = 0; i < uploads.length; i++) {
+          await deleteFile(uploads[i].key, uploadsBucket || "")
+        }
+        await Upload.deleteMany({ content: sectionId })
+      }
+
+      await Filter.deleteMany({ section: sectionId })
+      await PageSection.findByIdAndDelete(sectionId)
+
+      return {
+        message: "Розділ видалено успішно!",
+        type: types.success.keyWord,
+      }
+    } catch (error) {
+      throw new Error(`Deleting page section error: ${error.message}`)
     }
   },
 }

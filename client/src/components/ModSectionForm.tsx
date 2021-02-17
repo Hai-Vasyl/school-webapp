@@ -4,8 +4,12 @@ import styles from "../styles/form.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 import LoaderData from "../components/LoaderData"
-import { CREATE_PAGE_SECTION, EDIT_PAGE_SECTION } from "../fetching/mutations"
-import { useMutation, useQuery } from "@apollo/client"
+import {
+  CREATE_PAGE_SECTION,
+  EDIT_PAGE_SECTION,
+  DELETE_PAGE_SECTION,
+} from "../fetching/mutations"
+import { useMutation } from "@apollo/client"
 import { useLocation } from "react-router-dom"
 import Field from "./Field"
 import FieldNumber from "./FieldNumber"
@@ -25,7 +29,7 @@ import { types } from "../modules/messageTypes"
 import { IPageSection, IField, IPageSectionFilter } from "../interfaces"
 import ButtonTab from "./ButtonTab"
 import FieldFliper from "./FieldFliper"
-import { RiContactsBookLine } from "react-icons/ri"
+import { WARNING_OPEN, WARNING_CLOSE } from "../redux/toggle/toggleTypes"
 
 interface ModSectionFormProps {
   data?: IPageSection
@@ -35,6 +39,7 @@ interface ModSectionFormProps {
   onCreate?(): any
   onDelete?(): any
   onEdit?(): any
+  resetFilters?(): any
 }
 
 const ModSectionForm: React.FC<ModSectionFormProps> = ({
@@ -45,6 +50,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   onCreate,
   onDelete,
   onEdit,
+  resetFilters,
 }) => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -81,6 +87,10 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     editPageSection,
     { data: dataEdit, loading: loadEdit, error: errorEdit },
   ] = useMutation(EDIT_PAGE_SECTION)
+  const [
+    deletePageSection,
+    { data: dataDelete, loading: loadDelete },
+  ] = useMutation(DELETE_PAGE_SECTION)
 
   const { setErrors } = useSetErrorsFields()
 
@@ -108,7 +118,6 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   useEffect(() => {
     const data = dataEdit && dataEdit.editPageSection
     if (errorEdit) {
-      console.log({ errorEdit })
       setErrors(errorEdit.message, setForm)
       setErrors(errorEdit.message, setFilters)
       dispatch({
@@ -130,6 +139,17 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
     return filters.find((filter) => filter.keyWord === keyWord)
   }
+
+  useEffect(() => {
+    const data = dataDelete && dataDelete.deletePageSection
+    if (data) {
+      dispatch({
+        type: SET_TOAST,
+        payload: data,
+      })
+      onDelete && onDelete()
+    }
+  }, [dispatch, dataDelete])
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -170,11 +190,40 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   }
 
   const handleRefreshForm = () => {
-    console.log("REFRESH")
+    if (data && data.id) {
+      setForm((prev) =>
+        prev.map((field) => {
+          let newField = field
+          Object.keys(data).map((key) => {
+            if (field.param === key) {
+              // @ts-ignore
+              newField = { ...field, value: data[key], msg: "" }
+            }
+          })
+          return newField
+        })
+      )
+      resetFilters && resetFilters()
+    }
+  }
+
+  const handleDeleteNewsEvent = () => {
+    deletePageSection({
+      variables: {
+        sectionId: data?.id,
+      },
+    })
+    dispatch({ type: WARNING_CLOSE })
   }
 
   const handlePopupWarning = () => {
-    console.log("DELETE")
+    dispatch({
+      type: WARNING_OPEN,
+      payload: {
+        action: handleDeleteNewsEvent,
+        title: "Ви впевнені, що хочете назавжди видалити розділ?",
+      },
+    })
   }
 
   const filtersJSX =
@@ -222,7 +271,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           className={styles.form__container_fields}
           onSubmit={handleSubmitForm}
         >
-          <LoaderData load={loadCreate} />
+          <LoaderData load={loadCreate || loadEdit || loadDelete} />
           <div className={styles.form__fields}>
             {fields}
             {filtersJSX}
