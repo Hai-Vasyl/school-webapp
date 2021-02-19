@@ -2,7 +2,6 @@ import Home from "../pages/Home"
 import Profile from "../pages/Profile"
 import { BsChat, BsSearch, BsBell } from "react-icons/bs"
 import About from "../pages/About"
-import OurValues from "../pages/OurValues"
 import Team from "../pages/Team"
 import Graduates from "../pages/Graduates"
 import Achievement from "../pages/Achievement"
@@ -20,6 +19,7 @@ import NewsEvent from "../pages/NewsEvent"
 import Events from "../pages/Events"
 import ModNewsEvent from "../pages/ModNewsEvent"
 import ImageDetails from "../pages/ImageDetails"
+import BookDetails from "../pages/BookDetails"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
@@ -49,7 +49,6 @@ export const getLinks = (role: string) => {
       title: "Про школу",
       extraLinks: [
         { to: "/about", title: "Навчальний заклад" },
-        { to: "/values", title: "Наші цінності" },
         { to: "/team", title: "Команда" },
         { to: "/graduates", title: "Випускники" },
         { to: "/achievement", title: "Досягнення" },
@@ -133,7 +132,6 @@ export const getLinks = (role: string) => {
 const mainRoutes = [
   { path: "/", exact: true, Component: Home },
   { path: "/about", Component: About },
-  { path: "/values", Component: OurValues },
   { path: "/team", Component: Team },
   { path: "/graduates", Component: Graduates },
   { path: "/achievement", Component: Achievement },
@@ -148,7 +146,8 @@ const mainRoutes = [
   { path: "/profile/:userId", exact: true, Component: Profile },
   { path: "/news/details/:contentId", Component: NewsEvent },
   { path: "/events/details/:contentId", Component: NewsEvent },
-  { path: "/gallery/:imageId", exact: true, Component: ImageDetails },
+  { path: "/gallery/:imageId", Component: ImageDetails },
+  { path: "/library/:bookId", Component: BookDetails },
 ]
 
 export const routes = {

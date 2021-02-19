@@ -519,13 +519,57 @@ export const GET_PAGE_SECTIONS = gql`
           format
           owner {
             id
-            username
-            email
-            ava
-            color
-            firstname
-            lastname
-            role
+          }
+          date
+        }
+        owner {
+          id
+        }
+        filters {
+          id
+          url
+          section
+          keyWord
+          value
+        }
+      }
+      quantity
+    }
+  }
+`
+
+export const GET_PAGE_SECTIONS_SHORT = gql`
+  query GET_PAGE_SECTIONS_SHORT(
+    $search: String
+    $url: String!
+    $filters: [InputFilter]!
+    $from: Int!
+    $to: Int!
+  ) {
+    getPageSections(
+      search: $search
+      url: $url
+      filters: $filters
+      from: $from
+      to: $to
+    ) {
+      items {
+        id
+        page
+        url
+        title
+        priority
+        date
+        uploads {
+          id
+          location
+          content
+          type
+          hashtags
+          description
+          format
+          owner {
+            id
           }
           date
         }

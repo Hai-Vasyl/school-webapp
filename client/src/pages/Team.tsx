@@ -50,7 +50,6 @@ const Team: React.FC = () => {
     }
   )
 
-  console.log({ dataFilters })
   const {
     data: dataSections,
     loading: loadSections,

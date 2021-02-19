@@ -6,12 +6,14 @@ import { BsImages, BsPlus, BsPencilSquare } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import { convertContent } from "../helpers/convertContentEditor"
 import ButtonTab from "./ButtonTab"
-import { useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
 import { types } from "../modules/uploadTypes"
 import useLightBox from "../hooks/useLightBox"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
 
 interface ISectionPersonProps {
   info: IPageSection
@@ -35,6 +37,9 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
   refetchSections,
 }) => {
   const dispatch = useDispatch()
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
   const { getLightBox } = useLightBox()
 
   const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
@@ -110,22 +115,26 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
           isUploads ? handlePopupLightBox(info.uploads[0].id) : {}
         }
       >
-        <ButtonTab
-          exClass={`${
-            isUploads ? stylesBtn.btn_tab_glass : stylesBtn.btn_tab
-          } ${styles.content__btn}`}
-          Icon={isUploads ? BsPencilSquare : BsPlus}
-          click={(event) =>
-            isUploads
-              ? handlePopupEditImage(info.uploads[0].id, event)
-              : handlePopupCreateImage()
-          }
-        />
+        {user.role === access.admin.keyWord && (
+          <ButtonTab
+            exClass={`${
+              isUploads ? stylesBtn.btn_tab_glass : stylesBtn.btn_tab
+            } ${styles.content__btn}`}
+            Icon={isUploads ? BsPencilSquare : BsPlus}
+            click={(event) =>
+              isUploads
+                ? handlePopupEditImage(info.uploads[0].id, event)
+                : handlePopupCreateImage()
+            }
+          />
+        )}
         {isUploads && (
           <div className={styles.content__overlay}>
-            <span className={styles.content__overlay_text}>
-              {info.uploads[0].description}
-            </span>
+            {info.uploads[0].description && (
+              <span className={styles.content__overlay_text}>
+                {info.uploads[0].description}
+              </span>
+            )}
           </div>
         )}
         {isUploads ? (

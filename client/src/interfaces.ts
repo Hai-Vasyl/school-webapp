@@ -249,13 +249,38 @@ export interface IPageSection {
     format: string
     owner: {
       id: string
-      username: string
-      email: string
-      ava: string
-      color: string
-      firstname: string
-      lastname: string
-      role: string
+    }
+    date: string
+  }[]
+  filters: {
+    id: string
+    url: string
+    section: string
+    keyWord: string
+    value: string
+  }[]
+}
+
+export interface IPageSectionShort {
+  id: string
+  page: string
+  url: string
+  title: string
+  priority: string
+  date: string
+  owner: {
+    id: string
+  }
+  uploads: {
+    id: string
+    location: string
+    content: string
+    type: string
+    hashtags: string
+    description: string
+    format: string
+    owner: {
+      id: string
     }
     date: string
   }[]
