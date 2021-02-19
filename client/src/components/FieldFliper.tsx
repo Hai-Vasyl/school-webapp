@@ -27,11 +27,15 @@ const FieldFliper: React.FC<FieldFliperProps> = ({
     pichOpton(
       change,
       field.param,
-      defaultField ? defaultField : field.options ? field.options[0].value : ""
+      defaultField
+        ? defaultField
+        : field.options && field.options.length
+        ? field.options[0].value
+        : ""
     )
   }, [flip])
 
-  const isOptions = field.options && field.options.length
+  const isOptions = field.options && !!field.options.length
   return (
     <div className={styles.field_fliper}>
       {isOptions && (

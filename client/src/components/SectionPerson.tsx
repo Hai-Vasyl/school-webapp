@@ -18,10 +18,12 @@ interface ISectionPersonProps {
   link?: {
     title: string
     text: string
+    keyWord: string
   }
   subtitle?: {
     title: string
     text: string
+    keyWord: string
   }
   refetchSections: any
 }
@@ -94,8 +96,11 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
     })
   }
 
-  const year = findFilterParams(info.filters, "year")
-  const group = findFilterParams(info.filters, "group")
+  const linkParams = findFilterParams(info.filters, link ? link.keyWord : "")
+  const subtitleParams = findFilterParams(
+    info.filters,
+    subtitle ? subtitle.keyWord : ""
+  )
   const isUploads = !!info.uploads.length
   return (
     <div className={styles.content}>
@@ -139,9 +144,9 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
             <span className={styles.content__link_title}>{link.title}:</span>
             <Link
               className={styles.content__link_text}
-              to={link.text + year?.value}
+              to={link.text + linkParams?.value}
             >
-              {year?.value}
+              {linkParams?.value}
             </Link>
           </div>
         )}
@@ -155,9 +160,9 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
             </span>
             <Link
               className={styles.content__subtitle_text}
-              to={subtitle.text + group?.value}
+              to={subtitle.text + subtitleParams?.value}
             >
-              {group?.value}
+              {subtitleParams?.value}
             </Link>
           </div>
         )}

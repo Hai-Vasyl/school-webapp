@@ -13,17 +13,24 @@ import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
 import PageSecion from "../components/PageSection"
 import SectionPerson from "../components/SectionPerson"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
 
 const Graduates: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
-  const amountItems = 1
+  const amountItems = 3
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
   const year = params.get("year") || "all"
   const group = params.get("group") || "all"
+
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
 
   const getFilters = (year: string, group: string) => {
     year = year === "all" ? "" : year
@@ -151,7 +158,7 @@ const Graduates: React.FC = () => {
       )
     }
 
-    if (filters) {
+    if (filters && filters.length) {
       let groups: string[] = []
       let years: string[] = []
 
@@ -196,12 +203,6 @@ const Graduates: React.FC = () => {
       )
     })
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const [year, group] = filters
-    getRedirectLink(1, year.value, group.value, searchStr)
-  }
-
   const getRedirectLink = (
     pageNumber: number,
     year: string,
@@ -212,6 +213,12 @@ const Graduates: React.FC = () => {
 
     let link = `${pathname}?page=${pageNumber}&year=${year}&group=${group}&${searchQuery}`
     history.push(link.slice(0, link.length - 1))
+  }
+
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const [year, group] = filters
+    getRedirectLink(1, year.value, group.value, searchStr)
   }
 
   const toggleCreateForm = () => {
@@ -276,8 +283,16 @@ const Graduates: React.FC = () => {
           <SectionPerson
             refetchSections={refetchSections}
             info={section}
-            link={{ title: "Рік", text: `${pathname}?year=` }}
-            subtitle={{ title: "Клас", text: `${pathname}?group=` }}
+            link={{
+              keyWord: "year",
+              title: "Рік",
+              text: `${pathname}?page=1&year=`,
+            }}
+            subtitle={{
+              keyWord: "group",
+              title: "Клас",
+              text: `${pathname}?page=1&group=`,
+            }}
           />
         </PageSecion>
       )
@@ -304,7 +319,7 @@ const Graduates: React.FC = () => {
         />
         {filtersJSX}
       </FilterFrame>
-      {toggleCreate && (
+      {user.role === access.admin.keyWord && toggleCreate && (
         <ModSectionForm
           onCreate={handleCreate}
           filters={form}
