@@ -10,12 +10,10 @@ const { AWS_UPLOADS_BUCKET: uploadsBucket } = process.env
 export const Query = {
   async getPageSections(_: any, { search, url, filters, from, to }: IField) {
     try {
-      console.log({ search, url, filters, from, to })
       const searchQuery = search && { $text: { $search: search } }
       let collection: any = []
       let quantity = 0
       if (filters.length) {
-        // console.log("+++")
         for (let i = 0; i < filters.length; i++) {
           const sections: any = await PageSection.find({
             url,
@@ -31,7 +29,6 @@ export const Query = {
               colectionTemp.push(item)
             }
           })
-          // console.log({ colectionTemp })
           if (i === 0) {
             collection = colectionTemp
           } else {
@@ -60,7 +57,6 @@ export const Query = {
         }).populate({ path: "filters" })
         collection = sections
       } else {
-        console.log("---")
         const sections: any = await PageSection.find({ ...searchQuery, url })
           .populate({ path: "filters" })
           // .sort({
@@ -81,6 +77,16 @@ export const Query = {
       }
     } catch (error) {
       throw new Error(`Getting page sections error: ${error.message}`)
+    }
+  },
+  async getPageSection(_: any, { sectionId }: IField) {
+    try {
+      const section = await PageSection.findById(sectionId).populate({
+        path: "filters",
+      })
+      return section
+    } catch (error) {
+      throw new Error(`Getting page section error: ${error.message}`)
     }
   },
 }

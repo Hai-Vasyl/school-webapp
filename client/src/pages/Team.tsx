@@ -11,17 +11,19 @@ import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
 import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
-import PageSecion from "../components/PageSection"
+import PageSection from "../components/PageSection"
 import SectionPerson from "../components/SectionPerson"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
+import useFindFilter from "../hooks/useFindFilter"
 
 const Team: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
   const amountItems = 3
+  const { getFormFilterParams } = useFindFilter()
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
@@ -222,22 +224,24 @@ const Team: React.FC = () => {
     refetchSections()
     setToggleCreate((prev) => !prev)
   }
-
   const sections = dataSections && dataSections.getPageSections.items
 
   const sectionsJSX =
     sections &&
     sections.map((section: IPageSection) => {
       return (
-        <PageSecion
+        <PageSection
           key={section.id}
           info={section}
-          filters={section.filters.map((filter, index) => ({
-            keyWord: filter.keyWord,
-            value: filter.value,
-            options: form[index].options,
-            title: form[index].title,
-          }))}
+          filters={section.filters.map((filter) => {
+            const filterParams = getFormFilterParams(form, filter.keyWord)
+            return {
+              keyWord: filter.keyWord,
+              value: filter.value,
+              options: filterParams.options,
+              title: filterParams.title,
+            }
+          })}
           onDelete={handleDeleteSection}
           onEdit={handleEditSection}
         >
@@ -250,7 +254,7 @@ const Team: React.FC = () => {
               text: `${pathname}?page=1&category=`,
             }}
           />
-        </PageSecion>
+        </PageSection>
       )
     })
 

@@ -5,7 +5,7 @@ import FieldPicker from "../components/FieldPicker"
 import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS_SHORT } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { IOption, IField, IPageSection } from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
@@ -246,18 +246,6 @@ const Library: React.FC = () => {
     }
   }
 
-  const handleDeleteSection = () => {
-    const [genre, group] = filters
-    refetchFilters()
-    refetchSections()
-    getRedirectLink(1, genre.value, group.value, search)
-  }
-
-  const handleEditSection = () => {
-    refetchFilters()
-    refetchSections()
-  }
-
   const handleCreate = () => {
     refetchFilters()
     refetchSections()
@@ -265,34 +253,6 @@ const Library: React.FC = () => {
   }
 
   const sections = dataSections && dataSections.getPageSections.items
-
-  // <PageSecion
-  //   key={section.id}
-  //   info={section}
-  //   filters={section.filters.map((filter, index) => ({
-  //     keyWord: filter.keyWord,
-  //     value: filter.value,
-  //     options: form[index].options,
-  //     title: form[index].title,
-  //   }))}
-  //   onDelete={handleDeleteSection}
-  //   onEdit={handleEditSection}
-  // >
-  //   <SectionPerson
-  //     refetchSections={refetchSections}
-  //     info={section}
-  //     link={{
-  //       keyWord: "genre",
-  //       title: "Рік",
-  //       text: `${pathname}?page=1&genre=`,
-  //     }}
-  //     subtitle={{
-  //       keyWord: "group",
-  //       title: "Клас",
-  //       text: `${pathname}?page=1&group=`,
-  //     }}
-  //   />
-  // </PageSecion>
 
   const sectionsJSX =
     sections &&

@@ -170,6 +170,7 @@ export default gql`
       from: Int!
       to: Int!
     ): PageSections!
+    getPageSection(sectionId: ID!): PageSection!
     getNewsEvents(
       search: String
       type: String!

@@ -1,7 +1,7 @@
 import React from "react"
 // @ts-ignore
 import styles from "../styles/pages.module"
-import { IPageSection } from "../interfaces"
+import { IPageSection, IPageSectionFilter } from "../interfaces"
 import { BsImages, BsPlus, BsPencilSquare } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import { convertContent } from "../helpers/convertContentEditor"
@@ -16,7 +16,7 @@ import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
 import useFindFilter from "../hooks/useFindFilter"
 
-interface ISectionPersonProps {
+interface SectionInfoProps {
   info: IPageSection
   link?: {
     title: string
@@ -28,14 +28,14 @@ interface ISectionPersonProps {
     text: string
     keyWord: string
   }
-  refetchSections: any
+  refetchSection(): any
 }
 
-const SectionPerson: React.FC<ISectionPersonProps> = ({
+const SectionInfo: React.FC<SectionInfoProps> = ({
   info,
   link,
   subtitle,
-  refetchSections,
+  refetchSection,
 }) => {
   const dispatch = useDispatch()
   const {
@@ -43,6 +43,10 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
   } = useSelector((state: RootStore) => state)
   const { getLightBox } = useLightBox()
   const { findFilterParams } = useFindFilter()
+
+  // const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
+  //   return filters.find((filter) => filter.keyWord === keyWord)
+  // }
 
   const handlePopupEditImage = (
     imageId: string,
@@ -57,13 +61,13 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
         type: types.private.keyWord,
         singleImg: true,
         onEdit: () => {
-          refetchSections()
+          refetchSection()
         },
         onRemove: () => {
-          refetchSections()
+          refetchSection()
         },
         onCreate: () => {
-          refetchSections()
+          refetchSection()
         },
       },
     })
@@ -77,7 +81,7 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
         content: info.id,
         type: types.private.keyWord,
         onCreate: () => {
-          refetchSections()
+          refetchSection()
         },
       },
     })
@@ -105,6 +109,7 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
     subtitle ? subtitle.keyWord : ""
   )
   const isUploads = !!info.uploads.length
+
   return (
     <div className={styles.content}>
       <div
@@ -146,17 +151,6 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
         )}
       </div>
       <div className={styles.content__body}>
-        {link && (
-          <div className={styles.content__link}>
-            <span className={styles.content__link_title}>{link.title}:</span>
-            <Link
-              className={styles.content__link_text}
-              to={link.text + linkParams?.value}
-            >
-              {linkParams?.value}
-            </Link>
-          </div>
-        )}
         <h2 className={`title-second ${styles.content__title}`}>
           {info.title}
         </h2>
@@ -173,6 +167,17 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
             </Link>
           </div>
         )}
+        {link && (
+          <div className={styles.content__link}>
+            <span className={styles.content__link_title}>{link.title}:</span>
+            <Link
+              className={styles.content__link_text}
+              to={link.text + linkParams?.value}
+            >
+              {linkParams?.value}
+            </Link>
+          </div>
+        )}
         <div className={styles.content__main}>
           {convertContent(info.content)}
         </div>
@@ -181,4 +186,4 @@ const SectionPerson: React.FC<ISectionPersonProps> = ({
   )
 }
 
-export default SectionPerson
+export default SectionInfo

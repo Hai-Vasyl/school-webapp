@@ -2,11 +2,8 @@
 
 .content_wrapper {
   display: grid;
-  // height: 160vw;
-  // max-height: 1945px;
   width: 100%;
   grid-template-columns: repeat(3, 1fr);
-  // grid-auto-rows: 1fr;
   align-items: flex-start;
   grid-row-gap: 50px;
   grid-column-gap: 20px;

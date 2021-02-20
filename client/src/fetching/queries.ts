@@ -538,6 +538,43 @@ export const GET_PAGE_SECTIONS = gql`
   }
 `
 
+export const GET_PAGE_SECTION = gql`
+  query GET_PAGE_SECTION($sectionId: ID!) {
+    getPageSection(sectionId: $sectionId) {
+      id
+      page
+      url
+      title
+      content
+      priority
+      date
+      uploads {
+        id
+        location
+        content
+        type
+        hashtags
+        description
+        format
+        owner {
+          id
+        }
+        date
+      }
+      owner {
+        id
+      }
+      filters {
+        id
+        url
+        section
+        keyWord
+        value
+      }
+    }
+  }
+`
+
 export const GET_PAGE_SECTIONS_SHORT = gql`
   query GET_PAGE_SECTIONS_SHORT(
     $search: String

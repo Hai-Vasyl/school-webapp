@@ -6,22 +6,29 @@ import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useLocation } from "react-router-dom"
-import { IOption, IField, IPageSection } from "../interfaces"
+import {
+  IPageSectionFilter,
+  IOption,
+  IField,
+  IPageSection,
+} from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
 import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
-import PageSecion from "../components/PageSection"
+import PageSection from "../components/PageSection"
 import SectionPerson from "../components/SectionPerson"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
+import useFindFilter from "../hooks/useFindFilter"
 
 const Graduates: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
   const amountItems = 3
+  const { getFormFilterParams } = useFindFilter()
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
@@ -268,15 +275,18 @@ const Graduates: React.FC = () => {
     sections &&
     sections.map((section: IPageSection) => {
       return (
-        <PageSecion
+        <PageSection
           key={section.id}
           info={section}
-          filters={section.filters.map((filter, index) => ({
-            keyWord: filter.keyWord,
-            value: filter.value,
-            options: form[index].options,
-            title: form[index].title,
-          }))}
+          filters={section.filters.map((filter) => {
+            const filterParams = getFormFilterParams(form, filter.keyWord)
+            return {
+              keyWord: filter.keyWord,
+              value: filter.value,
+              options: filterParams.options,
+              title: filterParams.title,
+            }
+          })}
           onDelete={handleDeleteSection}
           onEdit={handleEditSection}
         >
@@ -294,7 +304,7 @@ const Graduates: React.FC = () => {
               text: `${pathname}?page=1&group=`,
             }}
           />
-        </PageSecion>
+        </PageSection>
       )
     })
 

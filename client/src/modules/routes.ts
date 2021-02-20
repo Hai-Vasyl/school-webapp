@@ -137,7 +137,7 @@ const mainRoutes = [
   { path: "/achievement", Component: Achievement },
   { path: "/news", exact: true, Component: NewsEvents },
   { path: "/events", exact: true, Component: NewsEvents },
-  { path: "/library", Component: Library },
+  { path: "/library", exact: true, Component: Library },
   { path: "/gallery", exact: true, Component: Gallery },
   { path: "/projects", Component: Projects },
   { path: "/management", Component: Management },
