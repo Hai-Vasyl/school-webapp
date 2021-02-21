@@ -228,6 +228,20 @@ export interface IImageSlide {
   description?: string
 }
 
+export interface IUploadSection {
+  id: string
+  location: string
+  content: string
+  type: string
+  hashtags: string
+  description: string
+  format: string
+  owner: {
+    id: string
+  }
+  date: string
+}
+
 export interface IPageSection {
   id: string
   page: string
@@ -239,19 +253,7 @@ export interface IPageSection {
   owner: {
     id: string
   }
-  uploads: {
-    id: string
-    location: string
-    content: string
-    type: string
-    hashtags: string
-    description: string
-    format: string
-    owner: {
-      id: string
-    }
-    date: string
-  }[]
+  uploads: IUploadSection[]
   filters: {
     id: string
     url: string
@@ -271,19 +273,7 @@ export interface IPageSectionShort {
   owner: {
     id: string
   }
-  uploads: {
-    id: string
-    location: string
-    content: string
-    type: string
-    hashtags: string
-    description: string
-    format: string
-    owner: {
-      id: string
-    }
-    date: string
-  }[]
+  uploads: IUploadSection[]
   filters: {
     id: string
     url: string

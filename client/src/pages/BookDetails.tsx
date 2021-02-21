@@ -92,15 +92,14 @@ const BookDetails: React.FC = () => {
 
   console.log({ dataSection })
 
-  const handleDeleteSection = () => {
+  const handleRefetchAll = () => {
     refetchFilters()
     refetchSection()
-    history.push("/library")
   }
 
-  const handleEditSection = () => {
-    refetchFilters()
-    refetchSection()
+  const handleDeleteSection = () => {
+    handleRefetchAll()
+    history.push("/library")
   }
 
   const getFormFilterParams = (filters: IField[], keyWord: string) => {
@@ -135,10 +134,12 @@ const BookDetails: React.FC = () => {
               }
             )}
             onDelete={handleDeleteSection}
-            onEdit={handleEditSection}
+            onEdit={handleRefetchAll}
           >
             <SectionInfo
-              refetchSection={refetchSection}
+              onEdit={refetchSection}
+              onRemove={refetchSection}
+              onCreate={refetchSection}
               info={info}
               subtitle={{
                 keyWord: "group",

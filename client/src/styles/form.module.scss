@@ -197,12 +197,17 @@
   padding-bottom: 5px;
   &__wrapper {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: auto;
     grid-gap: 10px;
     & > * {
       margin: 0px !important;
     }
+  }
+  &__grid_3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  &__grid_2 {
+    grid-template-columns: repeat(2, 1fr);
   }
   &__date {
     display: flex;

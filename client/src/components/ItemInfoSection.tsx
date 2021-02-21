@@ -1,10 +1,10 @@
 import React from "react"
-import { Link, useHistory } from "react-router-dom"
-import { IPageSectionShort, IPageSectionFilter } from "../interfaces"
-import { BsImages, BsInfoSquare } from "react-icons/bs"
+import { Link } from "react-router-dom"
+import { IPageSectionShort } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import useFindFilter from "../hooks/useFindFilter"
+import ImgPreviewSection from "./ImgPreviewSection"
 
 interface IItemInfoSectionProps {
   info: IPageSectionShort
@@ -27,46 +27,22 @@ const ItemInfoSection: React.FC<IItemInfoSectionProps> = ({
   link,
   subtitle,
 }) => {
-  const history = useHistory()
   const { findFilterParams } = useFindFilter()
-
-  const handleRedirectLink = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    link: string
-  ) => {
-    event.stopPropagation()
-    history.push(link)
-  }
 
   const linkParams = findFilterParams(info.filters, link ? link.keyWord : "")
   const subtitleParams = findFilterParams(
     info.filters,
     subtitle ? subtitle.keyWord : ""
   )
-  const isUploads = !!info.uploads.length
+
   return (
     <div className={styles.item_info}>
-      <button
-        className={`${styles.content__preview} ${styles.content__preview__item_info}`}
-        onClick={(event) => handleRedirectLink(event, itemLink)}
-      >
-        <span className={styles.content__overlay}>
-          <span className={styles.item_info__more}>
-            <BsInfoSquare className={styles.item_info__more_icon} />
-            <span className={styles.item_info__more_text}>Детальніше</span>
-          </span>
-        </span>
-        {isUploads ? (
-          <img
-            className={styles.content__img}
-            src={info.uploads[0].location}
-            alt='imgPreview'
-          />
-        ) : (
-          <BsImages className={styles.content__icon} />
-        )}
-      </button>
-      <div>
+      <ImgPreviewSection
+        imgLocation={info.uploads[0] && info.uploads[0].location}
+        exClass={styles.content__preview__item_info}
+        redirectStr={itemLink}
+      />
+      <div className={styles.item_info__body}>
         <Link className={styles.item_info__title} to={itemLink}>
           {info.title}
         </Link>

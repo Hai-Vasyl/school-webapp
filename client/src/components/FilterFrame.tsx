@@ -12,6 +12,7 @@ interface IFilterFrameProps {
   search: string
   children: any
   submit(event: React.FormEvent<HTMLFormElement>): any
+  numFilters: number
   toggle?: boolean
   onCreate?: any
 }
@@ -20,6 +21,7 @@ const FilterFrame: React.FC<IFilterFrameProps> = ({
   quantity,
   search,
   children,
+  numFilters,
   submit,
   toggle,
   onCreate,
@@ -32,7 +34,11 @@ const FilterFrame: React.FC<IFilterFrameProps> = ({
       <div className='wrapper-clear'>
         <form
           onSubmit={submit}
-          className={`${styles.form_filter} ${styles.form_filter__wrapper}`}
+          className={`${styles.form_filter} ${styles.form_filter__wrapper} ${
+            (numFilters + 1) % 3 === 0
+              ? styles.form_filter__grid_3
+              : styles.form_filter__grid_2
+          }`}
         >
           {children}
           <button className='btn-handler'></button>

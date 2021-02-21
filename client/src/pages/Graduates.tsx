@@ -250,22 +250,19 @@ const Graduates: React.FC = () => {
       return
     }
   }
+  const handleRefetchAll = () => {
+    refetchFilters()
+    refetchSections()
+  }
 
   const handleDeleteSection = () => {
     const [year, group] = filters
-    refetchFilters()
-    refetchSections()
+    handleRefetchAll()
     getRedirectLink(1, year.value, group.value, search)
   }
 
-  const handleEditSection = () => {
-    refetchFilters()
-    refetchSections()
-  }
-
   const handleCreate = () => {
-    refetchFilters()
-    refetchSections()
+    handleRefetchAll()
     setToggleCreate((prev) => !prev)
   }
 
@@ -288,10 +285,12 @@ const Graduates: React.FC = () => {
             }
           })}
           onDelete={handleDeleteSection}
-          onEdit={handleEditSection}
+          onEdit={handleRefetchAll}
         >
           <SectionPerson
-            refetchSections={refetchSections}
+            onCreate={refetchSections}
+            onRemove={refetchSections}
+            onEdit={refetchSections}
             info={section}
             link={{
               keyWord: "year",
@@ -314,6 +313,7 @@ const Graduates: React.FC = () => {
     <div className='container'>
       <Title title='Випускники' />
       <FilterFrame
+        numFilters={filters.length}
         onCreate={toggleCreateForm}
         toggle={toggleCreate}
         submit={handleSubmitForm}

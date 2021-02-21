@@ -70,7 +70,6 @@ const Library: React.FC = () => {
     },
   })
 
-  console.log({ dataSections })
   const [searchStr, setSearchStr] = useState(search)
   const [form, setForm] = useState<IField[]>([
     {
@@ -282,6 +281,7 @@ const Library: React.FC = () => {
     <div className='container'>
       <Title title='Бібліотека' />
       <FilterFrame
+        numFilters={filters.length}
         onCreate={toggleCreateForm}
         toggle={toggleCreate}
         submit={handleSubmitForm}

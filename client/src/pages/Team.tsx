@@ -224,6 +224,11 @@ const Team: React.FC = () => {
     refetchSections()
     setToggleCreate((prev) => !prev)
   }
+
+  const handleRefetchAll = () => {
+    refetchFilters()
+    refetchSections()
+  }
   const sections = dataSections && dataSections.getPageSections.items
 
   const sectionsJSX =
@@ -246,7 +251,9 @@ const Team: React.FC = () => {
           onEdit={handleEditSection}
         >
           <SectionPerson
-            refetchSections={refetchSections}
+            onCreate={refetchSections}
+            onRemove={refetchSections}
+            onEdit={refetchSections}
             info={section}
             subtitle={{
               keyWord: "category",
@@ -264,6 +271,7 @@ const Team: React.FC = () => {
     <div className='container'>
       <Title title='Команда' />
       <FilterFrame
+        numFilters={filters.length}
         onCreate={toggleCreateForm}
         toggle={toggleCreate}
         submit={handleSubmitForm}

@@ -4,7 +4,7 @@ import styles from "../styles/newsevents.module"
 import { INewsEvent } from "../interfaces"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import { Link } from "react-router-dom"
-import { BsImage, BsInfoSquare } from "react-icons/bs"
+import ImgPreviewSection from "./ImgPreviewSection"
 import { getParamsByType } from "../modules/uploadTypes"
 
 interface INewsEventProps {
@@ -21,25 +21,11 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
 
   return (
     <div className={styles.content} key={info.id}>
-      <Link className={styles.content__preview} key={info.id} to={linkPath}>
-        <span className={styles.content__overlay}>
-          <span className={styles.content__more}>
-            <BsInfoSquare className={styles.content__more_icon} />
-            <span className={styles.content__more_text}>Детальніше</span>
-          </span>
-        </span>
-        {info.preview ? (
-          <img
-            className={styles.content__image}
-            src={info.preview.location}
-            alt='image'
-          />
-        ) : (
-          <div className={styles.content__icon}>
-            <BsImage />
-          </div>
-        )}
-      </Link>
+      <ImgPreviewSection
+        imgLocation={info.preview.location}
+        exClass={styles.content__preview}
+        redirectStr={linkPath}
+      />
       <div className={styles.content__main}>
         <div className={styles.content__date}>
           {contentType && (
