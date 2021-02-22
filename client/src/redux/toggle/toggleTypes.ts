@@ -73,6 +73,7 @@ export interface ModImageOpen {
     onCreate?(): any
     onEdit?(): any
     onRemove?(): any
+    isFile?: boolean
   }
 }
 export interface WarningClose {

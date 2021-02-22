@@ -36,6 +36,7 @@ interface IInitState {
     onCreate?(): any
     onEdit?(): any
     onRemove?(): any
+    isFile?: boolean
   }
   lightbox: {
     toggle: boolean
@@ -68,6 +69,7 @@ const initState: IInitState = {
     onCreate: () => {},
     onEdit: () => {},
     onRemove: () => {},
+    isFile: false,
   },
   lightbox: {
     toggle: false,
@@ -179,6 +181,7 @@ const toggleReducer = (
           onCreate: action.payload.onCreate,
           onEdit: action.payload.onEdit,
           onRemove: action.payload.onRemove,
+          isFile: !!action.payload.isFile,
         },
       }
     case MODIMAGE_CLOSE:

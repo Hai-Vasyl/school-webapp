@@ -251,6 +251,7 @@ export default gql`
       upload: Upload
       content: ID
       type: String
+      mimetype: String
     ): Msg!
     editUpload(
       imageId: ID!

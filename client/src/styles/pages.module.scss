@@ -101,6 +101,9 @@
   }
   &__link {
     font-size: 0.9em;
+    &__big {
+      font-size: 1.2em;
+    }
   }
   &__link_title {
     margin-right: 7px;
@@ -110,9 +113,19 @@
   &__title {
     font-size: 2em;
     padding: 5px 0;
+    margin-bottom: 7px;
+  }
+  &__title_big {
+    font-size: 3em !important;
+    font-weight: bolder;
+    line-height: 55px;
+    margin-bottom: 20px;
   }
   &__subtitle {
     font-size: 0.9em;
+    &__big {
+      font-size: 1.2em;
+    }
   }
   &__subtitle_title {
     margin-right: 7px;
@@ -125,6 +138,9 @@
     font-size: 1.2em;
     border-top: 1px solid getColor(main);
   }
+  &__main_info {
+    margin-top: 17px;
+  }
   &__btn {
     position: absolute;
     top: 10px;
@@ -132,6 +148,10 @@
     right: 0px;
     opacity: 0;
     visibility: hidden;
+  }
+  &__image {
+    height: 400px;
+    width: 280px;
   }
 }
 
@@ -170,4 +190,8 @@
     margin-bottom: 5px;
     border-bottom: 1px solid getColor(main);
   }
+}
+
+.content_info {
+  background-color: transparent;
 }

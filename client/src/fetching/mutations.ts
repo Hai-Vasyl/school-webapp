@@ -346,6 +346,7 @@ export const CREATE_UPLOAD = gql`
     $upload: Upload
     $content: ID
     $type: String!
+    $mimetype: String
   ) {
     createUpload(
       hashtags: $hashtags
@@ -353,6 +354,7 @@ export const CREATE_UPLOAD = gql`
       upload: $upload
       content: $content
       type: $type
+      mimetype: $mimetype
     ) {
       message
       type

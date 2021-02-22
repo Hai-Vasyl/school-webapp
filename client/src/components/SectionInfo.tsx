@@ -6,6 +6,12 @@ import { Link } from "react-router-dom"
 import { convertContent } from "../helpers/convertContentEditor"
 import useFindFilter from "../hooks/useFindFilter"
 import ImgSection from "./ImgSection"
+import Button from "./Button"
+import ButtonTab from "./ButtonTab"
+import { BsPlus } from "react-icons/bs"
+import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
+import { useDispatch } from "react-redux"
+import { types } from "../modules/uploadTypes"
 
 interface SectionInfoProps {
   info: IPageSection
@@ -32,6 +38,7 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
   onEdit,
   onRemove,
 }) => {
+  const dispatch = useDispatch()
   const { findFilterParams } = useFindFilter()
 
   const linkParams = findFilterParams(info.filters, link ? link.keyWord : "")
@@ -40,21 +47,68 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
     subtitle ? subtitle.keyWord : ""
   )
 
+  // const handlePopupEditFile = (
+  //   imageId: string,
+  //   event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   event && event.stopPropagation()
+  //   dispatch({
+  //     type: MODIMAGE_OPEN,
+  //     payload: {
+  //       id: imageId,
+  //       content: info.id,
+  //       type: types.private.keyWord,
+  //       singleImg: true,
+  //       onEdit,
+  //       onRemove,
+  //       onCreate,
+  //     },
+  //   })
+  // }
+
+  const handlePopupCreateFile = () => {
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: "",
+        content: info.id,
+        type: types.private.keyWord,
+        onCreate,
+        isFile: true,
+      },
+    })
+  }
+
+  let files = []
+  let images = []
+  for (let i = 0; i < info.uploads.length; i++) {
+    if (info.uploads[i].format === "file") {
+      files.push(info.uploads[i])
+    } else {
+      images.push(info.uploads[i])
+    }
+  }
+
   return (
-    <div className={styles.content}>
+    <div className={`${styles.content} ${styles.content_info}`}>
       <ImgSection
         infoId={info.id}
-        upload={info.uploads[0]}
+        upload={images[0]}
         onEdit={onEdit}
         onRemove={onRemove}
         onCreate={onCreate}
+        exClass={styles.content__image}
       />
       <div className={styles.content__body}>
-        <h2 className={`title-second ${styles.content__title}`}>
+        <h1
+          className={`title-second ${styles.content__title} ${styles.content__title_big}`}
+        >
           {info.title}
-        </h2>
+        </h1>
         {subtitle && (
-          <div className={styles.content__subtitle}>
+          <div
+            className={`${styles.content__subtitle} ${styles.content__subtitle__big}`}
+          >
             <span className={styles.content__subtitle_title}>
               {subtitle.title}:
             </span>
@@ -67,7 +121,9 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
           </div>
         )}
         {link && (
-          <div className={styles.content__link}>
+          <div
+            className={`${styles.content__link} ${styles.content__link__big}`}
+          >
             <span className={styles.content__link_title}>{link.title}:</span>
             <Link
               className={styles.content__link_text}
@@ -77,8 +133,18 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
             </Link>
           </div>
         )}
-        <div className={styles.content__main}>
+        <div className={`${styles.content__main} ${styles.content__main_info}`}>
           {convertContent(info.content)}
+        </div>
+        <div>
+          <ButtonTab Icon={BsPlus} click={handlePopupCreateFile} />
+          {files.map((item) => {
+            return (
+              <a key={item.id} href={item.location} target='_blank'>
+                {item.description}
+              </a>
+            )
+          })}
         </div>
       </div>
     </div>

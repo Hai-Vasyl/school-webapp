@@ -23,13 +23,16 @@ import {
   BsTrash,
   BsX,
   BsArrowLeft,
+  BsFileEarmarkCheck,
 } from "react-icons/bs"
 import FieldFile from "./FieldFile"
 import Field from "./Field"
 import { IField, IImageDetailed } from "../interfaces"
 import DragAndDropFiles from "./DragAndDropFiles"
 // @ts-ignore
-import imageDropArea from "../images/undraw_Images_re_0kll.svg"
+import imageDropArea from "../images/undraw_Photo_re_5blb.svg"
+// @ts-ignore
+import fileDropArea from "../images/undraw_Add_files_re_v09g.svg"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { types } from "../modules/messageTypes"
 import { MODIMAGE_OPEN, MODIMAGE_CLOSE } from "../redux/toggle/toggleTypes"
@@ -47,6 +50,7 @@ const ImageMod: React.FC = () => {
         onCreate,
         onEdit,
         onRemove,
+        isFile,
       },
     },
   } = useSelector((state: RootStore) => state)
@@ -68,6 +72,7 @@ const ImageMod: React.FC = () => {
   } = useQuery(GET_IMAGE, {
     variables: { imageId },
   })
+
   const [form, setForm] = useState<IField[]>([
     {
       param: "upload",
@@ -105,6 +110,17 @@ const ImageMod: React.FC = () => {
     )
     setPreview("")
   }, [])
+
+  useEffect(() => {
+    setForm((prevForm) =>
+      prevForm.map((field) => {
+        if (field.param === "upload") {
+          return { ...field, title: isFile ? "Файл" : "Зображення" }
+        }
+        return field
+      })
+    )
+  }, [isFile])
 
   useEffect(() => {
     if (!imageId) {
@@ -213,13 +229,19 @@ const ImageMod: React.FC = () => {
           upload: upload.value,
           content,
           type,
+          mimetype: isFile ? "file" : "image",
         },
       })
     }
   }
 
   const afterChangeFile = (file: any) => {
-    setPreview(URL.createObjectURL(file))
+    const type = file.type.split("/")[0]
+    if (type === "image") {
+      setPreview(URL.createObjectURL(file))
+    } else {
+      setPreview("file")
+    }
   }
 
   const handleRefreshForm = () => {
@@ -283,7 +305,9 @@ const ImageMod: React.FC = () => {
             />
           )}
           <div className={styles.form__title_text}>
-            {imageId ? "Редагування зображення" : "Створення зображення"}
+            {imageId
+              ? `Редагування ${isFile ? "файлу" : "зображення"}`
+              : `Створення ${isFile ? "файлу" : "зображення"}`}
           </div>
           <ButtonTab
             exClass={`${styles.form__btn_back} ${styles.form__btn_close}`}
@@ -302,7 +326,11 @@ const ImageMod: React.FC = () => {
           <button className='btn-handler'></button>
           <div className={styles.form__btns}>
             <Button
-              title={imageId ? "Застосувати зміни" : "Створити зображення"}
+              title={
+                imageId
+                  ? "Застосувати зміни"
+                  : `Створити ${isFile ? "файл" : "зображення"}`
+              }
               exClass={stylesBtn.btn_primary}
               Icon={imageId ? BsPencil : BsPlus}
               click={handleSubmitForm}
@@ -335,21 +363,25 @@ const ImageMod: React.FC = () => {
       >
         <LoaderData load={loadImage} />
         {preview ? (
-          <img
-            className={styles.droparea__preview}
-            src={preview}
-            alt='imgPreview'
-          />
+          preview === "file" ? (
+            <BsFileEarmarkCheck className={styles.form_file} />
+          ) : (
+            <img
+              className={styles.droparea__preview}
+              src={preview}
+              alt='imgPreview'
+            />
+          )
         ) : (
           <div className={styles.droparea__plug}>
             <img
-              src={imageDropArea}
+              src={isFile ? fileDropArea : imageDropArea}
               className={styles.droparea__image}
               alt='imgDropArea'
             />
             <div className={styles.droparea__container_text}>
               <div className={styles.droparea__text}>
-                Перетягніть зображення
+                Перетягніть {isFile ? "файл" : "зображення"}
               </div>
             </div>
           </div>

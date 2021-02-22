@@ -172,14 +172,13 @@ blockquote {
   position: relative;
   &::before {
     content: "";
-    width: 50px;
+    width: 60px;
     height: 5px;
     display: block;
     position: absolute;
-    bottom: 5px;
+    bottom: 0px;
     left: 0;
-    z-index: 3;
-    border-radius: getRadius(main);
+    z-index: -1;
     background-color: getColor(main-dark);
   }
 }

@@ -308,3 +308,8 @@
     }
   }
 }
+
+.form_file {
+  @extend %center-position;
+  font-size: 8em;
+}

@@ -56,7 +56,14 @@ export const Query = {
 export const Mutation = {
   async createUpload(
     _: any,
-    { hashtags, description, upload: uploadImage, content, type }: IField,
+    {
+      hashtags,
+      description,
+      upload: uploadImage,
+      content,
+      type,
+      mimetype = "image",
+    }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
@@ -64,8 +71,20 @@ export const Mutation = {
         throw new Error("Access denied!")
       }
       //TODO: validation for each field and check in models
-
+      const isImgFormat = mimetype === "image"
       if (!!uploadImage) {
+        const imageValid = await uploadImage
+        const fileType = imageValid.mimetype.split("/")[0]
+        if (fileType !== "image" && isImgFormat) {
+          throw new Error(
+            JSON.stringify({
+              upload: {
+                value: "",
+                msg: ["Ви не можете вибрати файл, який не є зображенням!"],
+              },
+            })
+          )
+        }
         if (type) {
           const uploaded = await uploadFile(uploadImage, uploadBucket || "")
 
@@ -78,11 +97,12 @@ export const Mutation = {
             key: uploaded.Key,
             description,
             hashtags,
+            format: isImgFormat ? "image" : "file",
           })
           await upload.save()
 
           return {
-            message: "Зображення успішно додано!",
+            message: `${isImgFormat ? "Зображення" : "Файл"} успішно додано!`,
             type: msgTypes.success.keyWord,
           }
         } else {
@@ -93,7 +113,9 @@ export const Mutation = {
           JSON.stringify({
             upload: {
               value: "",
-              msg: ["Будь-ласка виберіть зображення!"],
+              msg: [
+                `Будь-ласка виберіть ${isImgFormat ? "зображення" : "файл"}!`,
+              ],
             },
           })
         )
@@ -119,6 +141,18 @@ export const Mutation = {
         location: upload.location,
       }
       if (!!uploadImage) {
+        const imageValid = await uploadImage
+        const fileType = imageValid.mimetype.split("/")[0]
+        if (fileType !== "image" && upload.format === "image") {
+          throw new Error(
+            JSON.stringify({
+              upload: {
+                value: "",
+                msg: ["Ви не можете вибрати файл, який не є зображенням!"],
+              },
+            })
+          )
+        }
         const file = await updateFile(
           uploadImage,
           upload.key,
@@ -135,11 +169,13 @@ export const Mutation = {
         date: new Date(),
       })
       return {
-        message: "Зображення успішно оновлено!",
+        message: `${
+          upload.format === "image" ? "Зображення" : "Файл"
+        } успішно оновлено!`,
         type: msgTypes.success.keyWord,
       }
     } catch (error) {
-      throw new Error(`Updating image error: ${error.message}`)
+      throw new Error(`Updating upload error: ${error.message}`)
     }
   },
   async deleteUpload(
@@ -158,11 +194,11 @@ export const Mutation = {
       await Upload.findByIdAndDelete(imageId)
 
       return {
-        message: "Зображення успішно видалено!",
+        message: "Файл успішно видалено!",
         type: msgTypes.success.keyWord,
       }
     } catch (error) {
-      throw new Error(`Deleting image error: ${error.message}`)
+      throw new Error(`Deleting upload error: ${error.message}`)
     }
   },
 }
