@@ -99,7 +99,9 @@ blockquote {
 .plug-text {
   padding: 10px 0;
   text-align: center;
-  color: getColor(second-lighter);
+  font-size: 1.2em;
+  color: getColor(font-light);
+  font-family: getFont(second);
 }
 
 .btn-handler {

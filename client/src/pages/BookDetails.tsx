@@ -7,10 +7,12 @@ import Loader from "../components/Loader"
 import { IField, IOption, IPageSectionFilter } from "../interfaces"
 import Title from "../components/Title"
 import SectionInfo from "../components/SectionInfo"
+import useFindFilter from "../hooks/useFindFilter"
 
 const BookDetails: React.FC = () => {
   const { bookId }: any = useParams()
   const history = useHistory()
+  const { getFormFilterParams } = useFindFilter()
 
   const [filters, setFilters] = useState<IField[]>([
     {
@@ -100,11 +102,6 @@ const BookDetails: React.FC = () => {
   const handleDeleteSection = () => {
     handleRefetchAll()
     history.push("/library")
-  }
-
-  const getFormFilterParams = (filters: IField[], keyWord: string) => {
-    const filter = filters.find((filter) => filter.param === keyWord)
-    return filter ? filter : { options: [], title: "" }
   }
 
   const info = dataSection && dataSection.getPageSection

@@ -5,6 +5,7 @@ import { IPageSectionShort } from "../interfaces"
 import styles from "../styles/pages.module"
 import useFindFilter from "../hooks/useFindFilter"
 import ImgPreviewSection from "./ImgPreviewSection"
+import useFilterFiles from "../hooks/useFilterFiles"
 
 interface IItemInfoSectionProps {
   info: IPageSectionShort
@@ -28,6 +29,7 @@ const ItemInfoSection: React.FC<IItemInfoSectionProps> = ({
   subtitle,
 }) => {
   const { findFilterParams } = useFindFilter()
+  const { filterFiles } = useFilterFiles()
 
   const linkParams = findFilterParams(info.filters, link ? link.keyWord : "")
   const subtitleParams = findFilterParams(
@@ -35,10 +37,12 @@ const ItemInfoSection: React.FC<IItemInfoSectionProps> = ({
     subtitle ? subtitle.keyWord : ""
   )
 
+  const { images } = filterFiles(info.uploads)
+
   return (
     <div className={styles.item_info}>
       <ImgPreviewSection
-        imgLocation={info.uploads[0] && info.uploads[0].location}
+        imgLocation={images[0] && images[0].location}
         exClass={styles.content__preview__item_info}
         redirectStr={itemLink}
       />

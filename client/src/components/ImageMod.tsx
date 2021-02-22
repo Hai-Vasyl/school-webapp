@@ -141,7 +141,11 @@ const ImageMod: React.FC = () => {
         return field
       })
     )
-    setPreview(imageData.location)
+    let imagePreview = ""
+    if (imageData.format !== "file") {
+      imagePreview = imageData.location
+    }
+    setPreview(imagePreview)
   }, [])
 
   useEffect(() => {

@@ -175,6 +175,7 @@ export interface IImageDetailed {
   key: string
   hashtags: string
   description: string
+  format: string
 }
 
 export interface INewsEvent {

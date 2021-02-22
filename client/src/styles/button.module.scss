@@ -1,7 +1,7 @@
 @import "base";
 
 .btn {
-  padding: 12px 12px;
+  padding: 11px 12px;
   display: flex;
   align-items: center;
   border-radius: getRadius(main);
@@ -315,5 +315,55 @@
         color: getColor(font-white);
       }
     }
+  }
+}
+
+.btn_download {
+  @extend %flex-center;
+  align-items: stretch;
+  box-shadow: getShadow(main);
+  border-radius: getRadius(main);
+  transition: getTransition(main);
+  &:hover {
+    box-shadow: getShadow(second);
+  }
+  &:active {
+    box-shadow: none;
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+  &__wrapper {
+    padding: 11px 12px;
+    @extend %flex-center;
+    @extend %btn-accent;
+    box-shadow: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    cursor: pointer;
+    transform: none !important;
+    &__simple {
+      border-top-right-radius: getRadius(main);
+      border-bottom-right-radius: getRadius(main);
+    }
+  }
+  &__icon {
+    margin: 0px 4px;
+    font-size: 25px;
+  }
+  &__title {
+    margin: 0px 4px;
+    color: getColor(font-white);
+    transition: getTransition(main);
+    &:hover {
+      color: getColor(font-white);
+    }
+  }
+  &__edit {
+    height: auto;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    box-shadow: none;
+    width: 40px;
+    border-color: getColor(secondary);
   }
 }

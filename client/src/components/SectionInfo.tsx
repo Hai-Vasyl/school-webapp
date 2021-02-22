@@ -6,12 +6,16 @@ import { Link } from "react-router-dom"
 import { convertContent } from "../helpers/convertContentEditor"
 import useFindFilter from "../hooks/useFindFilter"
 import ImgSection from "./ImgSection"
-import Button from "./Button"
 import ButtonTab from "./ButtonTab"
 import { BsPlus } from "react-icons/bs"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/uploadTypes"
+import ButtonDownload from "./ButtonDownload"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
+import useFilterFiles from "../hooks/useFilterFiles"
 
 interface SectionInfoProps {
   info: IPageSection
@@ -39,32 +43,17 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
   onRemove,
 }) => {
   const dispatch = useDispatch()
+  const {
+    auth: { user },
+  } = useSelector((state: RootStore) => state)
   const { findFilterParams } = useFindFilter()
+  const { filterFiles } = useFilterFiles()
 
   const linkParams = findFilterParams(info.filters, link ? link.keyWord : "")
   const subtitleParams = findFilterParams(
     info.filters,
     subtitle ? subtitle.keyWord : ""
   )
-
-  // const handlePopupEditFile = (
-  //   imageId: string,
-  //   event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   event && event.stopPropagation()
-  //   dispatch({
-  //     type: MODIMAGE_OPEN,
-  //     payload: {
-  //       id: imageId,
-  //       content: info.id,
-  //       type: types.private.keyWord,
-  //       singleImg: true,
-  //       onEdit,
-  //       onRemove,
-  //       onCreate,
-  //     },
-  //   })
-  // }
 
   const handlePopupCreateFile = () => {
     dispatch({
@@ -79,15 +68,7 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
     })
   }
 
-  let files = []
-  let images = []
-  for (let i = 0; i < info.uploads.length; i++) {
-    if (info.uploads[i].format === "file") {
-      files.push(info.uploads[i])
-    } else {
-      images.push(info.uploads[i])
-    }
-  }
+  const { files, images } = filterFiles(info.uploads)
 
   return (
     <div className={`${styles.content} ${styles.content_info}`}>
@@ -99,7 +80,7 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
         onCreate={onCreate}
         exClass={styles.content__image}
       />
-      <div className={styles.content__body}>
+      <div className={`${styles.content__body} ${styles.content_info__body}`}>
         <h1
           className={`title-second ${styles.content__title} ${styles.content__title_big}`}
         >
@@ -136,16 +117,32 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
         <div className={`${styles.content__main} ${styles.content__main_info}`}>
           {convertContent(info.content)}
         </div>
-        <div>
-          <ButtonTab Icon={BsPlus} click={handlePopupCreateFile} />
-          {files.map((item) => {
-            return (
-              <a key={item.id} href={item.location} target='_blank'>
-                {item.description}
-              </a>
-            )
-          })}
+        <div className={styles.content_info__uploads_title}>
+          <span>Прикріплені файли{!!files.length && ` (${files.length})`}</span>
+          {user.role === access.admin.keyWord && (
+            <ButtonTab Icon={BsPlus} click={handlePopupCreateFile} />
+          )}
         </div>
+        {!!files.length ? (
+          <div className={styles.content_info__uploads}>
+            {files.map((item) => {
+              return (
+                <ButtonDownload
+                  key={item.id}
+                  link={item.location}
+                  title={item.description}
+                  uloadId={item.id}
+                  contentId={item.content}
+                  onEdit={onEdit}
+                  onRemove={onRemove}
+                  onCreate={onCreate}
+                />
+              )
+            })}
+          </div>
+        ) : (
+          <div className='plug-text'>Порожньо</div>
+        )}
       </div>
     </div>
   )
