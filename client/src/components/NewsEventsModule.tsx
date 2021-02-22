@@ -5,12 +5,12 @@ import { useQuery } from "@apollo/client"
 import Loader from "./Loader"
 import { INewsEvent } from "../interfaces"
 // @ts-ignore
-import styles from "../styles/newsevents.module"
+import styles from "../styles/pages.module"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 import Button from "./Button"
 import { BsArrowRightShort } from "react-icons/bs"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 
 interface INewsEventsModuleProps {
   isNews: boolean
@@ -37,32 +37,35 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
 
   const items = newsEvents ? newsEvents.getNewsEvents.items : []
   return (
-    <div className={styles.newsevents_module}>
+    <div className={styles.module}>
       <div className='wrapper'>
-        <h3 className={styles.newsevents_module__title}>
-          Останні {isNews ? "новини" : "події"}
-        </h3>
-        <div
-          className={`${styles.content_wrapper} ${
-            loading && styles.content_wrapper__load
-          }`}
-        >
-          {loading ? (
-            <Loader />
-          ) : (
-            items.map((item: INewsEvent) => {
-              return <NewsEvent key={item.id} info={item} isNews={isNews} />
-            })
-          )}
+        <div>
+          <Link
+            to={isNews ? "/news" : "/events"}
+            className={styles.module__title}
+          >
+            Останні {isNews ? "новини" : "події"}
+          </Link>
         </div>
-        <div className={styles.newsevents_module__more}>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div
+            className={`${styles.page_wrapper} ${styles.page_wrapper__grid_3}`}
+          >
+            {items.map((item: INewsEvent) => {
+              return <NewsEvent key={item.id} info={item} isNews={isNews} />
+            })}
+          </div>
+        )}
+        {/* <div className={styles.module__more}>
           <Button
-            click={() => history.push(isNews ? "/news" : "/events")}
+            click={() => history.push()}
             title={`Більше ${isNews ? "новин" : "подій"}`}
             Icon={BsArrowRightShort}
             exClass={`${stylesBtn.btn_simple} ${stylesBtn.btn__reverse_icon}`}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   )

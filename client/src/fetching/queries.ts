@@ -582,6 +582,7 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
     $filters: [InputFilter]!
     $from: Int!
     $to: Int!
+    $exceptId: ID
   ) {
     getPageSections(
       search: $search
@@ -589,6 +590,7 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
       filters: $filters
       from: $from
       to: $to
+      exceptId: $exceptId
     ) {
       items {
         id

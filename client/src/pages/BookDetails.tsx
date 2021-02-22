@@ -8,6 +8,7 @@ import { IField, IOption, IPageSectionFilter } from "../interfaces"
 import Title from "../components/Title"
 import SectionInfo from "../components/SectionInfo"
 import useFindFilter from "../hooks/useFindFilter"
+import BooksModule from "../components/BooksModule"
 
 const BookDetails: React.FC = () => {
   const { bookId }: any = useParams()
@@ -92,8 +93,6 @@ const BookDetails: React.FC = () => {
     }
   }, [dataFilters])
 
-  console.log({ dataSection })
-
   const handleRefetchAll = () => {
     refetchFilters()
     refetchSection()
@@ -152,6 +151,7 @@ const BookDetails: React.FC = () => {
           </PageSection>
         )}
       </div>
+      <BooksModule exceptId={info && info.id} />
     </div>
   )
 }

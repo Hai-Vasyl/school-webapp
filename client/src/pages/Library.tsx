@@ -22,7 +22,7 @@ const Library: React.FC = () => {
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
-  const amountItems = 16
+  const amountItems = 4
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
@@ -318,7 +318,11 @@ const Library: React.FC = () => {
           {loadSections ? (
             <Loader />
           ) : sections.length ? (
-            <div className={styles.page_wrapper__grid_4}>{sectionsJSX}</div>
+            <div
+              className={`${styles.page_wrapper} ${styles.page_wrapper__grid_4}`}
+            >
+              {sectionsJSX}
+            </div>
           ) : (
             <div className='plug-text'>Порожньо</div>
           )}

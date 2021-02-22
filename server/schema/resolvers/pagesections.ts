@@ -8,7 +8,10 @@ config({ path: "../../../.env" })
 const { AWS_UPLOADS_BUCKET: uploadsBucket } = process.env
 
 export const Query = {
-  async getPageSections(_: any, { search, url, filters, from, to }: IField) {
+  async getPageSections(
+    _: any,
+    { search, url, filters, from, to, exceptId }: IField
+  ) {
     try {
       const searchQuery = search && { $text: { $search: search } }
       let collection: any = []
@@ -57,7 +60,11 @@ export const Query = {
         }).populate({ path: "filters" })
         collection = sections
       } else {
-        const sections: any = await PageSection.find({ ...searchQuery, url })
+        const sections: any = await PageSection.find({
+          _id: exceptId ? { $ne: exceptId } : { $exists: true },
+          ...searchQuery,
+          url,
+        })
           .populate({ path: "filters" })
           // .sort({
           //   priority: 1,

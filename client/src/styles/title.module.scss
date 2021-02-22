@@ -29,17 +29,17 @@
     padding-top: 105px;
     font-weight: normal;
     font-family: getFont(second);
-    &::before {
-      content: "";
-      width: 60%;
-      height: 25px;
-      display: block;
-      position: absolute;
-      bottom: 15px;
-      left: -7px;
-      z-index: -1;
-      background-color: getColor(bg-night);
-      border-bottom: 1px solid getColor(bg-light);
-    }
+    // &::before {
+    //   content: "";
+    //   width: 60%;
+    //   height: 25px;
+    //   display: block;
+    //   position: absolute;
+    //   bottom: 15px;
+    //   left: -7px;
+    //   z-index: -1;
+    //   background-color: getColor(bg-night);
+    //   border-bottom: 1px solid getColor(bg-light);
+    // }
   }
 }

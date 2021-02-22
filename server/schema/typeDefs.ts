@@ -169,6 +169,7 @@ export default gql`
       filters: [InputFilter]!
       from: Int!
       to: Int!
+      exceptId: ID
     ): PageSections!
     getPageSection(sectionId: ID!): PageSection!
     getNewsEvents(

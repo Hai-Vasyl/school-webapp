@@ -1,13 +1,16 @@
 @import "base";
 
 .page_wrapper {
+  display: grid;
+  width: 100%;
+  position: relative;
+  align-items: flex-start;
+  grid-gap: 20px;
   &__grid_4 {
-    display: grid;
-    width: 100%;
-    position: relative;
-    align-items: flex-start;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
+  }
+  &__grid_3 {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -152,7 +155,7 @@
   &__image {
     height: 400px;
     width: 280px;
-    border: 1px solid getColor(main-dark);
+    box-shadow: getShadow(deep);
   }
 }
 
@@ -205,7 +208,7 @@
     }
   }
   &__body {
-    margin-left: 25px;
+    padding-left: 40px;
   }
   &__uploads_title {
     @extend %flex-center;
@@ -217,6 +220,36 @@
       margin-right: 7px;
       &:last-child {
         margin-right: 0px;
+      }
+    }
+  }
+}
+
+.module {
+  border-top: 1px solid getColor(main-dark);
+  margin-top: 20px;
+  &__title {
+    padding-bottom: 25px;
+    font-size: 1.7em;
+    font-weight: bold;
+    color: getColor(font);
+    position: relative;
+    display: inline-block;
+    &::before {
+      content: "";
+      width: 30%;
+      height: 5px;
+      display: block;
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      z-index: -1;
+      transition: getTransition(main);
+      background-color: getColor(main-dark);
+    }
+    &:hover {
+      &::before {
+        width: 100%;
       }
     }
   }

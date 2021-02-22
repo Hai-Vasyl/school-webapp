@@ -13,37 +13,6 @@
   }
 }
 
-.newsevents_module {
-  border-top: 1px solid getColor(main-dark);
-  margin-top: 20px;
-  &__title {
-    padding-bottom: 20px;
-    font-size: 2.3em;
-    font-weight: normal;
-    font-family: getFont(second);
-    color: getColor(font-light);
-    position: relative;
-    &::before {
-      content: "";
-      width: 45px;
-      height: 5px;
-      display: block;
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      z-index: 3;
-      background-color: getColor(main-dark);
-    }
-  }
-  &__more {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 0;
-    margin-top: 20px;
-    border-top: 1px solid getColor(main-dark);
-  }
-}
-
 .content {
   display: flex;
   flex-direction: column;
