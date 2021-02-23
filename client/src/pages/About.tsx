@@ -18,6 +18,7 @@ import ModSectionForm from "../components/ModSectionForm"
 import ButtonMenu from "../components/ButtonMenu"
 import NewsEventsModule from "../components/NewsEventsModule"
 import NavbarPage from "../components/NavbarPage"
+import SectionAbout from "../components/SectionAbout"
 
 const About: React.FC = () => {
   // const [toggleFormCreate, setToggleFormCreate] = useState(false)
@@ -59,7 +60,6 @@ const About: React.FC = () => {
   }
 
   const { pathname } = useLocation()
-  const amountItems = 4
 
   const {
     auth: { user },
@@ -71,10 +71,8 @@ const About: React.FC = () => {
     refetch: refetchSections,
   } = useQuery(GET_PAGE_SECTIONS, {
     variables: {
-      search: "",
       filters: [],
-      from: 0 * amountItems,
-      to: amountItems,
+      from: 0,
       url: pathname,
     },
   })
@@ -84,12 +82,7 @@ const About: React.FC = () => {
     setToggleCreate((prev) => !prev)
   }
 
-  const handleCreate = () => {
-    refetchSections()
-    setToggleCreate((prev) => !prev)
-  }
-
-  const sections = dataSections && dataSections.getPageSections.items
+  const sections = dataSections ? dataSections.getPageSections.items : []
 
   // <ItemInfoSection
   //     key={section.id}
@@ -106,10 +99,48 @@ const About: React.FC = () => {
   //       text: `${pathname}?page=1&genre=`,
   //     }}
   //   />)
+
+  const handleRefetchAll = () => {
+    refetchSections()
+  }
+
+  const handleCreate = () => {
+    handleRefetchAll()
+    setToggleCreate((prev) => !prev)
+  }
+
+  {
+    /* <SectionPerson
+    onCreate={refetchSections}
+    onRemove={refetchSections}
+    onEdit={refetchSections}
+    info={section}
+    link={{
+      keyWord: "year",
+      title: "Рік",
+      text: `${pathname}?page=1&year=`,
+    }}
+    subtitle={{
+      keyWord: "group",
+      title: "Клас",
+      text: `${pathname}?page=1&group=`,
+    }}
+  /> */
+  }
   const sectionsJSX =
     sections &&
     sections.map((section: IPageSection) => {
-      return <div key={section.id}>{section.title}</div>
+      return (
+        <PageSection
+          key={section.id}
+          info={section}
+          filters={[]}
+          onDelete={handleRefetchAll}
+          onEdit={handleRefetchAll}
+        >
+          <SectionAbout info={section} />
+        </PageSection>
+      )
     })
 
   return (

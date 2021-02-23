@@ -479,6 +479,7 @@ export const GET_CONTENT_IMAGES = gql`
       location
       hashtags
       description
+      type
       owner {
         id
       }
@@ -492,7 +493,7 @@ export const GET_PAGE_SECTIONS = gql`
     $url: String!
     $filters: [InputFilter]!
     $from: Int!
-    $to: Int!
+    $to: Int
   ) {
     getPageSections(
       search: $search
@@ -581,7 +582,7 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
     $url: String!
     $filters: [InputFilter]!
     $from: Int!
-    $to: Int!
+    $to: Int
     $exceptId: ID
   ) {
     getPageSections(

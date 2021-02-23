@@ -222,11 +222,18 @@ export interface IImageSlide {
   id: string
   date: string
   location: string
+  type: string
   owner: {
     id: string
   }
   hashtags?: string
   description?: string
+}
+
+export interface ISliderParams {
+  isRight: boolean
+  previousItem: number
+  currentItem: number
 }
 
 export interface IUploadSection {

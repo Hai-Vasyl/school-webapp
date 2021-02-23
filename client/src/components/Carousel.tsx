@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react"
+import React from "react"
 import { IImageSlide } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/carousel.module"
@@ -10,105 +10,94 @@ import {
   BsPencilSquare,
   BsPip,
 } from "react-icons/bs"
-import { convertDate } from "../helpers/convertDate"
 import ButtonTab from "./ButtonTab"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
+import useCarousel from "../hooks/useCarousel"
+import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
+import useLightBox from "../hooks/useLightBox"
 
 interface ICarouselProps {
   slides: IImageSlide[]
   load: boolean
-  isContentOwner: boolean
-  popupLightBox(imageId: string): any
-  popupCreateImage(): any
-  popupEditImage(
-    imageId: string,
-    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): any
+  content: string
+  type: string
+  isOwnerContent: boolean
+  onEdit(): any
+  onRemove(): any
+  onCreate(): any
+  exClass?: string
+  children: any
 }
 
 const Carousel: React.FC<ICarouselProps> = ({
   slides,
   load,
-  isContentOwner,
-  popupLightBox,
-  popupCreateImage,
-  popupEditImage,
+  content,
+  type,
+  isOwnerContent,
+  onEdit,
+  onRemove,
+  onCreate,
+  exClass,
+  children,
 }) => {
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
-  const [params, setParams] = useState({
-    isRight: false,
-    previousItem: 1,
-    currentItem: 0,
-  })
+  const dispatch = useDispatch()
+  const { params, handleMoveSlide, handleClickSlide } = useCarousel(
+    slides.length
+  )
+  const { getLightBox } = useLightBox()
 
-  const handleMoveSlide = (isRight: boolean) => {
-    let nextItem
-    if (isRight && params.currentItem === slides.length - 1) {
-      nextItem = 0
-    } else if (!isRight && params.currentItem === 0) {
-      nextItem = slides.length - 1
-    } else {
-      nextItem = isRight ? params.currentItem + 1 : params.currentItem - 1
-    }
-
-    setParams({
-      isRight,
-      previousItem: params.currentItem,
-      currentItem: nextItem,
+  const handlePopupEditImage = (
+    imageId: string,
+    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event && event.stopPropagation()
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: imageId,
+        content,
+        type,
+        onEdit,
+        onRemove,
+        onCreate,
+      },
     })
   }
 
-  const handleClickSlide = (index: number) => {
-    let isRight
-    if (index > params.currentItem) {
-      isRight = true
-    } else if (index < params.currentItem) {
-      isRight = false
-    } else {
-      return
-    }
-
-    setParams({
-      isRight,
-      previousItem: params.currentItem,
-      currentItem: index,
+  const handlePopupCreateImage = () => {
+    dispatch({
+      type: MODIMAGE_OPEN,
+      payload: {
+        id: "",
+        content: content,
+        type: type,
+        onCreate,
+      },
     })
   }
 
-  const slidesJSX = slides.map((slide: IImageSlide, index: number) => {
-    const currentActive = params.currentItem === index
-    return (
-      <Fragment key={slide.id}>
-        <img
-          className={`${styles.slide} ${
-            currentActive &&
-            (params.isRight ? styles.slide__left : styles.slide__right)
-          } ${
-            params.previousItem === index &&
-            (params.isRight
-              ? styles.slide__prev_left
-              : styles.slide__prev_right)
-          }`}
-          src={slide.location}
-          alt='imgSlide'
-        />
-        <div
-          className={`${styles.slide__info} ${
-            currentActive && styles.slide__info__active
-          }`}
-        >
-          <h2 className={styles.slide__title}>{slide.description}</h2>
-          <p className={styles.slide__date}>{convertDate(slide.date)}</p>
-        </div>
-      </Fragment>
-    )
-  })
+  const handlePopupLightBox = (imageId: string) => {
+    const { getIndexImage, checkMoveAccess, onMove } = getLightBox(slides)
+    const { isLeft, isRight } = checkMoveAccess(getIndexImage(imageId))
+    dispatch({
+      type: LIGHTBOX_OPEN,
+      payload: {
+        imageId,
+        onMove,
+        isLeft,
+        isRight,
+        handleEditImage: handlePopupEditImage,
+      },
+    })
+  }
 
   const buttons = slides.map((slide: IImageSlide, index) => {
     return (
@@ -127,7 +116,15 @@ const Carousel: React.FC<ICarouselProps> = ({
     user.id === slides[params.currentItem].owner.id
 
   return (
-    <>
+    <div
+      className={`carousel ${exClass} ${
+        !load &&
+        !slides.length &&
+        (isOwnerContent
+          ? styles.newsevent__slider__minimize
+          : styles.newsevent__slider__close)
+      }`}
+    >
       {load ? (
         <Loader center />
       ) : (
@@ -135,14 +132,14 @@ const Carousel: React.FC<ICarouselProps> = ({
           {!!slides.length && (
             <>
               <div className={styles.slider__overlay}></div>
-              {slidesJSX}
+              {children(params)}
             </>
           )}
-          {(!!slides.length || (!slides.length && isContentOwner)) && (
+          {(!!slides.length || (!slides.length && isOwnerContent)) && (
             <div
               className={`${styles.slider__toolbar_wrapper} ${
                 !slides.length &&
-                isContentOwner &&
+                isOwnerContent &&
                 styles.slider__toolbar_wrapper__minimize
               }`}
             >
@@ -153,11 +150,11 @@ const Carousel: React.FC<ICarouselProps> = ({
                       {!slides.length && <span>Добавити зображення</span>}
                       <ButtonTab
                         exClass={`${
-                          !slides.length && isContentOwner
+                          !slides.length && isOwnerContent
                             ? stylesBtn.btn_tab
                             : stylesBtn.btn_tab_glass
                         } ${styles.slider__btn_create}`}
-                        click={popupCreateImage}
+                        click={handlePopupCreateImage}
                         Icon={BsPlus}
                       />
                     </div>
@@ -185,7 +182,10 @@ const Carousel: React.FC<ICarouselProps> = ({
                         <ButtonTab
                           exClass={`${stylesBtn.btn_tab_glass}`}
                           click={(event) =>
-                            popupEditImage(slides[params.currentItem].id, event)
+                            handlePopupEditImage(
+                              slides[params.currentItem].id,
+                              event
+                            )
                           }
                           Icon={BsPencilSquare}
                         />
@@ -193,7 +193,7 @@ const Carousel: React.FC<ICarouselProps> = ({
                       <ButtonTab
                         exClass={`${stylesBtn.btn_tab_glass}`}
                         click={() =>
-                          popupLightBox(slides[params.currentItem].id)
+                          handlePopupLightBox(slides[params.currentItem].id)
                         }
                         Icon={BsPip}
                       />
@@ -205,7 +205,7 @@ const Carousel: React.FC<ICarouselProps> = ({
           )}
         </>
       )}
-    </>
+    </div>
   )
 }
 

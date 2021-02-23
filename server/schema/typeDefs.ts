@@ -168,7 +168,7 @@ export default gql`
       url: String!
       filters: [InputFilter]!
       from: Int!
-      to: Int!
+      to: Int
       exceptId: ID
     ): PageSections!
     getPageSection(sectionId: ID!): PageSection!

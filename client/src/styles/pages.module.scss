@@ -272,3 +272,22 @@
     }
   }
 }
+
+.about {
+  &__body {
+  }
+  &__title {
+  }
+  &__main {
+  }
+  &__subtitle {
+    font-size: 0.9em;
+    @extend %flex-center;
+    justify-content: flex-start;
+    // margin-bottom: 20px;
+    & > *:first-child {
+      margin-right: 7px;
+      font-size: 1em;
+    }
+  }
+}
