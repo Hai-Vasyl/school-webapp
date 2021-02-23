@@ -1,16 +1,11 @@
 import React from "react"
-import NewsEvent from "./NewsEvent"
 import { GET_PAGE_SECTIONS_SHORT } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Loader from "./Loader"
 import { IPageSectionShort } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
-// @ts-ignore
-import stylesBtn from "../styles/button.module"
-import Button from "./Button"
-import { BsArrowRightShort } from "react-icons/bs"
-import { useHistory, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import ItemInfoSection from "../components/ItemInfoSection"
 
 interface IBooksModuleProps {
@@ -18,7 +13,6 @@ interface IBooksModuleProps {
 }
 
 const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
-  const history = useHistory()
   const amountItems = 4
   const pathname = "/library"
 
@@ -72,15 +66,6 @@ const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
             })}
           </div>
         )}
-
-        {/* <div className={styles.newsevents_module__more}>
-          <Button
-            click={() => history.push(isNews ? "/news" : "/events")}
-            title={`Більше ${isNews ? "новин" : "подій"}`}
-            Icon={BsArrowRightShort}
-            exClass={`${stylesBtn.btn_simple} ${stylesBtn.btn__reverse_icon}`}
-          />
-        </div> */}
       </div>
     </div>
   )

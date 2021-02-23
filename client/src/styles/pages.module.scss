@@ -27,6 +27,24 @@
   }
 }
 
+.navbar {
+  background-color: getColor(secondary);
+  border-bottom: 1px solid getColor(main-dark);
+  &__menu {
+    @extend %flex-center;
+    height: 55px;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    justify-content: space-between;
+  }
+  &__create {
+    @extend %flex-center;
+    & > p {
+      margin-right: 7px;
+    }
+  }
+}
+
 .content {
   @extend %flex-center;
   justify-content: flex-start;

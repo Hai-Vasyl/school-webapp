@@ -6,11 +6,7 @@ import Loader from "./Loader"
 import { INewsEvent } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
-// @ts-ignore
-import stylesBtn from "../styles/button.module"
-import Button from "./Button"
-import { BsArrowRightShort } from "react-icons/bs"
-import { useHistory, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 interface INewsEventsModuleProps {
   isNews: boolean
@@ -21,7 +17,6 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
   isNews,
   exceptId,
 }) => {
-  const history = useHistory()
   const { data: newsEvents, loading } = useQuery(GET_NEWS_EVENTS, {
     variables: {
       search: "",
@@ -58,14 +53,6 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
             })}
           </div>
         )}
-        {/* <div className={styles.module__more}>
-          <Button
-            click={() => history.push()}
-            title={`Більше ${isNews ? "новин" : "подій"}`}
-            Icon={BsArrowRightShort}
-            exClass={`${stylesBtn.btn_simple} ${stylesBtn.btn__reverse_icon}`}
-          />
-        </div> */}
       </div>
     </div>
   )

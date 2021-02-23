@@ -7,7 +7,7 @@ import { RootStore } from "../redux/store"
 
 interface IButtonMenuProps {
   click: any
-  active: string
+  active?: string
   links: string[]
 }
 
