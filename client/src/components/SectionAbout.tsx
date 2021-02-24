@@ -2,49 +2,34 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import { convertContent } from "../helpers/convertContentEditor"
-import { IPageSection } from "../interfaces"
+import { IPageSection, IImageSlide } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
 import { BiTime } from "react-icons/bi"
+import Carousel from "./Carousel"
+import { types } from "../modules/uploadTypes"
+import ImageSlide from "./ImageSlide"
 
 interface ISectionAboutProps {
   info: IPageSection
-  // link?: {
-  //   title: string
-  //   text: string
-  //   keyWord: string
-  // }
-  // subtitle?: {
-  //   title: string
-  //   text: string
-  //   keyWord: string
-  // }
-  // onCreate(): any
-  // onEdit(): any
-  // onRemove(): any
+  onCreate(): any
+  onEdit(): any
+  onRemove(): any
+  loadImages?: boolean
+  isOwnerContent: boolean
 }
 
-const SectionAbout: React.FC<ISectionAboutProps> = ({ info }) => {
+const SectionAbout: React.FC<ISectionAboutProps> = ({
+  info,
+  onCreate,
+  onEdit,
+  onRemove,
+  loadImages,
+  isOwnerContent,
+}) => {
+  const images = info.uploads
   return (
     <div className={styles.about}>
-      {/* <ImgSection
-        infoId={info.id}
-        upload={info.uploads[0]}
-        onEdit={onEdit}
-        onRemove={onRemove}
-        onCreate={onCreate}
-      /> */}
       <div className={styles.about__body}>
-        {/* {link && (
-          <div className={styles.content__link}>
-            <span className={styles.content__link_title}>{link.title}:</span>
-            <Link
-              className={styles.content__link_text}
-              to={link.text + linkParams?.value}
-            >
-              {linkParams?.value}
-            </Link>
-          </div>
-        )} */}
         <h2 className={`title-second ${styles.content__title}`}>
           {info.title}
         </h2>
@@ -54,6 +39,30 @@ const SectionAbout: React.FC<ISectionAboutProps> = ({ info }) => {
             {convertDate(info.date)}
           </span>
         </div>
+        <Carousel
+          slides={images}
+          load={loadImages}
+          isOwnerContent={isOwnerContent}
+          content={info.id}
+          type={types.other.keyWord}
+          onEdit={onEdit}
+          onRemove={onRemove}
+          onCreate={onCreate}
+          exClass={!!images.length && styles.about__carousel}
+        >
+          {(params: any) =>
+            images.map((slide: IImageSlide, index: number) => {
+              return (
+                <ImageSlide
+                  key={slide.id}
+                  info={slide}
+                  index={index}
+                  params={params}
+                />
+              )
+            })
+          }
+        </Carousel>
         <div className={`${styles.content__main} ${styles.about__main}`}>
           {convertContent(info.content)}
         </div>

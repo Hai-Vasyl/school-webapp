@@ -138,7 +138,13 @@ const About: React.FC = () => {
           onDelete={handleRefetchAll}
           onEdit={handleRefetchAll}
         >
-          <SectionAbout info={section} />
+          <SectionAbout
+            info={section}
+            onCreate={refetchSections}
+            onEdit={refetchSections}
+            onRemove={refetchSections}
+            isOwnerContent={user.role === access.admin.keyWord}
+          />
         </PageSection>
       )
     })

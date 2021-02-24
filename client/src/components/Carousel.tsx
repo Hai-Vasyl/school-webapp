@@ -22,15 +22,16 @@ import useLightBox from "../hooks/useLightBox"
 
 interface ICarouselProps {
   slides: IImageSlide[]
-  load: boolean
+  load?: boolean
   content: string
   type: string
   isOwnerContent: boolean
-  onEdit(): any
-  onRemove(): any
-  onCreate(): any
+  onEdit?(): any
+  onRemove?(): any
+  onCreate?(): any
   exClass?: string
   children: any
+  noImage?: boolean
 }
 
 const Carousel: React.FC<ICarouselProps> = ({
@@ -44,6 +45,7 @@ const Carousel: React.FC<ICarouselProps> = ({
   onCreate,
   exClass,
   children,
+  noImage = false,
 }) => {
   const {
     auth: { user },
@@ -77,7 +79,7 @@ const Carousel: React.FC<ICarouselProps> = ({
       type: MODIMAGE_OPEN,
       payload: {
         id: "",
-        content: content,
+        content,
         type: type,
         onCreate,
       },
@@ -99,7 +101,7 @@ const Carousel: React.FC<ICarouselProps> = ({
     })
   }
 
-  const buttons = slides.map((slide: IImageSlide, index) => {
+  const buttons = slides.map((slide: any, index) => {
     return (
       <button
         onClick={() => handleClickSlide(index)}
@@ -120,9 +122,7 @@ const Carousel: React.FC<ICarouselProps> = ({
       className={`carousel ${exClass} ${
         !load &&
         !slides.length &&
-        (isOwnerContent
-          ? styles.newsevent__slider__minimize
-          : styles.newsevent__slider__close)
+        (isOwnerContent ? styles.slider__minimize : styles.slider__close)
       }`}
     >
       {load ? (
@@ -145,7 +145,7 @@ const Carousel: React.FC<ICarouselProps> = ({
             >
               <div className={styles.slider__toolbar}>
                 <>
-                  {isImageOwner && (
+                  {isOwnerContent && (
                     <div className={styles.slider__add_img}>
                       {!slides.length && <span>Добавити зображення</span>}
                       <ButtonTab
@@ -176,7 +176,7 @@ const Carousel: React.FC<ICarouselProps> = ({
                       </button>
                     </>
                   )}
-                  {slides.length > 0 && (
+                  {!noImage && slides.length > 0 && (
                     <div className={styles.slider__btns}>
                       {isImageOwner && (
                         <ButtonTab

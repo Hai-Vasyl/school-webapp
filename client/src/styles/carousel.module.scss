@@ -12,15 +12,25 @@
       rgba(0, 0, 0, 0.5)
     );
   }
+  &__minimize {
+    height: 50px !important;
+    .slider__add_img {
+      left: auto;
+    }
+  }
+  &__close {
+    height: 0px !important;
+    overflow: hidden;
+  }
   &__toolbar_wrapper {
     position: absolute;
     bottom: 0px;
     left: 0px;
     right: 0px;
     z-index: 6;
-    height: 60px;
-    border-top: 1px solid getColor(bg-light);
+    height: 50px;
     background-color: getColor(bg-night);
+    // border-top: 1px solid getColor(bg-light);
     &__minimize {
       background-color: getColor(main);
       border-bottom: 1px solid getColor(main-dark);
@@ -29,7 +39,7 @@
   &__toolbar {
     @extend %wrapper;
     @extend %flex-center;
-    height: 60px;
+    height: 50px;
     position: relative;
   }
   &__btn_create {
@@ -102,6 +112,17 @@
   }
   &__title {
     padding: 5px 0;
+    &__big {
+      font-size: 3em;
+      line-height: 60px;
+    }
+  }
+  &__content {
+    height: 94px;
+    overflow: hidden;
+    margin: 20px 0;
+    padding-left: 20px;
+    border-left: 3px solid getColor(accent);
   }
   &__date {
     color: getColor(title-simple);

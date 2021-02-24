@@ -1,16 +1,17 @@
 import React from "react"
 // @ts-ignore
 import styles from "../styles/carousel.module"
-import { IImageSlide, ISliderParams } from "../interfaces"
+import { INewsEventSlider, ISliderParams } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
+import { convertContent } from "../helpers/convertContentEditor"
 
-interface IImageSliderProps {
-  info: IImageSlide
+interface INewsSliderProps {
+  info: INewsEventSlider
   params: ISliderParams
   index: number
 }
 
-const ImageSlider: React.FC<IImageSliderProps> = ({ params, info, index }) => {
+const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
   const currentActive = params.currentItem === index
   return (
     <div>
@@ -22,7 +23,7 @@ const ImageSlider: React.FC<IImageSliderProps> = ({ params, info, index }) => {
           params.previousItem === index &&
           (params.isRight ? styles.slide__prev_left : styles.slide__prev_right)
         }`}
-        src={info.location}
+        src={info.preview.location}
         alt='imgSlide'
       />
       <div
@@ -30,11 +31,14 @@ const ImageSlider: React.FC<IImageSliderProps> = ({ params, info, index }) => {
           currentActive && styles.slide__info__active
         }`}
       >
-        <h2 className={styles.slide__title}>{info.description}</h2>
-        <p className={styles.slide__date}>{convertDate(info.date)}</p>
+        <h2 className={`${styles.slide__title} ${styles.slide__title__big}`}>
+          {info.title}
+        </h2>
+        <p className={styles.slide__content}>{convertContent(info.content)}</p>
+        <p className={styles.slide__date}>{info.date}</p>
       </div>
     </div>
   )
 }
 
-export default ImageSlider
+export default NewsSlide

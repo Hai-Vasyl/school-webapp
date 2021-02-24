@@ -203,14 +203,8 @@
   &__info_text {
     font-weight: bold;
   }
-  &__slider {
+  &__carousel {
     &__minimize {
-      height: 60px !important;
-      margin-top: 130px;
-    }
-    &__close {
-      height: 0px !important;
-      overflow: hidden;
       margin-top: 130px;
     }
   }

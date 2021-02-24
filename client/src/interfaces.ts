@@ -218,6 +218,34 @@ export interface INewsEventDetailed {
   }[]
 }
 
+export interface INewsEventSlider {
+  id: string
+  title: string
+  content: string
+  type: string
+  owner: {
+    id: string
+    username: string
+    email: string
+    ava: string
+    color: string
+    firstname: string
+    lastname: string
+    role: string
+  }
+  date: string
+  preview: {
+    id: string
+    location: string
+  }
+  category: string
+  dateEvent: string
+  links: {
+    link: string
+    label: string
+  }[]
+}
+
 export interface IImageSlide {
   id: string
   date: string

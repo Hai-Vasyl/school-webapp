@@ -443,6 +443,59 @@ export const GET_NEWS_EVENTS = gql`
   }
 `
 
+export const GET_NEWS_EVENTS_DETAILED = gql`
+  query GET_NEWS_EVENTS_DETAILED(
+    $search: String
+    $type: String!
+    $category: String
+    $dateFrom: String
+    $dateTo: String
+    $from: Int!
+    $to: Int!
+    $exceptId: ID
+  ) {
+    getNewsEvents(
+      search: $search
+      type: $type
+      category: $category
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+      from: $from
+      to: $to
+      exceptId: $exceptId
+    ) {
+      items {
+        id
+        title
+        content
+        type
+        owner {
+          id
+          username
+          email
+          ava
+          color
+          firstname
+          lastname
+          role
+        }
+        date
+        category
+        dateEvent
+        preview {
+          id
+          location
+        }
+        links {
+          link
+          label
+        }
+      }
+      quantity
+    }
+  }
+`
+
 export const GET_NEWS_EVENT = gql`
   query GET_NEWS_EVENT($contentId: ID!, $type: String!) {
     getNewsEvent(contentId: $contentId, type: $type) {

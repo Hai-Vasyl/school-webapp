@@ -22,7 +22,7 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
   return (
     <div className={styles.content} key={info.id}>
       <ImgPreviewSection
-        imgLocation={info.preview.location}
+        imgLocation={info.preview && info.preview.location}
         exClass={styles.content__preview}
         redirectStr={linkPath}
       />

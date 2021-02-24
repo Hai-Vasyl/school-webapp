@@ -18,7 +18,7 @@ import { access } from "../modules/accessModifiers"
 import ButtonTab from "../components/ButtonTab"
 import { BsPencilSquare } from "react-icons/bs"
 import { convertContent } from "../helpers/convertContentEditor"
-import ImageSlider from "../components/ImageSlider"
+import ImageSlide from "../components/ImageSlide"
 import { IImageSlide } from "../interfaces"
 
 const NewsEvent: React.FC = () => {
@@ -57,29 +57,35 @@ const NewsEvent: React.FC = () => {
 
   return (
     <div className='container'>
-      <Carousel
-        slides={images}
-        load={loadImages}
-        isOwnerContent={isOwnerContent}
-        content={newsevent.id}
-        type={isNews ? types.news.keyWord : types.event.keyWord}
-        onEdit={refetchImages}
-        onRemove={refetchImages}
-        onCreate={refetchImages}
+      <div
+        className={`${styles.newsevent__carousel} ${
+          !images.length && styles.newsevent__carousel__minimize
+        }`}
       >
-        {(params: any) =>
-          images.map((slide: IImageSlide, index: number) => {
-            return (
-              <ImageSlider
-                key={slide.id}
-                info={slide}
-                index={index}
-                params={params}
-              />
-            )
-          })
-        }
-      </Carousel>
+        <Carousel
+          slides={images}
+          load={loadImages}
+          isOwnerContent={isOwnerContent}
+          content={newsevent.id}
+          type={isNews ? types.news.keyWord : types.event.keyWord}
+          onEdit={refetchImages}
+          onRemove={refetchImages}
+          onCreate={refetchImages}
+        >
+          {(params: any) =>
+            images.map((slide: IImageSlide, index: number) => {
+              return (
+                <ImageSlide
+                  key={slide.id}
+                  info={slide}
+                  index={index}
+                  params={params}
+                />
+              )
+            })
+          }
+        </Carousel>
+      </div>
       {loadNewsEvent ? (
         <Loader />
       ) : (
