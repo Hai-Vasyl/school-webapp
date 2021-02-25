@@ -2,6 +2,7 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/carousel.module"
 import { IImageSlide, ISliderParams } from "../interfaces"
+import { BiTime } from "react-icons/bi"
 import { convertDate } from "../helpers/convertDate"
 
 interface IImageSliderProps {
@@ -31,7 +32,10 @@ const ImageSlide: React.FC<IImageSliderProps> = ({ params, info, index }) => {
         }`}
       >
         <h2 className={styles.slide__title}>{info.description}</h2>
-        <p className={styles.slide__date}>{convertDate(info.date)}</p>
+        <p className={styles.slide__date}>
+          <BiTime className={styles.slide__date_icon} />
+          <span>{convertDate(info.date)}</span>
+        </p>
       </div>
     </div>
   )

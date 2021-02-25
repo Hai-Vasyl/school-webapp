@@ -7,12 +7,12 @@
 // @import url("https://fonts.googleapis.com/css2?family=Cormorant+Infant&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Marck+Script&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
-
+// @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
-// font-family: 'Kaushan Script', cursive;
-// font-family: 'Dancing Script', cursive;
 * {
   margin: 0;
   padding: 0;
@@ -172,6 +172,7 @@ blockquote {
 .title-second {
   font-size: 2em;
   position: relative;
+  font-family: getFont(third);
   &::before {
     content: "";
     width: 60px;

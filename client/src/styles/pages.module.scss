@@ -143,12 +143,14 @@
     font-size: 2em;
     padding: 5px 0;
     margin-bottom: 7px;
+    font-family: getFont(third);
   }
   &__title_big {
     font-size: 3em !important;
     font-weight: bolder;
     line-height: 55px;
     margin-bottom: 20px;
+    font-family: getFont(third);
   }
   &__subtitle {
     font-size: 0.9em;
@@ -219,6 +221,7 @@
     font-weight: bold;
     margin-bottom: 5px;
     border-bottom: 1px solid getColor(main);
+    font-family: getFont(third);
   }
 }
 
@@ -261,6 +264,7 @@
     color: getColor(font);
     position: relative;
     display: inline-block;
+    font-family: getFont(third);
     &::before {
       content: "";
       width: 30%;

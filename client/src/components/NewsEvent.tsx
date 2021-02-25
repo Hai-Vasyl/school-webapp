@@ -39,7 +39,10 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
           </Link>
         </div>
         <div>
-          <Link className={styles.content__categoty} to='/news'>
+          <Link
+            className={styles.content__categoty}
+            to={`/news?page=1&category=${info.category}`}
+          >
             {linkParams?.title}
           </Link>
         </div>

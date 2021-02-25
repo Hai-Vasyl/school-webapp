@@ -4,7 +4,7 @@
   padding: 11px 12px;
   display: flex;
   align-items: center;
-  border-radius: getRadius(main);
+  // border-radius: getRadius(main);
   transition: getTransition(main);
   color: getColor(font-white);
   &__reverse_icon {
@@ -29,8 +29,9 @@
 
 .btn_primary {
   box-shadow: getShadow(main);
-  background-image: getGradient(main);
-  border: 1px solid getColor(main-white);
+  background-color: getColor(accent);
+  // background-image: getGradient(main);
+  border: 1px solid getColor(font-white);
   &:hover {
     border-color: getColor(font-white);
     box-shadow: getShadow(second);
@@ -57,7 +58,7 @@
   border: 1px solid transparent;
 }
 .btn_outline_light {
-  border: 1px solid getColor(font-white);
+  border: 1px solid getColor(bg-light);
   color: getColor(font-white);
   background-color: transparent;
   &:hover {
@@ -72,7 +73,7 @@
   margin: 4px;
   margin-right: 0px;
   margin-bottom: 0px;
-  border-radius: getRadius(main);
+  // border-radius: getRadius(main);
   border: 1px solid getColor(main-dark);
   position: relative;
   z-index: 2;
@@ -148,7 +149,7 @@
   margin: 0px 2px;
   border: 1px solid getColor(main-dark);
   background-color: getColor(secondary);
-  border-radius: getRadius(main);
+  // border-radius: getRadius(main);
   box-shadow: getShadow(thin);
   transition: getTransition(main);
   &:hover {
@@ -185,7 +186,7 @@
   display: flex;
   background-color: getColor(secondary);
   border: 1px solid getColor(main-dark);
-  border-radius: getRadius(main);
+  // border-radius: getRadius(main);
   width: 30px;
   height: 30px;
   box-shadow: getShadow(thin);
@@ -210,8 +211,7 @@
   border: 1px solid getColor(font-white);
   color: getColor(font-white);
   box-shadow: getShadow(main);
-  background-image: getGradient(main);
-  border-radius: getRadius(main);
+  background-color: getColor(accent);
   &:hover {
     border-color: getColor(font-white);
     box-shadow: getShadow(second);
@@ -322,7 +322,7 @@
   @extend %flex-center;
   align-items: stretch;
   box-shadow: getShadow(main);
-  border-radius: getRadius(main);
+  // border-radius: getRadius(main);
   transition: getTransition(main);
   &:hover {
     box-shadow: getShadow(second);

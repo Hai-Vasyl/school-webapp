@@ -145,7 +145,7 @@ const Carousel: React.FC<ICarouselProps> = ({
             >
               <div className={styles.slider__toolbar}>
                 <>
-                  {isOwnerContent && (
+                  {!noImage && isOwnerContent && (
                     <div className={styles.slider__add_img}>
                       {!slides.length && <span>Добавити зображення</span>}
                       <ButtonTab

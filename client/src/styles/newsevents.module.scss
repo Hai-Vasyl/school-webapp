@@ -103,6 +103,7 @@
     font-weight: bolder;
     font-size: 1.5em;
     line-height: 32px;
+    font-family: getFont(third);
   }
   &__categoty {
     @extend %link-reset;
@@ -155,6 +156,7 @@
     font-size: 3em;
     line-height: 55px;
     padding: 15px 0;
+    font-family: getFont(third);
   }
   &__date {
     @extend %flex-center;
@@ -199,6 +201,7 @@
   }
   &__info_title {
     margin-right: 7px;
+    font-family: getFont(third);
   }
   &__info_text {
     font-weight: bold;

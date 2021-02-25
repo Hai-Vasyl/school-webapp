@@ -12,6 +12,7 @@ $colors: (
   font-white: #fff,
   // font-dark: #333,
   accent: #2165bf,
+  accent-main: rgb(247, 247, 8),
   accent-second: #4a9edf,
   accent-gradient: #8a41ac,
   title-simple: rgb(199, 199, 199),
@@ -33,13 +34,13 @@ $shadows: (
     0px 0px 3px rgba(57, 57, 57, 0.5),
   ),
   second: (
-    0px 2px 3px rgba(92, 90, 99, 0.5),
+    0px 2px 3px rgba(0, 0, 0, 0.5),
   ),
   second-dark: (
     0px 2px 3px rgba(0, 0, 0, 0.5),
   ),
   thin: (
-    0px 1px 1px rgba(92, 90, 99, 0.5),
+    0px 1px 1px rgba(0, 0, 0, 0.4),
   ),
   thin-dark: (
     0px 1px 1px rgba(0, 0, 0, 0.5),
@@ -82,11 +83,15 @@ $fonts: (
       "Marck Script",
       cursive,
     ),
-  // second:
-  //   (
-  //     "Caveat",
-  //     cursive,
-  //   ),,,,,,,,,
+  // third: (
+  //   "Noto Sans",
+  //   sans-serif,
+  // ),
+  third:
+    (
+      "Roboto",
+      sans-serif,
+    ),
 );
 $logo-side: 123px;
 
@@ -127,13 +132,14 @@ $transitions: (
   slow: 0.8s ease,
 );
 $gradients: (
-  main: linear-gradient(to right, getColor(accent), getColor(accent-second)),
+  // main: linear-gradient(to right, getColor(accent), getColor(accent-second)),
+  main: linear-gradient(to bottom right, getColor(accent), rgb(48, 43, 105)),
   second:
     linear-gradient(
       to bottom right,
       getColor(accent),
       getColor(accent-gradient)
-    ),
+    )
 );
 
 %center-position {
@@ -204,7 +210,7 @@ $gradients: (
       transparent 32px
     ),
     repeating-linear-gradient(
-      90deg,
+      45deg,
       hsla(210, 79%, 75%, 0.05) 0px,
       hsla(210, 79%, 75%, 0.05) 1px,
       transparent 1px,
@@ -215,7 +221,7 @@ $gradients: (
       transparent 32px
     ),
     repeating-linear-gradient(
-      0deg,
+      -45deg,
       hsla(210, 79%, 75%, 0.05) 0px,
       hsla(210, 79%, 75%, 0.05) 1px,
       transparent 1px,
@@ -225,7 +231,7 @@ $gradients: (
       transparent 12px,
       transparent 32px
     ),
-    linear-gradient(90deg, rgb(83, 220, 200), rgb(58, 78, 174));
+    linear-gradient(-170deg, rgb(83, 220, 200), rgb(58, 78, 174));
 }
 %link-reset {
   text-decoration: none;
@@ -257,8 +263,9 @@ $gradients: (
   border: 1px solid getColor(font-white);
   color: getColor(font-white);
   box-shadow: getShadow(main);
-  background-image: getGradient(main);
-  border-radius: getRadius(main);
+  // background-image: getGradient(main);
+  background-color: getColor(accent) !important;
+  // border-radius: getRadius(main);
   &:hover {
     border-color: getColor(font-white);
     box-shadow: getShadow(second);

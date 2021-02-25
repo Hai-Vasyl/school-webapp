@@ -2,8 +2,14 @@ import React from "react"
 // @ts-ignore
 import styles from "../styles/carousel.module"
 import { INewsEventSlider, ISliderParams } from "../interfaces"
-import { convertDate } from "../helpers/convertDate"
 import { convertContent } from "../helpers/convertContentEditor"
+import { BiTime } from "react-icons/bi"
+import { RiExternalLinkLine } from "react-icons/ri"
+import { Link } from "react-router-dom"
+import { getNewsParamsByKey } from "../modules/newsCategories"
+import Button from "./Button"
+// @ts-ignore
+import stylesBtn from "../styles/button.module"
 
 interface INewsSliderProps {
   info: INewsEventSlider
@@ -13,8 +19,16 @@ interface INewsSliderProps {
 
 const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
   const currentActive = params.currentItem === index
+  const newsParams = getNewsParamsByKey(info.category)
   return (
     <div>
+      <div
+        className={`${styles.slide__overlay} ${styles.slide__overlay_second}`}
+      ></div>
+      <div
+        className={`${styles.slide__overlay} ${styles.slide__overlay_third}`}
+      ></div>
+      <div className={styles.slide__overlay}></div>
       <img
         className={`${styles.slide} ${
           currentActive &&
@@ -31,11 +45,35 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
           currentActive && styles.slide__info__active
         }`}
       >
-        <h2 className={`${styles.slide__title} ${styles.slide__title__big}`}>
-          {info.title}
-        </h2>
-        <p className={styles.slide__content}>{convertContent(info.content)}</p>
-        <p className={styles.slide__date}>{info.date}</p>
+        <div className={styles.slide__link}>
+          <RiExternalLinkLine className={styles.slide__link_icon} />
+          <Link
+            to={`/news?page=1&category=${info.category}`}
+            className={styles.slide__link_text}
+          >
+            {newsParams?.title}
+          </Link>
+        </div>
+        <div>
+          <Link
+            to={`/news/details/${info.id}`}
+            className={`${styles.slide__title} ${styles.slide__title__big}`}
+          >
+            {info.title}
+          </Link>
+        </div>
+
+        <div className={styles.slide__content}>
+          {convertContent(info.content)}
+        </div>
+        <div className={styles.slide__btns}>
+          <Button exClass={stylesBtn.btn_primary} title='Детальніше' />
+          <Button exClass={stylesBtn.btn_outline_light} title='Усі новини' />
+        </div>
+        <div className={`${styles.slide__date} ${styles.slide__date_right}`}>
+          <BiTime className={styles.slide__date_icon} />
+          <span>{info.date}</span>
+        </div>
       </div>
     </div>
   )

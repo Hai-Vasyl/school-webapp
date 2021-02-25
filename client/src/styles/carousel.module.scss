@@ -6,7 +6,7 @@
     z-index: 5;
     background-image: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.9),
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
@@ -103,29 +103,100 @@
     color: getColor(font-white);
     text-shadow: getShadow(thin-dark);
     transition: getTransition(slow);
-    transform: translateX(-50%) translateY(20px);
+    transform: translateX(-50%);
     opacity: 0;
+    &:hover {
+      .slide__content {
+        height: 78px;
+      }
+    }
     &__active {
-      transform: translateX(-50%) translateY(0px);
+      z-index: 7;
       opacity: 1;
     }
   }
+  &__link {
+    font-size: 1.2em;
+    @extend %flex-center;
+    justify-content: flex-start;
+    padding: 10px 0;
+  }
+  &__link_text {
+    margin-left: 7px;
+  }
+  &__link_icon {
+    font-size: 1.1em;
+  }
   &__title {
     padding: 5px 0;
+    font-family: getFont(third);
     &__big {
       font-size: 3em;
       line-height: 60px;
+      width: 1000px;
+      max-width: 100%;
+      position: relative;
+      color: getColor(font-white);
+      &:hover {
+        color: getColor(font-white);
+      }
+      &:before {
+        content: "";
+        width: 100px;
+        height: 6px;
+        background-color: getColor(accent);
+        position: absolute;
+        bottom: -7px;
+        left: 0;
+        box-shadow: getShadow(thin);
+        transform: skew(30deg);
+      }
     }
   }
   &__content {
-    height: 94px;
+    height: 0px;
+    transition: getTransition(slow);
     overflow: hidden;
-    margin: 20px 0;
-    padding-left: 20px;
-    border-left: 3px solid getColor(accent);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    width: 710px;
+    max-width: 100%;
+    font-size: 1.1em;
+    color: getColor(title-simple);
+    position: relative;
   }
   &__date {
     color: getColor(title-simple);
+    @extend %flex-center;
+    justify-content: flex-start;
+  }
+  &__date_right {
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+  &__date_icon {
+    margin-right: 7px;
+  }
+  &__btns {
+    display: flex;
+    padding: 10px 0;
+    & > *:first-child {
+      margin-right: 10px;
+    }
+  }
+  &__overlay {
+    @extend %position-extend;
+    background-color: getColor(accent);
+    z-index: 4;
+    clip-path: polygon(0 0, 23% 0, 50% 100%, 0% 100%);
+  }
+  &__overlay_second {
+    background-color: getColor(accent-main);
+    clip-path: polygon(0 0, 24% 0, 51% 100%, 0% 100%);
+  }
+  &__overlay_third {
+    background-color: getColor(accent-main);
+    clip-path: polygon(0 0, 45% 0, 10% 100%, 0% 100%);
   }
 }
 

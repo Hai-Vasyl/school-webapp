@@ -49,7 +49,6 @@ const Home: React.FC = () => {
           isOwnerContent={isOwnerContent}
           content=''
           type=''
-          // exClass={styles.about__carousel}
           noImage
         >
           {(params: any) =>

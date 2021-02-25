@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { GET_NEWS_EVENTS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "../components/Title"
 import { useLocation, useHistory } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
-import { INewsEvent } from "../interfaces"
+import { INewsEvent, IField } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
 import { categories } from "../modules/newsCategories"
@@ -73,6 +73,32 @@ const NewsEvents: React.FC = () => {
       fetchPolicy: "cache-and-network",
     }
   )
+
+  const setFilterValue = useCallback(
+    (setState: any, keyWord: string, value: string) => {
+      setState((prev: IField[]) =>
+        prev.map((field) => {
+          if (field.param === keyWord) {
+            return { ...field, value }
+          }
+          return field
+        })
+      )
+    },
+    []
+  )
+
+  useEffect(() => {
+    setFilterValue(setDate, "from", from)
+  }, [from])
+
+  useEffect(() => {
+    setFilterValue(setDate, "to", to)
+  }, [to])
+
+  useEffect(() => {
+    setFilterValue(setCategoryContent, "type", category)
+  }, [category])
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
