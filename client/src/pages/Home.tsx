@@ -9,6 +9,8 @@ import Carousel from "../components/Carousel"
 import styles from "../styles/pages.module"
 import { INewsEventSlider } from "../interfaces"
 import NewsSlide from "../components/NewsSlide"
+import AboutModule from "../components/AboutModule"
+import GalleryModule from "../components/GalleryModule"
 
 const Home: React.FC = () => {
   const {
@@ -30,9 +32,7 @@ const Home: React.FC = () => {
     }
   )
 
-  console.log({ dataNews })
   const news = dataNews ? dataNews.getNewsEvents.items : []
-  console.log({ news })
   const isOwnerContent =
     user.role === access.admin.keyWord || user.role === access.teacher.keyWord
 
@@ -65,6 +65,8 @@ const Home: React.FC = () => {
           }
         </Carousel>
       </div>
+      <AboutModule />
+      <GalleryModule />
     </div>
   )
 }

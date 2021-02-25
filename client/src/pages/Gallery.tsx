@@ -35,7 +35,6 @@ const Gallery: React.FC = () => {
   const type = params.get("type") || "all"
   let search = params.get("search") || ""
   const amountItems = 15
-  // const anchor = useRef<HTMLDivElement>(null)
   let searchWords = search.split(" ")
   for (let i = 0; i < searchWords.length; i++) {
     searchWords[i] = searchWords[i].replace("hash_", "#")

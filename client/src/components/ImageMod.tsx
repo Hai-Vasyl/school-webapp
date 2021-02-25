@@ -264,6 +264,7 @@ const ImageMod: React.FC = () => {
         content,
         type,
         onCreate,
+        isFile: !!isFile,
       },
     })
   }
