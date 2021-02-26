@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 import ItemInfoSection from "../components/ItemInfoSection"
 
 interface IBooksModuleProps {
-  exceptId: string
+  exceptId?: string
 }
 
 const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {

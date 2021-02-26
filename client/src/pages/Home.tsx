@@ -11,6 +11,8 @@ import { INewsEventSlider } from "../interfaces"
 import NewsSlide from "../components/NewsSlide"
 import AboutModule from "../components/AboutModule"
 import GalleryModule from "../components/GalleryModule"
+import NewsEventsModule from "../components/NewsEventsModule"
+import BooksModule from "../components/BooksModule"
 
 const Home: React.FC = () => {
   const {
@@ -67,6 +69,8 @@ const Home: React.FC = () => {
       </div>
       <AboutModule />
       <GalleryModule />
+      <NewsEventsModule isNews={true} />
+      <BooksModule />
     </div>
   )
 }

@@ -32,7 +32,7 @@ const GalleryModule: React.FC = () => {
   } = useQuery(GET_IMAGES, {
     variables: {
       from: 0,
-      to: 7,
+      to: 6,
       search: "",
       type: "",
     },
@@ -116,7 +116,12 @@ const GalleryModule: React.FC = () => {
       {loadImages ? (
         <Loader />
       ) : (
-        <div className={styles.module_gallery__grid}>{imagesJSX}</div>
+        <div className={styles.module_gallery__grid}>
+          {imagesJSX}
+          <div className={styles.image}>
+            <span>Більше зображень</span>
+          </div>
+        </div>
       )}
     </div>
   )
