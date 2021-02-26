@@ -9,10 +9,6 @@ export const access = {
     keyWord: "teacher",
     Icon: FaUserTie,
   },
-  student: {
-    keyWord: "student",
-    Icon: FaUser,
-  },
   user: {
     keyWord: "user",
   },

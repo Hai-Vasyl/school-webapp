@@ -4,7 +4,6 @@ import { BsChat, BsSearch, BsBell } from "react-icons/bs"
 import About from "../pages/About"
 import Team from "../pages/Team"
 import Graduates from "../pages/Graduates"
-import Achievement from "../pages/Achievement"
 import NewsEvents from "../pages/NewsEvents"
 import Library from "../pages/Library"
 import Gallery from "../pages/Gallery"
@@ -13,10 +12,7 @@ import Projects from "../pages/Projects"
 import Contacts from "../pages/Contacts"
 import Schedule from "../pages/Schedule"
 import RegisterUser from "../pages/RegisterUser"
-import ModGroup from "../pages/ModGroup"
-import Groups from "../pages/Groups"
 import NewsEvent from "../pages/NewsEvent"
-import Events from "../pages/Events"
 import ModNewsEvent from "../pages/ModNewsEvent"
 import ImageDetails from "../pages/ImageDetails"
 import BookDetails from "../pages/BookDetails"
@@ -51,7 +47,6 @@ export const getLinks = (role: string) => {
         { to: "/about", title: "Навчальний заклад" },
         { to: "/team", title: "Команда" },
         { to: "/graduates", title: "Випускники" },
-        { to: "/achievement", title: "Досягнення" },
       ],
     },
     {
@@ -83,7 +78,7 @@ export const getLinks = (role: string) => {
         },
         {
           to: "/contacts",
-          title: "Котакти",
+          title: "Контакти",
         },
         {
           to: "/schedule",
@@ -111,19 +106,14 @@ export const getLinks = (role: string) => {
         { to: "/create-news", title: "Створити новину" },
         { to: "/create-event", title: "Створити подію" },
         { to: "/register-user", title: "Створити користувача" },
-        { to: "/create-group", title: "Створити клас" },
-        { to: "/groups", title: "Усі класи" },
       ])
     case access.teacher.keyWord:
       return getLinks([
         { to: "/create-news", title: "Створити новину" },
         { to: "/create-event", title: "Створити подію" },
-        { to: "/groups", title: "Усі класи" },
       ])
-    case access.student.keyWord:
-      return getLinks([{ to: "/groups", title: "Усі класи" }])
     case access.user.keyWord:
-      return getLinks([{ to: "/groups", title: "Усі класи" }])
+      return [...allLinks]
     default:
       return [...allLinks]
   }
@@ -134,7 +124,6 @@ const mainRoutes = [
   { path: "/about", Component: About },
   { path: "/team", Component: Team },
   { path: "/graduates", Component: Graduates },
-  { path: "/achievement", Component: Achievement },
   { path: "/news", exact: true, Component: NewsEvents },
   { path: "/events", exact: true, Component: NewsEvents },
   { path: "/library", exact: true, Component: Library },
@@ -158,10 +147,6 @@ export const routes = {
     { path: "/create-event", Component: ModNewsEvent },
     { path: "/edit-news/:contentId", Component: ModNewsEvent },
     { path: "/edit-event/:contentId", Component: ModNewsEvent },
-    { path: "/create-group", Component: ModGroup },
-    { path: "/edit-group/:groupId", Component: ModGroup },
-    { path: "/groups", exact: true, Component: Groups },
-    { path: "/groups/:groupId", Component: Groups },
   ],
   teacher: [
     ...mainRoutes,
@@ -169,18 +154,7 @@ export const routes = {
     { path: "/create-event", Component: ModNewsEvent },
     { path: "/edit-news/:contentId", Component: ModNewsEvent },
     { path: "/edit-event/:contentId", Component: ModNewsEvent },
-    { path: "/groups", exact: true, Component: Groups },
-    { path: "/groups/:groupId", Component: Groups },
   ],
-  student: [
-    ...mainRoutes,
-    { path: "/groups", exact: true, Component: Groups },
-    { path: "/groups/:groupId", Component: Groups },
-  ],
-  user: [
-    ...mainRoutes,
-    { path: "/groups", exact: true, Component: Groups },
-    { path: "/groups/:groupId", Component: Groups },
-  ],
+  user: [...mainRoutes],
   unregistered: [...mainRoutes],
 }

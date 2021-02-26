@@ -277,68 +277,6 @@ export const DELETE_UNREAD_MESSAGES = gql`
   }
 `
 
-export const CREATE_GROUP = gql`
-  mutation CREATE_GROUP($name: String!, $owner: ID!) {
-    createGroup(name: $name, owner: $owner) {
-      id
-      owner {
-        id
-        username
-        email
-        ava
-        color
-        firstname
-        lastname
-        role
-      }
-      name
-      date
-    }
-  }
-`
-
-export const EDIT_GROUP = gql`
-  mutation EDIT_GROUP($groupId: ID!, $name: String!, $owner: ID!) {
-    editGroup(groupId: $groupId, name: $name, owner: $owner) {
-      id
-      owner {
-        id
-        username
-        email
-        ava
-        color
-        firstname
-        lastname
-        role
-      }
-      name
-      date
-    }
-  }
-`
-
-export const DELETE_GROUP = gql`
-  mutation DELETE_GROUP($groupId: ID!) {
-    deleteGroup(groupId: $groupId) {
-      message
-      type
-    }
-  }
-`
-
-export const PINUNPIN_STUDENTS_GROUP = gql`
-  mutation PINUNPIN_STUDENTS_GROUP(
-    $groupId: ID!
-    $students: [ID]!
-    $pin: Boolean!
-  ) {
-    pinUnpinStudentsGroup(groupId: $groupId, students: $students, pin: $pin) {
-      message
-      type
-    }
-  }
-`
-
 export const CREATE_UPLOAD = gql`
   mutation CREATE_UPLOAD(
     $hashtags: String

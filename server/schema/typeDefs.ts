@@ -77,12 +77,6 @@ export default gql`
     type: String!
     message: String!
   }
-  type Group {
-    id: ID!
-    owner: User!
-    name: String!
-    date: String!
-  }
   type User {
     id: ID!
     username: String!
@@ -97,7 +91,6 @@ export default gql`
     address: String
     birth: String
     role: String!
-    group: Group
     date: String!
   }
   type Message {
@@ -207,10 +200,6 @@ export default gql`
     getNotifications: [Notification]!
     getChatUsers(chatId: ID!): [User]!
     getUnreadMessages: [Message]!
-    getTeachers: [User]!
-    getStudentsGroup(groupId: ID!): [User]!
-    getGroups: [Group]!
-    getStudentsNoGroup: [User]!
   }
   type Mutation {
     createPageSection(
@@ -261,10 +250,6 @@ export default gql`
       upload: Upload
     ): Msg!
     deleteUpload(imageId: ID!): Msg!
-    createGroup(owner: ID!, name: String!): Group!
-    editGroup(groupId: ID!, owner: ID!, name: String!): Group!
-    deleteGroup(groupId: ID!): Msg!
-    pinUnpinStudentsGroup(groupId: ID!, students: [ID]!, pin: Boolean!): Msg!
     createChat(
       title: String!
       description: String

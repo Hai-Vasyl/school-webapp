@@ -56,8 +56,6 @@ const Routes = () => {
         return mapReduce(routes.admin)
       case access.teacher.keyWord:
         return mapReduce(routes.teacher)
-      case access.student.keyWord:
-        return mapReduce(routes.student)
       case access.user.keyWord:
         return mapReduce(routes.user)
       default:

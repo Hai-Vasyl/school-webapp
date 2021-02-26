@@ -16,12 +16,11 @@ const schema = new Schema({
   phone: { type: String, default: "" },
   address: { type: String, default: "" },
   birth: { type: Date, default: "" },
-  group: { type: Types.ObjectId, ref: "Group" },
   role: {
     type: String,
     required: true,
     default: "user",
-    enum: ["user", "admin", "teacher", "student"],
+    enum: ["user", "admin", "teacher"],
   },
   date: { type: Date, required: true },
 })

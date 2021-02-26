@@ -21,16 +21,6 @@ export interface IChatOwner {
   username: string
 }
 
-// export interface IChatLink {
-//   id: string
-//   image: string
-//   owner: {
-//     id: string
-//   }
-//   title: string
-//   type: string
-// }
-
 export interface IUserLink {
   id: string
   username: string
@@ -123,22 +113,6 @@ export interface IMessageToast {
     type: string
     image: string
   }
-}
-
-export interface IGroup {
-  id: string
-  owner: {
-    id: string
-    username: string
-    email: string
-    ava: string
-    color: string
-    firstname: string
-    lastname: string
-    role: string
-  }
-  name: string
-  date: string
 }
 
 export interface IToast {
