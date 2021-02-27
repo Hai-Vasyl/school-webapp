@@ -6,9 +6,6 @@
     // box-shadow: getShadow(main);
     .form__content {
       box-shadow: none;
-      &:first-child {
-        border-right: 1px solid getColor(main-dark);
-      }
     }
   }
   &__content {

@@ -262,3 +262,13 @@
     align-self: center;
   }
 }
+
+.field_area {
+  &__input {
+    height: 150px;
+    font-family: inherit;
+    font-size: inherit;
+    resize: none;
+    @extend %scrollbar;
+  }
+}

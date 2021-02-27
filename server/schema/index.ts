@@ -33,6 +33,7 @@ import { Notification } from "./resolvers/notification"
 import { UploadFile } from "./resolvers/upload"
 import { NewsEvent } from "./resolvers/newsevent"
 import { PageSection } from "./resolvers/pagesection"
+import { Mutation as MEmail } from "./resolvers/email"
 
 const schema = {
   typeDefs,
@@ -50,6 +51,7 @@ const schema = {
       ...QFilters,
     },
     Mutation: {
+      ...MEmail,
       ...MChats,
       ...MMessages,
       ...MNotifications,

@@ -202,6 +202,12 @@ export default gql`
     getUnreadMessages: [Message]!
   }
   type Mutation {
+    sendEmail(
+      firstname: String!
+      lastname: String!
+      email: String!
+      message: String!
+    ): Msg!
     createPageSection(
       url: String!
       title: String!

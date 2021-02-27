@@ -2,7 +2,9 @@ import { IField } from "../interfaces"
 
 const useChangeInput = () => {
   const changeInput = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
     setForm: any
   ) => {
     const { value, name } = event.target

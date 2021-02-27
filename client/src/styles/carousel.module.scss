@@ -186,17 +186,27 @@
   }
   &__overlay {
     @extend %position-extend;
-    background-color: getColor(accent);
+    // background-color: getColor(accent);
+    // background-color: rgba(255, 255, 255, 0.1);
+    // background-color: getColor(accent);
+    // background-color: getColor(bg);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 4;
     clip-path: polygon(0 0, 23% 0, 50% 100%, 0% 100%);
   }
   &__overlay_second {
-    background-color: getColor(main);
-    // background-color: getColor(accent-main);
+    background-color: transparent;
     clip-path: polygon(0 0, 24% 0, 51% 100%, 0% 100%);
   }
   &__overlay_third {
-    background-color: getColor(main);
+    // background-color: getColor(accent-second);
+    background-color: transparent;
+    // background-color: rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(
+      to top right,
+      rgba(182, 19, 19, 0.4),
+      rgba(18, 55, 191, 0.9)
+    );
     // background-color: getColor(accent-main);
     clip-path: polygon(0 0, 45% 0, 10% 100%, 0% 100%);
   }

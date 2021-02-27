@@ -318,8 +318,11 @@
     border-bottom: 1px solid getColor(main-dark);
     display: flex;
     align-items: center;
-    font-weight: bold;
     font-family: getFont(third);
+    transition: getTransition(main);
+    &:hover {
+      color: getColor(accent-second);
+    }
   }
   &__link_icon {
     font-size: 15px;
