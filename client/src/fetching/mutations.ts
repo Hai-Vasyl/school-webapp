@@ -389,6 +389,7 @@ export const CREATE_PAGE_SECTION = gql`
     $content: String!
     $priority: Int!
     $filters: [InputFilter]!
+    $optContent: Boolean
   ) {
     createPageSection(
       url: $url
@@ -396,6 +397,7 @@ export const CREATE_PAGE_SECTION = gql`
       content: $content
       priority: $priority
       filters: $filters
+      optContent: $optContent
     ) {
       message
       type

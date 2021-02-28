@@ -40,6 +40,7 @@ interface ModSectionFormProps {
   onDelete?(): any
   onEdit?(): any
   resetFilters?(): any
+  isOptContent?: boolean
 }
 
 const ModSectionForm: React.FC<ModSectionFormProps> = ({
@@ -51,6 +52,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   onDelete,
   onEdit,
   resetFilters,
+  isOptContent
 }) => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -81,7 +83,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
 
   const [
     createPageSection,
-    { data: dataCreate, loading: loadCreate, error: errorCreate },
+    { data: dataCreate, loading: loadCreate, error: errorCreate,  },
   ] = useMutation(CREATE_PAGE_SECTION)
   const [
     editPageSection,
@@ -98,7 +100,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
     const data = dataCreate && dataCreate.createPageSection
     if (errorCreate) {
       setErrors(errorCreate.message, setForm)
-      setErrors(errorCreate.message, setFilters)
+      setFilters && setErrors(errorCreate.message, setFilters)
       dispatch({
         type: SET_TOAST,
         payload: {
@@ -178,6 +180,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           title: title.value.trim(),
           content: content.value.trim(),
           priority: Number(priority.value),
+          optContent: isOptContent,
           filters: filters
             ? filters.map((field) => ({
                 keyWord: field.param,

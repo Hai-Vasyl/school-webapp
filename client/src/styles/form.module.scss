@@ -2,7 +2,6 @@
 
 .form {
   display: flex;
-  border: 1px solid getColor(main-dark);
   &__extend {
     // box-shadow: getShadow(main);
     .form__content {
@@ -26,7 +25,6 @@
   &__sidebar {
     width: 50%;
     background-color: getColor(main);
-    border-left: 1px solid getColor(main-dark);
   }
   &__title {
     height: 70px;

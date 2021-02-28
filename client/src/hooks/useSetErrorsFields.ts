@@ -18,7 +18,7 @@ const useSetErrorsFields = () => {
               errors[key].msg.forEach((msg) => {
                 newField.msg += ` ${msg}`
               })
-            newField.msg = newField.msg.trim()
+            newField.msg = newField.msg ? newField.msg.trim() : ""
           }
         })
         return newField

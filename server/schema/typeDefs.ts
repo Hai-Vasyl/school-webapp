@@ -24,7 +24,7 @@ export default gql`
     page: ID!
     url: String!
     title: String!
-    content: String!
+    content: String
     priority: Int!
     filters: [Filter]!
     owner: User!
@@ -214,6 +214,7 @@ export default gql`
       content: String!
       priority: Int!
       filters: [InputFilter]!
+      optContent: Boolean
     ): Msg!
     editPageSection(
       sectionId: ID!

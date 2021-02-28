@@ -25,7 +25,7 @@ const NavbarPage: React.FC<INavbarPageProps> = ({
     auth: { user },
   } = useSelector((state: RootStore) => state)
 
-  return sectionLinks.length > 1 || user.role === access.admin.keyWord ? (
+  return (
     <div className={styles.navbar}>
       <div className={`wrapper ${styles.navbar__menu}`}>
         {sectionLinks.length > 1 && (
@@ -39,7 +39,7 @@ const NavbarPage: React.FC<INavbarPageProps> = ({
         )}
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default NavbarPage

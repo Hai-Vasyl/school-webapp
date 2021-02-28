@@ -101,7 +101,7 @@ export const Query = {
 export const Mutation = {
   async createPageSection(
     _: any,
-    { title, content, priority, url, filters }: IField,
+    { title, content, priority, url, filters, optContent }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
@@ -115,7 +115,12 @@ export const Mutation = {
         priority: vPriority,
         url: vUrl,
         isError,
-      }: any = await createEditValid({ title, content, priority, url })
+      }: any = await createEditValid({
+        title,
+        content: optContent ? undefined : content,
+        priority,
+        url,
+      })
       let errors: any = {}
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
@@ -131,7 +136,7 @@ export const Mutation = {
         throw new Error(
           JSON.stringify({
             title: vTitle,
-            content: vContent,
+            content: optContent ? { value: "", msg: [] } : vContent,
             priority: vPriority,
             url: vUrl,
             ...errors,
