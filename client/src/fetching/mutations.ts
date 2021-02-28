@@ -432,3 +432,22 @@ export const DELETE_PAGE_SECTION = gql`
     }
   }
 `
+
+export const SEND_EMAIL = gql`
+  mutation SEND_EMAIL(
+    $firstname: String!
+    $lastname: String!
+    $email: String!
+    $message: String!
+  ) {
+    sendEmail(
+      firstname: $firstname
+      lastname: $lastname
+      email: $email
+      message: $message
+    ) {
+      message
+      type
+    }
+  }
+`

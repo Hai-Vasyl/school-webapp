@@ -28,12 +28,12 @@ export const Mutation = {
 
       const output = `
         <h2>У вас нове повідомлення!</h2>
-        <h4>Подробиці повідомлення</h4>
+        <h4>Подробиці повідомлення:</h4>
         <ul>
           <li>Повне ім'я: ${firstname} ${lastname}</li>
           <li>Електронна пошта: ${email}</li>
         </ul>
-        <h4>Повідомлення</h4>
+        <h4>Повідомлення:</h4>
         <p>${message}</p>`
 
       let transporter = nodemailer.createTransport({
@@ -47,27 +47,24 @@ export const Mutation = {
         },
       })
 
-      transporter.sendMail(
-        {
-          from: process.env.EMAIL_FROM,
-          to: process.env.EMAIL_TO,
-          subject: "Contacts request",
-          text: "",
-          html: output,
-        },
-        (error) => {
-          if (error) {
-            return {
-              message: "Помилка надсилання повідомлення!",
-              type: types.error.keyWord,
-            }
-          }
-          return {
-            message: "Повідомлення було успішно надіслано",
-            type: types.success.keyWord,
-          }
+      const response = await transporter.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: process.env.EMAIL_TO,
+        subject: "Нове повідомлення",
+        text: "Нове повідомлення",
+        html: output,
+      })
+
+      if (response.error) {
+        return {
+          message: "Помилка надсилання повідомлення!",
+          type: types.error.keyWord,
         }
-      )
+      }
+      return {
+        message: "Повідомлення було успішно надіслано",
+        type: types.success.keyWord,
+      }
     } catch (error) {
       throw new Error(error.message)
     }

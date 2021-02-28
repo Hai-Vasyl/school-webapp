@@ -2,6 +2,7 @@
 
 .form {
   display: flex;
+  border: 1px solid getColor(main-dark);
   &__extend {
     // box-shadow: getShadow(main);
     .form__content {
@@ -25,13 +26,15 @@
   &__sidebar {
     width: 50%;
     background-color: getColor(main);
-    // @extend %background-accent;
+    border-left: 1px solid getColor(main-dark);
   }
   &__title {
     height: 70px;
     @extend %flex-center;
-    border-bottom: 1px solid getColor(main-dark);
+    // border-bottom: 1px solid getColor(main-dark);
     background-color: getColor(main);
+    font-weight: bold;
+    font-family: getFont(third);
     position: relative;
   }
   &__title_text {

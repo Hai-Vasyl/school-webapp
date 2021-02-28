@@ -139,7 +139,7 @@ blockquote {
 
 .wrapper {
   @extend %wrapper;
-  padding: 20px;
+  padding: 50px 20px;
 }
 
 .wrapper-text {
@@ -201,4 +201,10 @@ iframe {
   max-width: 750px;
   height: 100%;
   margin: 0 auto;
+}
+
+.icon_location {
+  font-size: 2.3em;
+  color: red;
+  filter: drop-shadow(4px 5px 5px rgba(0, 0, 0, 0.429));
 }
