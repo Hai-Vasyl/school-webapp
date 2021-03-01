@@ -44,6 +44,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
       url: pathname,
     },
   })
+
   const [toggleCreate, setToggleCreate] = useState(false)
 
   useEffect(() => {

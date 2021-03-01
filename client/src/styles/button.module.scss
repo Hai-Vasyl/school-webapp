@@ -186,11 +186,11 @@
   display: flex;
   background-color: getColor(secondary);
   border: 1px solid getColor(main-dark);
-  // border-radius: getRadius(main);
   width: 30px;
   height: 30px;
   box-shadow: getShadow(thin);
   transition: getTransition(main);
+  cursor: pointer;
   & > * {
     font-size: 18px;
     margin: auto;

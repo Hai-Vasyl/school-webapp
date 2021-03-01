@@ -4,14 +4,15 @@ import styles from "../styles/loader.module"
 
 interface ILoaderDataProps {
   load: boolean
+  noSpiner?: boolean
 }
 
-const LoaderData: React.FC<ILoaderDataProps> = ({ load }) => {
+const LoaderData: React.FC<ILoaderDataProps> = ({ load, noSpiner = false }) => {
   return (
     <div
       className={`${styles.loader_data} ${load && styles.loader_data__active}`}
     >
-      <div className={styles.loader_data__spinner}></div>
+      {!noSpiner && <div className={styles.loader_data__spinner}></div>}
     </div>
   )
 }

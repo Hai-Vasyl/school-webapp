@@ -188,7 +188,6 @@ export default gql`
       role: String
       group: String
     ): Auth
-    getPages: [Page]!
     getImages(from: Int!, to: Int!, search: String, type: String): Images!
     getImage(imageId: ID!): UploadFile!
     getPage(url: String!): Page
@@ -286,7 +285,7 @@ export default gql`
     addUserAccess(chatId: ID, userId: ID!): [Chat]!
     removeUserAccess(chatId: ID!, userId: ID): [Chat]!
     setMessageRead(messageId: ID!): String!
-    setPageImage(url: String!, image: Upload, deleting: Boolean!): Page!
+    setPageImage(url: String!, image: Upload, deleting: Boolean!): Msg!
   }
   type Subscription {
     newMessage(channels: [String]!): Message!

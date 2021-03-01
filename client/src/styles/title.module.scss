@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   &__image {
     @extend %image;
     @extend %position-extend;
@@ -17,8 +18,8 @@
     z-index: 2;
     background-image: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.7),
-      rgba(0, 0, 0, 0.5)
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
     );
   }
   &__text {
@@ -41,5 +42,17 @@
     //   background-color: getColor(bg-night);
     //   border-bottom: 1px solid getColor(bg-light);
     // }
+  }
+  &__btns {
+    position: absolute;
+    width: 1160px;
+    max-width: 100%;
+    top: 50%;
+    z-index: 2;
+    @extend %flex-center;
+    justify-content: flex-end;
+    & > *:first-child {
+      margin-right: 5px;
+    }
   }
 }

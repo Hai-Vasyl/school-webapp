@@ -15,38 +15,24 @@ export const Query = {
       throw new Error(`Getting page error: ${error.message}`)
     }
   },
-  // async getPages(_: any, __: any, { isAuth }: { isAuth: IIsAuth }) {
-  //   try {
-  //     if (!isAuth.auth) {
-  //       throw new Error("Access denied!")
-  //     }
-  //     //TODO: add validation and check in models
-
-  //     const pages = await Page.find()
-  //     return pages
-  //   } catch (error) {
-  //     throw new Error(`Getting all pages error: ${error.message}`)
-  //   }
-  // },
 }
 
 export const Mutation = {
   async setPageImage(
     _: any,
-    { url, image, deleting }: IField,
+    { url, image: uploadImage, deleting }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
       if (!isAuth.auth) {
         throw new Error("Access denied!")
       }
-      //TODO: add validation and check in models
 
       const page: any = await Page.findOne({ url })
       if (!page) {
         let uploaded
-        if (image) {
-          uploaded = await uploadFile(image, chatUserBucket || "")
+        if (!!uploadImage) {
+          uploaded = await uploadFile(uploadImage, chatUserBucket || "")
         }
         const newPage = new Page({
           url,
@@ -63,9 +49,9 @@ export const Mutation = {
             await deleteFile(page.imageKey, chatUserBucket || "")
           }
         } else {
-          if (image) {
+          if (!!uploadImage) {
             const uploaded = await updateFile(
-              image,
+              uploadImage,
               page.imageKey,
               chatUserBucket || ""
             )
@@ -73,7 +59,6 @@ export const Mutation = {
             imageKey = uploaded.Key
           }
         }
-
         await Page.updateOne({ url }, { image, imageKey, date: new Date() })
       }
 
@@ -82,7 +67,7 @@ export const Mutation = {
         message: "Зображення оновлено успішно!",
       }
     } catch (error) {
-      throw new Error(`Update image page error: ${error.message}`)
+      throw new Error(`Updating image page error: ${error.message}`)
     }
   },
 }

@@ -20,11 +20,8 @@ export const CREATE_MESSAGE = gql`
 export const SET_PAGE_IMAGE = gql`
   mutation SET_PAGE_IMAGE($url: String!, $image: Upload, $deleting: Boolean!) {
     setPageImage(url: $url, image: $image, deleting: $deleting) {
-      id
-      url
-      image
-      imageKey
-      date
+      message
+      type
     }
   }
 `

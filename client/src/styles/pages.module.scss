@@ -50,9 +50,11 @@
   animation: fade-in getTransition(slow);
   &__close {
     display: none;
+    margin-bottom: 0px;
   }
   &__active {
     display: block;
+    margin-bottom: 0px;
   }
   &__content {
     position: relative;
