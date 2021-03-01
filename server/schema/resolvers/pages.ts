@@ -4,6 +4,7 @@ import { uploadFile, deleteFile, updateFile } from "../helpers/crudBucket"
 import { config } from "dotenv"
 config({ path: "../../../.env" })
 const { AWS_CHAT_USER_BUCKET: chatUserBucket } = process.env
+import { types } from "../../modules/messageTypes"
 
 export const Query = {
   async getPage(_: any, { url }: { url: string }) {
@@ -75,10 +76,13 @@ export const Mutation = {
 
         await Page.updateOne({ url }, { image, imageKey, date: new Date() })
       }
-      const modPage = await Page.findOne({ url })
-      return modPage
+
+      return {
+        type: types.success.keyWord,
+        message: "Зображення оновлено успішно!",
+      }
     } catch (error) {
-      throw new Error(`Update page error: ${error.message}`)
+      throw new Error(`Update image page error: ${error.message}`)
     }
   },
 }

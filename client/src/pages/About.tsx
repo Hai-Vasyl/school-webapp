@@ -18,6 +18,7 @@ import ModSectionForm from "../components/ModSectionForm"
 import NewsEventsModule from "../components/NewsEventsModule"
 import NavbarPage from "../components/NavbarPage"
 import SectionAbout from "../components/SectionAbout"
+import LayoutTabs from "../components/LayoutTabs"
 
 const About: React.FC = () => {
   const [activeSection, setActiveSection] = useState("")
@@ -60,54 +61,55 @@ const About: React.FC = () => {
     setToggleCreate((prev) => !prev)
   }
 
-  const sectionsJSX =
-    sections &&
-    sections.map((section: IPageSection) => {
-      return (
-        <PageSection
-          key={section.id}
-          info={section}
-          filters={[]}
-          onDelete={handleRefetchAll}
-          onEdit={handleRefetchAll}
-        >
-          <SectionAbout
-            info={section}
-            onCreate={refetchSections}
-            onEdit={refetchSections}
-            onRemove={refetchSections}
-            isOwnerContent={user.role === access.admin.keyWord}
-          />
-        </PageSection>
-      )
-    })
+  // const sectionsJSX =
+  //   sections &&
+  //   sections.map((section: IPageSection) => {
+  //     return (
+  //       <PageSection
+  //         key={section.id}
+  //         info={section}
+  //         filters={[]}
+  //         onDelete={handleRefetchAll}
+  //         onEdit={handleRefetchAll}
+  //       >
+  //         <SectionAbout
+  //           info={section}
+  //           onCreate={refetchSections}
+  //           onEdit={refetchSections}
+  //           onRemove={refetchSections}
+  //           isOwnerContent={user.role === access.admin.keyWord}
+  //         />
+  //       </PageSection>
+  //     )
+  //   })
 
-  return (
-    <div className='container'>
-      <Title title='Про школу' />
-      <NavbarPage
-        sectionLinks={
-          sections ? sections.map((item: IPageSection) => item.title) : []
-        }
-        setActiveSection={handleSetActivSection}
-        onCreate={toggleCreateForm}
-        toggle={toggleCreate}
-      />
-      {user.role === access.admin.keyWord && toggleCreate && (
-        <ModSectionForm onCreate={handleCreate} />
-      )}
-      <div className='wrapper'>
-        {loadSections ? (
-          <Loader />
-        ) : sections.length ? (
-          <div className='wrapper-text'>{sectionsJSX}</div>
-        ) : (
-          <div className='plug-text'>Порожньо</div>
-        )}
-      </div>
-      <NewsEventsModule isNews={true} />
-    </div>
-  )
+  // return (
+  //   <div className='container'>
+  //     <Title title='Про школу' />
+  //     <NavbarPage
+  //       sectionLinks={
+  //         sections ? sections.map((item: IPageSection) => item.title) : []
+  //       }
+  //       setActiveSection={handleSetActivSection}
+  //       onCreate={toggleCreateForm}
+  //       toggle={toggleCreate}
+  //     />
+  //     {user.role === access.admin.keyWord && toggleCreate && (
+  //       <ModSectionForm onCreate={handleCreate} />
+  //     )}
+  //     <div className='wrapper'>
+  //       {loadSections ? (
+  //         <Loader />
+  //       ) : sections.length ? (
+  //         <div className='wrapper-text'>{sectionsJSX}</div>
+  //       ) : (
+  //         <div className='plug-text'>Порожньо</div>
+  //       )}
+  //     </div>
+  //     <NewsEventsModule isNews={true} />
+  //   </div>
+  // )
+  return <LayoutTabs title='Про школу' />
 }
 
 export default About
