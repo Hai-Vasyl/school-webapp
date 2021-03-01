@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react"
-// import { useDispatch } from "react-redux"
-import { GET_PAGE, GET_PAGE_SECTIONS } from "../fetching/queries"
+import { GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "../components/Title"
-import ButtonTab from "../components/ButtonTab"
-import { BsPlus, BsX } from "react-icons/bs"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import { useLocation } from "react-router-dom"
@@ -12,22 +9,17 @@ import Loader from "../components/Loader"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
-import { IPageSection, IField } from "../interfaces"
+import { IPageSection } from "../interfaces"
 import PageSection from "../components/PageSection"
 import ModSectionForm from "../components/ModSectionForm"
 import NewsEventsModule from "../components/NewsEventsModule"
 import NavbarPage from "../components/NavbarPage"
 import SectionAbout from "../components/SectionAbout"
+import SideNavbar from "../components/SideNavbar"
 
 const Management: React.FC = () => {
   const [activeSection, setActiveSection] = useState("")
-
-  const handleSetActivSection = (link: string) => {
-    setActiveSection(link)
-  }
-
   const { pathname } = useLocation()
-
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
@@ -45,11 +37,12 @@ const Management: React.FC = () => {
   })
   const [toggleCreate, setToggleCreate] = useState(false)
 
-  const toggleCreateForm = () => {
-    setToggleCreate((prev) => !prev)
-  }
-
-  const sections = dataSections ? dataSections.getPageSections.items : []
+  useEffect(() => {
+    const data = dataSections && dataSections.getPageSections
+    if (data) {
+      setActiveSection(data.items[0].title)
+    }
+  }, [dataSections])
 
   const handleRefetchAll = () => {
     refetchSections()
@@ -60,37 +53,49 @@ const Management: React.FC = () => {
     setToggleCreate((prev) => !prev)
   }
 
+  const sections = dataSections ? dataSections.getPageSections.items : []
   const links = sections ? sections.map((item: IPageSection) => item.title) : []
 
   const sectionsJSX =
     sections &&
     sections.map((section: IPageSection) => {
       return (
-        <PageSection
+        <div
+          className={
+            activeSection === section.title
+              ? styles.section__active
+              : styles.section__close
+          }
           key={section.id}
-          info={section}
-          filters={[]}
-          onDelete={handleRefetchAll}
-          onEdit={handleRefetchAll}
         >
-          <SectionAbout
+          <PageSection
             info={section}
-            onCreate={refetchSections}
-            onEdit={refetchSections}
-            onRemove={refetchSections}
-            isOwnerContent={user.role === access.admin.keyWord}
-          />
-        </PageSection>
+            filters={[]}
+            onDelete={handleRefetchAll}
+            onEdit={handleRefetchAll}
+            isOptContent
+          >
+            <SectionAbout
+              info={section}
+              onCreate={refetchSections}
+              onEdit={refetchSections}
+              onRemove={refetchSections}
+              privateType
+              isOwnerContent={user.role === access.admin.keyWord}
+            />
+          </PageSection>
+        </div>
       )
     })
 
   return (
     <div className='container'>
-      <Title title='Про школу' />
+      <Title title='Управління' />
       <NavbarPage
         sectionLinks={links}
-        setActiveSection={handleSetActivSection}
-        onCreate={toggleCreateForm}
+        setActiveSection={setActiveSection}
+        activeSection={activeSection}
+        onCreate={() => setToggleCreate((prev) => !prev)}
         toggle={toggleCreate}
       />
       {user.role === access.admin.keyWord && toggleCreate && (
@@ -100,13 +105,16 @@ const Management: React.FC = () => {
         {loadSections ? (
           <Loader />
         ) : sections.length ? (
-          <div className='wrapper'>
-            <div>
-              {links.map((link: string) => {
-                return <button>{link}</button>
-              })}
+          <div className={styles.page_wrapper_flex}>
+            <SideNavbar
+              links={links}
+              active={activeSection}
+              setActive={setActiveSection}
+              exClass={styles.page_wrapper_flex__sidebar}
+            />
+            <div className={styles.page_wrapper_flex__content}>
+              {sectionsJSX}
             </div>
-            <div className='wrapper-text'>{sectionsJSX}</div>
           </div>
         ) : (
           <div className='plug-text'>Порожньо</div>

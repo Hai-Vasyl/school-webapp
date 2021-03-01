@@ -247,7 +247,8 @@ $gradients: (
 
 %wrapper-text {
   @extend %wrapper;
-  width: 750px;
+  padding: 0px;
+  width: 710px;
 }
 
 %position-extend {

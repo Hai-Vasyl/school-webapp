@@ -412,6 +412,7 @@ export const EDIT_PAGE_SECTION = gql`
     $content: String!
     $priority: Int!
     $filters: [InputFilterEdit]!
+    $optContent: Boolean
   ) {
     editPageSection(
       sectionId: $sectionId
@@ -419,6 +420,7 @@ export const EDIT_PAGE_SECTION = gql`
       content: $content
       priority: $priority
       filters: $filters
+      optContent: $optContent
     ) {
       message
       type

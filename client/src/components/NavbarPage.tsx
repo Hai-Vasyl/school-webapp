@@ -10,7 +10,8 @@ import { BsX, BsPlus } from "react-icons/bs"
 
 interface INavbarPageProps {
   sectionLinks: string[]
-  setActiveSection(section: string): any
+  setActiveSection: any
+  activeSection: string
   onCreate(): any
   toggle: boolean
 }
@@ -18,6 +19,7 @@ interface INavbarPageProps {
 const NavbarPage: React.FC<INavbarPageProps> = ({
   sectionLinks,
   setActiveSection,
+  activeSection,
   onCreate,
   toggle,
 }) => {
@@ -29,7 +31,11 @@ const NavbarPage: React.FC<INavbarPageProps> = ({
     <div className={styles.navbar}>
       <div className={`wrapper ${styles.navbar__menu}`}>
         {sectionLinks.length > 1 && (
-          <ButtonMenu links={sectionLinks} click={setActiveSection} />
+          <ButtonMenu
+            links={sectionLinks}
+            active={activeSection}
+            setActive={setActiveSection}
+          />
         )}
         {user.role === access.admin.keyWord && (
           <div className={styles.navbar__create}>

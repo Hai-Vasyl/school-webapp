@@ -183,7 +183,7 @@ const Carousel: React.FC<ICarouselProps> = ({
                           exClass={`${stylesBtn.btn_tab_glass}`}
                           click={(event) =>
                             handlePopupEditImage(
-                              slides[params.currentItem].id,
+                              slides[params.currentItem].id || "",
                               event
                             )
                           }

@@ -241,6 +241,7 @@
 .btn_menu {
   position: relative;
   z-index: 10;
+  display: none;
   &__toggle {
     @extend %flex-center;
     flex-direction: column;

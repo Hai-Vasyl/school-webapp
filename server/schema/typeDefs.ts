@@ -222,6 +222,7 @@ export default gql`
       content: String!
       priority: Int!
       filters: [InputFilterEdit]!
+      optContent: Boolean
     ): Msg!
     deletePageSection(sectionId: ID!): Msg!
     createNewsEvent(

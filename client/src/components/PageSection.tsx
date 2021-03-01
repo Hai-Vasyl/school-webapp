@@ -25,6 +25,7 @@ interface IPageSectionProps {
   children: any
   onDelete?: any
   onEdit?: any
+  isOptContent: boolean
 }
 
 const PageSection: React.FC<IPageSectionProps> = ({
@@ -33,6 +34,7 @@ const PageSection: React.FC<IPageSectionProps> = ({
   filters,
   onDelete,
   onEdit,
+  isOptContent,
 }) => {
   const {
     auth: { user },
@@ -85,6 +87,7 @@ const PageSection: React.FC<IPageSectionProps> = ({
           setFilters={setForm}
           toggleEdiForm={handleToggleEdiForm}
           resetFilters={() => setInitFilters(filters)}
+          isOptContent={isOptContent}
         />
       ) : (
         <div className={styles.section__content}>

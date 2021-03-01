@@ -52,7 +52,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   onDelete,
   onEdit,
   resetFilters,
-  isOptContent
+  isOptContent,
 }) => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -83,7 +83,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
 
   const [
     createPageSection,
-    { data: dataCreate, loading: loadCreate, error: errorCreate,  },
+    { data: dataCreate, loading: loadCreate, error: errorCreate },
   ] = useMutation(CREATE_PAGE_SECTION)
   const [
     editPageSection,
@@ -164,6 +164,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           title: title.value.trim(),
           content: content.value.trim(),
           priority: Number(priority.value),
+          optContent: isOptContent,
           filters: filters
             ? filters.map((field) => ({
                 filterId: findFilterParams(data.filters, field.param)?.id,
@@ -246,11 +247,20 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
 
   const fields = form.map((field) => {
     if (field.param === "content") {
-      return <FieldEditor key={field.param} field={field} change={setForm} />
+      return (
+        <FieldEditor
+          key={field.param}
+          isImportant={!isOptContent}
+          field={field}
+          change={setForm}
+        />
+      )
     } else if (field.type === "number") {
       return <FieldNumber key={field.param} field={field} change={setForm} />
     }
-    return <Field key={field.param} field={field} change={setForm} />
+    return (
+      <Field key={field.param} isImportant field={field} change={setForm} />
+    )
   })
 
   return (

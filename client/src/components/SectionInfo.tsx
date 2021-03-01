@@ -6,16 +6,8 @@ import { Link } from "react-router-dom"
 import { convertContent } from "../helpers/convertContentEditor"
 import useFindFilter from "../hooks/useFindFilter"
 import ImgSection from "./ImgSection"
-import ButtonTab from "./ButtonTab"
-import { BsPlus } from "react-icons/bs"
-import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
-import { useDispatch } from "react-redux"
-import { types } from "../modules/uploadTypes"
-import ButtonDownload from "./ButtonDownload"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
-import { access } from "../modules/accessModifiers"
 import useFilterFiles from "../hooks/useFilterFiles"
+import FilesAttachment from "./FilesAttachment"
 
 interface SectionInfoProps {
   info: IPageSection
@@ -42,10 +34,6 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
   onEdit,
   onRemove,
 }) => {
-  const dispatch = useDispatch()
-  const {
-    auth: { user },
-  } = useSelector((state: RootStore) => state)
   const { findFilterParams } = useFindFilter()
   const { filterFiles } = useFilterFiles()
 
@@ -54,19 +42,6 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
     info.filters,
     subtitle ? subtitle.keyWord : ""
   )
-
-  const handlePopupCreateFile = () => {
-    dispatch({
-      type: MODIMAGE_OPEN,
-      payload: {
-        id: "",
-        content: info.id,
-        type: types.private.keyWord,
-        onCreate,
-        isFile: true,
-      },
-    })
-  }
 
   const { files, images } = filterFiles(info.uploads)
 
@@ -117,32 +92,13 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
         <div className={`${styles.content__main} ${styles.content__main_info}`}>
           {convertContent(info.content)}
         </div>
-        <div className={styles.content_info__uploads_title}>
-          <span>Прикріплені файли{!!files.length && ` (${files.length})`}</span>
-          {user.role === access.admin.keyWord && (
-            <ButtonTab Icon={BsPlus} click={handlePopupCreateFile} />
-          )}
-        </div>
-        {!!files.length ? (
-          <div className={styles.content_info__uploads}>
-            {files.map((item) => {
-              return (
-                <ButtonDownload
-                  key={item.id}
-                  link={item.location}
-                  title={item.description}
-                  uloadId={item.id}
-                  contentId={item.content}
-                  onEdit={onEdit}
-                  onRemove={onRemove}
-                  onCreate={onCreate}
-                />
-              )
-            })}
-          </div>
-        ) : (
-          <div className='plug-text'>Порожньо</div>
-        )}
+        <FilesAttachment
+          contentId={info.id}
+          files={files}
+          onEdit={onEdit}
+          onRemove={onRemove}
+          onCreate={onCreate}
+        />
       </div>
     </div>
   )
