@@ -1,11 +1,8 @@
 import React from "react"
+import LayoutTabs from "../components/LayoutTabs"
 
 const Schedule: React.FC = () => {
-  return (
-    <div>
-      <div>Schedule Page</div>
-    </div>
-  )
+  return <LayoutTabs title='Розклад занять' imgsPrivate />
 }
 
 export default Schedule

@@ -96,6 +96,7 @@ const ImageMod: React.FC = () => {
       msg: "",
     },
   ])
+
   const [preview, setPreview] = useState("")
   const { setErrors } = useSetErrorsFields()
 
@@ -123,10 +124,10 @@ const ImageMod: React.FC = () => {
   }, [isFile])
 
   useEffect(() => {
-    if (!imageId) {
+    if (toggle && !imageId) {
       resetForm()
     }
-  }, [resetForm, imageId])
+  }, [resetForm, toggle, imageId])
 
   const refreshForm = useCallback((imageData: IImageDetailed) => {
     setForm((prevForm) =>
@@ -155,21 +156,6 @@ const ImageMod: React.FC = () => {
     }
   }, [dataImage, refreshForm])
 
-  const clearDataForm = useCallback(() => {
-    setForm((prevForm) =>
-      prevForm.map((field) => {
-        if (field.param === "upload") {
-          return { ...field, value: null }
-        } else if (field.param === "hashtags") {
-          return field
-        } else {
-          return { ...field, value: "" }
-        }
-      })
-    )
-    setPreview("")
-  }, [])
-
   useEffect(() => {
     const dataCreateUpload = dataCreate && dataCreate.createUpload
     if (errorCreate) {
@@ -182,12 +168,11 @@ const ImageMod: React.FC = () => {
         },
       })
     } else if (dataCreateUpload) {
-      clearDataForm()
       onCreate && onCreate()
       dispatch({ type: SET_TOAST, payload: dataCreateUpload })
       dispatch({ type: MODIMAGE_CLOSE })
     }
-  }, [dispatch, dataCreate, clearDataForm, errorCreate])
+  }, [dispatch, dataCreate, errorCreate])
 
   useEffect(() => {
     const dataEditUpload = dataEdit && dataEdit.editUpload
@@ -240,7 +225,7 @@ const ImageMod: React.FC = () => {
   }
 
   const afterChangeFile = (file: any) => {
-    const type = file.type.split("/")[0]
+    const type = file && file.type.split("/")[0]
     if (type === "image") {
       setPreview(URL.createObjectURL(file))
     } else {

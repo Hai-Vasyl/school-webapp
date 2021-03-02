@@ -9,7 +9,7 @@ import ButtonTab from "./ButtonTab"
 import { BsX, BsPlus } from "react-icons/bs"
 
 interface INavbarPageProps {
-  sectionLinks: string[]
+  sectionLinks: { title: string; id: string }[]
   setActiveSection: any
   activeSection: string
   onCreate(): any

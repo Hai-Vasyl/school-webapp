@@ -31,14 +31,10 @@ const FieldFile: React.FC<IFieldFileProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     check && check()
-    if (event.target.files) {
-      changeFile(
-        change,
-        field.param,
-        multiple ? event.target.files : event.target.files[0]
-      )
-      afterChange &&
-        afterChange(multiple ? event.target.files : event.target.files[0])
+    const { files } = event.target
+    if (files && files.length) {
+      changeFile(change, field.param, multiple ? files : files[0])
+      afterChange && afterChange(multiple ? files : files[0])
     }
   }
 

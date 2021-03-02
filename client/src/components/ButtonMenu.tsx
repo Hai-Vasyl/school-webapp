@@ -8,7 +8,7 @@ import { RootStore } from "../redux/store"
 interface IButtonMenuProps {
   active?: string
   setActive: any
-  links: string[]
+  links: { title: string; id: string }[]
 }
 
 const ButtonMenu: React.FC<IButtonMenuProps> = ({
@@ -26,16 +26,16 @@ const ButtonMenu: React.FC<IButtonMenuProps> = ({
     dispatch({ type: MENU_PAGE_TOGGLE })
   }
 
-  const btns = links.map((link, index) => {
+  const btns = links.map((link) => {
     return (
       <button
-        key={link + index}
-        onClick={() => handleSetActive(link)}
+        key={link.id}
+        onClick={() => handleSetActive(link.id)}
         className={`${styles.btn_menu__link} ${
-          active === link && styles.btn_menu__link__active
+          active === link.id && styles.btn_menu__link__active
         }`}
       >
-        {link}
+        {link.title}
       </button>
     )
   })

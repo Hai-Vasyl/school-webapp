@@ -49,8 +49,8 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   useEffect(() => {
     const data = dataSections && dataSections.getPageSections
-    if (data && initLoad) {
-      setActiveSection(data.items[0].title)
+    if (data && data.items.length && initLoad) {
+      setActiveSection(data.items[0].id)
       setInitLoad(false)
     }
   }, [dataSections])
@@ -65,7 +65,9 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
   }
 
   const sections = dataSections ? dataSections.getPageSections.items : []
-  const links = sections ? sections.map((item: IPageSection) => item.title) : []
+  const links = sections
+    ? sections.map((item: IPageSection) => ({ title: item.title, id: item.id }))
+    : []
 
   const sectionsJSX =
     sections &&
@@ -73,7 +75,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
       return (
         <div
           className={
-            activeSection === section.title
+            activeSection === section.id
               ? styles.section__active
               : styles.section__close
           }
@@ -117,12 +119,14 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
           <Loader />
         ) : sections.length ? (
           <div className={styles.page_wrapper_flex}>
-            <SideNavbar
-              links={links}
-              active={activeSection}
-              setActive={setActiveSection}
-              exClass={styles.page_wrapper_flex__sidebar}
-            />
+            {links.length > 1 && (
+              <SideNavbar
+                links={links}
+                active={activeSection}
+                setActive={setActiveSection}
+                exClass={styles.page_wrapper_flex__sidebar}
+              />
+            )}
             <div className={styles.page_wrapper_flex__content}>
               {sectionsJSX}
             </div>
