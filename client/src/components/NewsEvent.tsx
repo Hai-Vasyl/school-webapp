@@ -1,15 +1,16 @@
 import React from "react"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
-import { INewsEvent } from "../interfaces"
+import { INewsEventSlider } from "../interfaces"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import { Link } from "react-router-dom"
 import ImgPreviewSection from "./ImgPreviewSection"
 import { getParamsByType } from "../modules/uploadTypes"
+import { RiExternalLinkLine } from "react-icons/ri"
 
 interface INewsEventProps {
   isNews: boolean
-  info: INewsEvent
+  info: INewsEventSlider
 }
 
 const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
@@ -43,7 +44,8 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
             className={styles.content__categoty}
             to={`/news?page=1&category=${info.category}`}
           >
-            {linkParams?.title}
+            <RiExternalLinkLine className={styles.content__categoty_icon} />
+            <span>{linkParams?.title}</span>
           </Link>
         </div>
         <div className={styles.content__links}>

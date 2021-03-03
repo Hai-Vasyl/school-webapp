@@ -5,7 +5,7 @@ import { INewsEventSlider, ISliderParams } from "../interfaces"
 import { convertContent } from "../helpers/convertContentEditor"
 import { BiTime } from "react-icons/bi"
 import { RiExternalLinkLine } from "react-icons/ri"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import Button from "./Button"
 // @ts-ignore
@@ -18,6 +18,7 @@ interface INewsSliderProps {
 }
 
 const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
+  const history = useHistory()
   const currentActive = params.currentItem === index
   const newsParams = getNewsParamsByKey(info.category)
   return (
@@ -61,8 +62,16 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
           {convertContent(info.content)}
         </div>
         <div className={styles.slide__btns}>
-          <Button exClass={stylesBtn.btn_primary} title='Детальніше' />
-          <Button exClass={stylesBtn.btn_outline_light} title='Усі новини' />
+          <Button
+            click={() => history.push(`/news/details/${info.id}`)}
+            exClass={stylesBtn.btn_primary}
+            title='Детальніше'
+          />
+          <Button
+            click={() => history.push("/news")}
+            exClass={stylesBtn.btn_outline_light}
+            title='Усі новини'
+          />
         </div>
         <div className={`${styles.slide__date} ${styles.slide__date_right}`}>
           <BiTime className={styles.slide__date_icon} />

@@ -139,7 +139,8 @@ $gradients: (
       to bottom right,
       getColor(accent),
       getColor(accent-gradient)
-    )
+    ),
+  third: linear-gradient(to right, getColor(accent), getColor(accent-main))
 );
 
 %center-position {

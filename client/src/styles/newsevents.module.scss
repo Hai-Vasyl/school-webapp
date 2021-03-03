@@ -111,6 +111,12 @@
     color: getColor(accent);
     margin-bottom: 5px;
     padding: 10px 0px;
+    @extend %flex-center;
+    justify-content: flex-start;
+  }
+  &__categoty_icon {
+    margin-right: 7px;
+    font-size: 20px;
   }
   &__links {
     display: flex;

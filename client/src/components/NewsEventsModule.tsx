@@ -1,36 +1,22 @@
 import React from "react"
 import NewsEvent from "./NewsEvent"
-import { GET_NEWS_EVENTS } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
 import Loader from "./Loader"
-import { INewsEvent } from "../interfaces"
+import { INewsEventSlider } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import { Link } from "react-router-dom"
 
 interface INewsEventsModuleProps {
-  isNews: boolean
-  exceptId?: string
+  loading: boolean
+  isNews?: boolean
+  items: INewsEventSlider[]
 }
 
 const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
-  isNews,
-  exceptId,
+  isNews = true,
+  loading,
+  items,
 }) => {
-  const { data: newsEvents, loading } = useQuery(GET_NEWS_EVENTS, {
-    variables: {
-      search: "",
-      type: isNews ? "news" : "event",
-      category: null,
-      dateFrom: null,
-      dateTo: null,
-      from: 0,
-      to: 3,
-      exceptId,
-    },
-  })
-
-  const items = newsEvents ? newsEvents.getNewsEvents.items : []
   return (
     <div className={styles.module}>
       <div className='wrapper'>
@@ -48,7 +34,7 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
           <div
             className={`${styles.page_wrapper} ${styles.page_wrapper__grid_3}`}
           >
-            {items.map((item: INewsEvent) => {
+            {items.map((item: INewsEventSlider) => {
               return <NewsEvent key={item.id} info={item} isNews={isNews} />
             })}
           </div>

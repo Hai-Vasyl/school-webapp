@@ -390,6 +390,58 @@
   }
 }
 
+.module_news {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  height: 85vh;
+}
+.news {
+  display: flex;
+  &:nth-child(1) {
+    grid-row: 1/2;
+    grid-column: 1/3;
+  }
+  &:nth-child(2) {
+    grid-row: 2/3;
+    grid-column: 1/3;
+    flex-direction: row-reverse;
+  }
+  &:nth-child(3) {
+    grid-row: 1/3;
+    grid-column: 3/5;
+    flex-direction: column;
+    & > * {
+      height: 50%;
+      width: 100%;
+    }
+  }
+  &__preview {
+    position: relative;
+    display: block;
+    flex: 1;
+  }
+  &__img {
+    @extend %image;
+  }
+  &__body {
+    min-width: 350px;
+    width: 50%;
+    max-width: 100%;
+    background-color: getColor(secondary);
+  }
+  &__link {
+    @extend %flex-center;
+    justify-content: flex-start;
+  }
+  &__link_icon {
+  }
+  &__title {
+  }
+  &__subtitle {
+  }
+}
+
 .module_gallery {
   // padding: 20px 0;
   padding-top: 20px;

@@ -164,6 +164,7 @@ const Navbar: React.FC = () => {
   })
   return (
     <div className={`${styles.nav} ${changeNav && styles.nav__reduce}`}>
+      <div className={styles.nav__border}></div>
       <div className={styles.nav__actions_wrapper}>
         <div className={styles.nav__actions}>
           <Link
@@ -171,6 +172,7 @@ const Navbar: React.FC = () => {
             className={styles.nav__logo}
             onClick={() => dispatch({ type: RESET_TOGGLE })}
           >
+            {/* span */}
             <img src={logo} className={styles.nav__logo_img} alt='logotype' />
           </Link>
           <div className={styles.nav__title}>

@@ -8,17 +8,24 @@
   z-index: 12;
   background-color: getColor(bg-night);
   box-shadow: getShadow(deep);
+  &__border {
+    height: 5px;
+    background-image: getGradient(third);
+  }
   &__reduce {
     .nav__actions {
       height: 0px;
     }
+    .nav__actions_wrapper {
+      border: 0;
+    }
     .nav__logo {
-      width: 70px;
-      height: 70px;
+      width: 73px;
+      height: 73px;
       padding: 3px;
     }
     .nav__links {
-      margin-left: 82px;
+      margin-left: 85px;
     }
     .nav__title {
       transform: translateY(-90px);
@@ -67,10 +74,14 @@
     margin-right: auto;
     transform: translateY(0%);
     transition: getTransition(main);
+    font-family: getFont(third);
+    &:hover {
+      color: getColor(font-white);
+    }
     & > * {
       @extend %link-reset;
       font-size: 1.1em;
-      padding-left: 147px;
+      padding-left: 135px;
       color: getColor(font-white);
     }
   }
@@ -86,6 +97,7 @@
     box-shadow: getShadow(main-dark);
     z-index: 16;
     transition: getTransition(main);
+    border-bottom: 3px solid getColor(accent-second);
   }
   &__logo_img {
     @extend %image;

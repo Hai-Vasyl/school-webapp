@@ -7,12 +7,14 @@ import { RootStore } from "../redux/store"
 import Carousel from "../components/Carousel"
 // @ts-ignore
 import styles from "../styles/pages.module"
-import { INewsEventSlider } from "../interfaces"
+import { INewsEventSlider, INewsEvent } from "../interfaces"
 import NewsSlide from "../components/NewsSlide"
 import AboutModule from "../components/AboutModule"
 import GalleryModule from "../components/GalleryModule"
 import NewsEventsModule from "../components/NewsEventsModule"
+import NewsEventsModuleGrid from "../components/NewsEventsModuleGrid"
 import BooksModule from "../components/BooksModule"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 
 const Home: React.FC = () => {
   const {
@@ -28,7 +30,7 @@ const Home: React.FC = () => {
         dateFrom: null,
         dateTo: null,
         from: 0,
-        to: 4,
+        to: 3,
       },
       // fetchPolicy: "cache-and-network",
     }
@@ -69,7 +71,21 @@ const Home: React.FC = () => {
       </div>
       <AboutModule />
       <GalleryModule />
-      <NewsEventsModule isNews={true} />
+      <NewsEventsModuleContainer from={3} isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModuleGrid
+            items={items}
+            loading={loading}
+            isNews={isNews}
+          />
+        )}
+      </NewsEventsModuleContainer>
+      {/* <NewsEventsModule isNews={false} /> */}
       <BooksModule />
     </div>
   )
