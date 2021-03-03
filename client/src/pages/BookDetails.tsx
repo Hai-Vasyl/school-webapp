@@ -107,7 +107,7 @@ const BookDetails: React.FC = () => {
 
   return (
     <div className='container'>
-      <Title title='Бібліотека' />
+      <Title title='Бібліотека' path='/library' />
       <div className='wrapper-clear'>
         {loadSection ? (
           <Loader />

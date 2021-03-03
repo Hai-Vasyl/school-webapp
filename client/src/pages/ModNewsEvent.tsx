@@ -421,8 +421,11 @@ const ModNewsEvent: React.FC = () => {
   const isFormLinkFilled = checkFormLinkFilled()
   return (
     <div className='container'>
-      <Title title={contentId ? "Редагування" : "Створення"} />
-      <div className='wrapper'>
+      <Title
+        title={contentId ? "Редагування" : "Створення"}
+        path='/edit-news-event'
+      />
+      <div className='wrapper-side'>
         <div className={styles.form}>
           <div
             className={`${styles.form__content} ${styles.form__content__article}`}

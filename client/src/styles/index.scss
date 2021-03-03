@@ -152,6 +152,11 @@ blockquote {
   padding: 0px;
 }
 
+.wrapper-side {
+  @extend %wrapper;
+  padding: 0px 20px;
+}
+
 .container {
 }
 
@@ -163,7 +168,7 @@ blockquote {
 
 .carousel {
   position: relative;
-  height: 100vh;
+  height: 90vh;
   background-color: getColor(main);
   overflow: hidden;
   transition: getTransition(main);
@@ -207,4 +212,32 @@ iframe {
   font-size: 2.3em;
   color: red;
   filter: drop-shadow(4px 5px 5px rgba(0, 0, 0, 0.429));
+}
+
+table,
+td,
+th,
+tr {
+  border-collapse: collapse;
+  border: 1px solid getColor(main-dark);
+}
+
+figure.table {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  max-width: auto;
+  height: auto;
+  padding-bottom: 0px;
+}
+
+td {
+  padding: 10px;
+}
+
+thead th {
+  padding: 10px;
+  background-color: getColor(bg-light);
+  font-family: getFont(third);
 }

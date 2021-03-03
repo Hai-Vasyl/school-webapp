@@ -22,12 +22,6 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
   const newsParams = getNewsParamsByKey(info.category)
   return (
     <div>
-      <div
-        className={`${styles.slide__overlay} ${styles.slide__overlay_second}`}
-      ></div>
-      <div
-        className={`${styles.slide__overlay} ${styles.slide__overlay_third}`}
-      ></div>
       <div className={styles.slide__overlay}></div>
       <img
         className={`${styles.slide} ${

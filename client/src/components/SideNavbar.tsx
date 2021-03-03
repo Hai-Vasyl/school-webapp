@@ -8,10 +8,11 @@ interface ILink {
 }
 
 interface ISideNavbarProps {
-  links: ILink[]
-  active: string
-  setActive: any
+  links?: ILink[]
+  active?: string
+  setActive?: any
   exClass: string
+  children?: any
 }
 
 const SideNavbar: React.FC<ISideNavbarProps> = ({
@@ -19,26 +20,33 @@ const SideNavbar: React.FC<ISideNavbarProps> = ({
   active,
   setActive,
   exClass,
+  children,
 }) => {
   const handleSetActive = (value: string) => {
     setActive(value)
   }
 
-  const linksJSX = links.map((link: ILink) => {
-    return (
-      <button
-        key={link.id}
-        className={`${styles.side_link} ${
-          active === link.id && styles.side_link__active
-        }`}
-        onClick={() => handleSetActive(link.id)}
-      >
-        {link.title}
-      </button>
-    )
-  })
+  const linksJSX =
+    links &&
+    links.map((link: ILink) => {
+      return (
+        <button
+          key={link.id}
+          className={`${styles.side_link} ${
+            active === link.id && styles.side_link__active
+          }`}
+          onClick={() => handleSetActive(link.id)}
+        >
+          {link.title}
+        </button>
+      )
+    })
 
-  return <div className={`${styles.side_navbar} ${exClass}`}>{linksJSX}</div>
+  return (
+    <div className={`${styles.side_navbar} ${exClass}`}>
+      {children || linksJSX}
+    </div>
+  )
 }
 
 export default SideNavbar

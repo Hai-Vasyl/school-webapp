@@ -105,7 +105,7 @@ const Contacts: React.FC = () => {
   return (
     <div className='container'>
       <Title title="Зв'язатися з нами" />
-      <div className='wrapper'>
+      <div className='wrapper-side'>
         <div className={`${styles.form} ${styles.form__extend}`}>
           <div className={styles.form__content}>
             <div className={styles.form__title}>

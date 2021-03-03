@@ -25,7 +25,7 @@ interface IPageSectionProps {
   children: any
   onDelete?: any
   onEdit?: any
-  isOptContent: boolean
+  isOptContent?: boolean
 }
 
 const PageSection: React.FC<IPageSectionProps> = ({
@@ -34,7 +34,7 @@ const PageSection: React.FC<IPageSectionProps> = ({
   filters,
   onDelete,
   onEdit,
-  isOptContent,
+  isOptContent = false,
 }) => {
   const {
     auth: { user },

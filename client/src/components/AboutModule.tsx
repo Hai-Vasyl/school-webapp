@@ -12,10 +12,11 @@ import styles from "../styles/pages.module"
 import { IPageSection } from "../interfaces"
 import { Link, useHistory } from "react-router-dom"
 import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
-import { BsInfoCircle, BsKanban, BsPeople } from "react-icons/bs"
+import { BsInfoCircle, BsKanban, BsPeople, BsGear } from "react-icons/bs"
 import { FaRegCalendarAlt } from "react-icons/fa"
 import { FiPhoneCall } from "react-icons/fi"
 import { BiUserCircle } from "react-icons/bi"
+import SideNavbar from "./SideNavbar"
 
 const AboutModule: React.FC = () => {
   const history = useHistory()
@@ -67,41 +68,64 @@ const AboutModule: React.FC = () => {
     )
   })
 
+  const links = [
+    { to: "/about", title: "Про школу", Icon: BsInfoCircle },
+    { to: "/team", title: "Команда", Icon: BsPeople },
+    { to: "/schedule", title: "Розклад занять", Icon: FaRegCalendarAlt },
+    { to: "/management", title: "Управління", Icon: BsGear },
+    { to: "/contacts", title: "Контакти", Icon: FiPhoneCall },
+    { to: "/projects", title: "Проекти", Icon: BsKanban },
+    {
+      to: "profile",
+      title: "Мій кабінет",
+      Icon: BiUserCircle,
+      click: handleRedirectProfile,
+    },
+  ]
+
+  const linksJSX = links.map((link) => {
+    if (link.to === "profile") {
+      return (
+        <button
+          key={link.to}
+          className={`${styles.side_link} ${styles.module_about__link}`}
+          onClick={link.click}
+        >
+          <div className={styles.module_about__link_icon}>
+            <link.Icon />
+          </div>
+          <span>{link.title}</span>
+        </button>
+      )
+    }
+    return (
+      <Link
+        key={link.to}
+        className={`${styles.side_link} ${styles.module_about__link}`}
+        to={link.to}
+      >
+        <div className={styles.module_about__link_icon}>
+          <link.Icon />
+        </div>
+        <span>{link.title}</span>
+      </Link>
+    )
+  })
+
   return (
     <div className={`wrapper ${styles.module_about}`}>
-      <div className={styles.module_about__body}>
-        {loadSections ? <Loader /> : sectionsJSX}
-      </div>
-      <div className={styles.module_about__sidebar}>
-        <h3 className={styles.module_about__title}>Швидкі посилання</h3>
-        <Link className={styles.module_about__link} to='/about'>
-          <BsInfoCircle className={styles.module_about__link_icon} />
-          <span>Про школу</span>
-        </Link>
-        <Link className={styles.module_about__link} to='/team'>
-          <BsPeople className={styles.module_about__link_icon} />
-          <span>Команда</span>
-        </Link>
-        <Link className={styles.module_about__link} to='/projects'>
-          <BsKanban className={styles.module_about__link_icon} />
-          <span>Проекти</span>
-        </Link>
-        <Link className={styles.module_about__link} to='/schedule'>
-          <FaRegCalendarAlt className={styles.module_about__link_icon} />
-          <span>Розклад занять</span>
-        </Link>
-        <Link className={styles.module_about__link} to='/contacts'>
-          <FiPhoneCall className={styles.module_about__link_icon} />
-          <span>Контакти</span>
-        </Link>
-        <button
-          className={styles.module_about__link}
-          onClick={handleRedirectProfile}
-        >
-          <BiUserCircle className={styles.module_about__link_icon} />
-          <span>Мій кабінет</span>
-        </button>
-      </div>
+      {loadSections ? (
+        <Loader />
+      ) : sections.length ? (
+        <div className={styles.page_wrapper_flex}>
+          <SideNavbar exClass={styles.page_wrapper_flex__sidebar}>
+            {linksJSX}
+          </SideNavbar>
+          <div className={styles.page_wrapper_flex__content}>{sectionsJSX}</div>
+        </div>
+      ) : (
+        <div className='plug-text'>Порожньо</div>
+      )}
     </div>
   )
 }

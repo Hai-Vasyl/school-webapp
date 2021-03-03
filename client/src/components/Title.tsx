@@ -19,9 +19,10 @@ import { RiImageAddFill } from "react-icons/ri"
 
 interface ITitleProps {
   title: string
+  path?: string
 }
 
-const Title: React.FC<ITitleProps> = ({ title }) => {
+const Title: React.FC<ITitleProps> = ({ title, path }) => {
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
@@ -33,7 +34,7 @@ const Title: React.FC<ITitleProps> = ({ title }) => {
     loading: loadImage,
     refetch: refetchImage,
   } = useQuery(GET_PAGE, {
-    variables: { url: pathname },
+    variables: { url: path || pathname },
   })
   const [
     setPageImage,
@@ -56,7 +57,7 @@ const Title: React.FC<ITitleProps> = ({ title }) => {
     if (files && files.length) {
       setPageImage({
         variables: {
-          url: pathname,
+          url: path || pathname,
           image: files[0],
           deleting: false,
         },
@@ -67,7 +68,7 @@ const Title: React.FC<ITitleProps> = ({ title }) => {
   const handleDeleteImage = () => {
     setPageImage({
       variables: {
-        url: pathname,
+        url: path || pathname,
         deleting: true,
       },
     })

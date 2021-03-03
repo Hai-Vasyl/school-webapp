@@ -1,11 +1,8 @@
 import React from "react"
+import LayoutTabs from "../components/LayoutTabs"
 
-const Projects: React.FC = () => {
-  return (
-    <div>
-      <div>Projects Page</div>
-    </div>
-  )
+const Проекти: React.FC = () => {
+  return <LayoutTabs title='Проекти' />
 }
 
-export default Projects
+export default Проекти
