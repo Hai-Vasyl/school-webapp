@@ -19,7 +19,8 @@ import ButtonTab from "../components/ButtonTab"
 import { BsPencilSquare } from "react-icons/bs"
 import { convertContent } from "../helpers/convertContentEditor"
 import ImageSlide from "../components/ImageSlide"
-import { IImageSlide } from "../interfaces"
+import { IImageSlide, INewsEventSlider } from "../interfaces"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -155,7 +156,11 @@ const NewsEvent: React.FC = () => {
           </div>
         </>
       )}
-      <NewsEventsModule isNews={isNews} exceptId={contentId} />
+      <NewsEventsModuleContainer isNews={isNews} exceptId={contentId}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
     </div>
   )
 }

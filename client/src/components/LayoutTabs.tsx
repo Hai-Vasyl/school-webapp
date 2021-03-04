@@ -9,13 +9,14 @@ import Loader from "./Loader"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
-import { IPageSection } from "../interfaces"
+import { INewsEventSlider, IPageSection } from "../interfaces"
 import PageSection from "./PageSection"
 import ModSectionForm from "./ModSectionForm"
 import NewsEventsModule from "./NewsEventsModule"
 import NavbarPage from "./NavbarPage"
 import SectionAbout from "./SectionAbout"
 import SideNavbar from "./SideNavbar"
+import NewsEventsModuleContainer from "./NewsEventsModuleContainer"
 
 interface ILayoutTabsProps {
   imgsPrivate?: boolean
@@ -135,7 +136,11 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
           <div className='plug-text'>Порожньо</div>
         )}
       </div>
-      <NewsEventsModule isNews={true} />
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
     </div>
   )
 }

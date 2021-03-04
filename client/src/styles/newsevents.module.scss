@@ -16,8 +16,9 @@
 .content {
   display: flex;
   flex-direction: column;
-  background-color: getColor(secondary);
-  box-shadow: getShadow(card);
+  // background-color: getColor(secondary);
+  // box-shadow: getShadow(card);
+  // border: 1px solid getColor(main-dark);
   &__row {
     flex-direction: row;
   }
@@ -79,6 +80,8 @@
     padding: 15px;
     padding-top: 0;
     border-top: 3px solid getColor(accent);
+    border-left: 1px solid getColor(main-dark);
+    border-right: 1px solid getColor(main-dark);
   }
   &__date {
     font-size: 0.9em;
@@ -100,16 +103,16 @@
   &__title {
     @extend %link-reset;
     display: block;
-    font-weight: bolder;
-    font-size: 1.5em;
+    font-weight: bold;
+    font-size: 1.6em;
     line-height: 32px;
     font-family: getFont(third);
   }
   &__categoty {
     @extend %link-reset;
-    display: inline-block;
+    // display: inline-block;
     color: getColor(accent);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     padding: 10px 0px;
     @extend %flex-center;
     justify-content: flex-start;
@@ -117,6 +120,10 @@
   &__categoty_icon {
     margin-right: 7px;
     font-size: 20px;
+    display: flex;
+    & > * {
+      margin: auto;
+    }
   }
   &__links {
     display: flex;
