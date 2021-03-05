@@ -1,5 +1,6 @@
 $colors: (
   main: whitesmoke,
+  // main: #e8e8e8,
   secondary: #fff,
   main-dark: lightgrey,
   // main-light: whitesmoke,
@@ -11,9 +12,10 @@ $colors: (
   font-light: rgb(122, 121, 121),
   font-white: #fff,
   // font-dark: #333,
-  accent: #2165bf,
+  accent: #1b4a89,
+  // accent: #2165bf,
   accent-main: rgb(247, 247, 8),
-  accent-second: #4a9edf,
+  accent-second: #4185b8,
   accent-gradient: #8a41ac,
   title-simple: rgb(199, 199, 199),
   success: #39bd5c,
@@ -21,7 +23,7 @@ $colors: (
   danger: rgb(247, 120, 120),
   bg: rgba(0, 0, 0, 0.5),
   bg-night: rgba(49, 49, 49, 0.3),
-  bg-light: rgba(224, 224, 224, 0.3),
+  bg-light: rgba(224, 224, 224, 0.3)
 );
 $shadows: (
   main: (
@@ -99,7 +101,8 @@ $fonts: (
   //   ),
   third:
     (
-      'Cormorant', serif
+      "Cormorant",
+      serif,
     ),
 );
 $logo-side: 123px;

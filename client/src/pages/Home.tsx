@@ -16,6 +16,8 @@ import NewsEventsModuleGrid from "../components/NewsEventsModuleGrid"
 import BooksModule from "../components/BooksModule"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import ContactsModule from "../components/ContactsModule"
+import UsefulLinksModule from "../components/UsefulLinksModule"
+import FooterModule from "../components/FooterModule"
 
 const Home: React.FC = () => {
   const {
@@ -87,7 +89,9 @@ const Home: React.FC = () => {
         )}
       </NewsEventsModuleContainer>
       <BooksModule />
-      <ContactsModule />
+      <UsefulLinksModule />
+      {/* <ContactsModule /> */}
+      <FooterModule />
     </div>
   )
 }

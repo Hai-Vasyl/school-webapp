@@ -211,10 +211,16 @@ iframe {
   margin: 0 auto;
 }
 
-.icon_location {
+.icon-location {
   font-size: 2.3em;
-  color: red;
-  filter: drop-shadow(4px 5px 5px rgba(0, 0, 0, 0.429));
+  color: black;
+  position: relative;
+}
+.layout-black {
+  @extend %position-extend;
+  pointer-events: none;
+  z-index: 3;
+  backdrop-filter: grayscale(100%);
 }
 
 table,

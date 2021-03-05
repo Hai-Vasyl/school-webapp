@@ -28,8 +28,9 @@ const Map: React.FC = () => {
       }}
       mapStyle={styling}
     >
+      <span className='layout-black'></span>
       <Marker latitude={marker.latitude} longitude={marker.longitude}>
-        <ImLocation2 className='icon_location' />
+        <ImLocation2 className='icon-location' />
       </Marker>
     </ReactMapGL>
   )
