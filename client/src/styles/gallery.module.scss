@@ -28,9 +28,6 @@
     .image__preview {
       transform: scale(1.2);
     }
-    .image__date {
-      padding: 25px 0;
-    }
     .image__btn_overlay {
       opacity: 1;
       right: 20px;
@@ -75,7 +72,7 @@
     font-size: 0.8em;
     padding: 15px 0;
     color: getColor(font-white);
-    border-top: 1px solid getColor(bg-light);
+    // border-top: 1px solid getColor(bg-light);
     transition: getTransition(second);
   }
   &__btn_overlay {

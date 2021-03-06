@@ -20,6 +20,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  &::selection {
+    background-color: getColor(accent-main);
+  }
 }
 
 body {
@@ -172,7 +175,6 @@ blockquote {
 .carousel {
   position: relative;
   height: 90vh;
-  background-color: getColor(main);
   overflow: hidden;
   transition: getTransition(main);
 }
@@ -213,14 +215,14 @@ iframe {
 
 .icon-location {
   font-size: 2.3em;
-  color: black;
+  color: red;
   position: relative;
 }
 .layout-black {
   @extend %position-extend;
   pointer-events: none;
   z-index: 3;
-  backdrop-filter: grayscale(100%);
+  // backdrop-filter: grayscale(100%);
 }
 
 table,

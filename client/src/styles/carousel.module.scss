@@ -31,7 +31,7 @@
     height: 50px;
     // background-color: getColor(bg-night);
     &__minimize {
-      background-color: getColor(main);
+      background-color: transparent;
       border-top: 1px solid getColor(main-dark);
       .slider__toolbar {
         justify-content: flex-start;
@@ -111,7 +111,7 @@
     opacity: 0;
     &:hover {
       .slide__content {
-        height: 78px;
+        height: 50px;
       }
     }
     &__active {
@@ -172,6 +172,9 @@
     font-size: 1.1em;
     color: getColor(title-simple);
     position: relative;
+    & * {
+      font-weight: normal;
+    }
   }
   &__date {
     color: getColor(title-simple);

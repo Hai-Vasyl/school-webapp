@@ -3,7 +3,7 @@ import Loader from "./Loader"
 import { INewsEventSlider } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { RiExternalLinkLine } from "react-icons/ri"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import { BiTime } from "react-icons/bi"
@@ -20,6 +20,7 @@ const NewsEventsModuleGrid: React.FC<INewsEventsModuleGridProps> = ({
   loading,
   items,
 }) => {
+  const history = useHistory()
   return (
     <div className={styles.module_news}>
       <div className={styles.module_news__grid}>
@@ -61,6 +62,12 @@ const NewsEventsModuleGrid: React.FC<INewsEventsModuleGridProps> = ({
                     </span>
                   </div>
                 </div>
+                <button
+                  className={styles.news__more}
+                  onClick={() => history.push(isNews ? "/news" : "/events")}
+                >
+                  Більше {isNews ? "новин" : "подій"}
+                </button>
               </div>
             )
           })

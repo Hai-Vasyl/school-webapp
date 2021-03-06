@@ -21,21 +21,36 @@
   &__icon {
     margin: 0px 4px;
     font-size: 20px;
+    position: relative;
+    z-index: 2;
   }
   &__title {
     margin: 0px 5px;
+    position: relative;
+    z-index: 2;
   }
 }
 
 .btn_primary {
-  box-shadow: getShadow(main);
-  background-color: getColor(accent);
-  // background-image: getGradient(main);
-  border: 1px solid getColor(font-white);
-  &:hover {
-    border-color: getColor(font-white);
-    box-shadow: getShadow(second);
-  }
+  @extend %btn-accent;
+  // box-shadow: getShadow(main);
+  // background-color: getColor(accent);
+  // border: 1px solid getColor(font-white);
+  // position: relative;
+  // &:before {
+  //   content: "";
+  //   @extend %position-extend;
+  //   background-color: getColor(accent-second);
+  //   right: 100%;
+  //   transition: getTransition(main);
+  // }
+  // &:hover {
+  //   border-color: getColor(font-white);
+  //   box-shadow: getShadow(second);
+  // }
+  // &:hover:before {
+  //   right: 0;
+  // }
 }
 .btn_simple {
   color: getColor(font);

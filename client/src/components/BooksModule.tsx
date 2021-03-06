@@ -5,8 +5,11 @@ import Loader from "./Loader"
 import { IPageSectionShort } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
-import { Link } from "react-router-dom"
+// @ts-ignore
+import stylesBtn from "../styles/button.module"
+import { Link, useHistory } from "react-router-dom"
 import ItemInfoSection from "../components/ItemInfoSection"
+import Button from "./Button"
 
 interface IBooksModuleProps {
   exceptId?: string
@@ -15,6 +18,7 @@ interface IBooksModuleProps {
 const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
   const amountItems = 4
   const pathname = "/library"
+  const history = useHistory()
 
   const { data: dataSections, loading: loadSections } = useQuery(
     GET_PAGE_SECTIONS_SHORT,
@@ -36,7 +40,7 @@ const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
       <div className='wrapper'>
         <div>
           <Link to='/library' className={styles.module__title}>
-            Останні книги
+            Бібліотека
           </Link>
         </div>
         {loadSections ? (
@@ -66,6 +70,13 @@ const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
             })}
           </div>
         )}
+        <div className={styles.module__more}>
+          <Button
+            exClass={`${stylesBtn.btn_simple} ${styles.module__more_btn}`}
+            click={() => history.push("/library")}
+            title='Більше підручників'
+          />
+        </div>
       </div>
     </div>
   )

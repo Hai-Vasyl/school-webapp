@@ -4,7 +4,10 @@ import Loader from "./Loader"
 import { INewsEventSlider } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/pages.module"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+// @ts-ignore
+import stylesBtn from "../styles/button.module"
+import Button from "./Button"
 
 interface INewsEventsModuleProps {
   loading: boolean
@@ -17,6 +20,7 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
   loading,
   items,
 }) => {
+  const history = useHistory()
   return (
     <div className={styles.module}>
       <div className='wrapper'>
@@ -39,6 +43,13 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
             })}
           </div>
         )}
+        <div className={styles.module__more}>
+          <Button
+            exClass={`${stylesBtn.btn_simple} ${styles.module__more_btn}`}
+            click={() => history.push(isNews ? "/news" : "/events")}
+            title={`Більше ${isNews ? "новин" : "подій"}`}
+          />
+        </div>
       </div>
     </div>
   )

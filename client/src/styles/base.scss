@@ -23,7 +23,7 @@ $colors: (
   danger: rgb(247, 120, 120),
   bg: rgba(0, 0, 0, 0.5),
   bg-night: rgba(49, 49, 49, 0.3),
-  bg-light: rgba(224, 224, 224, 0.3)
+  bg-light: rgba(224, 224, 224, 0.3),
 );
 $shadows: (
   main: (
@@ -274,19 +274,59 @@ $gradients: (
 
 %btn-accent {
   transition: getTransition(main);
-  border: 1px solid getColor(font-white);
+  border: 1px solid getColor(font-white) !important;
   color: getColor(font-white);
   box-shadow: getShadow(main);
-  // background-image: getGradient(main);
   background-color: getColor(accent) !important;
-  // border-radius: getRadius(main);
+  position: relative;
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
+  &:before {
+    content: "";
+    @extend %position-extend;
+    background-color: getColor(accent-second);
+    right: 100%;
+    transition: getTransition(main);
+  }
   &:hover {
     border-color: getColor(font-white);
     box-shadow: getShadow(second);
   }
+  &:hover:before {
+    right: 0;
+  }
   &:active {
     box-shadow: none;
     transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
+%btn-link {
+  display: flex;
+  transition: getTransition(main);
+  border: 1px solid getColor(main-dark);
+  background-color: transparent;
+  position: relative;
+  &:before {
+    content: "";
+    @extend %position-extend;
+    background-color: getColor(bg-night);
+    right: 100%;
+    transition: getTransition(main);
+  }
+  & > * {
+    margin: auto;
+    position: relative;
+    z-index: 2;
+  }
+  &:hover:before {
+    right: 0;
+  }
+  &:active {
+    transform: scale(0.9);
     opacity: 0.5;
   }
 }

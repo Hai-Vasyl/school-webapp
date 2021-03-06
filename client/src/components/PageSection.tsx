@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { IPageSection, IField, IOption } from "../interfaces"
 import ModSectionForm from "./ModSectionForm"
-// import PageSectionModule from "./PageSectionModule"
 // @ts-ignore
 import styles from "../styles/pages.module"
 // @ts-ignore
