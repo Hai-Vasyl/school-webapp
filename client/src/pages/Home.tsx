@@ -18,14 +18,9 @@ import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import ContactsModule from "../components/ContactsModule"
 import UsefulLinksModule from "../components/UsefulLinksModule"
 import FooterModule from "../components/FooterModule"
-// @ts-ignore
-import bg_1 from "../images/plant-1.svg"
-// @ts-ignore
-import bg_3 from "../images/plant-3.svg"
-// @ts-ignore
-import bg_8 from "../images/plant-8.svg"
-// @ts-ignore
-import bg_6 from "../images/plant-6.svg"
+import DesignLayout_1 from "../components/DesignLayout_1"
+import DesignLayout_2 from "../components/DesignLayout_2"
+import DesignLayout_3 from "../components/DesignLayout_3"
 
 const Home: React.FC = () => {
   const {
@@ -79,38 +74,17 @@ const Home: React.FC = () => {
           }
         </Carousel>
       </div>
-
-      <div className={styles.page__wrapper_module}>
-        <img
-          className={`${styles.page__bg} ${styles.page__bg_home_1}`}
-          src={bg_1}
-          alt='bgImage'
-        />
-        <img
-          className={`${styles.page__bg} ${styles.page__bg_home_2}`}
-          src={bg_3}
-          alt='bgImage'
-        />
-        <img
-          className={`${styles.page__bg} ${styles.page__bg_home_3}`}
-          src={bg_8}
-          alt='bgImage'
-        />
+      <DesignLayout_1>
         <AboutModule />
-      </div>
+      </DesignLayout_1>
       <GalleryModule />
-      <div className={styles.page__wrapper_module}>
-        <img
-          className={`${styles.page__bg} ${styles.page__bg_home_4}`}
-          src={bg_6}
-          alt='bgImage'
-        />
-        <NewsEventsModuleContainer from={3} isNews={true}>
-          {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
-            <NewsEventsModule items={items} loading={loading} isNews={isNews} />
-          )}
-        </NewsEventsModuleContainer>
-      </div>
+
+      <NewsEventsModuleContainer from={3} isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModuleGrid
@@ -120,9 +94,9 @@ const Home: React.FC = () => {
           />
         )}
       </NewsEventsModuleContainer>
-      <div className={styles.page__wrapper_module}>
+      <DesignLayout_3>
         <BooksModule />
-      </div>
+      </DesignLayout_3>
       <UsefulLinksModule />
       <ContactsModule />
       <FooterModule />

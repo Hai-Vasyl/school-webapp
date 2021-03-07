@@ -17,6 +17,7 @@ import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
 import useFindFilter from "../hooks/useFindFilter"
+import DesignLayout_3 from "../components/DesignLayout_3"
 
 const Team: React.FC = () => {
   const { pathname } = useLocation()
@@ -294,34 +295,36 @@ const Team: React.FC = () => {
           setFilters={setForm}
         />
       )}
-      <div className='wrapper'>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectPagination}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-            isTop
-          />
-        )}
-        <div className='wrapper-clear'>
-          {loadSections ? (
-            <Loader />
-          ) : sections.length ? (
-            sectionsJSX
-          ) : (
-            <div className='plug-text'>Порожньо</div>
+      <DesignLayout_3>
+        <div className='wrapper'>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectPagination}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+              isTop
+            />
+          )}
+          <div className='wrapper-clear'>
+            {loadSections ? (
+              <Loader />
+            ) : sections.length ? (
+              sectionsJSX
+            ) : (
+              <div className='plug-text'>Порожньо</div>
+            )}
+          </div>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectPagination}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+            />
           )}
         </div>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectPagination}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-          />
-        )}
-      </div>
+      </DesignLayout_3>
     </div>
   )
 }

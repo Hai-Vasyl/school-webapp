@@ -17,6 +17,7 @@ import { access } from "../modules/accessModifiers"
 import ItemInfoSection from "../components/ItemInfoSection"
 // @ts-ignore
 import styles from "../styles/pages.module"
+import DesignLayout_3 from "../components/DesignLayout_3"
 
 const Library: React.FC = () => {
   const { pathname } = useLocation()
@@ -304,38 +305,40 @@ const Library: React.FC = () => {
           setFilters={setForm}
         />
       )}
-      <div className='wrapper'>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectPagination}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-            isTop
-          />
-        )}
-        <div className='wrapper-clear'>
-          {loadSections ? (
-            <Loader />
-          ) : sections.length ? (
-            <div
-              className={`${styles.page_wrapper} ${styles.page_wrapper__grid_4}`}
-            >
-              {sectionsJSX}
-            </div>
-          ) : (
-            <div className='plug-text'>Порожньо</div>
+      <DesignLayout_3>
+        <div className='wrapper'>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectPagination}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+              isTop
+            />
+          )}
+          <div className='wrapper-clear'>
+            {loadSections ? (
+              <Loader />
+            ) : sections.length ? (
+              <div
+                className={`${styles.page_wrapper} ${styles.page_wrapper__grid_4}`}
+              >
+                {sectionsJSX}
+              </div>
+            ) : (
+              <div className='plug-text'>Порожньо</div>
+            )}
+          </div>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectPagination}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+            />
           )}
         </div>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectPagination}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-          />
-        )}
-      </div>
+      </DesignLayout_3>
     </div>
   )
 }

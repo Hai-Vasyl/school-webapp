@@ -5,7 +5,7 @@ import Title from "../components/Title"
 import { useLocation, useHistory } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
-import { INewsEvent, IField } from "../interfaces"
+import { INewsEventSlider, IField } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
 import { categories } from "../modules/newsCategories"
@@ -13,6 +13,7 @@ import FilterSearch from "../components/FilterSearch"
 import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
 import NewsEvent from "../components/NewsEvent"
+import DesignLayout_3 from "../components/DesignLayout_3"
 
 const NewsEvents: React.FC = () => {
   const location = useLocation()
@@ -152,7 +153,7 @@ const NewsEvents: React.FC = () => {
 
   const newsEventsJSX =
     dataNewsEvents &&
-    dataNewsEvents.getNewsEvents.items.map((item: INewsEvent) => {
+    dataNewsEvents.getNewsEvents.items.map((item: INewsEventSlider) => {
       return <NewsEvent key={item.id} info={item} isNews={isNews} />
     })
 
@@ -175,39 +176,41 @@ const NewsEvents: React.FC = () => {
         fieldDateTo={date[1]}
         setFormDate={setDate}
       />
-      <div className='wrapper'>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectPagination}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-            isTop
-          />
-        )}
-        <div
-          className={`${styles.content_wrapper} ${
-            (loadNewsEvents || !(newsEventsJSX && newsEventsJSX.length)) &&
-            styles.content_wrapper__load
-          }`}
-        >
-          {loadNewsEvents ? (
-            <Loader />
-          ) : newsEventsJSX.length ? (
-            newsEventsJSX
-          ) : (
-            <div className='plug-text'>Порожньо</div>
+      <DesignLayout_3>
+        <div className='wrapper'>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectPagination}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+              isTop
+            />
+          )}
+          <div
+            className={`${styles.content_wrapper} ${
+              (loadNewsEvents || !(newsEventsJSX && newsEventsJSX.length)) &&
+              styles.content_wrapper__load
+            }`}
+          >
+            {loadNewsEvents ? (
+              <Loader />
+            ) : newsEventsJSX.length ? (
+              newsEventsJSX
+            ) : (
+              <div className='plug-text'>Порожньо</div>
+            )}
+          </div>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectPagination}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+            />
           )}
         </div>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectPagination}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-          />
-        )}
-      </div>
+      </DesignLayout_3>
     </div>
   )
 }

@@ -87,10 +87,10 @@ const Contacts: React.FC = () => {
 
     sendEmail({
       variables: {
-        firstname: firstname.value,
-        lastname: lastname.value,
-        email: email.value,
-        message: message.value,
+        firstname: firstname.value.trim(),
+        lastname: lastname.value.trim(),
+        email: email.value.trim(),
+        message: message.value.trim(),
       },
     })
   }

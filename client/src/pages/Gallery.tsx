@@ -23,6 +23,7 @@ import { LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
 import Loader from "../components/Loader"
 import useLightBox from "../hooks/useLightBox"
 import FilterSearch from "../components/FilterSearch"
+import DesignLayout_3 from "../components/DesignLayout_3"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
@@ -217,39 +218,41 @@ const Gallery: React.FC = () => {
         setFormPicker={setTypeImage}
         fieldPicker={typeImage[0]}
       />
-      <div className='wrapper'>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectLink}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-            isTop
-          />
-        )}
-        <div
-          className={`${styles.images} ${
-            (loadImages || !(imagesJSX && imagesJSX.length)) &&
-            styles.images__load
-          }`}
-        >
-          {loadImages ? (
-            <Loader />
-          ) : imagesJSX.length ? (
-            imagesJSX
-          ) : (
-            <div className='plug-text'>Порожньо</div>
+      <DesignLayout_3>
+        <div className='wrapper'>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectLink}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+              isTop
+            />
+          )}
+          <div
+            className={`${styles.images} ${
+              (loadImages || !(imagesJSX && imagesJSX.length)) &&
+              styles.images__load
+            }`}
+          >
+            {loadImages ? (
+              <Loader />
+            ) : imagesJSX.length ? (
+              imagesJSX
+            ) : (
+              <div className='plug-text'>Порожньо</div>
+            )}
+          </div>
+          {!!quantityItems && (
+            <Pagination
+              getRedirectLink={getRedirectLink}
+              quantityItem={quantityItems}
+              amountItemsPage={amountItems}
+              currentPageNumber={page}
+            />
           )}
         </div>
-        {!!quantityItems && (
-          <Pagination
-            getRedirectLink={getRedirectLink}
-            quantityItem={quantityItems}
-            amountItemsPage={amountItems}
-            currentPageNumber={page}
-          />
-        )}
-      </div>
+      </DesignLayout_3>
     </div>
   )
 }

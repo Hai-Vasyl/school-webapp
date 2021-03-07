@@ -23,11 +23,11 @@ const NewsEventsModuleGrid: React.FC<INewsEventsModuleGridProps> = ({
   const history = useHistory()
   return (
     <div className={styles.module_news}>
-      <div className={styles.module_news__grid}>
-        {loading ? (
-          <Loader />
-        ) : (
-          items.map((item) => {
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className={styles.module_news__grid}>
+          {items.map((item) => {
             const linkParams = getNewsParamsByKey(item.category)
             const linkPath = `/${isNews ? "news" : "events"}/details/${item.id}`
             return (
@@ -70,9 +70,9 @@ const NewsEventsModuleGrid: React.FC<INewsEventsModuleGridProps> = ({
                 </button>
               </div>
             )
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
     </div>
   )
 }

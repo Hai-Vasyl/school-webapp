@@ -17,6 +17,8 @@ import NavbarPage from "./NavbarPage"
 import SectionAbout from "./SectionAbout"
 import SideNavbar from "./SideNavbar"
 import NewsEventsModuleContainer from "./NewsEventsModuleContainer"
+import FooterModule from "./FooterModule"
+import DesignLayout_1 from "./DesignLayout_1"
 
 interface ILayoutTabsProps {
   imgsPrivate?: boolean
@@ -115,32 +117,35 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
       {user.role === access.admin.keyWord && toggleCreate && (
         <ModSectionForm onCreate={handleCreate} isOptContent />
       )}
-      <div className='wrapper'>
-        {loadSections ? (
-          <Loader />
-        ) : sections.length ? (
-          <div className={styles.page_wrapper_flex}>
-            {links.length > 1 && (
-              <SideNavbar
-                links={links}
-                active={activeSection}
-                setActive={setActiveSection}
-                exClass={styles.page_wrapper_flex__sidebar}
-              />
-            )}
-            <div className={styles.page_wrapper_flex__content}>
-              {sectionsJSX}
+      <DesignLayout_1>
+        <div className='wrapper'>
+          {loadSections ? (
+            <Loader />
+          ) : sections.length ? (
+            <div className={styles.page_wrapper_flex}>
+              {links.length > 1 && (
+                <SideNavbar
+                  links={links}
+                  active={activeSection}
+                  setActive={setActiveSection}
+                  exClass={styles.page_wrapper_flex__sidebar}
+                />
+              )}
+              <div className={styles.page_wrapper_flex__content}>
+                {sectionsJSX}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className='plug-text'>Порожньо</div>
-        )}
-      </div>
+          ) : (
+            <div className='plug-text'>Порожньо</div>
+          )}
+        </div>
+      </DesignLayout_1>
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />
         )}
       </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

@@ -13,9 +13,10 @@ import Button from "./Button"
 
 interface IBooksModuleProps {
   exceptId?: string
+  title?: string
 }
 
-const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
+const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId, title }) => {
   const amountItems = 4
   const pathname = "/library"
   const history = useHistory()
@@ -40,7 +41,7 @@ const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId }) => {
       <div className='wrapper'>
         <div>
           <Link to='/library' className={styles.module__title}>
-            Бібліотека
+            {title || "Бібліотека"}
           </Link>
         </div>
         {loadSections ? (

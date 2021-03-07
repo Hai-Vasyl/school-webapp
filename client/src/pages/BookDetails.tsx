@@ -115,20 +115,15 @@ const BookDetails: React.FC = () => {
           <PageSection
             key={info.id}
             info={info}
-            filters={info.filters.map(
-              (filter: IPageSectionFilter, index: string) => {
-                const filterParams = getFormFilterParams(
-                  filters,
-                  filter.keyWord
-                )
-                return {
-                  keyWord: filter.keyWord,
-                  value: filter.value,
-                  options: filterParams.options,
-                  title: filterParams.title,
-                }
+            filters={info.filters.map((filter: IPageSectionFilter) => {
+              const filterParams = getFormFilterParams(filters, filter.keyWord)
+              return {
+                keyWord: filter.keyWord,
+                value: filter.value,
+                options: filterParams.options,
+                title: filterParams.title,
               }
-            )}
+            })}
             onDelete={handleDeleteSection}
             onEdit={handleRefetchAll}
           >
@@ -151,7 +146,7 @@ const BookDetails: React.FC = () => {
           </PageSection>
         )}
       </div>
-      <BooksModule exceptId={info && info.id} />
+      <BooksModule title='Інші підручники' exceptId={info && info.id} />
     </div>
   )
 }
