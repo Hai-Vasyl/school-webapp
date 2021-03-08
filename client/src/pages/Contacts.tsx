@@ -59,7 +59,6 @@ const Contacts: React.FC = () => {
   useEffect(() => {
     const dataSendEmail = dataEmail && dataEmail.sendEmail
     if (errorEmail) {
-      console.log({ errorEmail })
       setErrors(errorEmail.message, setForm)
       dispatch({
         type: SET_TOAST,

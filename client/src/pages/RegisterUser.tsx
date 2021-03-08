@@ -7,15 +7,20 @@ import styles from "../styles/form.module"
 import stylesBtn from "../styles/button.module"
 import FieldArea from "../components/FieldArea"
 import Button from "../components/Button"
-import { RiMailSendLine } from "react-icons/ri"
-import { SEND_EMAIL } from "../fetching/mutations"
-import { useMutation } from "@apollo/client"
+import { REGISTER_USER } from "../fetching/queries"
+import { useLazyQuery } from "@apollo/client"
 import { useDispatch } from "react-redux"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { types } from "../modules/messageTypes"
 import LoaderData from "../components/LoaderData"
 import Map from "../components/Map"
+import { access } from "../modules/accessModifiers"
+import FieldPicker from "../components/FieldPicker"
+import { BiUserPlus } from "react-icons/bi"
+import { IOption } from "../interfaces"
+// @ts-ignore
+import bgImage from "../images/undraw_content_team_3epn.svg"
 
 const RegisterUser: React.FC = () => {
   const dispatch = useDispatch()
@@ -39,58 +44,18 @@ const RegisterUser: React.FC = () => {
       param: "role",
       type: "text",
       value: "teacher",
-      title: "Роль корисувача",
-      msg: "",
-    },
-    {
-      param: "username",
-      type: "text",
-      value: "",
-      title: "Ім'я користувача",
-      msg: "",
-    },
-
-    {
-      param: "firstname",
-      type: "text",
-      value: "",
-      title: "Ім'я",
-      msg: "",
-    },
-    {
-      param: "lastname",
-      type: "text",
-      value: "",
-      title: "Прізвище",
-      msg: "",
-    },
-    {
-      param: "email",
-      type: "email",
-      value: "",
-      title: "Електронна пошта",
-      msg: "",
-    },
-    {
-      param: "message",
-      type: "text",
-      value: "",
-      title: "Повідомлення",
+      title: "Роль користувача",
       msg: "",
     },
   ])
   const { setErrors } = useSetErrorsFields()
 
-  const [
-    sendEmail,
-    { data: dataEmail, error: errorEmail, loading: loadEmail },
-  ] = useMutation(SEND_EMAIL)
+  const [register, regFetch] = useLazyQuery(REGISTER_USER)
 
   useEffect(() => {
-    const dataSendEmail = dataEmail && dataEmail.sendEmail
-    if (errorEmail) {
-      console.log({ errorEmail })
-      setErrors(errorEmail.message, setForm)
+    if (regFetch.error) {
+      console.log({ regErrro: regFetch.error })
+      setErrors(regFetch.error.message, setForm)
       dispatch({
         type: SET_TOAST,
         payload: {
@@ -98,68 +63,99 @@ const RegisterUser: React.FC = () => {
           message: "Помилка перевірки полів форми!",
         },
       })
-    } else if (dataSendEmail) {
-      setForm((prev) =>
-        prev.map((field) => {
+    } else if (regFetch.data && regFetch.data.register) {
+      setForm((prevForm) =>
+        prevForm.map((field) => {
+          if (field.param === "role") {
+            return { ...field, value: "teacher", msg: "" }
+          }
           return { ...field, value: "", msg: "" }
         })
       )
       dispatch({
         type: SET_TOAST,
-        payload: dataSendEmail,
+        payload: {
+          type: types.success.keyWord,
+          message: "Користувач успішно створений!",
+        },
       })
     }
-  }, [dispatch, dataEmail, errorEmail])
+  }, [dispatch, setErrors, regFetch])
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const [firstname, lastname, email, message] = form
-
-    sendEmail({
+    const [firstname, lastname, email, role] = form
+    const usernamePassword = email.value.split("@")[0]
+    register({
       variables: {
         firstname: firstname.value.trim(),
         lastname: lastname.value.trim(),
+        username: usernamePassword,
         email: email.value.trim(),
-        message: message.value.trim(),
+        password: usernamePassword,
+        isAdmin: true,
+        role: role.value,
       },
     })
   }
 
-  const fields = form.map((field) => {
-    if (field.param === "message") {
-      return <FieldArea key={field.param} field={field} change={setForm} />
+  let options: IOption[] = []
+  Object.keys(access).forEach((key) => {
+    // @ts-ignore
+    if (access[key].keyWord !== "unregistered") {
+      // @ts-ignore
+      options.push({ label: access[key].title, value: access[key].keyWord })
     }
-    return <Field key={field.param} field={field} change={setForm} />
+  })
+  const fields = form.map((field) => {
+    if (field.param === "role") {
+      return (
+        <FieldPicker
+          isImportant
+          key={field.param}
+          options={options}
+          field={field}
+          change={setForm}
+        />
+      )
+    }
+    return (
+      <Field isImportant key={field.param} field={field} change={setForm} />
+    )
   })
 
   return (
     <div className='container'>
-      <Title title="Зв'язатися з нами" />
+      <Title title='Створити користувача' />
       <div className='wrapper-side'>
         <div className={`${styles.form} ${styles.form__extend}`}>
           <div className={styles.form__content}>
             <div className={styles.form__title}>
               <div className={styles.form__title_text}>
-                Форма зворотнього зв'язку
+                Форма створення користувача
               </div>
             </div>
             <form
               className={styles.form__container_fields}
               onSubmit={handleSubmitForm}
             >
-              <LoaderData load={loadEmail} />
+              <LoaderData load={regFetch.loading} />
               <div className={styles.form__fields}>{fields}</div>
               <div className={styles.form__btns}>
                 <Button
                   exClass={stylesBtn.btn_primary}
-                  Icon={RiMailSendLine}
-                  title='Відправити'
+                  Icon={BiUserPlus}
+                  title='Створити'
                 />
               </div>
             </form>
           </div>
           <div className={styles.form__sidebar}>
-            <Map />
+            <img
+              className={styles.form__bg_image}
+              src={bgImage}
+              alt='bgImage'
+            />
           </div>
         </div>
       </div>

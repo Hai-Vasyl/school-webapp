@@ -79,11 +79,9 @@ const Auth: React.FC = () => {
 
   useEffect(() => {
     if (regFetch.error) {
-      console.log({ regErrro: regFetch.error })
       setErrors(regFetch.error.message, setForm)
       setErrors(regFetch.error.message, setFormReg)
     } else if (regFetch.data && regFetch.data.register) {
-      console.log({ regDATA: regFetch.data.register })
       dispatch({
         type: SET_AUTH,
         payload: {

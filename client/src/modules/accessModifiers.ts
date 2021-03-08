@@ -3,13 +3,16 @@ import { FaUserCog, FaUserTie, FaUser } from "react-icons/fa"
 export const access = {
   admin: {
     keyWord: "admin",
+    title: "Адміністратор",
     Icon: FaUserCog,
   },
   teacher: {
     keyWord: "teacher",
+    title: "Вчитель",
     Icon: FaUserTie,
   },
   user: {
+    title: "Користувач",
     keyWord: "user",
   },
   unregistered: {
