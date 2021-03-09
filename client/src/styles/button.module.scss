@@ -33,24 +33,6 @@
 
 .btn_primary {
   @extend %btn-accent;
-  // box-shadow: getShadow(main);
-  // background-color: getColor(accent);
-  // border: 1px solid getColor(font-white);
-  // position: relative;
-  // &:before {
-  //   content: "";
-  //   @extend %position-extend;
-  //   background-color: getColor(accent-second);
-  //   right: 100%;
-  //   transition: getTransition(main);
-  // }
-  // &:hover {
-  //   border-color: getColor(font-white);
-  //   box-shadow: getShadow(second);
-  // }
-  // &:hover:before {
-  //   right: 0;
-  // }
 }
 .btn_simple {
   color: getColor(font);
@@ -222,19 +204,10 @@
   width: 42.4px;
   height: 42.4px;
   margin-right: 10px;
-  transition: getTransition(main);
-  border: 1px solid getColor(font-white);
-  color: getColor(font-white);
+  @extend %btn-accent;
   box-shadow: getShadow(main);
-  background-color: getColor(accent);
   &:hover {
-    border-color: getColor(font-white);
     box-shadow: getShadow(second);
-  }
-  &:active {
-    box-shadow: none;
-    transform: scale(0.95);
-    opacity: 0.5;
   }
 }
 

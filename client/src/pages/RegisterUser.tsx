@@ -18,9 +18,12 @@ import Map from "../components/Map"
 import { access } from "../modules/accessModifiers"
 import FieldPicker from "../components/FieldPicker"
 import { BiUserPlus } from "react-icons/bi"
-import { IOption } from "../interfaces"
+import { IOption, INewsEventSlider } from "../interfaces"
 // @ts-ignore
 import bgImage from "../images/undraw_content_team_3epn.svg"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
 
 const RegisterUser: React.FC = () => {
   const dispatch = useDispatch()
@@ -159,6 +162,12 @@ const RegisterUser: React.FC = () => {
           </div>
         </div>
       </div>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

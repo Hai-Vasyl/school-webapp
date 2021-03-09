@@ -34,9 +34,12 @@ import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { useDispatch } from "react-redux"
 import { types } from "../modules/messageTypes"
 import { GET_NEWS_EVENT } from "../fetching/queries"
-import { INewsEventDetailed } from "../interfaces"
+import { INewsEventDetailed, INewsEventSlider } from "../interfaces"
 import { WARNING_OPEN, WARNING_CLOSE } from "../redux/toggle/toggleTypes"
 import ButtonTab from "../components/ButtonTab"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
 
 const ModNewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -532,6 +535,12 @@ const ModNewsEvent: React.FC = () => {
           </div>
         </div>
       </div>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

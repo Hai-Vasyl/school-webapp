@@ -14,7 +14,6 @@ import Schedule from "../pages/Schedule"
 import RegisterUser from "../pages/RegisterUser"
 import NewsEvent from "../pages/NewsEvent"
 import ModNewsEvent from "../pages/ModNewsEvent"
-import ImageDetails from "../pages/ImageDetails"
 import BookDetails from "../pages/BookDetails"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
@@ -135,7 +134,6 @@ const mainRoutes = [
   { path: "/profile/:userId", exact: true, Component: Profile },
   { path: "/news/details/:contentId", Component: NewsEvent },
   { path: "/events/details/:contentId", Component: NewsEvent },
-  { path: "/gallery/:imageId", Component: ImageDetails },
   { path: "/library/:bookId", Component: BookDetails },
 ]
 

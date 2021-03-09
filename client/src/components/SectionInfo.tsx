@@ -24,6 +24,7 @@ interface SectionInfoProps {
   onCreate(): any
   onEdit(): any
   onRemove(): any
+  exClass?: string
 }
 
 const SectionInfo: React.FC<SectionInfoProps> = ({
@@ -33,6 +34,7 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
   onCreate,
   onEdit,
   onRemove,
+  exClass,
 }) => {
   const { findFilterParams } = useFindFilter()
   const { filterFiles } = useFilterFiles()
@@ -46,7 +48,7 @@ const SectionInfo: React.FC<SectionInfoProps> = ({
   const { files, images } = filterFiles(info.uploads)
 
   return (
-    <div className={`${styles.content} ${styles.content_info}`}>
+    <div className={`${styles.content} ${styles.content_info} ${exClass}`}>
       <ImgSection
         infoId={info.id}
         upload={images[0]}

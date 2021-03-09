@@ -22,6 +22,7 @@ import ButtonTab from "./ButtonTab"
 import { convertDate } from "../helpers/convertDate"
 import UserCard from "./UserCard"
 import { Link, useHistory } from "react-router-dom"
+import { RiExternalLinkLine } from "react-icons/ri"
 
 const ImageLightBox: React.FC = () => {
   const dispatch = useDispatch()
@@ -69,6 +70,16 @@ const ImageLightBox: React.FC = () => {
     dispatch({ type: LIGHTBOX_CLOSE })
   }
 
+  image = dataImage ? dataImage.getImage : image
+  const imageParams: any = getParamsByType(image.type)
+  const isNews = image.type === "news"
+  const isEvent = image.type === "event"
+
+  const handleRedirectToNewsEvent = () => {
+    history.push((imageParams && imageParams.getLink(image.content)) || "")
+    dispatch({ type: LIGHTBOX_CLOSE })
+  }
+
   const hashtags =
     dataImage &&
     dataImage.getImage.hashtags.split(" ").map((tag: string, index: number) => {
@@ -83,8 +94,6 @@ const ImageLightBox: React.FC = () => {
       )
     })
 
-  image = dataImage ? dataImage.getImage : image
-  const imageParams: any = getParamsByType(image.type)
   return (
     <div className={`${styles.lightbox} ${toggle && styles.lightbox__open}`}>
       <LoaderData load={loadImage} />
@@ -150,12 +159,7 @@ const ImageLightBox: React.FC = () => {
           </div>
         </>
       )}
-      <div
-        className={`${styles.lightbox__footer} ${
-          image.type === types.private.keyWord &&
-          styles.lightbox__footer__minimize
-        }`}
-      >
+      <div className={styles.lightbox__footer}>
         <div className={styles.lightbox__description}>{image.description}</div>
         {image.type !== types.private.keyWord && (
           <div className={styles.lightbox__details}>
@@ -173,17 +177,17 @@ const ImageLightBox: React.FC = () => {
             </div>
             {image.type !== types.other.keyWord && (
               <div className={styles.lightbox__adition}>
-                <div className={styles.lightbox__content_link}>
-                  <span className={styles.lightbox__link_title}>
-                    {imageParams && imageParams.labelSingle}:
-                  </span>
-                  <Link
-                    to={(imageParams && imageParams.getLink(image.id)) || ""}
+                {(isNews || isEvent) && (
+                  <button
+                    onClick={handleRedirectToNewsEvent}
                     className={styles.lightbox__link}
                   >
-                    ...{imageParams && imageParams.getLink(image.id)}
-                  </Link>
-                </div>
+                    <RiExternalLinkLine
+                      className={styles.lightbox__link_icon}
+                    />
+                    <span>Сторінка {isNews ? "новини" : "події"}</span>
+                  </button>
+                )}
                 <div className={styles.lightbox__hashtags}>{hashtags}</div>
               </div>
             )}

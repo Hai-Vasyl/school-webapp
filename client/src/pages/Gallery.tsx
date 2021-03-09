@@ -13,7 +13,7 @@ import { types as uploadTypes, getParamsByType } from "../modules/uploadTypes"
 import stylesBtn from "../styles/button.module"
 // @ts-ignore
 import styles from "../styles/gallery.module"
-import { IImage, IOption } from "../interfaces"
+import { IImage, IOption, INewsEventSlider } from "../interfaces"
 import { convertDate } from "../helpers/convertDate"
 import Pagination from "../components/Pagination"
 import { useSelector } from "react-redux"
@@ -24,6 +24,9 @@ import Loader from "../components/Loader"
 import useLightBox from "../hooks/useLightBox"
 import FilterSearch from "../components/FilterSearch"
 import DesignLayout_3 from "../components/DesignLayout_3"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
 
 const Gallery: React.FC = () => {
   const location = useLocation().search
@@ -63,6 +66,7 @@ const Gallery: React.FC = () => {
       search,
       type: type === "all" ? "" : type,
     },
+    fetchPolicy: "cache-and-network",
   })
   const dispatch = useDispatch()
 
@@ -253,6 +257,12 @@ const Gallery: React.FC = () => {
           )}
         </div>
       </DesignLayout_3>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

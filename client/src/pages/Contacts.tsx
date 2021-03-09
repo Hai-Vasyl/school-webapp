@@ -16,6 +16,10 @@ import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { types } from "../modules/messageTypes"
 import LoaderData from "../components/LoaderData"
 import Map from "../components/Map"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
+import { INewsEventSlider } from "../interfaces"
 
 const Contacts: React.FC = () => {
   const dispatch = useDispatch()
@@ -132,6 +136,12 @@ const Contacts: React.FC = () => {
           </div>
         </div>
       </div>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

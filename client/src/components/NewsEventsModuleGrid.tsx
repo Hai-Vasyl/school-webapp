@@ -8,6 +8,7 @@ import { RiExternalLinkLine } from "react-icons/ri"
 import { getNewsParamsByKey } from "../modules/newsCategories"
 import { BiTime } from "react-icons/bi"
 import ImgPreviewSection from "./ImgPreviewSection"
+import { BsCalendar } from "react-icons/bs"
 
 interface INewsEventsModuleGridProps {
   loading: boolean
@@ -57,8 +58,8 @@ const NewsEventsModuleGrid: React.FC<INewsEventsModuleGridProps> = ({
                   </div>
                   <div>
                     <span className={styles.news__subtitle}>
-                      <BiTime className={styles.news__subtitle_icon} />
-                      <span>{item.date}</span>
+                      <BsCalendar className={styles.news__subtitle_icon} />
+                      <span>{item.dateEvent}</span>
                     </span>
                   </div>
                 </div>

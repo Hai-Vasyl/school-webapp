@@ -11,9 +11,6 @@ export const types = {
     label: "Зображення",
     labelSingle: "Зображення",
     Icon: BsImage,
-    getLink(itemId: string) {
-      return `/gallery/${itemId}`
-    },
   },
   news: {
     keyWord: "news",
@@ -21,7 +18,7 @@ export const types = {
     labelSingle: "Новина",
     Icon: BsNewspaper,
     getLink(itemId: string) {
-      return `/news/${itemId}`
+      return `/news/details/${itemId}`
     },
   },
   event: {
@@ -30,7 +27,7 @@ export const types = {
     labelSingle: "Подія",
     Icon: BsCalendar,
     getLink(itemId: string) {
-      return `/events/${itemId}`
+      return `/events/details/${itemId}`
     },
   },
   other: {

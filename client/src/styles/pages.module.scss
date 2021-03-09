@@ -54,6 +54,7 @@
   &__bg_3 {
     top: 0;
     left: 0;
+    width: 300px;
   }
   &__bg_4 {
     top: 10vh;
@@ -166,6 +167,9 @@
   border-bottom: 1px solid getColor(main-dark);
   background-color: getColor(secondary);
   padding: 20px;
+  &__clear {
+    padding: 0;
+  }
   &__preview {
     width: 250px;
     height: 270px;
@@ -277,6 +281,7 @@
   }
   &__main_info {
     margin-top: 17px;
+    margin-bottom: 10px;
   }
   &__btn {
     position: absolute;
@@ -289,7 +294,7 @@
   &__image {
     height: 400px;
     width: 280px;
-    box-shadow: getShadow(deep);
+    border: 1px solid getColor(main-dark);
   }
 }
 

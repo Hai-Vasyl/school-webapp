@@ -6,7 +6,7 @@ import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useLocation } from "react-router-dom"
-import { IOption, IField, IPageSection } from "../interfaces"
+import { IOption, IField, IPageSection, INewsEventSlider } from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
 import Pagination from "../components/Pagination"
@@ -18,6 +18,9 @@ import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
 import useFindFilter from "../hooks/useFindFilter"
 import DesignLayout_3 from "../components/DesignLayout_3"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
 
 const Graduates: React.FC = () => {
   const { pathname } = useLocation()
@@ -362,6 +365,12 @@ const Graduates: React.FC = () => {
           )}
         </div>
       </DesignLayout_3>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

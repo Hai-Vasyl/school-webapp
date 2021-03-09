@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 // @ts-ignore
@@ -6,7 +6,7 @@ import styles from "../styles/form.module"
 import { useSelector } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
-import { BsPlus, BsX, BsSearch, BsArrowClockwise } from "react-icons/bs"
+import { BsPlus, BsArrowClockwise } from "react-icons/bs"
 import FieldPicker from "./FieldPicker"
 import ButtonTab from "./ButtonTab"
 import { IField } from "../interfaces"
@@ -28,6 +28,9 @@ interface IFilterSearchProps {
   setFormDate?: any
   fieldDateFrom?: IField
   fieldDateTo?: IField
+  onChangeDate?(event: React.ChangeEvent<HTMLInputElement>): any
+  isDateError?: boolean
+  setIsDateError?: any
 }
 
 const FilterSearch: React.FC<IFilterSearchProps> = ({
@@ -44,11 +47,13 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
   fieldDateFrom,
   fieldDateTo,
   setFormDate,
+  onChangeDate,
+  isDateError,
+  setIsDateError,
 }) => {
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
-  const [isDateError, setIsDateError] = useState(false)
 
   const checkSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -61,25 +66,10 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
   const handleResetDate = () => {
     setFormDate((prev: IField[]) =>
       prev.map((field: IField) => {
-        return { ...field, value: "" }
+        return { ...field, value: "", msg: "" }
       })
     )
     setIsDateError(false)
-  }
-
-  const onChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    const from = fieldDateFrom && fieldDateFrom.value
-    const to = fieldDateTo && fieldDateTo.value
-
-    if (
-      (name === "from" && new Date(value) > new Date(to)) ||
-      (name === "to" && new Date(value) < new Date(from))
-    ) {
-      setIsDateError(true)
-    } else {
-      setIsDateError(false)
-    }
   }
 
   return (

@@ -2,11 +2,9 @@
 
 .images {
   display: grid;
-  height: 160vw;
-  max-height: 1945px;
   width: 100%;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-auto-rows: 1fr;
   grid-gap: 20px;
   position: relative;
   &__load {
@@ -19,6 +17,7 @@
   display: block;
   position: relative;
   overflow: hidden;
+  padding-bottom: 100%;
   cursor: pointer;
   &:hover {
     .image__overlay {
@@ -39,6 +38,7 @@
   }
   &__preview {
     @extend %image;
+    @extend %position-extend;
     transition: getTransition(slow);
     transform: scale(1);
   }
@@ -72,7 +72,6 @@
     font-size: 0.8em;
     padding: 15px 0;
     color: getColor(font-white);
-    // border-top: 1px solid getColor(bg-light);
     transition: getTransition(second);
   }
   &__btn_overlay {

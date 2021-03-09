@@ -21,6 +21,7 @@ import { convertContent } from "../helpers/convertContentEditor"
 import ImageSlide from "../components/ImageSlide"
 import { IImageSlide, INewsEventSlider } from "../interfaces"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import FooterModule from "../components/FooterModule"
 
 const NewsEvent: React.FC = () => {
   const { contentId }: any = useParams()
@@ -112,9 +113,11 @@ const NewsEvent: React.FC = () => {
             </div>
             <h1 className={styles.newsevent__title}>{newsevent.title}</h1>
             <div className={styles.newsevent__date}>
-              <newsEventExtraParams.Icon
-                className={styles.newsevent__date_icon}
-              />
+              {newsEventExtraParams && (
+                <newsEventExtraParams.Icon
+                  className={styles.newsevent__date_icon}
+                />
+              )}
               <span>{newsevent.date}</span>
             </div>
             <div className={styles.newsevent__content}>{content}</div>
@@ -123,19 +126,20 @@ const NewsEvent: React.FC = () => {
             <div
               className={`${styles.content__links} ${styles.newsevent__links}`}
             >
-              {newsevent.links.map(
-                (link: { label: string; link: string }, index: number) => {
-                  return (
-                    <a
-                      className={styles.content__link}
-                      key={index}
-                      href={link.link}
-                    >
-                      <span>{link.label}</span>
-                    </a>
-                  )
-                }
-              )}
+              {newsevent.links &&
+                newsevent.links.map(
+                  (link: { label: string; link: string }, index: number) => {
+                    return (
+                      <a
+                        className={styles.content__link}
+                        key={index}
+                        href={link.link}
+                      >
+                        <span>{link.label}</span>
+                      </a>
+                    )
+                  }
+                )}
             </div>
             <div className={styles.newsevent__info}>
               <span className={styles.newsevent__info_title}>Дата події:</span>
@@ -161,6 +165,7 @@ const NewsEvent: React.FC = () => {
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />
         )}
       </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

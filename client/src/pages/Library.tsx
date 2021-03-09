@@ -6,7 +6,7 @@ import FilterFrame from "../components/FilterFrame"
 import { GET_PAGE_FILTERS, GET_PAGE_SECTIONS_SHORT } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useLocation } from "react-router-dom"
-import { IOption, IField, IPageSection } from "../interfaces"
+import { IOption, IField, IPageSection, INewsEventSlider } from "../interfaces"
 import FieldSearch from "../components/FieldSearch"
 import { useHistory } from "react-router-dom"
 import Pagination from "../components/Pagination"
@@ -18,6 +18,9 @@ import ItemInfoSection from "../components/ItemInfoSection"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import DesignLayout_3 from "../components/DesignLayout_3"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
 
 const Library: React.FC = () => {
   const { pathname } = useLocation()
@@ -54,6 +57,7 @@ const Library: React.FC = () => {
       variables: {
         url: pathname,
       },
+      fetchPolicy: "cache-and-network",
     }
   )
 
@@ -77,7 +81,7 @@ const Library: React.FC = () => {
       param: "genre",
       type: "text",
       value: "",
-      title: "Жанр",
+      title: "Предмет",
       msg: "",
       options: [],
       isImportant: true,
@@ -97,7 +101,7 @@ const Library: React.FC = () => {
       param: "genre",
       type: "text",
       value: genre,
-      title: "Жанр",
+      title: "Предмет",
       msg: "",
       options: [],
     },
@@ -339,6 +343,12 @@ const Library: React.FC = () => {
           )}
         </div>
       </DesignLayout_3>
+      <NewsEventsModuleContainer isNews={true}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

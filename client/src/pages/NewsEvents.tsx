@@ -3,8 +3,6 @@ import { GET_NEWS_EVENTS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "../components/Title"
 import { useLocation, useHistory } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
 import { INewsEventSlider, IField } from "../interfaces"
 // @ts-ignore
 import styles from "../styles/newsevents.module"
@@ -14,16 +12,15 @@ import Pagination from "../components/Pagination"
 import Loader from "../components/Loader"
 import NewsEvent from "../components/NewsEvent"
 import DesignLayout_3 from "../components/DesignLayout_3"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
+import NewsEventsModule from "../components/NewsEventsModule"
+import FooterModule from "../components/FooterModule"
 
 const NewsEvents: React.FC = () => {
   const location = useLocation()
   const history = useHistory()
   const isNews = location.pathname === "/news"
   const params = new URLSearchParams(location.search)
-
-  const {
-    auth: { user },
-  } = useSelector((state: RootStore) => state)
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
@@ -32,6 +29,7 @@ const NewsEvents: React.FC = () => {
   const to = params.get("to") || ""
   const amountItems = 3
 
+  const [isDateError, setIsDateError] = useState(false)
   const [searchStr, setSearchStr] = useState(search)
   const [categoryContent, setCategoryContent] = useState([
     {
@@ -101,15 +99,32 @@ const NewsEvents: React.FC = () => {
     setFilterValue(setCategoryContent, "type", category)
   }, [category])
 
+  const onChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    const from = date[0] && date[0].value
+    const to = date[1] && date[1].value
+
+    if (
+      (name === "from" && new Date(value) > new Date(to)) ||
+      (name === "to" && new Date(value) < new Date(from))
+    ) {
+      setIsDateError(true)
+    } else {
+      setIsDateError(false)
+    }
+  }
+
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    getRedirectLink(
-      1,
-      categoryContent[0].value,
-      date[0].value,
-      date[1].value,
-      searchStr
-    )
+    if (date[0].value <= date[1].value) {
+      getRedirectLink(
+        1,
+        categoryContent[0].value,
+        date[0].value,
+        date[1].value,
+        searchStr
+      )
+    }
   }
 
   const handleRedirectCreateContent = () => {
@@ -175,6 +190,9 @@ const NewsEvents: React.FC = () => {
         fieldDateFrom={date[0]}
         fieldDateTo={date[1]}
         setFormDate={setDate}
+        onChangeDate={onChangeDate}
+        isDateError={isDateError}
+        setIsDateError={setIsDateError}
       />
       <DesignLayout_3>
         <div className='wrapper'>
@@ -211,6 +229,12 @@ const NewsEvents: React.FC = () => {
           )}
         </div>
       </DesignLayout_3>
+      <NewsEventsModuleContainer isNews={!isNews}>
+        {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
+          <NewsEventsModule items={items} loading={loading} isNews={isNews} />
+        )}
+      </NewsEventsModuleContainer>
+      <FooterModule />
     </div>
   )
 }

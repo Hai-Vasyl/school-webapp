@@ -9,6 +9,9 @@ import Title from "../components/Title"
 import SectionInfo from "../components/SectionInfo"
 import useFindFilter from "../hooks/useFindFilter"
 import BooksModule from "../components/BooksModule"
+// @ts-ignore
+import styles from "../styles/pages.module"
+import FooterModule from "../components/FooterModule"
 
 const BookDetails: React.FC = () => {
   const { bookId }: any = useParams()
@@ -108,7 +111,7 @@ const BookDetails: React.FC = () => {
   return (
     <div className='container'>
       <Title title='Бібліотека' path='/library' />
-      <div className='wrapper-clear'>
+      <div className='wrapper'>
         {loadSection ? (
           <Loader />
         ) : (
@@ -132,6 +135,7 @@ const BookDetails: React.FC = () => {
               onRemove={refetchSection}
               onCreate={refetchSection}
               info={info}
+              exClass={styles.content__clear}
               subtitle={{
                 keyWord: "group",
                 title: "Клас",
@@ -147,6 +151,7 @@ const BookDetails: React.FC = () => {
         )}
       </div>
       <BooksModule title='Інші підручники' exceptId={info && info.id} />
+      <FooterModule />
     </div>
   )
 }
