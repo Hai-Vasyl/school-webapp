@@ -115,7 +115,7 @@ const Carousel: React.FC<ICarouselProps> = ({
 
   const isImageOwner =
     user.role === access.admin.keyWord ||
-    user.id === slides[params.currentItem].owner.id
+    user.id === slides[params.currentItem]?.owner.id
 
   return (
     <div
