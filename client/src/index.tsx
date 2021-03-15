@@ -33,11 +33,11 @@ const host = isDev
   : window.location.href.split("//")[1].split("/")[0]
 
 const httpLink = createUploadLink({
-  uri: `http://${host}/graphql`,
+  uri: `${isDev ? "http" : "https"}://${host}/graphql`,
 })
 
 const websocketLink = new WebSocketLink({
-  uri: `ws://${host}/graphql`,
+  uri: `${isDev ? "ws" : "wss"}://${host}/graphql`,
   options: {
     reconnect: true,
   },
