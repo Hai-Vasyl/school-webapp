@@ -2,7 +2,6 @@ const path = require("path")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const nodeExternals = require("webpack-node-externals")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-// const { StatsWriterPlugin } = require("webpack-stats-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin")
@@ -63,28 +62,9 @@ const clientConfig = {
           loader: "babel-loader",
         },
       },
-      // {
-      //   test: /\.(c|sc|sa)ss$/,
-      //   use: [
-      //     {
-      //       loader: MiniCssExtractPlugin.loader,
-      //       options: {
-      //         publicPath: "/dist/client/",
-      //       },
-      //     },
-      //     "css-loader",
-      //     "sass-loader",
-      //   ],
-      // },
       {
         test: /\.module\.(c|sc|sa)ss$/,
         use: [
-          // {
-          //   loader: MiniCssExtractPlugin.loader,
-          //   options: {
-          //     publicPath: "/dist/client/",
-          //   },
-          // },
           "style-loader",
           {
             loader: "css-loader",
@@ -98,17 +78,7 @@ const clientConfig = {
       {
         test: /\.(c|sc|sa)ss$/,
         exclude: /\.module.(c|sc|sa)ss$/,
-        use: [
-          // {
-          //   loader: MiniCssExtractPlugin.loader,
-          //   options: {
-          //     publicPath: "/dist/client/",
-          //   },
-          // },
-          "style-loader",
-          "css-loader",
-          "sass-loader",
-        ],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
