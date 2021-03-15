@@ -13,11 +13,13 @@
     "====== BUILD ======": "",
     "build:dev:client": "cross-env NODE_ENV=development webpack --config webpack.client.js --mode development",
     "build:dev:server": "cross-env NODE_ENV=development webpack --config webpack.server.js --mode development",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js --mode production",
     "====== START ======": "",
     "server": "nodemon dist/server/server.js",
     "start:dev:client": "cross-env NODE_ENV=development webpack serve --config webpack.client.js --mode development",
     "start:dev:server": "concurrently \"yarn watch:server\" \"yarn server\"",
-    "start": "concurrently \"yarn start:dev:server\" \"yarn start:dev:client\""
+    "start:dev": "concurrently \"yarn start:dev:server\" \"yarn start:dev:client\"",
+    "start": "node dist/server/server.js"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -68,6 +70,7 @@
     "@ckeditor/ckeditor5-react": "^3.0.0",
     "apollo-link-http": "^1.5.17",
     "apollo-server": "^2.18.2",
+    "apollo-server-express": "^2.21.1",
     "apollo-upload-client": "^14.1.3",
     "aws-sdk": "^2.817.0",
     "bcryptjs": "^2.4.3",

@@ -172,7 +172,6 @@ const Navbar: React.FC = () => {
             className={styles.nav__logo}
             onClick={() => dispatch({ type: RESET_TOGGLE })}
           >
-            {/* span */}
             <img src={logo} className={styles.nav__logo_img} alt='logotype' />
           </Link>
           <div className={styles.nav__title}>
