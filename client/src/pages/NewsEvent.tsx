@@ -49,13 +49,27 @@ const NewsEvent: React.FC = () => {
   } = useQuery(GET_CONTENT_IMAGES, { variables: { contentId } })
 
   const images = dataImages ? dataImages.getContentImages : []
-  const newsevent = dataNewsEvent ? dataNewsEvent.getNewsEvent : {}
+  const newsevent = dataNewsEvent
+    ? dataNewsEvent.getNewsEvent
+    : {
+        id: "",
+        type: "",
+        category: "",
+        content: "",
+        owner: {
+          id: "",
+        },
+        date: "",
+        links: [],
+        title: "",
+        dateEvent: "",
+      }
   const newseventParams = getNewsParamsByKey(newsevent.category)
   const newsEventExtraParams: any = newsevent && getParamsByType(newsevent.type)
   const content = newsevent && convertContent(newsevent.content)
 
   const isOwnerContent =
-    user.role === access.admin.keyWord || user.id === newsevent.owner.id
+    user.role === access.admin.keyWord || user?.id === newsevent.owner?.id
 
   return (
     <div className='container'>
@@ -149,13 +163,15 @@ const NewsEvent: React.FC = () => {
             </div>
             <div className={styles.newsevent__info}>
               <span className={styles.newsevent__info_title}>Автор:</span>
-              <UserCard
-                exClass={styles.newsevent__info_text}
-                user={newsevent.owner}
-                isEnvChat={false}
-                isLink
-                minimize
-              />
+              {newsevent.owner && (
+                <UserCard
+                  exClass={styles.newsevent__info_text}
+                  user={newsevent.owner}
+                  isEnvChat={false}
+                  isLink
+                  minimize
+                />
+              )}
             </div>
           </div>
         </>
