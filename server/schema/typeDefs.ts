@@ -119,7 +119,7 @@ export default gql`
     chatId: Chat!
   }
   type Auth {
-    user: User
+    userId: String
     token: String
   }
   type Searched {
@@ -155,6 +155,7 @@ export default gql`
   }
 
   type Query {
+    getUser(userId: String!): User!
     getFilters(url: String!): [Filter]!
     getPageSections(
       search: String

@@ -1,4 +1,6 @@
 export const SET_AUTH = "SET_AUTH"
+export const SET_USER_DATA = "SET_USER_DATA"
+export const RESET_AUTH = "RESET_AUTH"
 
 export type User = {
   id: string
@@ -15,31 +17,26 @@ export type User = {
   confirmed: boolean
   middlename: string
   role: string
-  group?: {
-    owner?: {
-      id: string
-      username: string
-      email: string
-      ava: string
-      color: string
-      firstname: string
-      lastname: string
-      middlename: string
-      role: string
-    }
-    name: string
-    date: string
-  }
 }
 
 export type Auth = {
-  user: User
+  userId: string
   token: string
+  init: boolean
 }
 
 export interface SetAuth {
   type: typeof SET_AUTH
-  payload: { auth: Auth; init: boolean }
+  payload: Auth
 }
 
-export type AuthReducerTypes = SetAuth
+export interface SetUserData {
+  type: typeof SET_USER_DATA
+  payload: User
+}
+
+export interface ResetAuth {
+  type: typeof RESET_AUTH
+}
+
+export type AuthReducerTypes = SetAuth | SetUserData | ResetAuth

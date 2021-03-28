@@ -9,7 +9,7 @@
       rgba(0, 0, 0, 0.8),
       rgba(0, 0, 0, 0.4),
       rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.4)
+      rgba(0, 0, 0, 0.8)
     );
   }
   &__minimize {
@@ -133,6 +133,7 @@
   }
   &__link_icon {
     font-size: 1.1em;
+    color: getColor(accent);
   }
   &__title {
     padding: 5px 0;
@@ -144,6 +145,8 @@
       width: 1000px;
       max-width: 100%;
       position: relative;
+      padding-bottom: 12px;
+      // margin-bottom: 20px;
       color: getColor(font-white);
       &:hover {
         color: getColor(font-white);
@@ -153,8 +156,9 @@
         width: 100px;
         height: 6px;
         background-color: getColor(accent);
+        border-left: 10px solid getColor(accent-main);
         position: absolute;
-        bottom: -7px;
+        bottom: -10px;
         left: 0;
         box-shadow: getShadow(thin);
         transform: skew(30deg);
@@ -165,7 +169,7 @@
     height: 0px;
     transition: getTransition(slow);
     overflow: hidden;
-    margin-top: 30px;
+    margin-top: 55px;
     margin-bottom: 15px;
     width: 710px;
     max-width: 100%;

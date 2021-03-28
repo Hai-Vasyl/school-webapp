@@ -3,38 +3,29 @@ import { gql } from "@apollo/client"
 export const LOGIN_USER = gql`
   query LOGIN_USER($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-      user {
-        id
-        username
-        email
-        ava
-        color
-        firstname
-        confirmed
-        lastname
-        middlename
-        phone
-        address
-        birth
-        role
-        group {
-          owner {
-            id
-            username
-            email
-            ava
-            color
-            firstname
-            lastname
-            middlename
-            role
-          }
-          name
-          date
-        }
-        date
-      }
+      userId
       token
+    }
+  }
+`
+
+export const GET_DATA_USER = gql`
+  query GET_DATA_USER($userId: String!) {
+    getUser(userId: $userId) {
+      id
+      username
+      email
+      ava
+      color
+      firstname
+      confirmed
+      lastname
+      middlename
+      phone
+      address
+      birth
+      role
+      date
     }
   }
 `
@@ -60,22 +51,7 @@ export const REGISTER_USER = gql`
       role: $role
       group: $group
     ) {
-      user {
-        id
-        username
-        email
-        ava
-        color
-        firstname
-        confirmed
-        lastname
-        middlename
-        phone
-        address
-        birth
-        role
-        date
-      }
+      userId
       token
     }
   }

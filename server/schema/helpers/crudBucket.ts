@@ -1,6 +1,7 @@
 import { config } from "dotenv"
 import { v4 as uuidv4 } from "uuid"
 import AWS from "aws-sdk"
+const stream = require("stream")
 config()
 const { AWS_ID, AWS_SECRET } = process.env
 
@@ -19,7 +20,6 @@ const getInitParams = (
     Bucket,
     Key: `${uuidv4()}.${filename}`,
     Body: createReadStream(),
-    Conditions: [{ acl: "public-read" }],
   }
 }
 

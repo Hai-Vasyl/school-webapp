@@ -12,9 +12,9 @@ $colors: (
   font-light: rgb(122, 121, 121),
   font-white: #fff,
   // font-dark: #333,
-  accent: #1b4a89,
-  // accent: #2165bf,
-  accent-main: rgb(247, 247, 8),
+  // accent: #1b4a89,
+  accent: #005aa9,
+  accent-main: #fcb813,
   accent-second: #4185b8,
   accent-gradient: #8a41ac,
   title-simple: rgb(199, 199, 199),
@@ -105,7 +105,6 @@ $fonts: (
       serif,
     ),
 );
-$logo-side: 123px;
 
 @function getColor($color) {
   @return map-get($colors, $color);

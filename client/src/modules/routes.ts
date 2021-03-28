@@ -1,6 +1,5 @@
 import Home from "../pages/Home"
 import Profile from "../pages/Profile"
-import { BsChat, BsSearch, BsBell } from "react-icons/bs"
 import About from "../pages/About"
 import Team from "../pages/Team"
 import Graduates from "../pages/Graduates"
@@ -17,21 +16,6 @@ import ModNewsEvent from "../pages/ModNewsEvent"
 import BookDetails from "../pages/BookDetails"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
-
-export const buttons = {
-  search: {
-    keyWord: "search",
-    Icon: BsSearch,
-  },
-  chat: {
-    keyWord: "chat",
-    Icon: BsChat,
-  },
-  notif: {
-    keyWord: "notif",
-    Icon: BsBell,
-  },
-}
 
 export const getLinks = (role: string) => {
   const allLinks = [

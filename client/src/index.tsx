@@ -27,7 +27,7 @@ import { createUploadLink } from "apollo-upload-client"
 //   },
 // })
 
-const isDev = false
+const isDev = true
 const host = isDev
   ? "localhost:5000"
   : window.location.href.split("//")[1].split("/")[0]

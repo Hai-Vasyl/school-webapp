@@ -39,6 +39,14 @@
   background-color: transparent;
   border: 1px solid getColor(main-dark);
 }
+.btn_clear {
+  color: getColor(font-white);
+  background-color: transparent;
+  border: 1px solid transparent;
+  &:hover {
+    border-color: getColor(bg-light);
+  }
+}
 .btn_disabled {
   color: getColor(font);
   background-color: getColor(main-dark);
@@ -98,26 +106,6 @@
   }
   &__title {
     font-size: 0.9em;
-  }
-}
-
-.btn_action {
-  font-size: 16px;
-  display: flex;
-  padding: 15px 20px;
-  border-left: 1px solid getColor(bg-light);
-  // background-color: getColor(font-white);
-  background-color: transparent;
-  transition: getTransition(main);
-  color: getColor(font-white);
-  & > * {
-    margin: auto;
-  }
-  &:last-child {
-    border-right: 1px solid getColor(bg-light);
-  }
-  &:hover {
-    background-color: getColor(main);
   }
 }
 

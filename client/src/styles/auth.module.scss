@@ -31,28 +31,6 @@
   }
   &__wrapper {
     width: 50%;
-    transition: getTransition(slow);
-    &__extend {
-      width: 100%;
-      .form__wrapper_form {
-        position: absolute;
-        background-color: getColor(secondary);
-        left: 50%;
-        width: 50%;
-      }
-      .form__wrapper_form:first-child {
-        left: 0%;
-        transform: scale(1);
-      }
-    }
-  }
-  &__loadbar {
-    height: 5px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    background-image: getGradient(main);
   }
   &__title {
     text-align: center;
@@ -100,53 +78,17 @@
     overflow: hidden;
     @extend %background-accent;
     display: flex;
-    &__close {
-      width: 0px;
-    }
   }
-  // &__btn_back,
-  // &__btn_close {
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 25px;
-  //   transform: translateY(-50%);
-  //   visibility: visible;
-  //   opacity: 1;
-  //   &__close {
-  //     opacity: 0;
-  //     visibility: hidden;
-  //   }
-  // }
-  // &__btn_close {
-  //   left: auto;
-  //   right: 30px;
-  // }
   &__sidebar_title {
-    // letter-spacing: 2px;
     font-weight: normal;
     font-size: 2em;
     font-family: getFont(second);
     color: getColor(secondary);
-    opacity: 0;
-    transform: scale(0.9);
-    transition: getTransition(main-slow);
-    &__appear {
-      opacity: 1;
-      transform: scale(1);
-    }
   }
   &__paragraph {
     color: getColor(secondary);
     text-align: center;
     margin: 25px 0;
-    opacity: 0;
-    transform: scale(0.9);
-    transition: getTransition(main-slow);
-    transition-delay: 0.5s;
-    &__appear {
-      opacity: 1;
-      transform: scale(1);
-    }
   }
   &__sidebar_content {
     margin: auto;

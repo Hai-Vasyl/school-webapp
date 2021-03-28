@@ -1,7 +1,7 @@
 @import "base";
 
 .title {
-  height: 45vh;
+  height: 50vh;
   @extend %background-accent;
   position: relative;
   display: flex;
@@ -18,7 +18,8 @@
     z-index: 2;
     background-image: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.7),
       rgba(0, 0, 0, 0.6)
     );
   }
@@ -27,10 +28,10 @@
     z-index: 3;
     font-size: 4em;
     color: getColor(font-white);
-    padding-top: 110px;
+    padding-top: 145px;
     font-weight: normal;
-    font-family: getFont(second);
-    // font-family: getFont(third);
+    // font-family: getFont(second);
+    font-family: getFont(third);
     // font-weight: bold;
     // font-style: italic;
     // &::before {

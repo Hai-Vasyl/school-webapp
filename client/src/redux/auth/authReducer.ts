@@ -1,6 +1,17 @@
-import { AuthReducerTypes, SET_AUTH, Auth } from "./authTypes"
+import {
+  AuthReducerTypes,
+  SET_AUTH,
+  RESET_AUTH,
+  SET_USER_DATA,
+  User,
+} from "./authTypes"
 
-const initState: Auth = {
+interface IInitState {
+  token: string
+  user: User
+}
+
+const initState: IInitState = {
   token: "",
   user: {
     id: "",
@@ -20,14 +31,30 @@ const initState: Auth = {
   },
 }
 
-const authReducer = (state = initState, action: AuthReducerTypes): Auth => {
+const authReducer = (
+  state = initState,
+  action: AuthReducerTypes
+): IInitState => {
   switch (action.type) {
-    case SET_AUTH:
-      if (action.payload.init) {
-        return action.payload.auth
+    case SET_USER_DATA:
+      return {
+        ...state,
+        user: action.payload,
       }
-      localStorage.setItem("auth", JSON.stringify(action.payload.auth))
-      return action.payload.auth
+    case SET_AUTH:
+      const token = action.payload.token
+      const userId = action.payload.userId
+      if (!action.payload.init) {
+        localStorage.setItem("auth", JSON.stringify({ token, userId }))
+      }
+      return {
+        ...state,
+        token,
+        user: { ...state.user, id: userId },
+      }
+    case RESET_AUTH:
+      localStorage.setItem("auth", JSON.stringify({ token: "", userId: "" }))
+      return initState
     default:
       return state
   }

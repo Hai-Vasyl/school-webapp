@@ -32,7 +32,7 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
           params.previousItem === index &&
           (params.isRight ? styles.slide__prev_left : styles.slide__prev_right)
         }`}
-        src={info.preview.location}
+        src={info.preview?.location}
         alt='imgSlide'
       />
       <div
@@ -64,12 +64,12 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
         <div className={styles.slide__btns}>
           <Button
             click={() => history.push(`/news/details/${info.id}`)}
-            exClass={stylesBtn.btn_primary}
+            exClass={stylesBtn.btn_outline_light}
             title='Детальніше'
           />
           <Button
             click={() => history.push("/news")}
-            exClass={stylesBtn.btn_outline_light}
+            exClass={stylesBtn.btn_clear}
             title='Усі новини'
           />
         </div>

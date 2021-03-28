@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import { config } from "dotenv"
 import { AuthenticationError } from "apollo-server"
 import { registerValid, loginValid } from "../validation/auth"
-import { IField } from "../interfaces"
+import { IField, IIsAuth } from "../interfaces"
 import { getColor } from "../helpers/randomColor"
 config({ path: "../../../.env" })
 const { JWT_SECRET }: any = process.env
@@ -43,10 +43,10 @@ export const Query = {
       const newUser = await user.save()
 
       if (args.isAdmin) {
-        return { user: newUser }
+        return { userId: newUser.id }
       }
       const token = jwt.sign({ userId: newUser._id }, JWT_SECRET)
-      return { user: newUser, token }
+      return { userId: newUser.id, token }
     } catch (error) {
       throw new AuthenticationError(error.message)
     }
@@ -61,9 +61,21 @@ export const Query = {
       const { instance: user } = validatedFields
       const token = jwt.sign({ userId: user?._id }, JWT_SECRET)
 
-      return { user, token }
+      return { userId: user?._id, token }
     } catch (error) {
       throw new AuthenticationError(error.message)
+    }
+  },
+  async getUser(_: any, { userId }: IField, { isAuth }: { isAuth: IIsAuth }) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const user = await User.findById(userId)
+      return user
+    } catch (error) {
+      throw new Error(`Getting user data error: ${error.message}`)
     }
   },
 }

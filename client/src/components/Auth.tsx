@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { LOGIN_USER, REGISTER_USER } from "../fetching/queries"
+import { LOGIN_USER } from "../fetching/queries"
 import { useLazyQuery } from "@apollo/client"
-import { AiOutlineLogin, AiOutlineCheckCircle } from "react-icons/ai"
+import { AiOutlineLogin } from "react-icons/ai"
 import { BsArrowLeft, BsX } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import { SET_AUTH } from "../redux/auth/authTypes"
@@ -23,7 +23,6 @@ const Auth: React.FC = () => {
     toggle: { authForm },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
-  const [isLogin, setIslogin] = useState(true)
   const { setErrors } = useSetErrorsFields()
   const [form, setForm] = useState([
     {
@@ -41,26 +40,8 @@ const Auth: React.FC = () => {
       msg: "",
     },
   ])
-  const [formReg, setFormReg] = useState([
-    { param: "firstname", type: "text", value: "", title: "Ім'я", msg: "" },
-    {
-      param: "lastname",
-      type: "text",
-      value: "",
-      title: "Прізвище",
-      msg: "",
-    },
-    {
-      param: "username",
-      type: "text",
-      value: "",
-      title: "Ім'я користувача",
-      msg: "",
-    },
-  ])
 
   const [login, logFetch] = useLazyQuery(LOGIN_USER)
-  const [register, regFetch] = useLazyQuery(REGISTER_USER)
 
   useEffect(() => {
     if (logFetch.error) {
@@ -68,44 +49,11 @@ const Auth: React.FC = () => {
     } else if (logFetch.data && logFetch.data.login) {
       dispatch({
         type: SET_AUTH,
-        payload: {
-          auth: logFetch.data.login,
-          init: false,
-        },
+        payload: { ...logFetch.data.login, init: false },
       })
       dispatch({ type: AUTHFORM_TOGGLE })
     }
   }, [setErrors, logFetch, dispatch])
-
-  useEffect(() => {
-    if (regFetch.error) {
-      setErrors(regFetch.error.message, setForm)
-      setErrors(regFetch.error.message, setFormReg)
-    } else if (regFetch.data && regFetch.data.register) {
-      dispatch({
-        type: SET_AUTH,
-        payload: {
-          auth: regFetch.data.register,
-          init: false,
-        },
-      })
-      dispatch({ type: AUTHFORM_TOGGLE })
-    }
-  }, [setErrors, regFetch, dispatch])
-
-  const clearErrors = (setTemplForm: any) => {
-    setTemplForm((prevForm: IField[]) =>
-      prevForm.map((field) => {
-        return { ...field, msg: "" }
-      })
-    )
-  }
-
-  const handleFlipForm = () => {
-    clearErrors(setForm)
-    clearErrors(setFormReg)
-    setIslogin((prevIsLogin) => !prevIsLogin)
-  }
 
   const handleSubmit = (
     event:
@@ -114,32 +62,17 @@ const Auth: React.FC = () => {
   ) => {
     event.preventDefault()
     const [email, password] = form
-    const [firstname, lastname, username] = formReg
-
-    if (isLogin) {
-      login({
-        variables: {
-          email: email.value.trim(),
-          password: password.value.trim(),
-        },
-      })
-    } else {
-      register({
-        variables: {
-          firstname: firstname.value.trim(),
-          lastname: lastname.value.trim(),
-          username: username.value.trim(),
-          email: email.value.trim(),
-          password: password.value.trim(),
-          isAdmin: false,
-        },
-      })
-    }
+    login({
+      variables: {
+        email: email.value.trim(),
+        password: password.value.trim(),
+      },
+    })
   }
 
-  const handleCloseForm = () => {
-    dispatch({ type: AUTHFORM_TOGGLE })
-  }
+  // const handleCloseForm = () => {
+  //   dispatch({ type: AUTHFORM_TOGGLE })
+  // }
 
   const reduceMapFields = (form: IField[], setForm: any) => {
     return form.map((field) => {
@@ -149,35 +82,10 @@ const Auth: React.FC = () => {
 
   return (
     <div className={`${styles.form} ${authForm && styles.form__active}`}>
-      <div className={styles.form__loadbar}></div>
-      <div
-        className={`${styles.form__wrapper} ${
-          !isLogin && styles.form__wrapper__extend
-        }`}
-      >
-        <h3 className={styles.form__title}>
-          {isLogin ? "Увійти" : "Зареєструватися"}
-          <ButtonTab
-            Icon={BsArrowLeft}
-            click={handleFlipForm}
-            exClass={`${styles.form__btn_back} ${
-              isLogin ? styles.form__btn_back__close : ""
-            }`}
-          />
-          <ButtonTab
-            Icon={BsX}
-            click={handleCloseForm}
-            exClass={`${styles.form__btn_close}`}
-          />
-        </h3>
+      <div className={styles.form__wrapper}>
+        <h3 className={styles.form__title}>Увійти</h3>
         <div className={styles.form__wrapper_forms}>
-          <div className={styles.form__wrapper_form}>
-            <form className={styles.form__fields} onSubmit={handleSubmit}>
-              {reduceMapFields(formReg, setFormReg)}
-              <button className='btn-handler'></button>
-            </form>
-          </div>
-          <LoaderData load={logFetch.loading || regFetch.loading} />
+          <LoaderData load={logFetch.loading} />
           <div className={styles.form__wrapper_form}>
             <form className={styles.form__fields} onSubmit={handleSubmit}>
               {reduceMapFields(form, setForm)}
@@ -186,40 +94,20 @@ const Auth: React.FC = () => {
             <div className={styles.form__btns}>
               <Button
                 click={handleSubmit}
-                exClass={`${stylesButton.btn_primary}`}
-                Icon={isLogin ? AiOutlineLogin : AiOutlineCheckCircle}
-                title={isLogin ? "Увійти" : "Зареєструватися"}
+                exClass={stylesButton.btn_primary}
+                Icon={AiOutlineLogin}
+                title='Увійти'
               />
             </div>
           </div>
         </div>
       </div>
-      <div
-        className={`${styles.form__sidebar} ${
-          !isLogin && styles.form__sidebar__close
-        }`}
-      >
+      <div className={styles.form__sidebar}>
         <div className={styles.form__sidebar_content}>
-          <h3
-            className={`${styles.form__sidebar_title} ${
-              isLogin && styles.form__sidebar_title__appear
-            }`}
-          >
-            Привіт, друже!
-          </h3>
-          <p
-            className={`${styles.form__paragraph} ${
-              isLogin && styles.form__paragraph__appear
-            }`}
-          >
+          <h3 className={styles.form__sidebar_title}>Привіт, друже!</h3>
+          <p className={styles.form__paragraph}>
             Введи свої особисті дані та починай подорож до знань разом з нами
           </p>
-          <Button
-            click={handleFlipForm}
-            exClass={stylesButton.btn_outline_light}
-            Icon={AiOutlineCheckCircle}
-            title={"Зареєструватися"}
-          />
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { getLinks, buttons } from "../modules/routes"
+import { getLinks } from "../modules/routes"
 import { RootStore } from "../redux/store"
 import { NavLink, Link } from "react-router-dom"
-import { BsSearch, BsBell, BsChatDots, BsCaretRightFill } from "react-icons/bs"
+import { BsSearch, BsCaretRightFill } from "react-icons/bs"
 import { AiOutlineLogout, AiOutlineCheckCircle } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
 import { useSelector, useDispatch } from "react-redux"
@@ -22,13 +22,13 @@ import {
 } from "../fetching/queries"
 import { SET_NOTIFICATIONS } from "../redux/notifications/notifTypes"
 import { SET_UNREAD_MESSAGES } from "../redux/unreadMsgs/msgsTypes"
-import ButtonAction from "./ButtonAction"
 import NavigLink from "./NavigLink"
 // @ts-ignore
 import logo from "../images/logo.png"
 import { access } from "../modules/accessModifiers"
 import { ILink } from "../interfaces"
 import UserAva from "./UserAva"
+import { RESET_AUTH } from "../redux/auth/authTypes"
 
 const Navbar: React.FC = () => {
   const {
@@ -58,19 +58,19 @@ const Navbar: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    const notifData = dataNotifications && dataNotifications.getNotifications
-    if (notifData) {
-      dispatch({ type: SET_NOTIFICATIONS, payload: notifData })
-    }
-  }, [dispatch, dataNotifications])
+  // useEffect(() => {
+  //   const notifData = dataNotifications && dataNotifications.getNotifications
+  //   if (notifData) {
+  //     dispatch({ type: SET_NOTIFICATIONS, payload: notifData })
+  //   }
+  // }, [dispatch, dataNotifications])
 
-  useEffect(() => {
-    const messages = dataMessages && dataMessages.getUnreadMessages
-    if (messages) {
-      dispatch({ type: SET_UNREAD_MESSAGES, payload: messages })
-    }
-  }, [dispatch, dataMessages])
+  // useEffect(() => {
+  //   const messages = dataMessages && dataMessages.getUnreadMessages
+  //   if (messages) {
+  //     dispatch({ type: SET_UNREAD_MESSAGES, payload: messages })
+  //   }
+  // }, [dispatch, dataMessages])
 
   const handleDropDown = () => {
     dispatch({ type: DROPDOWN_TOGGLE })
@@ -87,39 +87,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     dispatch({ type: RESET_TOGGLE })
-    console.log("LOGOUT!")
-  }
-
-  const getActionButtons = () => {
-    return Object.keys(buttons).map((key) => {
-      // @ts-ignore
-      switch (key) {
-        case buttons.search.keyWord:
-          return (
-            <ButtonAction
-              key={key}
-              Icon={buttons.search.Icon}
-              click={handleSubmitSearch}
-            />
-          )
-        case buttons.chat.keyWord:
-          return (
-            <ButtonAction
-              key={key}
-              Icon={buttons.chat.Icon}
-              click={() => dispatch({ type: CHAT_TOGGLE })}
-            />
-          )
-        case buttons.notif.keyWord:
-          return (
-            <ButtonAction
-              key={key}
-              Icon={buttons.notif.Icon}
-              click={() => dispatch({ type: NOTIFICATIONS_TOGGLE })}
-            />
-          )
-      }
-    })
+    dispatch({ type: RESET_AUTH })
   }
 
   const reduceMapLins = (links: ILink[]) => {
@@ -172,7 +140,16 @@ const Navbar: React.FC = () => {
             className={styles.nav__logo}
             onClick={() => dispatch({ type: RESET_TOGGLE })}
           >
-            <img src={logo} className={styles.nav__logo_img} alt='logotype' />
+            <img
+              src='https://school-website-upload-bucket.s3-eu-west-1.amazonaws.com/logo_45_2.svg'
+              className={styles.nav__logo_img}
+              alt='logotype'
+            />
+            {/* <img
+              src='https://school-website-upload-bucket.s3-eu-west-1.amazonaws.com/logo_45_1.svg'
+              className={styles.nav__logo_img}
+              alt='logotype'
+            /> */}
           </Link>
           <div className={styles.nav__title}>
             <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
@@ -187,9 +164,17 @@ const Navbar: React.FC = () => {
               placeholder='Пошук'
               onChange={handleChangeSearch}
             />
+            <BsSearch className={styles.search__button} />
           </form>
-          <div className={styles.nav__action_btns}>{getActionButtons()}</div>
         </div>
+      </div>
+      <div className={styles.nav__border_second}>
+        <div></div>
+        <div className={styles.nav__border_second__content}>
+          <div></div>
+          <div></div>
+        </div>
+        <div></div>
       </div>
       <div className={styles.nav__wrapper_menu}>
         <div className={styles.nav__menu}>
@@ -244,7 +229,7 @@ const Navbar: React.FC = () => {
               }`}
               onClick={() => dispatch({ type: AUTHFORM_TOGGLE })}
             >
-              <AiOutlineLogout className={styles.link__text_icon} />
+              {/* <AiOutlineLogout className={styles.link__text_icon} /> */}
               <span className={styles.btn_login__text}>Увійти</span>
             </button>
           )}
