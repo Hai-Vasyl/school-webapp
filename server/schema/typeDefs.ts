@@ -202,6 +202,7 @@ export default gql`
     getUnreadMessages: [Message]!
   }
   type Mutation {
+    setUserAva(image: Upload, deleting: Boolean!): Msg!
     sendEmail(
       firstname: String!
       lastname: String!

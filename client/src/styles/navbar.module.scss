@@ -18,6 +18,7 @@
     background-color: getColor(secondary);
     transform: translateY(-57px);
     box-shadow: getShadow(main);
+    backdrop-filter: none;
     .nav__border {
       height: 0;
     }
@@ -60,6 +61,11 @@
       }
       &__ava {
         border: 1px solid getColor(main-dark);
+      }
+    }
+    .btn_login {
+      &__text {
+        color: getColor(font);
       }
     }
     // .nav__title {

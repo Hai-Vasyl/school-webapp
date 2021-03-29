@@ -448,89 +448,87 @@ const ModNewsEvent: React.FC = () => {
                 {isNews ? "новини" : "події"}
               </div>
             </div>
-            <form
-              className={styles.form__container_fields}
-              onSubmit={handleSubmitForm}
-            >
+            <div className={styles.form__container_fields}>
               <LoaderData
                 load={loadDataEdit || loadCreate || loadEdit || loadDelete}
               />
-              <div className={styles.form__fields}>{fields}</div>
-              <button className='btn-handler'></button>
-            </form>
-            <form
-              className={styles.form__container_fields}
-              onSubmit={
-                isFormLinkFilled
-                  ? handleAddExtraLink
-                  : (event) => {
-                      event.preventDefault()
+
+              <form onSubmit={handleSubmitForm}>
+                <div className={styles.form__fields}>{fields}</div>
+                <button className='btn-handler'></button>
+              </form>
+              <form
+                onSubmit={
+                  isFormLinkFilled
+                    ? handleAddExtraLink
+                    : (event) => {
+                        event.preventDefault()
+                      }
+                }
+              >
+                <div className={styles.form__title_simple}>
+                  Додаткові посилання
+                </div>
+                <div className={styles.form__fields}>{fieldsLink}</div>
+                <button className='btn-handler'></button>
+                <div className={styles.form__btns}>
+                  <Button
+                    title={
+                      activeEditItem
+                        ? "Оновити посилання"
+                        : "Добавити посилання"
                     }
-              }
-            >
-              <LoaderData
-                load={loadDataEdit || loadCreate || loadEdit || loadDelete}
-              />
-              <div className={styles.form__title_simple}>
-                Додаткові посилання
-              </div>
-              <div className={styles.form__fields}>{fieldsLink}</div>
-              <button className='btn-handler'></button>
+                    exClass={
+                      isFormLinkFilled
+                        ? stylesBtn.btn_primary
+                        : stylesBtn.btn_disabled
+                    }
+                    Icon={BsLink45Deg}
+                    click={handleAddExtraLink}
+                    disabled={!isFormLinkFilled}
+                    type='button'
+                  />
+                </div>
+                <div
+                  className={`${styles.form__stack} ${styles.form__stack_short}`}
+                >
+                  {extraLinksJSX.length ? (
+                    extraLinksJSX
+                  ) : (
+                    <div className={styles.form__plug_text}>Порожньо</div>
+                  )}
+                </div>
+              </form>
               <div className={styles.form__btns}>
                 <Button
                   title={
-                    activeEditItem ? "Оновити посилання" : "Добавити посилання"
+                    contentId
+                      ? "Застосувати зміни"
+                      : `Створити ${isNews ? "новину" : "подію"}`
                   }
-                  exClass={
-                    isFormLinkFilled
-                      ? stylesBtn.btn_primary
-                      : stylesBtn.btn_disabled
-                  }
-                  Icon={BsLink45Deg}
-                  click={handleAddExtraLink}
-                  disabled={!isFormLinkFilled}
+                  exClass={stylesBtn.btn_primary}
+                  Icon={contentId ? BsPencil : BsPlus}
+                  click={handleSubmitForm}
                   type='button'
                 />
-              </div>
-              <div
-                className={`${styles.form__stack} ${styles.form__stack_short}`}
-              >
-                {extraLinksJSX.length ? (
-                  extraLinksJSX
-                ) : (
-                  <div className={styles.form__plug_text}>Порожньо</div>
+                {contentId && (
+                  <>
+                    <Button
+                      exClass={stylesBtn.btn_simple}
+                      Icon={BsArrowClockwise}
+                      click={handleRefreshForms}
+                      type='button'
+                    />
+                    <Button
+                      title='Видалити'
+                      exClass={stylesBtn.btn_simple}
+                      Icon={BsTrash}
+                      click={handlePopupWarning}
+                      type='button'
+                    />
+                  </>
                 )}
               </div>
-            </form>
-            <div className={styles.form__btns}>
-              <Button
-                title={
-                  contentId
-                    ? "Застосувати зміни"
-                    : `Створити ${isNews ? "новину" : "подію"}`
-                }
-                exClass={stylesBtn.btn_primary}
-                Icon={contentId ? BsPencil : BsPlus}
-                click={handleSubmitForm}
-                type='button'
-              />
-              {contentId && (
-                <>
-                  <Button
-                    exClass={stylesBtn.btn_simple}
-                    Icon={BsArrowClockwise}
-                    click={handleRefreshForms}
-                    type='button'
-                  />
-                  <Button
-                    title='Видалити'
-                    exClass={stylesBtn.btn_simple}
-                    Icon={BsTrash}
-                    click={handlePopupWarning}
-                    type='button'
-                  />
-                </>
-              )}
             </div>
           </div>
         </div>

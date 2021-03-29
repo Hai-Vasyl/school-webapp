@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { LOGIN_USER } from "../fetching/queries"
 import { useLazyQuery } from "@apollo/client"
 import { AiOutlineLogin } from "react-icons/ai"
-import { BsArrowLeft, BsX } from "react-icons/bs"
+import { BsX } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import { SET_AUTH } from "../redux/auth/authTypes"
 import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
@@ -70,9 +70,9 @@ const Auth: React.FC = () => {
     })
   }
 
-  // const handleCloseForm = () => {
-  //   dispatch({ type: AUTHFORM_TOGGLE })
-  // }
+  const handleCloseForm = () => {
+    dispatch({ type: AUTHFORM_TOGGLE })
+  }
 
   const reduceMapFields = (form: IField[], setForm: any) => {
     return form.map((field) => {
@@ -82,32 +82,27 @@ const Auth: React.FC = () => {
 
   return (
     <div className={`${styles.form} ${authForm && styles.form__active}`}>
-      <div className={styles.form__wrapper}>
-        <h3 className={styles.form__title}>Увійти</h3>
-        <div className={styles.form__wrapper_forms}>
-          <LoaderData load={logFetch.loading} />
-          <div className={styles.form__wrapper_form}>
-            <form className={styles.form__fields} onSubmit={handleSubmit}>
-              {reduceMapFields(form, setForm)}
-              <button className='btn-handler'></button>
-            </form>
-            <div className={styles.form__btns}>
-              <Button
-                click={handleSubmit}
-                exClass={stylesButton.btn_primary}
-                Icon={AiOutlineLogin}
-                title='Увійти'
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className={styles.form__sidebar}>
-        <div className={styles.form__sidebar_content}>
-          <h3 className={styles.form__sidebar_title}>Привіт, друже!</h3>
-          <p className={styles.form__paragraph}>
-            Введи свої особисті дані та починай подорож до знань разом з нами
-          </p>
+      <h3 className={styles.form__title}>
+        Увійти
+        <ButtonTab
+          exClass={styles.form__btn_close}
+          click={handleCloseForm}
+          Icon={BsX}
+        />
+      </h3>
+      <div className={styles.form__wrapper_form}>
+        <LoaderData load={logFetch.loading} />
+        <form className={styles.form__fields} onSubmit={handleSubmit}>
+          {reduceMapFields(form, setForm)}
+          <button className='btn-handler'></button>
+        </form>
+        <div className={styles.form__btns}>
+          <Button
+            click={handleSubmit}
+            exClass={stylesButton.btn_primary}
+            Icon={AiOutlineLogin}
+            title='Увійти'
+          />
         </div>
       </div>
     </div>

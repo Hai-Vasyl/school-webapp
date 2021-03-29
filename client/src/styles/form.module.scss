@@ -28,16 +28,18 @@
     position: relative;
   }
   &__title {
-    height: 70px;
     @extend %flex-center;
-    // border-bottom: 1px solid getColor(main-dark);
     background-color: getColor(main);
-    font-weight: bold;
     font-family: getFont(third);
     position: relative;
+    border-bottom: 1px solid getColor(main-dark);
   }
   &__title_text {
-    font-size: 1.2em;
+    position: relative;
+    font-size: 2em;
+    font-family: getFont(third);
+    padding: 14px 0;
+    font-weight: bold;
     color: getColor(font-light);
   }
   &__title_simple {

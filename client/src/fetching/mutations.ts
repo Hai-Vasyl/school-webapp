@@ -26,6 +26,15 @@ export const SET_PAGE_IMAGE = gql`
   }
 `
 
+export const SET_USER_AVA = gql`
+  mutation SET_USER_AVA($image: Upload, $deleting: Boolean!) {
+    setUserAva(image: $image, deleting: $deleting) {
+      message
+      type
+    }
+  }
+`
+
 export const CREATE_CHAT = gql`
   mutation CREATE_CHAT(
     $title: String!

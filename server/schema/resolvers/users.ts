@@ -6,8 +6,10 @@ import { AuthenticationError } from "apollo-server"
 import { registerValid, loginValid } from "../validation/auth"
 import { IField, IIsAuth } from "../interfaces"
 import { getColor } from "../helpers/randomColor"
+import { uploadFile, deleteFile, updateFile } from "../helpers/crudBucket"
+import { types } from "../../modules/messageTypes"
 config({ path: "../../../.env" })
-const { JWT_SECRET }: any = process.env
+const { JWT_SECRET, AWS_CHAT_USER_BUCKET: chatUserBucket }: any = process.env
 
 export const Query = {
   async register(_: any, args: IField) {
@@ -76,6 +78,58 @@ export const Query = {
       return user
     } catch (error) {
       throw new Error(`Getting user data error: ${error.message}`)
+    }
+  },
+}
+
+export const Mutation = {
+  async setUserAva(
+    _: any,
+    { image: uploadImage, deleting }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const user: any = await User.findById(isAuth.userId)
+      const imgParts = user.ava.split("/")
+      const imgKey = imgParts[imgParts.length - 1]
+
+      if (user) {
+        let ava = ""
+        if (deleting) {
+          if (user.ava) {
+            await deleteFile(imgKey, chatUserBucket || "")
+          }
+        } else {
+          if (!!uploadImage) {
+            if (user.ava) {
+              const uploaded = await updateFile(
+                uploadImage,
+                imgKey,
+                chatUserBucket || ""
+              )
+              ava = uploaded.Location
+            } else {
+              const uploaded = await uploadFile(
+                uploadImage,
+                chatUserBucket || ""
+              )
+              ava = uploaded.Location
+            }
+          }
+        }
+        await User.findByIdAndUpdate(isAuth.userId, { ava })
+      }
+
+      return {
+        type: types.success.keyWord,
+        message: "Зображення оновлено успішно!",
+      }
+    } catch (error) {
+      throw new Error(`Updating user avatar error: ${error.message}`)
     }
   },
 }

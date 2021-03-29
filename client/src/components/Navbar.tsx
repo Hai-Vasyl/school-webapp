@@ -229,7 +229,6 @@ const Navbar: React.FC = () => {
               }`}
               onClick={() => dispatch({ type: AUTHFORM_TOGGLE })}
             >
-              {/* <AiOutlineLogout className={styles.link__text_icon} /> */}
               <span className={styles.btn_login__text}>Увійти</span>
             </button>
           )}

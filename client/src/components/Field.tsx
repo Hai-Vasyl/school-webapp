@@ -60,7 +60,7 @@ const Field: React.FC<IFieldProps> = ({
           type={viewPass && isPassword ? "text" : field.type}
           value={field.value}
           onChange={handleChange}
-          autoComplete='off'
+          // autoComplete='off'
         />
         {isPassword && (
           <ButtonTab
