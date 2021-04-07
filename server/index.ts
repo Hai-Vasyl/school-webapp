@@ -11,10 +11,6 @@ import isAuth from "./context/isAuth"
 import schema from "./schema"
 import cors from "cors"
 
-import { execute, subscribe } from "graphql"
-// import { PubSub } from "graphql-subscriptions"
-import { SubscriptionServer } from "subscriptions-transport-ws"
-
 config()
 const { PORT, MONGO_USER, MONGO_PASS, MONGO_DB, NODE_ENV } = process.env
 const isDev = NODE_ENV === "development"
@@ -37,11 +33,6 @@ const isDev = NODE_ENV === "development"
 
     const pubsub = new PubSub()
 
-    // const server = new ApolloServer({
-    //   typeDefs,
-    //   resolvers,
-    // });
-
     const server = new ApolloServer({
       ...schema,
       playground: isDev,
@@ -56,10 +47,6 @@ const isDev = NODE_ENV === "development"
 
     // const httpServer = http.createServer(app)
     // server.installSubscriptionHandlers(httpServer)
-
-    // if (NODE_ENV === "production") {
-    //   app.use(express.static("dist/client"))
-    // }
 
     if (NODE_ENV === "production") {
       app.use(express.static(path.join(__dirname, "../", "client")))
