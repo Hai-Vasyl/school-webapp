@@ -7,6 +7,7 @@ import Title from "../components/Title"
 import styles from "../styles/profile.module"
 import { useLocation, useParams } from "react-router-dom"
 import Loader from "../components/Loader"
+import LoaderData from "../components/LoaderData"
 import { useSelector, useDispatch } from "react-redux"
 import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
@@ -28,6 +29,9 @@ import stylesBtn from "../styles/button.module"
 import { RiImageAddFill } from "react-icons/ri"
 import { BsArrowRepeat, BsTrash } from "react-icons/bs"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
+import { SET_USER_DATA } from "../redux/auth/authTypes"
+import { LIGHTBOX_LIGHT_OPEN } from "../redux/toggle/toggleTypes"
+import { getUserAccess } from "../modules/accessModifiers"
 
 const Profile: React.FC = () => {
   const { userId }: any = useParams()
@@ -39,12 +43,17 @@ const Profile: React.FC = () => {
   const [activeSection, setActiveSection] = useState("")
   const [initLoad, setInitLoad] = useState(true)
   const { pathname } = useLocation()
-  const [getUser, { data: dataUser, loading: loadUser }] = useLazyQuery(
-    GET_DATA_USER
-  )
+  const [
+    getUser,
+    { data: dataUser, loading: loadUser, refetch: refetchUser },
+  ] = useLazyQuery(GET_DATA_USER)
   const [setUserAva, { data: dataUserAva, loading: loadUserAva }] = useMutation(
     SET_USER_AVA
   )
+  // const [
+  //   getUser,
+  //   { data: dataUser, loading: loadUser },
+  // ] = useLazyQuery(GET_DATA_USER, { fetchPolicy: "no-cache" })
 
   // const {
   //   data: dataSections,
@@ -61,6 +70,13 @@ const Profile: React.FC = () => {
   const [toggleForm, setToggleForm] = useState(false)
 
   useEffect(() => {
+    const data = dataUser && dataUser.getUser
+    if (isMyProfile && !!data) {
+      dispatch({ type: SET_USER_DATA, payload: data })
+    }
+  }, [dispatch, isMyProfile, dataUser])
+
+  useEffect(() => {
     if (!isMyProfile) {
       getUser({ variables: { userId: user.id } })
     }
@@ -73,6 +89,12 @@ const Profile: React.FC = () => {
         type: SET_TOAST,
         payload: data,
       })
+      const userData = dataUser && dataUser.getUser
+      if (!!userData) {
+        refetchUser && refetchUser()
+      } else {
+        getUser({ variables: { userId: user.id } })
+      }
     }
   }, [dispatch, dataUserAva])
 
@@ -97,7 +119,19 @@ const Profile: React.FC = () => {
   }
 
   const userData = isMyProfile ? user : dataUser?.getUser
+  const userParams = getUserAccess(userData.role)
 
+  const handlePopupLightBox = () => {
+    dispatch({
+      type: LIGHTBOX_LIGHT_OPEN,
+      payload: {
+        image: userData.ava,
+        title: `${userData.firstname} ${userData.lastname}`,
+      },
+    })
+  }
+
+  console.log({ userParams })
   return (
     <div className='container'>
       <Title
@@ -107,7 +141,12 @@ const Profile: React.FC = () => {
       <div className='wrapper'>
         <div className={styles.user}>
           <div className={styles.user__preview}>
-            <button className={styles.user__btn_lightbox}>
+            <button
+              className={styles.user__btn_lightbox}
+              onClick={handlePopupLightBox}
+            >
+              <LoaderData load={loadUser || loadUserAva} />
+              <span className={styles.user__overlay}></span>
               {userData.ava ? (
                 <img
                   className={styles.user__ava}
@@ -123,6 +162,9 @@ const Profile: React.FC = () => {
                 />
               )}
             </button>
+            <span className={styles.user__icon}>
+              {userParams && <userParams.Icon />}
+            </span>
             {isMyProfile && (
               <div className={styles.user__btn_image}>
                 <ButtonFile

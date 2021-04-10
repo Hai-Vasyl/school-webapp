@@ -1,4 +1,4 @@
-import { FaUserCog, FaUserTie, FaUser } from "react-icons/fa"
+import { FaUserCog, FaUserTie, FaUserCheck } from "react-icons/fa"
 
 export const access = {
   admin: {
@@ -11,12 +11,10 @@ export const access = {
     title: "Вчитель",
     Icon: FaUserTie,
   },
-  user: {
-    title: "Користувач",
-    keyWord: "user",
-  },
   unregistered: {
     keyWord: "unregistered",
+    title: "Гість",
+    Icon: FaUserCheck,
   },
 }
 

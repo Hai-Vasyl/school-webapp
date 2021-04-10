@@ -13,6 +13,7 @@ import Chat from "./Chat"
 import ImageMod from "./ImageMod"
 import Notifications from "./Notifications"
 import ImageLightBox from "./ImageLightBox"
+import ImageLightBoxLight from "./ImageLightBoxLight"
 
 const Routes = () => {
   const {
@@ -26,6 +27,7 @@ const Routes = () => {
       warning: { toggle: warnToggle },
       modImage: { toggle: modImageToggle },
       lightbox: { toggle: lightboxToggle },
+      lightboxlight: { toggle: lightboxlightToggle },
     },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
@@ -56,8 +58,6 @@ const Routes = () => {
         return mapReduce(routes.admin)
       case access.teacher.keyWord:
         return mapReduce(routes.teacher)
-      case access.user.keyWord:
-        return mapReduce(routes.user)
       default:
         return mapReduce(routes.unregistered)
     }
@@ -72,6 +72,7 @@ const Routes = () => {
       <ImageMod />
       <Notifications />
       <ImageLightBox />
+      <ImageLightBoxLight />
       <div
         className={`background ${
           (dropDown ||
@@ -81,9 +82,10 @@ const Routes = () => {
             warnToggle ||
             modImageToggle ||
             lightboxToggle ||
-            menuPage) &&
+            menuPage ||
+            lightboxlightToggle) &&
           "background--active"
-        } ${lightboxToggle && "background--over"}`}
+        } ${(lightboxToggle || lightboxlightToggle) && "background--over"}`}
         onClick={() => dispatch({ type: RESET_TOGGLE })}
       ></div>
       <Switch>

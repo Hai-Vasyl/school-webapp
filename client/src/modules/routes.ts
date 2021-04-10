@@ -95,8 +95,6 @@ export const getLinks = (role: string) => {
         { to: "/create-news", title: "Створити новину" },
         { to: "/create-event", title: "Створити подію" },
       ])
-    case access.user.keyWord:
-      return [...allLinks]
     default:
       return [...allLinks]
   }

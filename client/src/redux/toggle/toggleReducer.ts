@@ -14,6 +14,8 @@ import {
   LIGHTBOX_CLOSE,
   LIGHTBOX_MOVE,
   MENU_PAGE_TOGGLE,
+  LIGHTBOX_LIGHT_OPEN,
+  LIGHTBOX_LIGHT_CLOSE,
 } from "./toggleTypes"
 
 interface IInitState {
@@ -47,6 +49,11 @@ interface IInitState {
     isRight: boolean
     handleEditImage(imageId: string): any
   }
+  lightboxlight: {
+    image: string
+    title: string
+    toggle: boolean
+  }
 }
 
 const initState: IInitState = {
@@ -79,6 +86,11 @@ const initState: IInitState = {
     isLeft: false,
     isRight: false,
     handleEditImage: () => {},
+  },
+  lightboxlight: {
+    toggle: false,
+    image: "",
+    title: "",
   },
 }
 
@@ -114,6 +126,24 @@ const toggleReducer = (
           isLeft: action.payload.isLeft,
           isRight: action.payload.isRight,
           handleEditImage: action.payload.handleEditImage,
+        },
+      }
+    case LIGHTBOX_LIGHT_OPEN:
+      return {
+        ...initState,
+        lightboxlight: {
+          ...state.lightboxlight,
+          toggle: true,
+          image: action.payload.image,
+          title: action.payload.title,
+        },
+      }
+    case LIGHTBOX_LIGHT_CLOSE:
+      return {
+        ...initState,
+        lightboxlight: {
+          ...state.lightboxlight,
+          toggle: false,
         },
       }
     case LIGHTBOX_CLOSE:

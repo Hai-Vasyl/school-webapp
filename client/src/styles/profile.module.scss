@@ -5,27 +5,79 @@
   &__preview {
     width: 300px;
     height: 300px;
-    border: 1px solid black;
     position: relative;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-left-color: getColor(accent-main);
+    border-bottom-color: getColor(accent);
+    border-right-color: getColor(accent);
+    border-top-color: getColor(accent-main);
+    &:hover {
+      .user__overlay {
+        transform: translateX(0%);
+        opacity: 1;
+      }
+      .user__btn_image {
+        transform: translate(-50%, 0%);
+        visibility: visible;
+        opacity: 1;
+      }
+    }
   }
   &__info {
     flex: 1;
     border: 1px solid green;
+    margin-left: 25px;
   }
   &__ava {
     @extend %image;
+    border-radius: 50%;
+  }
+  &__icon {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border: 1px solid getColor(main-dark);
+    background-color: getColor(main);
+    display: flex;
+    & > * {
+      margin: auto;
+      font-size: 24px;
+      color: getColor(accent);
+    }
   }
   &__btn_lightbox {
-    // @extend %position-extend;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid red;
+    @extend %center-position;
+    width: 93%;
+    height: 93%;
+    border: 1px solid getColor(main-dark);
+    background-color: transparent;
+    border-radius: 50%;
+    overflow: hidden;
   }
   &__btn_image {
     position: absolute;
-    bottom: 0;
+    top: 25px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -100%);
+    @extend %flex-center;
+    visibility: hidden;
+    opacity: 0;
+    transition: getTransition(main);
+    & > :first-child {
+      margin-right: 5px;
+    }
+  }
+  &__overlay {
+    display: block;
+    @extend %position-extend;
+    background-color: getColor(bg);
+    transition: getTransition(main);
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
   }
 }

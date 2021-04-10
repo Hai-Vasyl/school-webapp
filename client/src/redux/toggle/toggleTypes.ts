@@ -12,9 +12,21 @@ export const MODIMAGE_CLOSE = "MODIMAGE_CLOSE"
 export const LIGHTBOX_OPEN = "LIGHTBOX_OPEN"
 export const LIGHTBOX_CLOSE = "LIGHTBOX_CLOSE"
 export const LIGHTBOX_MOVE = "LIGHTBOX_MOVE"
+export const LIGHTBOX_LIGHT_OPEN = "LIGHTBOX_LIGHT_OPEN"
+export const LIGHTBOX_LIGHT_CLOSE = "LIGHTBOX_LIGHT_CLOSE"
 
 export interface ToggleDropDown {
   type: typeof DROPDOWN_TOGGLE
+}
+export interface LightBoxLightOpen {
+  type: typeof LIGHTBOX_LIGHT_OPEN
+  payload: {
+    image: string
+    title: string
+  }
+}
+export interface LightBoxLightClose {
+  type: typeof LIGHTBOX_LIGHT_CLOSE
 }
 export interface ToggleAuthForm {
   type: typeof AUTHFORM_TOGGLE
@@ -98,3 +110,5 @@ export type ToggleReducerTypes =
   | LightBoxClose
   | LightBoxMove
   | MenuPagetToggle
+  | LightBoxLightOpen
+  | LightBoxLightClose

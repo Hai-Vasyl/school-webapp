@@ -148,6 +148,12 @@
     &:hover {
       transform: translateY(0px);
     }
+    &__unhoverable {
+      transform: translateY(50px);
+      &:hover {
+        transform: translateY(50px);
+      }
+    }
   }
   &__description {
     padding: 10px 25px;
