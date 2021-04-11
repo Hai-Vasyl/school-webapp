@@ -33,7 +33,6 @@ export interface IValidLoginResult {
 }
 
 export interface IValidRegisterResult {
-  username: IFieldModResult
   email: IFieldModResult
   password: IFieldModResult
   firstname?: IFieldModResult
@@ -48,7 +47,6 @@ export interface IIsAuth {
 
 export interface IUser {
   id: string
-  username: string
   email: string
   ava: string
   firstname: string

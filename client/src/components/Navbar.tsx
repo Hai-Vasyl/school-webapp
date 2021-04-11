@@ -16,10 +16,6 @@ import {
 // @ts-ignore
 import styles from "../styles/navbar.module"
 import { useQuery } from "@apollo/client"
-import {
-  GET_USER_NOTIFICATIONS,
-  GET_UNREAD_MESSAGES,
-} from "../fetching/queries"
 import { SET_NOTIFICATIONS } from "../redux/notifications/notifTypes"
 import { SET_UNREAD_MESSAGES } from "../redux/unreadMsgs/msgsTypes"
 import NavigLink from "./NavigLink"
@@ -40,8 +36,6 @@ const Navbar: React.FC = () => {
   const [search, setSearch] = useState("")
   const [changeNav, setChangeNav] = useState(false)
   const dispatch = useDispatch()
-  const { data: dataNotifications } = useQuery(GET_USER_NOTIFICATIONS)
-  const { data: dataMessages } = useQuery(GET_UNREAD_MESSAGES)
 
   useEffect(() => {
     window.addEventListener("scroll", changeNavbar)
@@ -56,24 +50,6 @@ const Navbar: React.FC = () => {
     } else {
       setChangeNav(false)
     }
-  }
-
-  // useEffect(() => {
-  //   const notifData = dataNotifications && dataNotifications.getNotifications
-  //   if (notifData) {
-  //     dispatch({ type: SET_NOTIFICATIONS, payload: notifData })
-  //   }
-  // }, [dispatch, dataNotifications])
-
-  // useEffect(() => {
-  //   const messages = dataMessages && dataMessages.getUnreadMessages
-  //   if (messages) {
-  //     dispatch({ type: SET_UNREAD_MESSAGES, payload: messages })
-  //   }
-  // }, [dispatch, dataMessages])
-
-  const handleDropDown = () => {
-    dispatch({ type: DROPDOWN_TOGGLE })
   }
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {

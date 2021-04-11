@@ -203,6 +203,15 @@ export default gql`
   }
   type Mutation {
     setUserAva(image: Upload, deleting: Boolean!): Msg!
+    updateUserData(
+      firstname: String!
+      lastname: String!
+      middlename: String
+      address: String
+      phone: String
+      email: String!
+      password: String
+    ): Msg!
     sendEmail(
       firstname: String!
       lastname: String!

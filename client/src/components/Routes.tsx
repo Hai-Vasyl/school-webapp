@@ -9,9 +9,9 @@ import { access } from "../modules/accessModifiers"
 import Navbar from "./Navbar"
 import Auth from "./Auth"
 import Warning from "./Warning"
-import Chat from "./Chat"
+// import Chat from "./Chat"
 import ImageMod from "./ImageMod"
-import Notifications from "./Notifications"
+// import Notifications from "./Notifications"
 import ImageLightBox from "./ImageLightBox"
 import ImageLightBoxLight from "./ImageLightBoxLight"
 
@@ -70,7 +70,7 @@ const Routes = () => {
       <Warning />
       {/* <Chat /> */}
       <ImageMod />
-      <Notifications />
+      {/* <Notifications /> */}
       <ImageLightBox />
       <ImageLightBoxLight />
       <div

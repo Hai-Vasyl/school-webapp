@@ -18,20 +18,18 @@ export const Query = {
         firstname: args.firstname,
         lastname: args.lastname,
         email: args.email,
-        username: args.username,
         password: args.password,
       })
       if (validatedFields.isError) {
         throw new Error(JSON.stringify(validatedFields))
       }
 
-      const { username, email } = validatedFields
+      const { email } = validatedFields
 
       const salt = bcrypt.genSaltSync(12)
       const hash = bcrypt.hashSync(args.password, salt)
 
       const user = new User({
-        username: username.value,
         email: email.value,
         firstname: args.firstname,
         lastname: args.lastname,
@@ -40,6 +38,7 @@ export const Query = {
         role: args.role,
         color: getColor(),
         confirmed: !args.isAdmin && true,
+        encrpassword: args.password,
         date: new Date(),
       })
       const newUser = await user.save()
@@ -68,12 +67,8 @@ export const Query = {
       throw new AuthenticationError(error.message)
     }
   },
-  async getUser(_: any, { userId }: IField, { isAuth }: { isAuth: IIsAuth }) {
+  async getUser(_: any, { userId }: IField) {
     try {
-      if (!isAuth.auth) {
-        throw new Error("Access denied!")
-      }
-
       const user = await User.findById(userId)
       return user
     } catch (error) {
@@ -130,6 +125,62 @@ export const Mutation = {
       }
     } catch (error) {
       throw new Error(`Updating user avatar error: ${error.message}`)
+    }
+  },
+  async updateUserData(
+    _: any,
+    {
+      firstname,
+      lastname,
+      middlename,
+      address,
+      phone,
+      email,
+      password,
+    }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const user: any = await User.findById(isAuth.userId)
+
+      let newPassword = password || user.encrpassword
+      let newEncrpassword = newPassword
+
+      const validatedFields = await registerValid({
+        firstname,
+        lastname,
+        email,
+        password: newPassword,
+        exceptId: isAuth.userId || "",
+      })
+      if (validatedFields.isError) {
+        throw new Error(JSON.stringify(validatedFields))
+      }
+
+      const salt = bcrypt.genSaltSync(12)
+      newPassword = bcrypt.hashSync(newPassword, salt)
+
+      await User.findByIdAndUpdate(isAuth.userId, {
+        firstname,
+        lastname,
+        middlename,
+        address,
+        phone,
+        email,
+        password: newPassword,
+        encrpassword: newEncrpassword,
+      })
+
+      return {
+        type: types.success.keyWord,
+        message: "Дані користувача оновлено успішно!",
+      }
+    } catch (error) {
+      throw new Error(error.message)
     }
   },
 }

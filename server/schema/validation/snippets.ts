@@ -28,6 +28,7 @@ async function isUnique(
     const query = id
       ? { [prop]: field.value, _id: { $ne: id } }
       : { [prop]: field.value }
+
     const collection = await Model.find(query)
 
     if (collection.length) {

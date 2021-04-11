@@ -26,8 +26,8 @@
   }
   &__info {
     flex: 1;
-    border: 1px solid green;
     margin-left: 25px;
+    position: relative;
   }
   &__ava {
     @extend %image;
@@ -79,5 +79,66 @@
     transform: translateX(-100%);
     opacity: 0;
     pointer-events: none;
+  }
+  &__btn_flip {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 6;
+    opacity: 1;
+    visibility: visible;
+    transition: getTransition(main);
+    &__disappear {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  &__form_btns {
+    display: flex;
+    height: 46.4px;
+    margin-top: 10px;
+    & > *:first-child {
+      margin-right: 10px;
+    }
+  }
+  &__section {
+    display: none;
+    background-color: getColor(secondary);
+    &__open {
+      display: block;
+    }
+  }
+  &__section_content {
+    padding: 25px;
+    background-color: getColor(main);
+  }
+  &__title {
+    font-size: 2.5em !important;
+    padding: 4px 0;
+    margin-bottom: 13px;
+  }
+  &__plug {
+    color: getColor(font-light);
+  }
+  &__body {
+    margin-top: 35px;
+  }
+  &__info_item {
+    padding: 3px 0;
+    font-size: 1.2em;
+    & > * {
+      &:first-child {
+        margin-right: 7px;
+      }
+      &:last-child {
+        font-weight: bold;
+      }
+    }
+    &:last-child {
+      border-top: 1px solid getColor(main-dark);
+      font-size: 1em;
+      padding: 5px 0;
+      margin-top: 15px;
+    }
   }
 }

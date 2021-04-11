@@ -8,8 +8,8 @@ import {
   useLazyQuery,
   useMutation,
 } from "@apollo/client"
-import { GET_USER_CHATS, GET_DATA_USER } from "./fetching/queries"
-import { NEW_MESSAGE, NEW_NOTIFICATION } from "./fetching/subscriptions"
+import { GET_DATA_USER } from "./fetching/queries"
+// import { NEW_MESSAGE, NEW_NOTIFICATION } from "./fetching/subscriptions"
 import { SET_MESSAGE_READ } from "./fetching/mutations"
 import {
   SET_CHATS,

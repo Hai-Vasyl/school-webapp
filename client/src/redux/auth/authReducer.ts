@@ -15,7 +15,6 @@ const initState: IInitState = {
   token: "",
   user: {
     id: "",
-    username: "",
     email: "",
     ava: "",
     firstname: "",

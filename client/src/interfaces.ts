@@ -15,25 +15,25 @@ export interface ILink {
   extraLinks?: any
 }
 
-export interface IChatOwner {
-  id: string
-  ava: string
-  username: string
-}
+// export interface IChatOwner {
+//   id: string
+//   ava: string
+//   username: string
+// }
 
-export interface IUserLink {
-  id: string
-  username: string
-  email: string
-  ava: string
-}
+// export interface IUserLink {
+//   id: string
+//   username: string
+//   email: string
+//   ava: string
+// }
 
-export interface IUserSearch {
-  id: string
-  username: string
-  email: string
-  ava: string
-}
+// export interface IUserSearch {
+//   id: string
+//   username: string
+//   email: string
+//   ava: string
+// }
 
 export interface IChatSearch {
   id: string
@@ -45,16 +45,15 @@ export interface IChatSearch {
   }
 }
 
-export interface ISearch {
-  users: IUserSearch[]
-  chats: IChatSearch[]
-}
+// export interface ISearch {
+//   users: IUserSearch[]
+//   chats: IChatSearch[]
+// }
 
 export interface IOwner {
   ava: string
   email: string
   id: string
-  username: string
   color: string
   firstname: string
   lastname: string
@@ -89,7 +88,7 @@ export interface IMessage {
   date: string
   owner: {
     id: string
-    username: string
+    // username: string
     ava: string
   }
   chat: {
@@ -103,7 +102,7 @@ export interface IMessageToast {
   date: string
   owner: {
     id: string
-    username: string
+    // username: string
     ava: string
     typeUser: string
   }
@@ -134,7 +133,7 @@ export interface IImageDetailed {
   id: string
   owner: {
     id: string
-    username: string
+    // username: string
     email: string
     ava: string
     color: string
@@ -175,7 +174,7 @@ export interface INewsEventDetailed {
   type: string
   owner: {
     id: string
-    username: string
+    // username: string
     email: string
     ava: string
     color: string
@@ -199,7 +198,7 @@ export interface INewsEventSlider {
   type: string
   owner: {
     id: string
-    username: string
+    // username: string
     email: string
     ava: string
     color: string

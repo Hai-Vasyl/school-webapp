@@ -4,7 +4,6 @@ export const RESET_AUTH = "RESET_AUTH"
 
 export type User = {
   id: string
-  username: string
   email: string
   ava: string
   firstname: string

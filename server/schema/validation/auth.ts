@@ -19,6 +19,9 @@ async function register(fields: IField): Promise<IValidRegisterResult> {
     let fieldsMod: IFieldsMod = {}
     let isError: boolean = false
     Object.keys(fields).forEach((key: string) => {
+      if (key === "exceptId") {
+        return
+      }
       let field = { value: fields[key], msg: [] }
       fieldsMod[key] = isEmpty(field, "Це поле не може бути порожнім!")
       if (fieldsMod[key].msg.length) {
@@ -26,45 +29,34 @@ async function register(fields: IField): Promise<IValidRegisterResult> {
       }
     })
 
-    let { firstname, lastname, username, email, password } = fieldsMod
+    let { firstname, lastname, email, password } = fieldsMod
     if (isError) {
-      return { firstname, lastname, username, email, password, isError }
+      return { firstname, lastname, email, password, isError }
     }
 
     email = isEmail(email, "Електронна адреса неправильна!")
-    username = isLength(username, {
-      min: 3,
-      max: 25,
-      minMsg: "Ім'я користувача має містити принаймні 4 символи!",
-      maxMsg: "Ім'я користувача має містити не більше 25 символів!",
-    })
     password = isLength(password, {
       min: 4,
       max: 50,
       minMsg: "Пароль повинен містити щонайменше 4 символи!",
       maxMsg: "Пароль повинен містити не більше 50 символів!",
     })
-    if (email.msg.length || username.msg.length || password.msg.length) {
-      return { username, email, password, isError: true }
+    if (email.msg.length || password.msg.length) {
+      return { email, password, isError: true }
     }
 
     email = await isUnique(
       fieldsMod.email,
       "Ця електронна адреса вже існує, виберіть іншу!",
       User,
-      "email"
+      "email",
+      fields.exceptId
     )
-    username = await isUnique(
-      fieldsMod.username,
-      "Це ім’я користувача вже існує, виберіть інше!",
-      User,
-      "username"
-    )
-    if (email.msg.length || username.msg.length) {
-      return { username, email, password, isError: true }
+    if (email.msg.length) {
+      return { email, password, isError: true }
     }
 
-    return { username, email, password, isError: false }
+    return { email, password, isError: false }
   } catch (error) {
     const errorMsg = `Помилка перевірки полів вводу при реєстрації: ${error.message}`
 
@@ -72,7 +64,6 @@ async function register(fields: IField): Promise<IValidRegisterResult> {
       return { value, msg: [errorMsg] }
     }
     return {
-      username: setError(fields.username),
       email: setError(fields.email),
       password: setError(fields.password),
       isError: true,
