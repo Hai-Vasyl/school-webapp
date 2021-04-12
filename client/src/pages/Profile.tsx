@@ -279,10 +279,10 @@ const Profile: React.FC = () => {
             <div className={styles.user__preview}>
               <button
                 className={styles.user__btn_lightbox}
-                onClick={handlePopupLightBox}
+                onClick={userData.ava ? handlePopupLightBox : () => {}}
               >
                 <LoaderData load={loadUserAva} />
-                <span className={styles.user__overlay}></span>
+                {userData.ava && <span className={styles.user__overlay}></span>}
                 {userData.ava ? (
                   <img
                     className={styles.user__ava}
@@ -295,6 +295,7 @@ const Profile: React.FC = () => {
                     ava={userData.ava}
                     firstname={userData.firstname}
                     lastname={userData.lastname}
+                    large
                   />
                 )}
               </button>
@@ -319,7 +320,7 @@ const Profile: React.FC = () => {
               )}
             </div>
             <div className={styles.user__info}>
-              {!!token.length && (
+              {user.id === userId && (
                 <ButtonTab
                   exClass={`${styles.user__btn_flip} ${
                     toggleForm && styles.user__btn_flip__disappear

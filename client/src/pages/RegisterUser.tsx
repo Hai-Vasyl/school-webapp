@@ -88,14 +88,13 @@ const RegisterUser: React.FC = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const [firstname, lastname, email, role] = form
-    const usernamePassword = email.value.split("@")[0]
+    const password = email.value.split("@")[0]
     register({
       variables: {
         firstname: firstname.value.trim(),
         lastname: lastname.value.trim(),
-        username: usernamePassword,
         email: email.value.trim(),
-        password: usernamePassword,
+        password,
         isAdmin: true,
         role: role.value,
       },

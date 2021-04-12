@@ -75,6 +75,18 @@ export const Query = {
       throw new Error(`Getting user data error: ${error.message}`)
     }
   },
+  async getAllUsers(_: any, __: any, { isAuth }: { isAuth: IIsAuth }) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+
+      const users = await User.find()
+      return users
+    } catch (error) {
+      throw new Error(`Getting all users error: ${error.message}`)
+    }
+  },
 }
 
 export const Mutation = {

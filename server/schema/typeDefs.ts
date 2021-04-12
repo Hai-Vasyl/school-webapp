@@ -79,7 +79,6 @@ export default gql`
   }
   type User {
     id: ID!
-    username: String!
     email: String!
     ava: String
     color: String!
@@ -156,6 +155,7 @@ export default gql`
 
   type Query {
     getUser(userId: String!): User!
+    getAllUsers: [User]!
     getFilters(url: String!): [Filter]!
     getPageSections(
       search: String
@@ -183,7 +183,6 @@ export default gql`
       firstname: String!
       lastname: String!
       email: String!
-      username: String!
       password: String!
       isAdmin: Boolean
       role: String

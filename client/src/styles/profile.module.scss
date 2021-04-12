@@ -79,6 +79,7 @@
     transform: translateX(-100%);
     opacity: 0;
     pointer-events: none;
+    z-index: 5;
   }
   &__btn_flip {
     position: absolute;

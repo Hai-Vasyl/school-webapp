@@ -5,7 +5,7 @@
   justify-content: flex-start;
   border: 1px solid getColor(main-dark);
   padding: 7px;
-  // background-color: getColor(secondary);
+  padding-right: 15px;
   border-radius: 30px;
   &__checkbox_extra {
     padding: 5px;
@@ -61,7 +61,7 @@
   }
   &__title {
     text-decoration: none;
-    color: getColor(font-white);
+    color: getColor(accent-main);
     font-size: 1em;
     background-color: transparent;
     transition: getTransition(main);

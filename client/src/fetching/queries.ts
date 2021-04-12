@@ -29,6 +29,20 @@ export const GET_DATA_USER = gql`
   }
 `
 
+export const GET_USERS = gql`
+  query GET_USERS {
+    getAllUsers {
+      id
+      email
+      ava
+      color
+      firstname
+      lastname
+      role
+    }
+  }
+`
+
 export const REGISTER_USER = gql`
   query REGISTER_USER(
     $firstname: String!

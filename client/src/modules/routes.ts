@@ -14,6 +14,7 @@ import RegisterUser from "../pages/RegisterUser"
 import NewsEvent from "../pages/NewsEvent"
 import ModNewsEvent from "../pages/ModNewsEvent"
 import BookDetails from "../pages/BookDetails"
+import Users from "../pages/Users"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
@@ -89,11 +90,13 @@ export const getLinks = (role: string) => {
         { to: "/create-news", title: "Створити новину" },
         { to: "/create-event", title: "Створити подію" },
         { to: "/register-user", title: "Створити користувача" },
+        { to: "/users", title: "Усі користувачі" },
       ])
     case access.teacher.keyWord:
       return getLinks([
         { to: "/create-news", title: "Створити новину" },
         { to: "/create-event", title: "Створити подію" },
+        { to: "/users", title: "Усі користувачі" },
       ])
     default:
       return [...allLinks]
@@ -127,6 +130,7 @@ export const routes = {
     { path: "/create-event", Component: ModNewsEvent },
     { path: "/edit-news/:contentId", Component: ModNewsEvent },
     { path: "/edit-event/:contentId", Component: ModNewsEvent },
+    { path: "/users", Component: Users },
   ],
   teacher: [
     ...mainRoutes,
@@ -134,6 +138,7 @@ export const routes = {
     { path: "/create-event", Component: ModNewsEvent },
     { path: "/edit-news/:contentId", Component: ModNewsEvent },
     { path: "/edit-event/:contentId", Component: ModNewsEvent },
+    { path: "/users", Component: Users },
   ],
   user: [...mainRoutes],
   unregistered: [...mainRoutes],

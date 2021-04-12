@@ -5,6 +5,8 @@ interface IUserAvaProps {
   ava: string
   firstname?: string
   lastname?: string
+  large?: boolean
+  middle?: boolean
 }
 
 const UserAva: React.FC<IUserAvaProps> = ({
@@ -12,12 +14,19 @@ const UserAva: React.FC<IUserAvaProps> = ({
   ava,
   firstname,
   lastname,
+  middle,
+  large,
 }) => {
   if (ava && ava.length) {
     return <img className='avatar' src={ava} alt='userAva' />
   }
   return (
-    <span className='avatar' style={{ backgroundColor: color }}>
+    <span
+      className={`avatar ${middle && "avatar__middle"} ${
+        large && "avatar__large"
+      }`}
+      style={{ backgroundColor: color }}
+    >
       <span className='avatar__firstname'>
         {firstname && firstname.slice(0, 1)}
       </span>

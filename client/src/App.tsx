@@ -153,8 +153,9 @@ const App: React.FC = () => {
     if (!!auth) {
       const payload = JSON.parse(auth)
       dispatch({ type: SET_AUTH, payload: { ...payload, init: true } })
+    } else {
+      setInitLoad(false)
     }
-    setInitLoad(false)
   }, [dispatch])
 
   useEffect(() => {
@@ -167,6 +168,7 @@ const App: React.FC = () => {
     const data = dataUser && dataUser.getUser
     if (!!data) {
       dispatch({ type: SET_USER_DATA, payload: data })
+      setInitLoad(false)
     }
   }, [dataUser, dispatch])
 

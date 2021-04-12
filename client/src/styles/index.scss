@@ -133,10 +133,18 @@ blockquote {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 80%;
   color: getColor(font-white);
   border-radius: 50%;
   text-shadow: getShadow(thin);
+  position: relative;
+  font-size: 0.7em;
+  font-family: getFont(third);
+  &__middle {
+    font-size: 4em;
+  }
+  &__large {
+    font-size: 6em;
+  }
   &__firstname {
   }
   &__lastname {
