@@ -104,14 +104,14 @@ export const REGISTER_USER = gql`
 //   }
 // `
 
-export const GET_USER_CHATS_ONLY = gql`
-  query GET_USER_CHATS_ONLY($userId: ID) {
-    userChats(userId: $userId) {
-      id
-      type
-    }
-  }
-`
+// export const GET_USER_CHATS_ONLY = gql`
+//   query GET_USER_CHATS_ONLY($userId: ID) {
+//     userChats(userId: $userId) {
+//       id
+//       type
+//     }
+//   }
+// `
 
 // export const GET_USER_NOTIFICATIONS = gql`
 //   query GET_USER_NOTIFICATIONS {
@@ -265,6 +265,60 @@ export const GET_PAGE = gql`
       url
       image
       date
+    }
+  }
+`
+
+export const SEARCH_CONTENT = gql`
+  query SEARCH_CONTENT($search: String, $tags: String) {
+    searchContent(search: $search, tags: $tags) {
+      images {
+        id
+        owner {
+          id
+        }
+        date
+        location
+        type
+      }
+      news {
+        id
+        title
+        date
+        category
+        dateEvent
+        links {
+          link
+          label
+        }
+        preview {
+          id
+          location
+        }
+      }
+      events {
+        id
+        title
+        date
+        category
+        dateEvent
+        links {
+          link
+          label
+        }
+        preview {
+          id
+          location
+        }
+      }
+      other {
+        id
+        page
+        url
+        title
+        content
+        date
+      }
     }
   }
 `

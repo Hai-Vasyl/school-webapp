@@ -15,6 +15,7 @@ import NewsEvent from "../pages/NewsEvent"
 import ModNewsEvent from "../pages/ModNewsEvent"
 import BookDetails from "../pages/BookDetails"
 import Users from "../pages/Users"
+import Search from "../pages/Search"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
@@ -32,6 +33,10 @@ export const getLinks = (role: string) => {
         { to: "/team", title: "Команда" },
         { to: "/graduates", title: "Випускники" },
       ],
+    },
+    {
+      to: "/discover",
+      title: "Відкрити",
     },
     {
       to: "/news",
@@ -107,6 +112,7 @@ const mainRoutes = [
   { path: "/", exact: true, Component: Home },
   { path: "/about", Component: About },
   { path: "/team", Component: Team },
+  { path: "/discover", Component: Search },
   { path: "/graduates", Component: Graduates },
   { path: "/news", exact: true, Component: NewsEvents },
   { path: "/events", exact: true, Component: NewsEvents },

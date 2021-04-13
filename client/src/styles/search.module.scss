@@ -1,0 +1,6 @@
+@import "base";
+
+.form_tags {
+  @extend %flex-center;
+  justify-content: space-between;
+}

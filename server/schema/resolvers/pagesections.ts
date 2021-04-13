@@ -1,4 +1,4 @@
-import { PageSection, Page, Filter, Upload } from "../models"
+import { PageSection, Page, Filter, Upload, NewsEvent } from "../models"
 import { IField, IIsAuth, IFilter, IPageSection } from "../interfaces"
 import { types } from "../../modules/messageTypes"
 import { createEditValid } from "../validation/pageSections"
@@ -84,6 +84,48 @@ export const Query = {
       }
     } catch (error) {
       throw new Error(`Getting page sections error: ${error.message}`)
+    }
+  },
+  async searchContent(_: any, { search, tags }: IField) {
+    try {
+      const searchQuery = search && { $text: { $search: search } }
+      const keyWords = tags.split(" ")
+
+      const collection: any = {
+        images: [],
+        news: [],
+        events: [],
+        other: [],
+      }
+
+      if (!!keyWords.includes("images")) {
+        const uploads = await Upload.find({ ...searchQuery, format: "image" })
+          .sort({ date: -1 })
+          .limit(3)
+        collection.images = uploads
+      }
+      if (!!keyWords.includes("news")) {
+        const news = await NewsEvent.find({ ...searchQuery, type: "news" })
+          .sort({ date: -1 })
+          .limit(3)
+        collection.news = news
+      }
+      if (!!keyWords.includes("events")) {
+        const events = await NewsEvent.find({ ...searchQuery, type: "event" })
+          .sort({ date: -1 })
+          .limit(3)
+        collection.events = events
+      }
+      if (!!keyWords.includes("other")) {
+        const sections = await PageSection.find({ ...searchQuery }).sort({
+          date: -1,
+        })
+        collection.other = sections
+      }
+
+      return collection
+    } catch (error) {
+      throw new Error(`Getting searched content error: ${error.message}`)
     }
   },
   async getPageSection(_: any, { sectionId }: IField) {

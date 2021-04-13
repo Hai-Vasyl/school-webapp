@@ -152,8 +152,15 @@ export default gql`
     items: [PageSection]!
     quantity: Int!
   }
+  type SearchContent {
+    images: [UploadFile]!
+    news: [NewsEvent]!
+    events: [NewsEvent]!
+    other: [PageSection]!
+  }
 
   type Query {
+    searchContent(search: String, tags: String): SearchContent!
     getUser(userId: String!): User!
     getAllUsers: [User]!
     getFilters(url: String!): [Filter]!

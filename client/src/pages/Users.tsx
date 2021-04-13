@@ -14,7 +14,6 @@ import { RootStore } from "../redux/store"
 // @ts-ignore
 import styles from "../styles/users.module"
 import UserAva from "../components/UserAva"
-import { Discovery } from "aws-sdk"
 
 interface IUserCard {
   id: string
@@ -51,7 +50,6 @@ const Users: React.FC = () => {
               lastname={item.lastname}
               middle
             />
-            {/* <img className={styles.card__ava} src={item.ava} alt='userImg' /> */}
             <span className={styles.card__icon}>
               {userParams && <userParams.Icon />}
             </span>

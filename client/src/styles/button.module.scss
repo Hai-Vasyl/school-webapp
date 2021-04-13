@@ -344,3 +344,34 @@
     border-color: getColor(secondary);
   }
 }
+
+.btn_check {
+  @extend %flex-center;
+  background-color: transparent;
+  padding: 10px 7px;
+  margin-left: 15px;
+  transition: getTransition(main);
+  &:hover {
+    .btn_check__title {
+      color: getColor(accent-second);
+    }
+  }
+  &__check {
+    width: 20px;
+    height: 20px;
+    border: 1px solid getColor(main-dark);
+    margin-right: 7px;
+    display: flex;
+  }
+  &__icon {
+    opacity: 0;
+    transition: getTransition(main);
+    margin: auto;
+    color: getColor(accent);
+    &__active {
+      opacity: 1;
+    }
+  }
+  &__title {
+  }
+}
