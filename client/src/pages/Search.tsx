@@ -42,7 +42,7 @@ const Search: React.FC = () => {
     },
   ]
 
-  const [searchStr, setSearchStr] = useState("")
+  const [searchStr, setSearchStr] = useState(search)
   const { data: dataSearch, loading: loadSearch } = useQuery(SEARCH_CONTENT, {
     variables: {
       search,

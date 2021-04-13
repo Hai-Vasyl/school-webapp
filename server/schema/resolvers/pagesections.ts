@@ -97,29 +97,40 @@ export const Query = {
         events: [],
         other: [],
       }
-
-      if (!!keyWords.includes("images")) {
+      if (!!keyWords.includes("images") || !tags.length) {
         const uploads = await Upload.find({ ...searchQuery, format: "image" })
           .sort({ date: -1 })
           .limit(3)
         collection.images = uploads
       }
-      if (!!keyWords.includes("news")) {
+      if (!!keyWords.includes("news") || !tags.length) {
         const news = await NewsEvent.find({ ...searchQuery, type: "news" })
           .sort({ date: -1 })
           .limit(3)
         collection.news = news
       }
-      if (!!keyWords.includes("events")) {
+      if (!!keyWords.includes("events") || !tags.length) {
         const events = await NewsEvent.find({ ...searchQuery, type: "event" })
           .sort({ date: -1 })
           .limit(3)
         collection.events = events
       }
-      if (!!keyWords.includes("other")) {
-        const sections = await PageSection.find({ ...searchQuery }).sort({
+      if (!!keyWords.includes("other") || !tags.length) {
+        let sections
+        let pagesection = PageSection.find({ ...searchQuery }).sort({
           date: -1,
         })
+
+        if (!tags.length && !search.length) {
+          sections = await pagesection.limit(10)
+        } else {
+          if (!search.length) {
+            sections = await pagesection.limit(10)
+          } else {
+            sections = await pagesection
+          }
+        }
+
         collection.other = sections
       }
 
