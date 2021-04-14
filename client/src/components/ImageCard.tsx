@@ -84,7 +84,7 @@ const ImageCard: React.FC<IImageCardProps> = ({
       />
       <span className={styles.image__overlay}></span>
       <span className={styles.image__icon}>
-        <imageParams.Icon />
+        {imageParams && <imageParams.Icon />}
       </span>
       {(user.role === access.admin.keyWord || user.id === info.owner.id) && (
         <ButtonTab

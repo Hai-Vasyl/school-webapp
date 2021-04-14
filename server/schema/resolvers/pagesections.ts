@@ -98,7 +98,11 @@ export const Query = {
         other: [],
       }
       if (!!keyWords.includes("images") || !tags.length) {
-        const uploads = await Upload.find({ ...searchQuery, format: "image" })
+        const uploads = await Upload.find({
+          ...searchQuery,
+          type: { $ne: "private" },
+          format: "image",
+        })
           .sort({ date: -1 })
           .limit(3)
         collection.images = uploads

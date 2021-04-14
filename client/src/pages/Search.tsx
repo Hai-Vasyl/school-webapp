@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import FooterModule from "../components/FooterModule"
 import NewsEventsModule from "../components/NewsEventsModule"
-import { INewsEventSlider } from "../interfaces"
+import { INewsEventSlider, IImage } from "../interfaces"
 import Loader from "../components/Loader"
 import Title from "../components/Title"
 import ButtonCheckBox from "../components/ButtonCheckBox"
@@ -11,9 +11,10 @@ import styles from "../styles/search.module"
 // @ts-ignore
 import stylesForm from "../styles/form.module"
 import FieldSearch from "../components/FieldSearch"
-import { useHistory, useLocation } from "react-router-dom"
+import { useHistory, useLocation, Link } from "react-router-dom"
 import { SEARCH_CONTENT } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
+import ImageCard from "../components/ImageCard"
 
 const Search: React.FC = () => {
   const history = useHistory()
@@ -43,7 +44,11 @@ const Search: React.FC = () => {
   ]
 
   const [searchStr, setSearchStr] = useState(search)
-  const { data: dataSearch, loading: loadSearch } = useQuery(SEARCH_CONTENT, {
+  const {
+    data: dataSearch,
+    loading: loadSearch,
+    refetch: refetchSearch,
+  } = useQuery(SEARCH_CONTENT, {
     variables: {
       search,
       tags: tags === "all" ? "" : tags,
@@ -115,6 +120,17 @@ const Search: React.FC = () => {
       />
     )
   })
+  const images = dataSearch && dataSearch.searchContent.images
+  const imagesJSX = images?.map((image: IImage) => (
+    <ImageCard
+      key={image.id}
+      info={image}
+      images={images}
+      onEdit={refetchSearch}
+      onRemove={refetchSearch}
+      onCreate={refetchSearch}
+    />
+  ))
 
   return (
     <div className='container'>
@@ -161,7 +177,22 @@ const Search: React.FC = () => {
         {/* {initLoad ? (
           <Loader />
         ) : (*/}
-        Some content
+        <div className={styles.module}>
+          <div>
+            <Link className={styles.module__title} to='/gallery'>
+              Зображення
+            </Link>
+          </div>
+          <div className={styles.module__body}>
+            {imagesJSX}
+            <Link
+              className={styles.module__item_more}
+              to={`/gallery?page=1&type=all&search=${search}`}
+            >
+              <span>Більше зображень за запитом</span>
+            </Link>
+          </div>
+        </div>
         {/* )} */}
       </div>
       <NewsEventsModuleContainer isNews={true}>
