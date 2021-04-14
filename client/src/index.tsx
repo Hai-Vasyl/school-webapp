@@ -66,43 +66,13 @@ import { createUploadLink } from "apollo-upload-client"
 //   cache: new InMemoryCache(),
 // })
 // --- connect apollo-server-express without wss
-// const isDev = true
-// const host = isDev
-//   ? "localhost:5000"
-//   : window.location.href.split("//")[1].split("/")[0]
-
-// const httpLink = createUploadLink({
-//   uri: `${isDev ? "http" : "https"}://${host}/graphql`,
-// })
-
-// const authLink = setContext((_, { headers }) => {
-//   const auth = localStorage.getItem("auth") || ""
-
-//   let authtoken = ""
-//   if (auth.length) {
-//     const { token }: { token: string } = JSON.parse(auth)
-//     authtoken = token.length ? token : ""
-//   }
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: `Bearer ${authtoken}`,
-//     },
-//   }
-// })
-
-// const client = new ApolloClient({
-//   link: authLink.concat(httpLink),
-//   cache: new InMemoryCache(),
-// })
-
-const isDev = true
+const isDev = false
 const host = isDev
   ? "localhost:5000"
   : window.location.href.split("//")[1].split("/")[0]
 
 const httpLink = createUploadLink({
-  uri: `${isDev ? "http" : "https"}://${host}`,
+  uri: `${isDev ? "http" : "https"}://${host}/graphql`,
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -125,6 +95,37 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 })
+
+//////////////////////////////////////// apollo-server
+// const isDev = true
+// const host = isDev
+//   ? "localhost:5000"
+//   : window.location.href.split("//")[1].split("/")[0]
+
+// const httpLink = createUploadLink({
+//   uri: `${isDev ? "http" : "https"}://${host}`,
+// })
+
+// const authLink = setContext((_, { headers }) => {
+//   const auth = localStorage.getItem("auth") || ""
+
+//   let authtoken = ""
+//   if (auth.length) {
+//     const { token }: { token: string } = JSON.parse(auth)
+//     authtoken = token.length ? token : ""
+//   }
+//   return {
+//     headers: {
+//       ...headers,
+//       authorization: `Bearer ${authtoken}`,
+//     },
+//   }
+// })
+
+// const client = new ApolloClient({
+//   link: authLink.concat(httpLink),
+//   cache: new InMemoryCache(),
+// })
 
 render(
   <ApolloProvider client={client}>
