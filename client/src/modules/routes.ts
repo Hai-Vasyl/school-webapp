@@ -2,7 +2,6 @@ import Home from "../pages/Home"
 import Profile from "../pages/Profile"
 import About from "../pages/About"
 import Team from "../pages/Team"
-import Graduates from "../pages/Graduates"
 import NewsEvents from "../pages/NewsEvents"
 import Library from "../pages/Library"
 import Gallery from "../pages/Gallery"
@@ -31,7 +30,6 @@ export const getLinks = (role: string) => {
       extraLinks: [
         { to: "/about", title: "Навчальний заклад" },
         { to: "/team", title: "Команда" },
-        { to: "/graduates", title: "Випускники" },
       ],
     },
     {
@@ -113,7 +111,6 @@ const mainRoutes = [
   { path: "/about", Component: About },
   { path: "/team", Component: Team },
   { path: "/discover", Component: Search },
-  { path: "/graduates", Component: Graduates },
   { path: "/news", exact: true, Component: NewsEvents },
   { path: "/events", exact: true, Component: NewsEvents },
   { path: "/library", exact: true, Component: Library },

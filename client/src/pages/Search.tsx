@@ -187,7 +187,7 @@ const Search: React.FC = () => {
             {imagesJSX}
             <Link
               className={styles.module__item_more}
-              to={`/gallery?page=1&type=all&search=${search}`}
+              to={`/gallery?page=1&type=all${search && `&search=${search}`}`}
             >
               <span>Більше зображень за запитом</span>
             </Link>

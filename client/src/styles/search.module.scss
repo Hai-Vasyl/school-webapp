@@ -9,6 +9,7 @@
   &__title {
     @extend %link-reset;
     font-size: 2em;
+    font-family: getFont(third);
   }
   &__body {
     display: grid;

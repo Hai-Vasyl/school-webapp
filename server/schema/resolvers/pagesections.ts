@@ -66,9 +66,9 @@ export const Query = {
           url,
         })
           .populate({ path: "filters" })
-          // .sort({
-          //   priority: 1,
-          // })
+          .sort({
+            priority: 1,
+          })
           .skip(from)
           .limit(to)
         quantity = await PageSection.find({

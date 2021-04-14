@@ -129,7 +129,7 @@ const Navbar: React.FC = () => {
           </Link>
           <div className={styles.nav__title}>
             <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
-              Назва навчального закладу
+              Ліцей 45 ЛМР
             </Link>
           </div>
           <form onSubmit={handleSubmitSearch} className={styles.search}>
