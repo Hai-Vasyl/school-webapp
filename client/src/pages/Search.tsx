@@ -2,7 +2,12 @@ import React, { useState } from "react"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import FooterModule from "../components/FooterModule"
 import NewsEventsModule from "../components/NewsEventsModule"
-import { INewsEventSlider, IImage } from "../interfaces"
+import {
+  INewsEventSlider,
+  IImage,
+  INewsEventShort,
+  IPageSectionShorter,
+} from "../interfaces"
 import Loader from "../components/Loader"
 import Title from "../components/Title"
 import ButtonCheckBox from "../components/ButtonCheckBox"
@@ -15,6 +20,12 @@ import { useHistory, useLocation, Link } from "react-router-dom"
 import { SEARCH_CONTENT } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import ImageCard from "../components/ImageCard"
+import NewsEvent from "../components/NewsEventCard"
+import PlugCard from "../components/PlugCard"
+import { convertContent } from "../helpers/convertContentEditor"
+import { convertDate } from "../helpers/convertDate"
+import { FiLink2 } from "react-icons/fi"
+import { AiOutlineClockCircle } from "react-icons/ai"
 
 const Search: React.FC = () => {
   const history = useHistory()
@@ -26,16 +37,16 @@ const Search: React.FC = () => {
 
   const checkers = [
     {
+      title: "Зображення",
+      keyWord: "images",
+    },
+    {
       title: "Новини",
       keyWord: "news",
     },
     {
       title: "Події",
       keyWord: "events",
-    },
-    {
-      title: "Зображення",
-      keyWord: "images",
     },
     {
       title: "Інше",
@@ -120,17 +131,92 @@ const Search: React.FC = () => {
       />
     )
   })
+
   const images = dataSearch && dataSearch.searchContent.images
-  const imagesJSX = images?.map((image: IImage) => (
-    <ImageCard
-      key={image.id}
-      info={image}
-      images={images}
-      onEdit={refetchSearch}
-      onRemove={refetchSearch}
-      onCreate={refetchSearch}
-    />
-  ))
+  const news = dataSearch && dataSearch.searchContent.news
+  const events = dataSearch && dataSearch.searchContent.events
+  const other = dataSearch && dataSearch.searchContent.other
+
+  const imagesJSX = images?.map((image: IImage, index: number) => {
+    if (index === 3) {
+      return (
+        <PlugCard
+          key={image.id}
+          url={`/gallery?page=1&type=all${search && `&search=${search}`}`}
+          title={`Більше зображень${search && " за запитом"}`}
+          image={image.location}
+        />
+      )
+    } else {
+      return (
+        <ImageCard
+          key={image.id}
+          info={image}
+          images={images}
+          onEdit={refetchSearch}
+          onRemove={refetchSearch}
+          onCreate={refetchSearch}
+        />
+      )
+    }
+  })
+
+  const newsJSX = news?.map((item: INewsEventShort, index: number) => {
+    if (index === 3) {
+      return (
+        <PlugCard
+          key={item.id}
+          url={`/news?page=1&category=all${search && `&search=${search}`}`}
+          title={`Більше новин${search && " за запитом"}`}
+          image={item.preview.location}
+        />
+      )
+    } else {
+      return <NewsEvent key={item.id} info={item} />
+    }
+  })
+
+  const eventsJSX = events?.map((item: INewsEventShort, index: number) => {
+    if (index === 3) {
+      return (
+        <PlugCard
+          key={item.id}
+          url={`/events?page=1&category=all${search && `&search=${search}`}`}
+          title={`Більше подій${search && " за запитом"}`}
+          image={item.preview.location}
+        />
+      )
+    } else {
+      return <NewsEvent key={item.id} info={item} />
+    }
+  })
+
+  const otherJSX = other?.map((item: IPageSectionShorter, index: number) => {
+    const url = `${item.url}?section=${item.id}`
+    return (
+      <div key={item.id} className={styles.section}>
+        <div>
+          <Link to={url} className={styles.section__url}>
+            <FiLink2 className={styles.section__url_icon} />
+            <span>{url}</span>
+          </Link>
+        </div>
+        <div className={styles.section__title_container}>
+          <span className={styles.section__order}>{index + 1}.</span>
+          <Link className={styles.section__title} to={url}>
+            {item.title}
+          </Link>
+        </div>
+        <div className={styles.section__content}>
+          {convertContent(item.content)}
+        </div>
+        <div className={styles.section__date}>
+          <AiOutlineClockCircle className={styles.section__date_icon} />
+          <span>{convertDate(item.date)}</span>
+        </div>
+      </div>
+    )
+  })
 
   return (
     <div className='container'>
@@ -148,52 +234,70 @@ const Search: React.FC = () => {
             <div className={styles.form_tags}>{btns}</div>
             <button className='btn-handler'></button>
           </form>
-
-          {/* <p className={styles.form_filter__footer}>
-          {!search ? (
-            <span className={styles.form_filter__results}>
-              Кількість результатів:
-              <span className={styles.form_filter__results_counter}>
-                {quantityItems}
+          <p className={stylesForm.form_filter__footer}>
+            {search && (
+              <span className={stylesForm.form_filter__results}>
+                Результати пошуку "
+                <span className={stylesForm.form_filter__search_string}>
+                  {search}
+                </span>
+                "
               </span>
-            </span>
-          ) : (
-            <span className={styles.form_filter__results}>
-              Кількість результатів пошуку "
-              <span className={styles.form_filter__search_string}>
-                {search}
-              </span>
-              ":
-              <span className={styles.form_filter__results_counter}>
-                {quantityItems}
-              </span>
-            </span>
-          )}
-        </p> */}
+            )}
+          </p>
         </div>
       </div>
 
       <div className='wrapper'>
-        {/* {initLoad ? (
+        {loadSearch ? (
           <Loader />
-        ) : (*/}
-        <div className={styles.module}>
+        ) : !images.length &&
+          !news.length &&
+          !events.length &&
+          !other.length ? (
+          <div className='plug-text'>Порожньо</div>
+        ) : (
           <div>
-            <Link className={styles.module__title} to='/gallery'>
-              Зображення
-            </Link>
+            {!!images.length && (
+              <div className={styles.module}>
+                <div>
+                  <Link className={styles.module__title} to='/gallery'>
+                    Зображення
+                  </Link>
+                </div>
+                <div className={styles.module__body}>{imagesJSX}</div>
+              </div>
+            )}
+            {!!news.length && (
+              <div className={styles.module}>
+                <div>
+                  <Link className={styles.module__title} to='/news'>
+                    Новини
+                  </Link>
+                </div>
+                <div className={styles.module__body}>{newsJSX}</div>
+              </div>
+            )}
+            {!!events.length && (
+              <div className={styles.module}>
+                <div>
+                  <Link className={styles.module__title} to='/events'>
+                    Події
+                  </Link>
+                </div>
+                <div className={styles.module__body}>{eventsJSX}</div>
+              </div>
+            )}
+            {!!other.length && (
+              <div className={styles.module}>
+                <div>
+                  <div className={styles.module__title}>Інші джерела</div>
+                </div>
+                <div className={styles.module__body_sections}>{otherJSX}</div>
+              </div>
+            )}
           </div>
-          <div className={styles.module__body}>
-            {imagesJSX}
-            <Link
-              className={styles.module__item_more}
-              to={`/gallery?page=1&type=all${search && `&search=${search}`}`}
-            >
-              <span>Більше зображень за запитом</span>
-            </Link>
-          </div>
-        </div>
-        {/* )} */}
+        )}
       </div>
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (

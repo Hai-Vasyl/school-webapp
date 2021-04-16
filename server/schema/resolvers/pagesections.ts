@@ -104,19 +104,19 @@ export const Query = {
           format: "image",
         })
           .sort({ date: -1 })
-          .limit(3)
+          .limit(4)
         collection.images = uploads
       }
       if (!!keyWords.includes("news") || !tags.length) {
         const news = await NewsEvent.find({ ...searchQuery, type: "news" })
           .sort({ date: -1 })
-          .limit(3)
+          .limit(4)
         collection.news = news
       }
       if (!!keyWords.includes("events") || !tags.length) {
         const events = await NewsEvent.find({ ...searchQuery, type: "event" })
           .sort({ date: -1 })
-          .limit(3)
+          .limit(4)
         collection.events = events
       }
       if (!!keyWords.includes("other") || !tags.length) {

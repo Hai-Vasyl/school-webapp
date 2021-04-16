@@ -287,10 +287,7 @@ export const SEARCH_CONTENT = gql`
         date
         category
         dateEvent
-        links {
-          link
-          label
-        }
+        type
         preview {
           id
           location
@@ -302,10 +299,7 @@ export const SEARCH_CONTENT = gql`
         date
         category
         dateEvent
-        links {
-          link
-          label
-        }
+        type
         preview {
           id
           location

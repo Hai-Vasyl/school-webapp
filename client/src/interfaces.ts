@@ -167,6 +167,19 @@ export interface INewsEvent {
   }
 }
 
+export interface INewsEventShort {
+  id: string
+  title: string
+  date: string
+  category: string
+  dateEvent: string
+  type: string
+  preview: {
+    id: string
+    location: string
+  }
+}
+
 export interface INewsEventDetailed {
   id: string
   title: string
@@ -290,6 +303,15 @@ export interface IPageSectionShort {
     keyWord: string
     value: string
   }[]
+}
+
+export interface IPageSectionShorter {
+  id: string
+  page: string
+  url: string
+  title: string
+  content: string
+  date: string
 }
 
 export interface IPageSectionFilter {

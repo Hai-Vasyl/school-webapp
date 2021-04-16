@@ -689,7 +689,7 @@
     @extend %position-extend;
     top: auto;
     text-align: center;
-    background-color: getColor(bg-night);
+    background-color: getColor(bg);
     z-index: 3;
     font-size: 0.8em;
     height: 0px;

@@ -72,11 +72,7 @@ const ImageCard: React.FC<IImageCardProps> = ({
   const imageParams: any = getParamsByType(info.type)
 
   return (
-    <div
-      className={styles.image}
-      key={info.id}
-      onClick={() => handlePopupLightBox(info.id)}
-    >
+    <div className={styles.image} onClick={() => handlePopupLightBox(info.id)}>
       <img
         className={styles.image__preview}
         src={info.location}
