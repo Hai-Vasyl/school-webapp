@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import Title from "../components/Title"
 import ModSectionForm from "../components/ModSectionForm"
 import FieldPicker from "../components/FieldPicker"
@@ -23,20 +23,21 @@ import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 
 const Team: React.FC = () => {
-  const { pathname } = useLocation()
+  const anchor = useRef<HTMLDivElement>(null)
+  const location = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
-  const amountItems = 3
-  const { getFormFilterParams } = useFindFilter()
 
   let search = params.get("search") || ""
   const page = Number(params.get("page")) || 1
   const category = params.get("category") || "all"
+  const amountItems = 3
 
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
 
+  const { getFormFilterParams } = useFindFilter()
   const getFilters = (category: string) => {
     category = category === "all" ? "" : category
 
@@ -51,7 +52,7 @@ const Team: React.FC = () => {
     GET_PAGE_FILTERS,
     {
       variables: {
-        url: pathname,
+        url: location.pathname,
       },
     }
   )
@@ -66,7 +67,7 @@ const Team: React.FC = () => {
       filters: getFilters(category),
       from: (page - 1) * amountItems,
       to: amountItems,
-      url: pathname,
+      url: location.pathname,
     },
   })
 
@@ -103,6 +104,10 @@ const Team: React.FC = () => {
         return field
       })
     )
+  }, [])
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [])
 
   useEffect(() => {
@@ -178,7 +183,7 @@ const Team: React.FC = () => {
   ) => {
     const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`
 
-    let link = `${pathname}?page=${pageNumber}&category=${category}&${searchQuery}`
+    let link = `${location.pathname}?page=${pageNumber}&category=${category}&${searchQuery}`
     history.push(link.slice(0, link.length - 1))
   }
 
@@ -258,7 +263,7 @@ const Team: React.FC = () => {
             subtitle={{
               keyWord: "category",
               title: "Категорія",
-              text: `${pathname}?page=1&category=`,
+              text: `${location.pathname}?page=1&category=`,
             }}
           />
         </PageSection>
@@ -269,6 +274,7 @@ const Team: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Команда' />
       <FilterFrame
         numFilters={filters.length}

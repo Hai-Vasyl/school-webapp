@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { GET_NEWS_EVENTS_DETAILED } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { access } from "../modules/accessModifiers"
@@ -23,6 +23,7 @@ import DesignLayout_2 from "../components/DesignLayout_2"
 import DesignLayout_3 from "../components/DesignLayout_3"
 
 const Home: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
@@ -41,12 +42,17 @@ const Home: React.FC = () => {
     }
   )
 
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
+
   const news = dataNews ? dataNews.getNewsEvents.items : []
   const isOwnerContent =
     user.role === access.admin.keyWord || user.role === access.teacher.keyWord
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <div
         className={`${styles.page__carousel} ${
           !news.length && styles.page__carousel__minimize

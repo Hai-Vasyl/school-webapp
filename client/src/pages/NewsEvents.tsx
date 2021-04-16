@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import { GET_NEWS_EVENTS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "../components/Title"
@@ -17,6 +17,7 @@ import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 
 const NewsEvents: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const location = useLocation()
   const history = useHistory()
   const isNews = location.pathname === "/news"
@@ -86,6 +87,10 @@ const NewsEvents: React.FC = () => {
     },
     []
   )
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
 
   useEffect(() => {
     setFilterValue(setDate, "from", from)
@@ -175,6 +180,7 @@ const NewsEvents: React.FC = () => {
   const quantityItems = dataNewsEvents && dataNewsEvents.getNewsEvents.quantity
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title={isNews ? "Усі новини" : "Усі події"} />
       <FilterSearch
         handleSubmit={handleSubmitForm}

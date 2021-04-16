@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import PageSection from "../components/PageSection"
 import { useQuery } from "@apollo/client"
 import { GET_PAGE_SECTION, GET_PAGE_FILTERS } from "../fetching/queries"
@@ -14,6 +14,7 @@ import styles from "../styles/pages.module"
 import FooterModule from "../components/FooterModule"
 
 const BookDetails: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const { bookId }: any = useParams()
   const history = useHistory()
   const { getFormFilterParams } = useFindFilter()
@@ -49,6 +50,10 @@ const BookDetails: React.FC = () => {
       sectionId: bookId,
     },
   })
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [bookId])
 
   useEffect(() => {
     let filters = dataFilters && dataFilters.getFilters
@@ -110,6 +115,7 @@ const BookDetails: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Бібліотека' path='/library' />
       <div className='wrapper'>
         {loadSection ? (

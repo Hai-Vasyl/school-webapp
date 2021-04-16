@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import FooterModule from "../components/FooterModule"
 import NewsEventsModule from "../components/NewsEventsModule"
@@ -28,6 +28,7 @@ import { FiLink2 } from "react-icons/fi"
 import { AiOutlineClockCircle } from "react-icons/ai"
 
 const Search: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const history = useHistory()
   const location = useLocation()
   const params = new URLSearchParams(location.search)
@@ -54,7 +55,7 @@ const Search: React.FC = () => {
     },
   ]
 
-  const [searchStr, setSearchStr] = useState(search)
+  const [searchStr, setSearchStr] = useState("")
   const {
     data: dataSearch,
     loading: loadSearch,
@@ -66,7 +67,15 @@ const Search: React.FC = () => {
     },
   })
 
-  console.log({ dataSearch })
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
+
+  useEffect(() => {
+    if (search) {
+      setSearchStr(search)
+    }
+  }, [search])
 
   const getRedirectLink = (tags?: string, searchStr?: string) => {
     const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`
@@ -132,6 +141,17 @@ const Search: React.FC = () => {
     )
   })
 
+  const getUrl = (item: IPageSectionShorter) => {
+    switch (item.url) {
+      case "/library":
+        return `/library/${item.id}`
+      case "/team":
+        return `/team?page=1&category=all&search=${item.title}`
+      default:
+        return `${item.url}?section=${item.id}`
+    }
+  }
+
   const images = dataSearch && dataSearch.searchContent.images
   const news = dataSearch && dataSearch.searchContent.news
   const events = dataSearch && dataSearch.searchContent.events
@@ -192,7 +212,7 @@ const Search: React.FC = () => {
   })
 
   const otherJSX = other?.map((item: IPageSectionShorter, index: number) => {
-    const url = `${item.url}?section=${item.id}`
+    const url = getUrl(item)
     return (
       <div key={item.id} className={styles.section}>
         <div>
@@ -220,6 +240,7 @@ const Search: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Шукати контент' />
       <div className={stylesForm.form_filter_container}>
         <div className='wrapper-clear'>

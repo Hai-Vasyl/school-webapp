@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 // @ts-ignore
 import HTMLparse from "html-react-parser"
 import Title from "../components/Title"
@@ -42,6 +42,7 @@ import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 
 const ModNewsEvent: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const { contentId }: any = useParams()
   const { pathname } = useLocation()
   const history = useHistory()
@@ -131,6 +132,10 @@ const ModNewsEvent: React.FC = () => {
       })
     )
     setExtraLinks(newsEventData.links)
+  }, [])
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [])
 
   useEffect(() => {
@@ -424,6 +429,7 @@ const ModNewsEvent: React.FC = () => {
   const isFormLinkFilled = checkFormLinkFilled()
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title
         title={contentId ? "Редагування" : "Створення"}
         path='/edit-news-event'

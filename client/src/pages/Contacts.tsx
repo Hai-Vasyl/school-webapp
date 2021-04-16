@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Field from "../components/Field"
 import Title from "../components/Title"
 // @ts-ignore
@@ -22,6 +22,7 @@ import FooterModule from "../components/FooterModule"
 import { INewsEventSlider } from "../interfaces"
 
 const Contacts: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
   const [form, setForm] = useState([
     {
@@ -59,6 +60,10 @@ const Contacts: React.FC = () => {
     sendEmail,
     { data: dataEmail, error: errorEmail, loading: loadEmail },
   ] = useMutation(SEND_EMAIL)
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
 
   useEffect(() => {
     const dataSendEmail = dataEmail && dataEmail.sendEmail
@@ -107,6 +112,7 @@ const Contacts: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title="Зв'язатися з нами" />
       <div className='wrapper-side'>
         <div className={`${styles.form} ${styles.form__extend}`}>

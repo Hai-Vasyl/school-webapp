@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { GET_PAGE_SECTIONS } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import Title from "./Title"
@@ -29,9 +29,14 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
   imgsPrivate = false,
   title,
 }) => {
+  const { pathname, search } = useLocation()
+  const params = new URLSearchParams(search)
+  const section = params.get("section")
+
   const [activeSection, setActiveSection] = useState("")
   const [initLoad, setInitLoad] = useState(true)
-  const { pathname } = useLocation()
+  const anchor = useRef<HTMLDivElement>(null)
+
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
@@ -51,12 +56,20 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
   const [toggleCreate, setToggleCreate] = useState(false)
 
   useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [activeSection])
+
+  useEffect(() => {
     const data = dataSections && dataSections.getPageSections
     if (data && data.items.length && initLoad) {
-      setActiveSection(data.items[0].id)
+      if (!section) {
+        setActiveSection(data.items[0].id)
+      } else {
+        setActiveSection(section)
+      }
       setInitLoad(false)
     }
-  }, [dataSections])
+  }, [dataSections, section])
 
   const handleRefetchAll = () => {
     refetchSections()
@@ -106,6 +119,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title={title} />
       <NavbarPage
         sectionLinks={links}

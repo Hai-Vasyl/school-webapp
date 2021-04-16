@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { GET_NEWS_EVENT, GET_CONTENT_IMAGES } from "../fetching/queries"
 import { useQuery } from "@apollo/client"
 import { useParams, useLocation } from "react-router-dom"
@@ -24,6 +24,7 @@ import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import FooterModule from "../components/FooterModule"
 
 const NewsEvent: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const { contentId }: any = useParams()
   const { pathname } = useLocation()
   const isNews = pathname.split("/")[1] === "news"
@@ -47,6 +48,10 @@ const NewsEvent: React.FC = () => {
     loading: loadImages,
     refetch: refetchImages,
   } = useQuery(GET_CONTENT_IMAGES, { variables: { contentId } })
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [contentId])
 
   const images = dataImages ? dataImages.getContentImages : []
   const newsevent = dataNewsEvent
@@ -73,6 +78,7 @@ const NewsEvent: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <div
         className={`${styles.newsevent__carousel} ${
           !images.length && styles.newsevent__carousel__minimize

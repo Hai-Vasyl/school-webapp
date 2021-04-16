@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import Title from "../components/Title"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
@@ -20,6 +20,7 @@ import FooterModule from "../components/FooterModule"
 import ImageCard from "../components/ImageCard"
 
 const Gallery: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const location = useLocation().search
   const history = useHistory()
   const params = new URLSearchParams(location)
@@ -56,6 +57,10 @@ const Gallery: React.FC = () => {
     fetchPolicy: "cache-and-network",
   })
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
 
   useEffect(() => {
     setSearchStr(search)
@@ -135,6 +140,7 @@ const Gallery: React.FC = () => {
   const quantityItems = dataImages && dataImages.getImages.quantity
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Галерея' />
       <FilterSearch
         handleSubmit={handleSubmitForm}

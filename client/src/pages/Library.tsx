@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import Title from "../components/Title"
 import ModSectionForm from "../components/ModSectionForm"
 import FieldPicker from "../components/FieldPicker"
@@ -23,6 +23,7 @@ import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 
 const Library: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const { pathname } = useLocation()
   const history = useHistory()
   const params = new URLSearchParams(location.search)
@@ -125,6 +126,10 @@ const Library: React.FC = () => {
         return field
       })
     )
+  }, [])
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [])
 
   useEffect(() => {
@@ -284,6 +289,7 @@ const Library: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Бібліотека' />
       <FilterFrame
         numFilters={filters.length}

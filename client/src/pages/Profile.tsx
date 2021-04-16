@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback, useRef } from "react"
 import { GET_DATA_USER } from "../fetching/queries"
 import { SET_USER_AVA, UPDATE_USER_DATA } from "../fetching/mutations"
 import { useLazyQuery, useMutation } from "@apollo/client"
@@ -40,6 +40,7 @@ import { convertDate } from "../helpers/convertDate"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
 
 const Profile: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const { userId }: any = useParams()
   const {
     auth: { user, token },
@@ -131,6 +132,10 @@ const Profile: React.FC = () => {
       })
     )
   }, [user])
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
 
   useEffect(() => {
     if (isMyProfile) {
@@ -267,6 +272,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title
         title={isMyProfile ? "Особистий кабінет" : "Профіль користувача"}
         path='/profile'

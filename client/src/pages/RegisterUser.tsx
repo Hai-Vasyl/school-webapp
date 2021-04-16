@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Field from "../components/Field"
 import Title from "../components/Title"
 // @ts-ignore
@@ -26,6 +26,7 @@ import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 
 const RegisterUser: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
   const [form, setForm] = useState([
     { param: "firstname", type: "text", value: "", title: "Ім'я", msg: "" },
@@ -54,6 +55,10 @@ const RegisterUser: React.FC = () => {
   const { setErrors } = useSetErrorsFields()
 
   const [register, regFetch] = useLazyQuery(REGISTER_USER)
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
 
   useEffect(() => {
     if (regFetch.error) {
@@ -128,6 +133,7 @@ const RegisterUser: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Створити користувача' />
       <div className='wrapper-side'>
         <div className={`${styles.form} ${styles.form__extend}`}>

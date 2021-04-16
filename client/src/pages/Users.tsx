@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import Title from "../components/Title"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import NewsEventsModule from "../components/NewsEventsModule"
@@ -26,10 +26,15 @@ interface IUserCard {
 }
 
 const Users: React.FC = () => {
+  const anchor = useRef<HTMLDivElement>(null)
   const {
     auth: { user },
   } = useSelector((state: RootStore) => state)
   const { data: users, loading: loadUsers } = useQuery(GET_USERS)
+
+  useEffect(() => {
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [])
 
   const cards =
     users &&
@@ -66,6 +71,7 @@ const Users: React.FC = () => {
 
   return (
     <div className='container'>
+      <div ref={anchor}></div>
       <Title title='Усі користувачі' path='/profile' />
       <div className='wrapper'>
         {loadUsers ? <Loader /> : <div className={styles.users}>{cards}</div>}

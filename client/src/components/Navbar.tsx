@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { getLinks } from "../modules/routes"
 import { RootStore } from "../redux/store"
-import { NavLink, Link } from "react-router-dom"
+import { NavLink, Link, useHistory } from "react-router-dom"
 import { BsSearch, BsCaretRightFill } from "react-icons/bs"
 import { AiOutlineLogout, AiOutlineCheckCircle } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
@@ -27,6 +27,7 @@ import UserAva from "./UserAva"
 import { RESET_AUTH } from "../redux/auth/authTypes"
 
 const Navbar: React.FC = () => {
+  const history = useHistory()
   const {
     auth: { user, token },
     toggle: { dropDown, authForm, chat, notifications: notifToggle },
@@ -58,7 +59,10 @@ const Navbar: React.FC = () => {
 
   const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log("SEARCH!")
+
+    if (search.trim()) {
+      history.push(`/discover?tags=all&search=${search}`)
+    }
   }
 
   const handleLogout = () => {
