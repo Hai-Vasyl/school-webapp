@@ -1,10 +1,8 @@
 import { Page } from "../models"
 import { IIsAuth, IField } from "../interfaces"
-import { uploadFile, deleteFile, updateFile } from "../helpers/crudBucket"
-import { config } from "dotenv"
-config({ path: "../../../.env" })
-const { AWS_CHAT_USER_BUCKET: chatUserBucket } = process.env
+import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
 import { types } from "../../modules/messageTypes"
+import { uploadPath } from "../../modules/uploadTypes"
 
 export const Query = {
   async getPage(_: any, { url }: { url: string }) {
@@ -30,36 +28,29 @@ export const Mutation = {
 
       const page: any = await Page.findOne({ url })
       if (!page) {
-        let uploaded
+        let Location
         if (!!uploadImage) {
-          uploaded = await uploadFile(uploadImage, chatUserBucket || "")
+          Location = await uploadFile(uploadImage, uploadPath.upload)
         }
         const newPage = new Page({
           url,
-          image: uploaded ? uploaded.Location : "",
-          imageKey: uploaded ? uploaded.Key : "",
+          image: Location,
           date: new Date(),
         })
         await newPage.save()
       } else {
         let image = ""
-        let imageKey = ""
         if (deleting) {
           if (page.image) {
-            await deleteFile(page.imageKey, chatUserBucket || "")
+            await deleteFile(page.image)
           }
         } else {
           if (!!uploadImage) {
-            const uploaded = await updateFile(
-              uploadImage,
-              page.imageKey,
-              chatUserBucket || ""
-            )
-            image = uploaded.Location
-            imageKey = uploaded.Key
+            const Location = await updateFile(uploadImage, page.image)
+            image = Location
           }
         }
-        await Page.updateOne({ url }, { image, imageKey, date: new Date() })
+        await Page.updateOne({ url }, { image, date: new Date() })
       }
 
       return {

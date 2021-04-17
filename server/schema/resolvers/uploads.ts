@@ -1,8 +1,9 @@
 import { Upload } from "../models"
-import { uploadFile, deleteFile } from "../helpers/crudBucket"
-import { config } from "dotenv"
-config({ path: "../../../.env" })
-const { AWS_UPLOADS_BUCKET: uploadBucket } = process.env
+import { uploadPath } from "../../modules/uploadTypes"
+import { uploadFile, deleteFile } from "../helpers/upload"
+// import { config } from "dotenv"
+// config({ path: "../../../.env" })
+// const { AWS_UPLOADS_BUCKET: uploadBucket } = process.env
 import { IField, IIsAuth } from "../interfaces"
 import { types as msgTypes } from "../../modules/messageTypes"
 
@@ -86,15 +87,14 @@ export const Mutation = {
           )
         }
         if (type) {
-          const uploaded = await uploadFile(uploadImage, uploadBucket || "")
+          const Location = await uploadFile(uploadImage, uploadPath.uploads)
 
           const upload = new Upload({
             owner: isAuth.userId,
             date: new Date(),
-            location: uploaded.Location,
+            location: Location,
             content,
             type,
-            key: uploaded.Key,
             description,
             hashtags,
             format: isImgFormat ? "image" : "file",
@@ -124,60 +124,60 @@ export const Mutation = {
       throw new Error(error.message)
     }
   },
-  // async editUpload(
-  //   _: any,
-  //   { imageId, hashtags, description, upload: uploadImage }: IField,
-  //   { isAuth }: { isAuth: IIsAuth }
-  // ) {
-  //   try {
-  //     if (!isAuth.auth) {
-  //       throw new Error("Access denied!")
-  //     }
-  //     //TODO: validation for each field and check in models
+  async editUpload(
+    _: any,
+    { imageId, hashtags, description, upload: uploadImage }: IField,
+    { isAuth }: { isAuth: IIsAuth }
+  ) {
+    try {
+      if (!isAuth.auth) {
+        throw new Error("Access denied!")
+      }
+      //TODO: validation for each field and check in models
 
-  //     const upload: any = await Upload.findById(imageId)
-  //     let uploaded = {
-  //       key: upload.key,
-  //       location: upload.location,
-  //     }
-  //     if (!!uploadImage) {
-  //       const imageValid = await uploadImage
-  //       const fileType = imageValid.mimetype.split("/")[0]
-  //       if (fileType !== "image" && upload.format === "image") {
-  //         throw new Error(
-  //           JSON.stringify({
-  //             upload: {
-  //               value: "",
-  //               msg: ["Ви не можете вибрати файл, який не є зображенням!"],
-  //             },
-  //           })
-  //         )
-  //       }
-  //       const file = await updateFile(
-  //         uploadImage,
-  //         upload.key,
-  //         uploadBucket || ""
-  //       )
-  //       uploaded.key = file.Key
-  //       uploaded.location = file.Location
-  //     }
+      const upload: any = await Upload.findById(imageId)
+      let uploaded = {
+        key: upload.key,
+        location: upload.location,
+      }
+      if (!!uploadImage) {
+        const imageValid = await uploadImage
+        const fileType = imageValid.mimetype.split("/")[0]
+        if (fileType !== "image" && upload.format === "image") {
+          throw new Error(
+            JSON.stringify({
+              upload: {
+                value: "",
+                msg: ["Ви не можете вибрати файл, який не є зображенням!"],
+              },
+            })
+          )
+        }
+        const file = await updateFile(
+          uploadImage,
+          upload.key,
+          uploadBucket || ""
+        )
+        uploaded.key = file.Key
+        uploaded.location = file.Location
+      }
 
-  //     await Upload.findByIdAndUpdate(imageId, {
-  //       ...uploaded,
-  //       hashtags,
-  //       description,
-  //       date: new Date(),
-  //     })
-  //     return {
-  //       message: `${
-  //         upload.format === "image" ? "Зображення" : "Файл"
-  //       } успішно оновлено!`,
-  //       type: msgTypes.success.keyWord,
-  //     }
-  //   } catch (error) {
-  //     throw new Error(`Updating upload error: ${error.message}`)
-  //   }
-  // },
+      await Upload.findByIdAndUpdate(imageId, {
+        ...uploaded,
+        hashtags,
+        description,
+        date: new Date(),
+      })
+      return {
+        message: `${
+          upload.format === "image" ? "Зображення" : "Файл"
+        } успішно оновлено!`,
+        type: msgTypes.success.keyWord,
+      }
+    } catch (error) {
+      throw new Error(`Updating upload error: ${error.message}`)
+    }
+  },
   async deleteUpload(
     _: any,
     { imageId }: IField,

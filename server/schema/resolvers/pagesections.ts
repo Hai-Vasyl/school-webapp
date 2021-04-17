@@ -2,10 +2,8 @@ import { PageSection, Page, Filter, Upload, NewsEvent } from "../models"
 import { IField, IIsAuth, IFilter, IPageSection } from "../interfaces"
 import { types } from "../../modules/messageTypes"
 import { createEditValid } from "../validation/pageSections"
-import { deleteFile } from "../helpers/crudBucket"
-import { config } from "dotenv"
-config({ path: "../../../.env" })
-const { AWS_UPLOADS_BUCKET: uploadsBucket } = process.env
+import { deleteFile } from "../helpers/upload"
+import { uploadPath } from "../../modules/uploadTypes"
 
 export const Query = {
   async getPageSections(
@@ -324,7 +322,7 @@ export const Mutation = {
       const uploads: any = await Upload.find({ content: sectionId })
       if (uploads.length) {
         for (let i = 0; i < uploads.length; i++) {
-          await deleteFile(uploads[i].key, uploadsBucket || "")
+          await deleteFile(uploads[i].location)
         }
         await Upload.deleteMany({ content: sectionId })
       }

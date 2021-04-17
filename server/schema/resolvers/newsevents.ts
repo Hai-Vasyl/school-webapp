@@ -2,10 +2,7 @@ import { NewsEvent, ExtraLink, Upload } from "../models"
 import { IField, IIsAuth } from "../interfaces"
 import { createEditValid } from "../validation/newsEvents"
 import { types as msgTypes } from "../../modules/messageTypes"
-import { deleteFile } from "../helpers/crudBucket"
-import { config } from "dotenv"
-config({ path: "../../../.env" })
-const { AWS_UPLOADS_BUCKET: uploadsBucket } = process.env
+import { deleteFile } from "../helpers/upload"
 
 export const Query = {
   async getNewsEvents(
@@ -180,7 +177,7 @@ export const Mutation = {
       const images: any = await Upload.find({ content: contentId })
       if (images.length) {
         for (let i = 0; i < images.length; i++) {
-          await deleteFile(images[i].key, uploadsBucket || "")
+          await deleteFile(images[i].location)
         }
         await Upload.deleteMany({ content: contentId })
       }

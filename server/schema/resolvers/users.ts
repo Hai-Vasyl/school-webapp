@@ -6,10 +6,11 @@ import { AuthenticationError } from "apollo-server"
 import { registerValid, loginValid } from "../validation/auth"
 import { IField, IIsAuth } from "../interfaces"
 import { getColor } from "../helpers/randomColor"
-import { uploadFile, deleteFile, updateFile } from "../helpers/crudBucket"
+import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
+import { uploadPath } from "../../modules/uploadTypes"
 import { types } from "../../modules/messageTypes"
 config({ path: "../../../.env" })
-const { JWT_SECRET, AWS_CHAT_USER_BUCKET: chatUserBucket }: any = process.env
+const { JWT_SECRET }: any = process.env
 
 export const Query = {
   async register(_: any, args: IField) {
@@ -101,30 +102,21 @@ export const Mutation = {
       }
 
       const user: any = await User.findById(isAuth.userId)
-      const imgParts = user.ava.split("/")
-      const imgKey = imgParts[imgParts.length - 1]
 
       if (user) {
         let ava = ""
         if (deleting) {
           if (user.ava) {
-            await deleteFile(imgKey, chatUserBucket || "")
+            await deleteFile(user.ava)
           }
         } else {
           if (!!uploadImage) {
             if (user.ava) {
-              const uploaded = await updateFile(
-                uploadImage,
-                imgKey,
-                chatUserBucket || ""
-              )
-              ava = uploaded.Location
+              const Location = await updateFile(uploadImage, user.ava)
+              ava = Location
             } else {
-              const uploaded = await uploadFile(
-                uploadImage,
-                chatUserBucket || ""
-              )
-              ava = uploaded.Location
+              const Location = await uploadFile(uploadImage, uploadPath.upload)
+              ava = Location
             }
           }
         }

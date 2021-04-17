@@ -59,22 +59,26 @@ const uploadNoImage = async (readableStream: any, location: string) => {
 }
 
 export const uploadFile = async (file: any, location: string) => {
-  const readableStream = await file
+  try {
+    const readableStream = await file
 
-  const isImage = readableStream.mimetype.split("/")[0] === "image"
+    const isImage = readableStream.mimetype.split("/")[0] === "image"
 
-  if (isImage) {
-    const buffer = await getBufferFromStream(readableStream)
+    if (isImage) {
+      const buffer = await getBufferFromStream(readableStream)
 
-    if (!buffer) {
-      throw new Error(`Getting buffer from stream error!`)
+      if (!buffer) {
+        throw new Error(`Getting buffer from stream error!`)
+      }
+      return uploadBuffer(buffer, location)
     }
-    return uploadBuffer(buffer, location)
-  }
 
-  const Location = await uploadNoImage(readableStream, location)
-  
-  return Location
+    const Location = await uploadNoImage(readableStream, location)
+
+    return Location
+  } catch (error) {
+    throw new Error(`Uploading file error: ${error.message}`)
+  }
 }
 
 export const deleteFile = async (location: string) => {
@@ -85,10 +89,7 @@ export const deleteFile = async (location: string) => {
   }
 }
 
-export const updateFile = async (
-  file: any,
-  fileLocation: string
-) => {
+export const updateFile = async (file: any, fileLocation: string) => {
   try {
     const readableStream = await file
     const location = fileLocation.split("/")[1]
@@ -109,7 +110,6 @@ export const updateFile = async (
     const Location = await uploadNoImage(readableStream, location)
 
     return Location
-
   } catch (error) {
     throw new Error(`Updating file error: ${error.message}`)
   }

@@ -1,11 +1,9 @@
 import { Chat, User, UserChat, Message } from "../models"
 import { IUser, IIsAuth, IField, IChat } from "../interfaces"
-import { uploadFile, updateFile, deleteFile } from "../helpers/crudBucket"
+import { uploadFile, updateFile, deleteFile } from "../helpers/upload"
 import { v4 as uuidv4 } from "uuid"
 import { createEditValid } from "../validation/chats"
-import { config } from "dotenv"
-config({ path: "../../../.env" })
-const { AWS_CHAT_USER_BUCKET: chatUserBucket } = process.env
+import { uploadPath } from "../../modules/uploadTypes"
 
 interface IAllAnyFields {
   [key: string]: any
@@ -227,17 +225,16 @@ export const Mutation = {
       }
 
       if (vType.value === "public" || vType.value === "privet") {
-        let uploaded
+        let Location
         if (image) {
-          uploaded = await uploadFile(image, chatUserBucket || "")
+          Location = await uploadFile(image, uploadPath.upload)
         }
 
         const newChat = await createChat(
           {
             title: vTitle.value,
             description,
-            image: uploaded && uploaded.Location,
-            imageKey: uploaded && uploaded.Key,
+            image: Location,
             type: vType.value,
           },
           isAuth,
