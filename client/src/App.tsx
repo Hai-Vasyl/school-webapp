@@ -150,9 +150,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let auth = localStorage.getItem("auth") || ""
-    const payload = JSON.parse(auth)
+    const payload = auth && JSON.parse(auth)
 
-    if (!!payload.token) {
+    if (payload && payload.token) {
       dispatch({ type: SET_AUTH, payload: { ...payload, init: true } })
     } else {
       setInitLoad(false)

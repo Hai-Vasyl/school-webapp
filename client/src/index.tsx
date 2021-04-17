@@ -71,6 +71,10 @@ const host = isDev
   ? "localhost:5000"
   : window.location.href.split("//")[1].split("/")[0]
 
+export const setPath = (fileLocation: string) => {
+  return `${isDev ? "http://localhost:5000" : ""}${fileLocation}`
+}
+
 const httpLink = createUploadLink({
   uri: `${isDev ? "http" : "https"}://${host}/graphql`,
 })

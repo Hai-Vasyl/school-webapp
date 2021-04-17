@@ -1,6 +1,6 @@
 import { Upload } from "../models"
 import { uploadPath } from "../../modules/uploadTypes"
-import { uploadFile, deleteFile } from "../helpers/upload"
+import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
 // import { config } from "dotenv"
 // config({ path: "../../../.env" })
 // const { AWS_UPLOADS_BUCKET: uploadBucket } = process.env
@@ -136,10 +136,8 @@ export const Mutation = {
       //TODO: validation for each field and check in models
 
       const upload: any = await Upload.findById(imageId)
-      let uploaded = {
-        key: upload.key,
-        location: upload.location,
-      }
+      let Location = upload.location
+
       if (!!uploadImage) {
         const imageValid = await uploadImage
         const fileType = imageValid.mimetype.split("/")[0]
@@ -153,17 +151,12 @@ export const Mutation = {
             })
           )
         }
-        const file = await updateFile(
-          uploadImage,
-          upload.key,
-          uploadBucket || ""
-        )
-        uploaded.key = file.Key
-        uploaded.location = file.Location
+        const fileLocation = await updateFile(uploadImage, upload.location)
+        Location = fileLocation
       }
 
       await Upload.findByIdAndUpdate(imageId, {
-        ...uploaded,
+        location: Location,
         hashtags,
         description,
         date: new Date(),
@@ -190,7 +183,7 @@ export const Mutation = {
       //TODO: validation for each field and check in models
 
       const upload: any = await Upload.findById(imageId)
-      await deleteFile(upload.location, uploadBucket || "")
+      await deleteFile(upload.location)
       await Upload.findByIdAndDelete(imageId)
 
       return {

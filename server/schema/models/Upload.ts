@@ -10,7 +10,7 @@ const schema = new Schema({
     enum: ["image", "news", "event", "other", "private"],
     required: true,
   },
-  key: { type: String, required: true },
+  key: { type: String, default: "" },
   description: { type: String, default: "" },
   hashtags: { type: String, default: "" },
   format: { type: String, enum: ["image", "file"], default: "image" },

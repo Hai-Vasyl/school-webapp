@@ -293,16 +293,15 @@ export const Mutation = {
         )
       }
 
-      let uploaded
+      let Location = chat.image
       if (image) {
-        uploaded = await updateFile(image, chat.imageKey, chatUserBucket || "")
+        Location = await updateFile(image, chat.image)
       }
 
       await Chat.findByIdAndUpdate(chat.id, {
         title: vTitle.value,
         description,
-        image: uploaded ? uploaded.Location : chat.image,
-        imageKey: uploaded ? uploaded.Key : chat.imageKey,
+        image: Location,
         type: vType.value,
       })
 
@@ -397,7 +396,7 @@ export const Mutation = {
           if (String(chat.owner) === isAuth.userId) {
             await Message.deleteMany({ chat: chatId })
             await UserChat.deleteMany({ chatId })
-            await deleteFile(chat.imageKey, chatUserBucket || "")
+            await deleteFile(chat.image)
             await Chat.findByIdAndDelete(chatId)
           } else {
             // Delete yourself from chat (UserChat model)

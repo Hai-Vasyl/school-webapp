@@ -13,6 +13,7 @@ import { BsPencilSquare } from "react-icons/bs"
 import { convertDate } from "../helpers/convertDate"
 import { LIGHTBOX_OPEN, MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import useLightBox from "../hooks/useLightBox"
+import { setPath } from "../index"
 
 interface IImageCardProps {
   info: IImage
@@ -75,7 +76,7 @@ const ImageCard: React.FC<IImageCardProps> = ({
     <div className={styles.image} onClick={() => handlePopupLightBox(info.id)}>
       <img
         className={styles.image__preview}
-        src={info.location}
+        src={setPath(info.location)}
         alt='imgItem'
       />
       <span className={styles.image__overlay}></span>

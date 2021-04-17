@@ -20,7 +20,9 @@ export const uploadBuffer = async (buffer: Buffer, location: string) => {
   const Location = `/${location}/${uuidv4()}.jpeg`
 
   fs.writeFile(`./public${Location}`, miniBuffer, function (error) {
-    throw new Error(`Writing file error: ${error?.message}`)
+    if (error) {
+      throw new Error(`Writing file error: ${error}`)
+    }
   })
 
   return Location
