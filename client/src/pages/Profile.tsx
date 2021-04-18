@@ -38,6 +38,7 @@ import { getUserAccess } from "../modules/accessModifiers"
 import Field from "../components/Field"
 import { convertDate } from "../helpers/convertDate"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
+import { setPath } from "../index"
 
 const Profile: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
@@ -292,7 +293,7 @@ const Profile: React.FC = () => {
                 {userData.ava ? (
                   <img
                     className={styles.user__ava}
-                    src={userData.ava}
+                    src={setPath(userData.ava)}
                     alt='avaImg'
                   />
                 ) : (

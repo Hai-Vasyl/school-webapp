@@ -6,6 +6,7 @@ import { getParamsByType } from "../modules/uploadTypes"
 import { Link, useHistory } from "react-router-dom"
 import { RiExternalLinkLine } from "react-icons/ri"
 import { BsImages } from "react-icons/bs"
+import { setPath } from "../index"
 
 interface INewsEventCardProps {
   info: INewsEventShort
@@ -27,7 +28,7 @@ const NewsEventCard: React.FC<INewsEventCardProps> = ({ info }) => {
       {info.preview && info.preview.location ? (
         <img
           className={styles.card__preview}
-          src={info.preview.location}
+          src={setPath(info.preview.location)}
           alt='imgItem'
         />
       ) : (

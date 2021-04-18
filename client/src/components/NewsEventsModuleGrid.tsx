@@ -9,6 +9,7 @@ import { getNewsParamsByKey } from "../modules/newsCategories"
 import { BiTime } from "react-icons/bi"
 import ImgPreviewSection from "./ImgPreviewSection"
 import { BsCalendar } from "react-icons/bs"
+import { setPath } from "../index"
 
 interface INewsEventsModuleGridProps {
   loading: boolean
@@ -34,7 +35,7 @@ const NewsEventsModuleGrid: React.FC<INewsEventsModuleGridProps> = ({
             return (
               <div className={styles.news} key={item.id}>
                 <ImgPreviewSection
-                  imgLocation={item.preview && item.preview.location}
+                  imgLocation={item.preview && setPath(item.preview.location)}
                   exClass={styles.news__preview}
                   redirectStr={linkPath}
                 />

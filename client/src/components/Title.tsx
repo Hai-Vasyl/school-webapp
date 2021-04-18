@@ -16,6 +16,7 @@ import { RootStore } from "../redux/store"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { access } from "../modules/accessModifiers"
 import { RiImageAddFill } from "react-icons/ri"
+import { setPath } from "../index"
 
 interface ITitleProps {
   title: string
@@ -79,7 +80,11 @@ const Title: React.FC<ITitleProps> = ({ title, path }) => {
     <div className={styles.title}>
       <LoaderData load={loadImage || loadSetImage} noSpiner />
       {!!image.length && (
-        <img src={image} className={styles.title__image} alt='bgImage' />
+        <img
+          src={setPath(image)}
+          className={styles.title__image}
+          alt='bgImage'
+        />
       )}
       <div className={styles.title__layer}></div>
       {user.role === access.admin.keyWord && (

@@ -10,6 +10,7 @@ import { getNewsParamsByKey } from "../modules/newsCategories"
 import Button from "./Button"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
+import { setPath } from "../index"
 
 interface INewsSliderProps {
   info: INewsEventSlider
@@ -32,7 +33,7 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
           params.previousItem === index &&
           (params.isRight ? styles.slide__prev_left : styles.slide__prev_right)
         }`}
-        src={info.preview?.location}
+        src={setPath(info.preview?.location)}
         alt='imgSlide'
       />
       <div

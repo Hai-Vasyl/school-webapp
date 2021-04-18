@@ -119,7 +119,6 @@ const mainRoutes = [
   { path: "/management", Component: Management },
   { path: "/contacts", Component: Contacts },
   { path: "/schedule", Component: Schedule },
-  { path: "/profile/:userId", exact: true, Component: Profile },
   { path: "/news/details/:contentId", Component: NewsEvent },
   { path: "/events/details/:contentId", Component: NewsEvent },
   { path: "/library/:bookId", Component: BookDetails },
@@ -128,21 +127,22 @@ const mainRoutes = [
 export const routes = {
   admin: [
     ...mainRoutes,
+    { path: "/users", Component: Users },
     { path: "/register-user", Component: RegisterUser },
     { path: "/create-news", Component: ModNewsEvent },
     { path: "/create-event", Component: ModNewsEvent },
     { path: "/edit-news/:contentId", Component: ModNewsEvent },
     { path: "/edit-event/:contentId", Component: ModNewsEvent },
-    { path: "/users", Component: Users },
+    { path: "/profile/:userId", exact: true, Component: Profile },
   ],
   teacher: [
     ...mainRoutes,
     { path: "/create-news", Component: ModNewsEvent },
     { path: "/create-event", Component: ModNewsEvent },
+    { path: "/users", Component: Users },
     { path: "/edit-news/:contentId", Component: ModNewsEvent },
     { path: "/edit-event/:contentId", Component: ModNewsEvent },
-    { path: "/users", Component: Users },
+    { path: "/profile/:userId", exact: true, Component: Profile },
   ],
-  user: [...mainRoutes],
   unregistered: [...mainRoutes],
 }

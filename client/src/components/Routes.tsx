@@ -68,11 +68,11 @@ const Routes = () => {
       <Navbar />
       <Auth />
       <Warning />
-      {/* <Chat /> */}
       <ImageMod />
-      {/* <Notifications /> */}
       <ImageLightBox />
       <ImageLightBoxLight />
+      {/* <Chat /> */}
+      {/* <Notifications /> */}
       <div
         className={`background ${
           (dropDown ||

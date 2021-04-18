@@ -17,6 +17,7 @@ import stylesBtn from "../styles/button.module"
 import { access } from "../modules/accessModifiers"
 import { RootStore } from "../redux/store"
 import { BsPencilSquare } from "react-icons/bs"
+import { setPath } from "../index"
 
 const GalleryModule: React.FC = () => {
   const dispatch = useDispatch()
@@ -91,7 +92,7 @@ const GalleryModule: React.FC = () => {
       >
         <img
           className={styles.image__preview}
-          src={image.location}
+          src={setPath(image.location)}
           alt='imgItem'
         />
         <span className={styles.image__overlay}></span>

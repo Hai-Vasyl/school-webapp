@@ -4,6 +4,7 @@ import styles from "../styles/carousel.module"
 import { IImageSlide, ISliderParams } from "../interfaces"
 import { BiTime } from "react-icons/bi"
 import { convertDate } from "../helpers/convertDate"
+import { setPath } from "../index"
 
 interface IImageSliderProps {
   info: IImageSlide
@@ -23,7 +24,7 @@ const ImageSlide: React.FC<IImageSliderProps> = ({ params, info, index }) => {
           params.previousItem === index &&
           (params.isRight ? styles.slide__prev_left : styles.slide__prev_right)
         }`}
-        src={info.location}
+        src={setPath(info.location)}
         alt='imgSlide'
       />
       <div

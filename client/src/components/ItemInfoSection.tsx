@@ -6,6 +6,7 @@ import styles from "../styles/pages.module"
 import useFindFilter from "../hooks/useFindFilter"
 import ImgPreviewSection from "./ImgPreviewSection"
 import useFilterFiles from "../hooks/useFilterFiles"
+import { setPath } from "../index"
 
 interface IItemInfoSectionProps {
   info: IPageSectionShort
@@ -42,7 +43,7 @@ const ItemInfoSection: React.FC<IItemInfoSectionProps> = ({
   return (
     <div className={styles.item_info}>
       <ImgPreviewSection
-        imgLocation={images[0] && images[0].location}
+        imgLocation={images[0] && setPath(images[0].location)}
         exClass={styles.content__preview__item_info}
         redirectStr={itemLink}
       />

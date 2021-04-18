@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 // @ts-ignore
 import styles from "../styles/search.module"
+import { setPath } from "../index"
 
 interface IPlugCardProps {
   title: string
@@ -14,7 +15,11 @@ const PlugCard: React.FC<IPlugCardProps> = ({ title, url, image }) => {
     <Link className={styles.btn_more} to={url}>
       <span className={styles.btn_more__overlay}></span>
       {image ? (
-        <img className={styles.btn_more__image} src={image} alt='imgItem' />
+        <img
+          className={styles.btn_more__image}
+          src={setPath(image)}
+          alt='imgItem'
+        />
       ) : (
         <span className={styles.btn_more__plug}></span>
       )}

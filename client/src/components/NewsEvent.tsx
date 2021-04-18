@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 import ImgPreviewSection from "./ImgPreviewSection"
 import { getParamsByType } from "../modules/uploadTypes"
 import { RiExternalLinkLine } from "react-icons/ri"
+import { setPath } from "../index"
 
 interface INewsEventProps {
   isNews: boolean
@@ -23,7 +24,7 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
   return (
     <div className={styles.content} key={info.id}>
       <ImgPreviewSection
-        imgLocation={info.preview && info.preview.location}
+        imgLocation={info.preview && setPath(info.preview.location)}
         exClass={styles.content__preview}
         redirectStr={linkPath}
       />

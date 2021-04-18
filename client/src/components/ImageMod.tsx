@@ -37,6 +37,7 @@ import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { types } from "../modules/messageTypes"
 import { MODIMAGE_OPEN, MODIMAGE_CLOSE } from "../redux/toggle/toggleTypes"
 import { types as uploadTypes } from "../modules/uploadTypes"
+import { setPath } from "../index"
 
 const ImageMod: React.FC = () => {
   const {
@@ -144,7 +145,7 @@ const ImageMod: React.FC = () => {
     )
     let imagePreview = ""
     if (imageData.format !== "file") {
-      imagePreview = imageData.location
+      imagePreview = setPath(imageData.location)
     }
     setPreview(imagePreview)
   }, [])
