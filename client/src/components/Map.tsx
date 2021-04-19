@@ -17,13 +17,11 @@ const Map: React.FC = () => {
   const styling = "mapbox://styles/vasyl-hai/cklpagbd3623o17nn3r3plenc"
   // const styling = "mapbox://styles/vasyl-hai/cklpfhpxx3gwm17o080h28qat"
   // const styling = "mapbox://styles/vasyl-hai/cklsbi5ms1bk717ljcnov2otu"
-  const accessToken =
-    "pk.eyJ1IjoidmFzeWwtaGFpIiwiYSI6ImNrbHA5NXp4eTB6bHEydm1zbWY0NmVoNnAifQ.5W4GqZ0GC_RBnNQVJD62Pw"
 
   return (
     <ReactMapGL
       {...viewport}
-      mapboxApiAccessToken={accessToken}
+      mapboxApiAccessToken={process.env.REACT_APP_MAP_ACCESS_TOKEN}
       onViewportChange={(viewport: any) => {
         setViewport(viewport)
       }}

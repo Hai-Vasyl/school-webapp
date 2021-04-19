@@ -14,6 +14,7 @@ import ImageMod from "./ImageMod"
 // import Notifications from "./Notifications"
 import ImageLightBox from "./ImageLightBox"
 import ImageLightBoxLight from "./ImageLightBoxLight"
+import { ChatWidget } from "@papercups-io/chat-widget"
 
 const Routes = () => {
   const {
@@ -71,6 +72,21 @@ const Routes = () => {
       <ImageMod />
       <ImageLightBox />
       <ImageLightBoxLight />
+      <ChatWidget
+        accountId={process.env.REACT_APP_PAPERCUP_ACCOUTID || ""}
+        title='Ліцей 45 ЛМР'
+        subtitle='Ласкаво просимо до чату'
+        primaryColor='#005aa9'
+        greeting='Запитайте що-небудь 😊'
+        awayMessage=''
+        newMessagePlaceholder='Написати питання...'
+        showAgentAvailability={false}
+        agentAvailableText="We're online right now!"
+        agentUnavailableText="We're away at the moment."
+        requireEmailUpfront={false}
+        iconVariant='outlined'
+        baseUrl='https://app.papercups.io'
+      />
       {/* <Chat /> */}
       {/* <Notifications /> */}
       <div

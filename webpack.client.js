@@ -4,6 +4,14 @@ const HTMLWebPackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const dotenv = require("dotenv")
+
+const env = dotenv.config().parsed
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next])
+  return prev
+}, {})
 
 const config = {
   target: "web",
@@ -39,12 +47,6 @@ const config = {
       {
         test: /\.module\.(c|sc|sa)ss$/,
         use: [
-          // {
-          //   loader: MiniCssExtractPlugin.loader,
-          //   options: {
-          //     publicPath: "/dist/client/",
-          //   },
-          // },
           "style-loader",
           {
             loader: "css-loader",
@@ -58,21 +60,12 @@ const config = {
       {
         test: /\.(c|sc|sa)ss$/,
         exclude: /\.module.(c|sc|sa)ss$/,
-        use: [
-          // {
-          //   loader: MiniCssExtractPlugin.loader,
-          //   options: {
-          //     publicPath: "/dist/client/",
-          //   },
-          // },
-          "style-loader",
-          "css-loader",
-          "sass-loader",
-        ],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
   plugins: [
+    new webpack.DefinePlugin(envKeys),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

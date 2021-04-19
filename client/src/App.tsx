@@ -46,12 +46,7 @@ const App: React.FC = () => {
   const [initLoad, setInitLoad] = useState(true)
   const prevMessage = useRef(null)
   const {
-    // chats,
-    // currentChat: { route },
-    // searchChat: { searchStr },
     auth: { user },
-    // queueChats: { chats: queueChats },
-    // toggle: { chat, notifications },
     toasts: { toasts },
   } = useSelector((state: RootStore) => state)
   // const { data, loading: chatsLoading } = useQuery(GET_USER_CHATS, {

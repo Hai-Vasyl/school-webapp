@@ -5,6 +5,7 @@ import { NavLink, Link, useHistory } from "react-router-dom"
 import { BsSearch, BsCaretRightFill } from "react-icons/bs"
 import { AiOutlineLogout, AiOutlineCheckCircle } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
+import { MdBlurOn, MdBlurOff } from "react-icons/md"
 import { useSelector, useDispatch } from "react-redux"
 import {
   DROPDOWN_TOGGLE,
@@ -20,23 +21,43 @@ import { SET_NOTIFICATIONS } from "../redux/notifications/notifTypes"
 import { SET_UNREAD_MESSAGES } from "../redux/unreadMsgs/msgsTypes"
 import NavigLink from "./NavigLink"
 // @ts-ignore
+import stylesBtn from "../styles/button.module"
+// @ts-ignore
 import logo from "../images/logo.png"
 import { access } from "../modules/accessModifiers"
 import { ILink } from "../interfaces"
 import UserAva from "./UserAva"
 import { RESET_AUTH } from "../redux/auth/authTypes"
+import ButtonTab from "./ButtonTab"
+import { setPath } from "../index"
 
 const Navbar: React.FC = () => {
   const history = useHistory()
+
   const {
     auth: { user, token },
     toggle: { dropDown, authForm, chat, notifications: notifToggle },
     notifications: { notifications },
     unreadMsgs: { messages },
   } = useSelector((state: RootStore) => state)
+
+  const [blur, setBlur] = useState(true)
   const [search, setSearch] = useState("")
   const [changeNav, setChangeNav] = useState(false)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const toggleBlur = JSON.parse(localStorage.getItem("blur") || "")
+    const blurValue = toggleBlur?.toggle
+
+    if (toggleBlur && typeof blurValue === "boolean") {
+      setBlur(blurValue)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("blur", JSON.stringify({ toggle: blur }))
+  }, [blur])
 
   useEffect(() => {
     window.addEventListener("scroll", changeNavbar)
@@ -111,7 +132,11 @@ const Navbar: React.FC = () => {
     }
   })
   return (
-    <div className={`${styles.nav} ${changeNav && styles.nav__reduce}`}>
+    <div
+      className={`${styles.nav} ${blur && styles.nav__blur} ${
+        changeNav && styles.nav__reduce
+      }`}
+    >
       <div className={styles.nav__border}></div>
       <div className={styles.nav__actions_wrapper}>
         <div className={styles.nav__actions}>
@@ -121,21 +146,21 @@ const Navbar: React.FC = () => {
             onClick={() => dispatch({ type: RESET_TOGGLE })}
           >
             <img
-              src='https://school-website-upload-bucket.s3-eu-west-1.amazonaws.com/logo_45_2.svg'
+              src={setPath("/upload/logo_45.svg")}
               className={styles.nav__logo_img}
               alt='logotype'
             />
-            {/* <img
-              src='https://school-website-upload-bucket.s3-eu-west-1.amazonaws.com/logo_45_1.svg'
-              className={styles.nav__logo_img}
-              alt='logotype'
-            /> */}
           </Link>
           <div className={styles.nav__title}>
             <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
               Ліцей 45 ЛМР
             </Link>
           </div>
+          <ButtonTab
+            exClass={`${stylesBtn.btn_tab_glass} ${styles.nav__btn_blur}`}
+            click={() => setBlur((prev) => !prev)}
+            Icon={blur ? MdBlurOn : MdBlurOff}
+          />
           <form onSubmit={handleSubmitSearch} className={styles.search}>
             <input
               type='text'

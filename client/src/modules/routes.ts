@@ -34,7 +34,7 @@ export const getLinks = (role: string) => {
     },
     {
       to: "/discover",
-      title: "Відкрити",
+      title: "Шукати",
     },
     {
       to: "/news",

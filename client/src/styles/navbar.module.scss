@@ -8,7 +8,15 @@
   z-index: 12;
   background-color: transparent;
   transition: getTransition(slow);
-  backdrop-filter: blur(7px);
+  &__blur {
+    backdrop-filter: blur(10px);
+    box-shadow: getShadow(secondary);
+  }
+  &__btn_blur {
+    width: 36.4px;
+    height: 36.4px;
+    margin-right: 10px;
+  }
   &__border {
     height: 7px;
     background-image: getGradient(third);
@@ -68,15 +76,6 @@
         color: getColor(font);
       }
     }
-    // .nav__title {
-    //   transform: translateY(-90px);
-    // }
-    // .nav__action_btns {
-    //   transform: translateY(-90px);
-    // }
-    // .search {
-    //   transform: translateY(-90px);
-    // }
   }
   &__actions_wrapper {
     position: relative;
@@ -363,6 +362,7 @@
     @extend %flex-center;
     margin-right: 7px;
     color: getColor(font-white);
+    font-size: 13px;
   }
   &__firstname {
   }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { LOGIN_USER } from "../fetching/queries"
 import { useLazyQuery } from "@apollo/client"
 import { AiOutlineLogin } from "react-icons/ai"
-import { BsX } from "react-icons/bs"
+import { BsX, BsQuestionCircle } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import { SET_AUTH } from "../redux/auth/authTypes"
 import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
@@ -24,6 +24,7 @@ const Auth: React.FC = () => {
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
   const { setErrors } = useSetErrorsFields()
+  const [prompt, setPrompt] = useState(false)
   const [form, setForm] = useState([
     {
       param: "email",
@@ -70,6 +71,10 @@ const Auth: React.FC = () => {
     })
   }
 
+  const handleOpenPrompt = () => {
+    setPrompt((prev) => !prev)
+  }
+
   const handleCloseForm = () => {
     dispatch({ type: AUTHFORM_TOGGLE })
   }
@@ -83,14 +88,37 @@ const Auth: React.FC = () => {
   return (
     <div className={`${styles.form} ${authForm && styles.form__active}`}>
       <h3 className={styles.form__title}>
+        <ButtonTab
+          exClass={`${styles.form__btn} ${styles.form__btn_prompt} ${
+            prompt && styles.form__btn_prompt__active
+          }`}
+          click={handleOpenPrompt}
+          Icon={BsQuestionCircle}
+        />
         Увійти
         <ButtonTab
-          exClass={styles.form__btn_close}
+          exClass={`${styles.form__btn} ${styles.form__btn_close}`}
           click={handleCloseForm}
           Icon={BsX}
         />
       </h3>
       <div className={styles.form__wrapper_form}>
+        <div
+          className={`${styles.form__prompt} ${
+            prompt && styles.form__prompt__open
+          }`}
+        >
+          <h4 className={styles.form__prompt_title}>Щоб увійти введіть:</h4>
+          <div className={styles.form__prompt_field}>
+            <span>Електронна адреса:</span>
+            <span className={styles.form__prompt_login}>your.part.email</span>
+            @gmail.com
+          </div>
+          <div className={styles.form__prompt_field}>
+            <span>Пароль:</span>
+            <span className={styles.form__prompt_login}>your.part.email</span>
+          </div>
+        </div>
         <LoaderData load={logFetch.loading} />
         <form className={styles.form__fields} onSubmit={handleSubmit}>
           {reduceMapFields(form, setForm)}

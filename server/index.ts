@@ -65,7 +65,6 @@
 ////////////////// apollo-server-express without sockets
 import express from "express"
 import { ApolloServer } from "apollo-server-express"
-import http from "http"
 import path from "path"
 import mongoose from "mongoose"
 import { config } from "dotenv"

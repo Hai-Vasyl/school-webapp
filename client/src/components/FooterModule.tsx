@@ -2,9 +2,10 @@ import React from "react"
 import { Link } from "react-router-dom"
 // @ts-ignore
 import styles from "../styles/pages.module"
-// @ts-ignore
-import logoImg from "../images/logo.png"
 import { FaFacebook, FaInstagram, FaYoutube, FaTelegram } from "react-icons/fa"
+import { setPath } from "../index"
+// @ts-ignore
+import image_2 from "../images/plant-2.svg"
 
 const FooterModule: React.FC = () => {
   const socialLinks = [
@@ -29,6 +30,7 @@ const FooterModule: React.FC = () => {
       title: "Telegram",
     },
   ]
+
   const links = {
     stack_1: [
       {
@@ -38,11 +40,15 @@ const FooterModule: React.FC = () => {
       { to: "/about", title: "Про школу" },
       { to: "/team", title: "Команда" },
       {
-        to: "/news",
-        title: "Новини",
+        to: "/discover",
+        title: "Шукати",
       },
     ],
     stack_2: [
+      {
+        to: "/news",
+        title: "Новини",
+      },
       {
         to: "/events",
         title: "Події",
@@ -55,12 +61,12 @@ const FooterModule: React.FC = () => {
         to: "/gallery",
         title: "Галерея",
       },
+    ],
+    stack_3: [
       {
         to: "/management",
         title: "Управління",
       },
-    ],
-    stack_3: [
       {
         to: "/projects",
         title: "Проекти",
@@ -99,24 +105,33 @@ const FooterModule: React.FC = () => {
 
   return (
     <div className={styles.module_footer}>
+      <img
+        className={styles.module_footer__bg_image}
+        src={image_2}
+        alt='bgImage'
+      />
       <div className={`wrapper ${styles.module_footer__flex}`}>
-        <div className={styles.module_footer__section}>
+        <div className={styles.module_footer__logo_container}>
           <Link to='/' className={styles.module_footer__logo}>
-            <img src={logoImg} alt='logoImg' />
+            <img src={setPath("/upload/logo_45.svg")} alt='logoImg' />
           </Link>
         </div>
-        <div className={styles.module_footer__section}>
-          <div className={styles.module_footer__subsection}>
-            {reduceMapLinks(true, links.stack_1)}
-          </div>
-          <div className={styles.module_footer__subsection}>
-            {reduceMapLinks(true, links.stack_2)}
-          </div>
-          <div className={styles.module_footer__subsection}>
-            {reduceMapLinks(true, links.stack_3)}
+        <div className={styles.module_footer__links}>
+          <div className={styles.module_footer__title}>Швидкі посилання</div>
+          <div className={styles.module_footer__section_links}>
+            <div className={styles.module_footer__subsection}>
+              {reduceMapLinks(true, links.stack_1)}
+            </div>
+            <div className={styles.module_footer__subsection}>
+              {reduceMapLinks(true, links.stack_2)}
+            </div>
+            <div className={styles.module_footer__subsection}>
+              {reduceMapLinks(true, links.stack_3)}
+            </div>
           </div>
         </div>
-        <div className={styles.module_footer__section}>
+        <div className={styles.module_footer__socials}>
+          <div className={styles.module_footer__title}>Слідкуйте за нами</div>
           <div className={styles.module_footer__subsection}>
             {reduceMapLinks(false, socialLinks)}
           </div>

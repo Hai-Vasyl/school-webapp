@@ -54,16 +54,17 @@
   &__bg_3 {
     top: 0;
     left: 0;
-    width: 300px;
+    width: 250px;
   }
   &__bg_4 {
     top: 10vh;
     right: 0;
-    width: 15%;
+    width: 13%;
   }
   &__bg_5 {
     top: 0;
     right: 0;
+    width: 28%;
   }
 }
 
@@ -101,6 +102,7 @@
 .navbar {
   background-color: getColor(secondary);
   border-bottom: 1px solid getColor(main-dark);
+  box-shadow: getShadow(secondary);
   &__menu {
     @extend %flex-center;
     padding-bottom: 0px !important;
@@ -127,7 +129,7 @@
   background-color: getColor(secondary);
   position: relative;
   z-index: 2;
-  // box-shadow: getShadow(card);
+  box-shadow: getShadow(secondary);
 }
 .side_link {
   padding: 11px 15px;
@@ -142,7 +144,6 @@
     border-bottom: none;
   }
   &__active {
-    // font-weight: bold;
     color: getColor(accent);
     &::before {
       content: "";
@@ -373,6 +374,7 @@
 .module {
   border-top: 1px solid getColor(main-dark);
   margin-top: 20px;
+  min-height: 500px;
   &__title {
     padding-bottom: 25px;
     margin-bottom: 10px;
@@ -412,6 +414,7 @@
 }
 
 .module_about {
+  min-height: 400px;
   &__link {
     @extend %link-reset;
     font-size: 1.2em;
@@ -440,6 +443,7 @@
 .module_news {
   padding-top: 20px;
   border-top: 1px solid getColor(main-dark);
+  min-height: 400px;
   &__grid {
     grid-gap: 5px;
     display: grid;
@@ -588,6 +592,7 @@
 .module_gallery {
   padding-top: 20px;
   border-top: 1px solid getColor(main-dark);
+  min-height: 400px;
   &__grid {
     height: 85vh;
     display: grid;
@@ -728,7 +733,6 @@
 
 .module_contacts {
   &__flex {
-    // min-height: 400px;
     // @extend %flex-center;
     display: flex;
   }
@@ -855,48 +859,56 @@
 
 .module_footer {
   margin-top: 5px;
-  background-color: getColor(accent);
+  background-color: rgb(25, 25, 25);
+  position: relative;
+  overflow: hidden;
+  z-index: 3;
+  box-shadow: inset 0px 5px 10px rgba(0, 0, 0, 0.3);
+  &__bg_image{
+    position: absolute;
+  }
+  &__title {
+    font-size: 2em;
+    font-family: getFont(third);
+    color: getColor(font-white);
+    font-weight: bold;
+    padding-bottom: 25px;
+    text-align: center;
+  }
   &__flex {
-    padding: 20px !important;
     display: flex;
+    align-items: flex-start;
   }
-  &__section {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1;
-    grid-auto-rows: 1fr;
-    align-content: flex-start;
-    border-right: 1px solid getColor(bg-light);
+  &__logo_container {
+    flex: 2;
     margin-right: 20px;
-    &:nth-child(2) {
-      flex: 3;
-      grid-template-columns: repeat(3, 1fr);
-    }
-    &:last-child {
-      margin-right: 0px;
-      border: none;
-    }
   }
-  &__subsection {
+  &__links {
+    flex: 5;
+    padding: 0px 25px;
+    border-left: 1px solid getColor(bg-light);
+  }
+  &__socials {
+    flex: 3;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    padding-left: 25px;
+    border-left: 1px solid getColor(bg-light);
+    align-items: center;
   }
   &__logo {
-    width: 100px;
-    height: 100px;
+    height: 200px;
     display: block;
-    margin: auto 0;
-    border: 1px solid getColor(bg-light);
-    padding: 10px;
-    // border-radius: 50%;
-    transition: getTransition(main);
-    &:hover {
-      border-color: getColor(accent-second);
-    }
-    & img {
+    & > img {
       @extend %image;
+      object-fit: contain;
+      object-position: left;
     }
+  }
+  &__section_links {
+    display: flex;
+    justify-content: space-between;
   }
 }
 
@@ -904,7 +916,8 @@
   color: getColor(font-white);
   @extend %flex-center;
   justify-content: flex-start;
-  padding: 3px 0;
+  padding: 7px 0;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
   &__icon {
     font-size: 18px;
     color: getColor(bg-light);

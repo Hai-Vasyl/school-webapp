@@ -52,6 +52,7 @@
     "@babel/runtime": "^7.12.1",
     "@ckeditor/ckeditor5-build-classic": "^25.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.0",
+    "@papercups-io/chat-widget": "^1.1.10",
     "@sentry/node": "^6.2.5",
     "@types/sharp": "^0.28.0",
     "apollo-link-http": "^1.5.17",
