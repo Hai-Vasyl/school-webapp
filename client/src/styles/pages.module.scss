@@ -64,7 +64,7 @@
   &__bg_5 {
     top: 0;
     right: 0;
-    width: 28%;
+    width: 25%;
   }
 }
 
@@ -864,9 +864,6 @@
   overflow: hidden;
   z-index: 3;
   box-shadow: inset 0px 5px 10px rgba(0, 0, 0, 0.3);
-  &__bg_image{
-    position: absolute;
-  }
   &__title {
     font-size: 2em;
     font-family: getFont(third);

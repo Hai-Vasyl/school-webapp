@@ -14,9 +14,17 @@ export const LIGHTBOX_CLOSE = "LIGHTBOX_CLOSE"
 export const LIGHTBOX_MOVE = "LIGHTBOX_MOVE"
 export const LIGHTBOX_LIGHT_OPEN = "LIGHTBOX_LIGHT_OPEN"
 export const LIGHTBOX_LIGHT_CLOSE = "LIGHTBOX_LIGHT_CLOSE"
+export const NAVBAR_TOGGLE = "NAVBAR_TOGGLE"
+export const NAVBAR_RESET = "NAVBAR_RESET"
 
 export interface ToggleDropDown {
   type: typeof DROPDOWN_TOGGLE
+}
+export interface NavbarReset {
+  type: typeof NAVBAR_RESET
+}
+export interface NavbarToggle {
+  type: typeof NAVBAR_TOGGLE
 }
 export interface LightBoxLightOpen {
   type: typeof LIGHTBOX_LIGHT_OPEN
@@ -112,3 +120,5 @@ export type ToggleReducerTypes =
   | MenuPagetToggle
   | LightBoxLightOpen
   | LightBoxLightClose
+  | NavbarToggle
+  | NavbarReset

@@ -18,7 +18,7 @@ import Search from "../pages/Search"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
-export const getLinks = (role: string) => {
+export const getLinks = (role: string, defaultLinks: boolean = true) => {
   const allLinks = [
     {
       to: "/",
@@ -75,6 +75,52 @@ export const getLinks = (role: string) => {
     },
   ]
 
+  const allLinksResponsive = [
+    {
+      to: "/",
+      exact: true,
+      title: "Головна",
+    },
+    { to: "/about", title: "Навчальний заклад" },
+    { to: "/team", title: "Команда" },
+    {
+      to: "/discover",
+      title: "Шукати",
+    },
+    {
+      to: "/news",
+      title: "Новини",
+    },
+    {
+      to: "/events",
+      title: "Події",
+    },
+    {
+      to: "/library",
+      title: "Бібліотека",
+    },
+    {
+      to: "/gallery",
+      title: "Галерея",
+    },
+    {
+      to: "/management",
+      title: "Управління",
+    },
+    {
+      to: "/projects",
+      title: "Проекти",
+    },
+    {
+      to: "/contacts",
+      title: "Контакти",
+    },
+    {
+      to: "/schedule",
+      title: "Розклад занять",
+    },
+  ]
+
   const getLinks = (extraLinks: ILink[]) => {
     return [...allLinks].map((link, index) => {
       if (index === allLinks.length - 1 && link.extraLinks) {
@@ -87,22 +133,34 @@ export const getLinks = (role: string) => {
     })
   }
 
-  switch (role) {
-    case access.admin.keyWord:
-      return getLinks([
-        { to: "/create-news", title: "Створити новину" },
-        { to: "/create-event", title: "Створити подію" },
-        { to: "/register-user", title: "Створити користувача" },
-        { to: "/users", title: "Усі користувачі" },
-      ])
-    case access.teacher.keyWord:
-      return getLinks([
-        { to: "/create-news", title: "Створити новину" },
-        { to: "/create-event", title: "Створити подію" },
-        { to: "/users", title: "Усі користувачі" },
-      ])
-    default:
-      return [...allLinks]
+  const getLinksResponsive = (extraLinks: ILink[]) => {
+    return [...allLinksResponsive, ...extraLinks]
+  }
+
+  const getSwitchedLinks = (getLinks: any) => {
+    switch (role) {
+      case access.admin.keyWord:
+        return getLinks([
+          { to: "/create-news", title: "Створити новину" },
+          { to: "/create-event", title: "Створити подію" },
+          { to: "/register-user", title: "Створити користувача" },
+          { to: "/users", title: "Усі користувачі" },
+        ])
+      case access.teacher.keyWord:
+        return getLinks([
+          { to: "/create-news", title: "Створити новину" },
+          { to: "/create-event", title: "Створити подію" },
+          { to: "/users", title: "Усі користувачі" },
+        ])
+      default:
+        return [...allLinks]
+    }
+  }
+
+  if (defaultLinks) {
+    return getSwitchedLinks(getLinks)
+  } else {
+    return getSwitchedLinks(getLinksResponsive)
   }
 }
 

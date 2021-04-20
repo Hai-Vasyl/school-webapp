@@ -16,6 +16,8 @@ import {
   MENU_PAGE_TOGGLE,
   LIGHTBOX_LIGHT_OPEN,
   LIGHTBOX_LIGHT_CLOSE,
+  NAVBAR_TOGGLE,
+  NAVBAR_RESET,
 } from "./toggleTypes"
 
 interface IInitState {
@@ -54,6 +56,7 @@ interface IInitState {
     title: string
     toggle: boolean
   }
+  navbar: boolean
 }
 
 const initState: IInitState = {
@@ -92,6 +95,7 @@ const initState: IInitState = {
     image: "",
     title: "",
   },
+  navbar: false,
 }
 
 const toggleReducer = (
@@ -241,6 +245,16 @@ const toggleReducer = (
           toggle: false,
           handleEditImage: () => {},
         },
+      }
+    case NAVBAR_TOGGLE:
+      return {
+        ...initState,
+        navbar: !state.navbar,
+      }
+    case NAVBAR_RESET:
+      return {
+        ...state,
+        navbar: false,
       }
     default:
       return state

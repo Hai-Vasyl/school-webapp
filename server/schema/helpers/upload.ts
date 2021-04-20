@@ -52,10 +52,9 @@ const getBufferFromStream = async (readableStream: any) => {
 const uploadNoImage = async (readableStream: any, location: string) => {
   const stream = readableStream.createReadStream()
   const { ext } = path.parse(readableStream.filename)
-
   const Location = `/${location}/${uuidv4()}${ext}`
-  const pathName = path.join(__dirname, `/public${Location}`)
-  await stream.pipe(fs.createWriteStream(pathName))
+
+  await stream.pipe(fs.createWriteStream(`./public${Location}`))
 
   return Location
 }
@@ -73,11 +72,11 @@ export const uploadFile = async (file: any, location: string) => {
         throw new Error(`Getting buffer from stream error!`)
       }
       return uploadBuffer(buffer, location)
+    } else {
+      const Location = await uploadNoImage(readableStream, location)
+
+      return Location
     }
-
-    const Location = await uploadNoImage(readableStream, location)
-
-    return Location
   } catch (error) {
     throw new Error(`Uploading file error: ${error.message}`)
   }

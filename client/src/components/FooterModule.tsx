@@ -4,8 +4,6 @@ import { Link } from "react-router-dom"
 import styles from "../styles/pages.module"
 import { FaFacebook, FaInstagram, FaYoutube, FaTelegram } from "react-icons/fa"
 import { setPath } from "../index"
-// @ts-ignore
-import image_2 from "../images/plant-2.svg"
 
 const FooterModule: React.FC = () => {
   const socialLinks = [
@@ -105,11 +103,6 @@ const FooterModule: React.FC = () => {
 
   return (
     <div className={styles.module_footer}>
-      <img
-        className={styles.module_footer__bg_image}
-        src={image_2}
-        alt='bgImage'
-      />
       <div className={`wrapper ${styles.module_footer__flex}`}>
         <div className={styles.module_footer__logo_container}>
           <Link to='/' className={styles.module_footer__logo}>

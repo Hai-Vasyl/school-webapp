@@ -91,7 +91,7 @@ const Home: React.FC = () => {
         )}
       </NewsEventsModuleContainer>
 
-      <NewsEventsModuleContainer isNews={true}>
+      <NewsEventsModuleContainer isNews={false}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModuleGrid
             items={items}
