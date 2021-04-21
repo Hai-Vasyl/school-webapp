@@ -216,7 +216,7 @@
 
 .btn_menu {
   position: relative;
-  z-index: 10;
+  z-index: 9;
   display: none;
   &__toggle {
     @extend %flex-center;
@@ -254,21 +254,17 @@
     &:nth-child(1) {
       margin-top: 0px;
     }
-    &:nth-child(2) {
-      width: 13px;
-    }
-    &:nth-child(3) {
-      width: 21px;
-    }
   }
   &__dropdown {
     position: absolute;
-    box-shadow: getShadow(main);
+    box-shadow: getShadow(secondary);
     transition: getTransition(main);
     opacity: 0;
+    background-color: getColor(secondary);
     visibility: hidden;
     transform-origin: top center;
     transform: translateY(30px);
+    padding: 5px 0;
     &__open {
       opacity: 1;
       visibility: visible;
@@ -276,20 +272,29 @@
     }
   }
   &__link {
-    min-width: 200px;
-    padding: 7px 10px;
+    min-width: 250px;
+    padding: 7px 25px;
     background-color: getColor(secondary);
     text-align: start;
     transition: getTransition(main);
+    margin-top: 5px;
+    &:first-child {
+      margin-top: 0;
+    }
     &:hover {
       background-color: getColor(main);
     }
     &__active {
-      background-color: getColor(accent);
-      color: getColor(font-white);
-      &:hover {
+      color: getColor(accent);
+      position: relative;
+      &::before {
+        content: "";
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        width: 5px;
+        left: 0;
         background-color: getColor(accent);
-        color: getColor(font-white);
       }
     }
   }
@@ -373,5 +378,11 @@
     }
   }
   &__title {
+  }
+}
+
+@media (max-width: 1000px) {
+  .btn_menu {
+    display: block;
   }
 }

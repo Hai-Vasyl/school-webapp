@@ -7,6 +7,14 @@ const CompressionPlugin = require("compression-webpack-plugin")
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const HTMLWebPackPlugin = require("html-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const dotenv = require("dotenv")
+
+const env = dotenv.config().parsed
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next])
+  return prev
+}, {})
 
 const clientConfig = {
   target: "web",
@@ -17,6 +25,7 @@ const clientConfig = {
     filename: "bundle.[contenthash].js",
   },
   plugins: [
+    new webpack.DefinePlugin(envKeys),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].[hash].css",

@@ -153,7 +153,7 @@ export const getLinks = (role: string, defaultLinks: boolean = true) => {
           { to: "/users", title: "Усі користувачі" },
         ])
       default:
-        return [...allLinks]
+        return getLinks([])
     }
   }
 

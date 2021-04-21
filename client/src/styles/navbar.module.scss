@@ -22,8 +22,6 @@
       .nav__border {
         height: 0;
       }
-      .nav__actions_wrapper {
-      }
       .nav__menu {
         height: auto;
         padding: 7px 20px;
@@ -53,7 +51,7 @@
         margin-top: -50px;
       }
       .nav__links {
-        margin-left: 0px;
+        margin-left: 20px;
       }
       .user {
         &__name {
@@ -64,11 +62,25 @@
         }
       }
       .btn_login {
+        border-color: getColor(main-dark);
         &__text {
           color: getColor(font);
         }
       }
     }
+  }
+}
+
+@keyframes fade-scale {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
   }
 }
 
@@ -83,6 +95,11 @@
     width: 36.4px;
     height: 36.4px;
     margin-right: 10px;
+  }
+  &__btn_search {
+    width: 36.4px;
+    height: 36.4px;
+    display: none;
   }
   &__border {
     height: 7px;
@@ -162,6 +179,20 @@
       color: getColor(font-white);
     }
   }
+  &__logo_mini {
+    width: 100px;
+    height: 43px;
+    display: none;
+    animation: fade-scale getTransition(slow);
+    &__active {
+      display: block;
+    }
+  }
+  &__logo_mini_img {
+    @extend %image;
+    object-fit: contain;
+    object-position: left;
+  }
   &__logo {
     width: 147px;
     height: 147px;
@@ -200,6 +231,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
     & > span {
       width: 25px;
       height: 4px;
@@ -209,12 +241,6 @@
       transition: getTransition(main);
       &:nth-child(1) {
         margin-top: 0;
-      }
-      &:nth-child(2) {
-        width: 18px;
-      }
-      &:nth-child(3) {
-        width: 22px;
       }
     }
   }
@@ -258,6 +284,9 @@
   box-shadow: getShadow(secondary);
   display: none;
   animation: fade getTransition(main);
+  max-height: 70vh;
+  overflow-y: auto;
+  @extend %scrollbar;
   &__open {
     display: none;
   }
@@ -295,8 +324,6 @@
     left: 0;
     transition: getTransition(main);
     transform: skew(45deg);
-  }
-  &:hover {
   }
   &:hover::after {
     width: 100%;
@@ -442,10 +469,6 @@
     color: getColor(font-white);
     font-size: 13px;
   }
-  &__firstname {
-  }
-  &__lastname {
-  }
   &__ava {
     width: 44px;
     height: 44px;
@@ -454,21 +477,18 @@
     padding: 4px;
     border: 1px solid getColor(bg-light);
   }
-  &__dropdown {
-  }
 }
 
 .btn_login {
   margin-left: auto;
-  padding: 10px 14px;
+  height: 45px;
+  padding: 0px 14px;
   border: 1px solid getColor(bg-light);
   color: getColor(font-white);
   background-color: transparent;
   transition: getTransition(main);
   transform: scale(1);
   @extend %flex-center;
-  &__text {
-  }
   &:hover {
     background-color: getColor(bg-light);
     border-color: transparent;
@@ -482,199 +502,76 @@
 }
 
 @media (max-width: 1170px) {
-  // .menu {
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   right: 0;
-  //   z-index: 12;
-  //   transition: getTransition(slow);
-  //   &__reduce {
-  //     transform: translateY(-57px);
-  //     .nav {
-  //       background-color: getColor(secondary);
-  //       box-shadow: getShadow(secondary);
-  //       backdrop-filter: none;
-  //       .btn_menu {
-  //         border-color: getColor(main-dark);
-  //         &__lines > span {
-  //           border-color: getColor(font);
-  //         }
-  //       }
-  //       .nav__border {
-  //         height: 0;
-  //       }
-  //       .nav__actions_wrapper {
-  //       }
-  //       .nav__menu {
-  //         height: auto;
-  //         padding: 7px 20px;
-  //       }
-  //       .nav__border_second {
-  //         & > * {
-  //           height: 0;
-  //         }
-  //         &__content {
-  //           & > * {
-  //             height: 0;
-  //           }
-  //         }
-  //       }
-  //       .link {
-  //         &__text {
-  //           color: getColor(font);
-  //           text-shadow: none;
-  //         }
-  //         &__icon {
-  //           color: getColor(font);
-  //         }
-  //       }
-  //       .nav__logo {
-  //         visibility: hidden;
-  //         opacity: 0;
-  //         margin-top: -50px;
-  //       }
-  //       .nav__links {
-  //         margin-left: 0px;
-  //       }
-  //       .user {
-  //         &__name {
-  //           color: getColor(font);
-  //         }
-  //         &__ava {
-  //           border: 1px solid getColor(main-dark);
-  //         }
-  //       }
-  //       .btn_login {
-  //         &__text {
-  //           color: getColor(font);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
   .nav {
-    background-color: transparent;
-    transition: getTransition(slow);
-    &__blur {
-      backdrop-filter: blur(10px);
-      box-shadow: getShadow(secondary);
-    }
-    &__btn_blur {
-      width: 36.4px;
-      height: 36.4px;
-      margin-right: 10px;
-    }
-    &__border {
-      height: 7px;
-      background-image: getGradient(third);
-      transition: getTransition(slow);
-    }
-    &__actions_wrapper {
-      position: relative;
-      z-index: 2;
-      transition: getTransition(main);
-      height: 57px;
-      display: flex;
-      align-items: center;
-    }
-    // &__actions {
-    //   display: flex;
-    //   align-items: center;
-    //   justify-content: flex-end;
-    //   @extend %wrapper;
-    //   position: relative;
-    //   transition: getTransition(main);
-    // }
-    // &__border_second {
-    //   @extend %flex-center;
-    //   & > * {
-    //     flex: 1;
-    //     height: 1px;
-    //     background-color: getColor(bg-light);
-    //   }
-    // &__content {
-    //   height: auto;
-    //   flex: none;
-    //   width: 1160px;
-    //   max-width: calc(100% - 40px);
-    //   background-color: transparent;
-    //   @extend %flex-center;
-    //   & > * {
-    //     flex: 1;
-    //     height: 1px;
-    //     background-color: getColor(bg-light);
-    //     &:first-child {
-    //       width: 147px;
-    //       flex: none;
-    //       background-color: transparent;
-    //     }
-    //   }
-    // }
-    // }
-    &__wrapper_menu {
-      border-bottom: 1px solid getColor(bg-light);
-    }
-    // &__menu {
-    //   @extend %wrapper;
-    //   display: flex;
-    //   justify-content: flex-start;
-    //   align-items: center;
-    //   position: relative;
-    //   height: 90px;
-    // }
-    &__title {
-      display: block;
-      margin-right: auto;
-      transform: translateY(0%);
-      transition: getTransition(main);
-      font-family: getFont(third);
-      text-transform: capitalize;
-      &:hover {
-        & > * {
-          color: getColor(font-white);
-        }
-      }
-      // & > * {
-      //   @extend %link-reset;
-      //   font-size: 1.4em;
-      //   padding-left: 175px;
-      //   font-weight: bold;
-      //   color: getColor(font-white);
-      // }
-    }
-    &__logo {
-      width: 147px;
-      height: 147px;
-      position: absolute;
-      left: 20px;
-      top: -10px;
-      padding: 7px;
-      border-top: none;
-      z-index: 16;
-      opacity: 1;
-      transition: getTransition(main);
-      border-left: 1px solid getColor(bg-light);
-      border-right: 1px solid getColor(bg-light);
-    }
-    // &__logo_img {
-    //   @extend %image;
-    //   object-fit: contain;
-    //   filter: drop-shadow(0px 0px 4px getColor(bg-night));
-    // }
     &__links {
       display: none;
     }
   }
-
+  .user {
+    margin-right: 5px;
+  }
   .btn_menu {
     display: flex;
   }
-
   .respns_menu {
     &__open {
       display: block;
+    }
+  }
+  .btn_login {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 975px) {
+  .nav {
+    &__btn_search {
+      display: flex;
+    }
+  }
+  .respns_menu {
+    &__container {
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 10px;
+    }
+  }
+  .search {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .respns_menu {
+    &__container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media (max-width: 490px) {
+  .menu {
+    &__reduce {
+      transform: translateY(0px);
+    }
+  }
+  .nav {
+    &__blur {
+      backdrop-filter: none;
+      box-shadow: getShadow(secondary);
+    }
+    &__actions_wrapper {
+      display: none;
+    }
+    &__border_second {
+      display: none;
+    }
+    &__logo_mini {
+      display: block;
+    }
+  }
+  .respns_menu {
+    &__container {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 }

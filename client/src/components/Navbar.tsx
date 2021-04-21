@@ -176,6 +176,11 @@ const Navbar: React.FC = () => {
               click={() => setBlur((prev) => !prev)}
               Icon={blur ? MdBlurOn : MdBlurOff}
             />
+            <ButtonTab
+              exClass={`${stylesBtn.btn_tab_glass} ${styles.nav__btn_search}`}
+              click={() => history.push("/discover?tags=all")}
+              Icon={BsSearch}
+            />
             <form onSubmit={handleSubmitSearch} className={styles.search}>
               <input
                 type='text'
@@ -198,6 +203,19 @@ const Navbar: React.FC = () => {
         </div>
         <div className={styles.nav__wrapper_menu}>
           <div className={styles.nav__menu}>
+            <Link
+              to='/'
+              className={`${styles.nav__logo_mini} ${
+                changeNav && styles.nav__logo_mini__active
+              }`}
+              onClick={() => dispatch({ type: RESET_TOGGLE })}
+            >
+              <img
+                src={setPath("/upload/logo_45_mini.svg")}
+                className={styles.nav__logo_mini_img}
+                alt='logotype'
+              />
+            </Link>
             <div className={styles.nav__links}>
               {reduceMapLins(getLinks(user.role))}
             </div>

@@ -66,7 +66,7 @@ import { createUploadLink } from "apollo-upload-client"
 //   cache: new InMemoryCache(),
 // })
 // --- connect apollo-server-express without wss
-const isDev = true
+const isDev = false
 const host = isDev
   ? "localhost:5000"
   : window.location.href.split("//")[1].split("/")[0]

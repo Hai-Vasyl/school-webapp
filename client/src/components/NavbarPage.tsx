@@ -39,7 +39,7 @@ const NavbarPage: React.FC<INavbarPageProps> = ({
         )}
         {user.role === access.admin.keyWord && (
           <div className={styles.navbar__create}>
-            <p>Створити розділ сторінки</p>
+            <p>Створити розділ</p>
             <ButtonTab click={onCreate} Icon={toggle ? BsX : BsPlus} />
           </div>
         )}

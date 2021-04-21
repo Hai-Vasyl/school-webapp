@@ -102,6 +102,11 @@ blockquote {
   }
 }
 
+.background-light {
+  background-color: transparent;
+  z-index: 8;
+}
+
 .plug-text {
   padding: 10px 0;
   text-align: center;

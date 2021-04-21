@@ -29,6 +29,7 @@ const Routes = () => {
       modImage: { toggle: modImageToggle },
       lightbox: { toggle: lightboxToggle },
       lightboxlight: { toggle: lightboxlightToggle },
+      navbar,
     },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
@@ -98,11 +99,17 @@ const Routes = () => {
             warnToggle ||
             modImageToggle ||
             lightboxToggle ||
-            menuPage ||
-            lightboxlightToggle) &&
+            lightboxlightToggle ||
+            navbar) &&
           "background--active"
         } ${(lightboxToggle || lightboxlightToggle) && "background--over"}`}
         onClick={() => dispatch({ type: RESET_TOGGLE })}
+      ></div>
+      <div
+        onClick={() => dispatch({ type: RESET_TOGGLE })}
+        className={`background background-light ${
+          menuPage && "background--active"
+        }`}
       ></div>
       <Switch>
         {getRoutes()}
