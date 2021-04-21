@@ -1,4 +1,5 @@
 const path = require("path")
+const webpack = require("webpack")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const nodeExternals = require("webpack-node-externals")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
