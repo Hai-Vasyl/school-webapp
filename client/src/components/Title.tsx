@@ -91,7 +91,9 @@ const Title: React.FC<ITitleProps> = ({ title, path }) => {
         <div className={styles.title__btns}>
           <ButtonFile
             Icon={!image ? RiImageAddFill : BsArrowRepeat}
-            exClass={stylesBtn.btn_tab_glass}
+            exClass={`${stylesBtn.btn_tab_glass} ${
+              !image && styles.title__btn
+            }`}
             change={handleModImage}
           />
           {image && (

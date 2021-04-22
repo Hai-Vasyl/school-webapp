@@ -76,21 +76,23 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
     <div className={styles.form_filter_container}>
       <div className='wrapper-clear'>
         <form onSubmit={handleSubmit} className={styles.form_filter}>
-          {(user.role === access.admin.keyWord ||
-            user.role === access.teacher.keyWord) && (
-            <ButtonTab
-              exClass={stylesBtn.btn_form_plus}
-              Icon={BsPlus}
-              click={onClickBtnPlus}
+          <div className={styles.form_filter__tools}>
+            {(user.role === access.admin.keyWord ||
+              user.role === access.teacher.keyWord) && (
+              <ButtonTab
+                exClass={stylesBtn.btn_form_plus}
+                Icon={BsPlus}
+                click={onClickBtnPlus}
+              />
+            )}
+            <FieldSearch
+              resetSearch={handleResetSearch}
+              search={search}
+              check={checkSearch}
+              searchStr={searchStr}
+              change={setSearchStr}
             />
-          )}
-          <FieldSearch
-            resetSearch={handleResetSearch}
-            search={search}
-            check={checkSearch}
-            searchStr={searchStr}
-            change={setSearchStr}
-          />
+          </div>
           <FieldPicker
             submit
             exClass={styles.form_filter__picker}
@@ -128,19 +130,21 @@ const FilterSearch: React.FC<IFilterSearchProps> = ({
               error={isDateError}
               exClass={`${styles.form_filter__picker_date} ${styles.form_filter__picker_date__to}`}
             />
-            <Button
-              exClass={`${stylesBtn.btn_simple} ${styles.form_filter__btn}`}
-              Icon={BsArrowClockwise}
-              type='button'
-              click={handleResetDate}
-            />
-            <Button
-              exClass={`${
-                isDateError ? stylesBtn.btn_disabled : stylesBtn.btn_primary
-              } ${styles.form_filter__btn} `}
-              title='Шукати'
-              disabled={isDateError}
-            />
+            <div className={styles.form_filter__btns}>
+              <Button
+                exClass={`${stylesBtn.btn_simple} ${styles.form_filter__btn}`}
+                Icon={BsArrowClockwise}
+                type='button'
+                click={handleResetDate}
+              />
+              <Button
+                exClass={`${
+                  isDateError ? stylesBtn.btn_disabled : stylesBtn.btn_primary
+                } ${styles.form_filter__btn} `}
+                title='Шукати'
+                disabled={isDateError}
+              />
+            </div>
             <button className='btn-handler'></button>
           </form>
         )}
