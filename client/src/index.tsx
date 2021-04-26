@@ -66,7 +66,7 @@ import { createUploadLink } from "apollo-upload-client"
 //   cache: new InMemoryCache(),
 // })
 // --- connect apollo-server-express without wss
-const isDev = false
+const isDev = true
 const host = isDev
   ? "localhost:5000"
   : window.location.href.split("//")[1].split("/")[0]
@@ -76,7 +76,7 @@ export const setPath = (fileLocation: string) => {
 }
 
 const httpLink = createUploadLink({
-  uri: `${isDev ? "http" : "https"}://${host}/graphql`,
+  uri: `${isDev ? "http" : "http"}://${"localhost:5000"}/graphql`,
 })
 
 const authLink = setContext((_, { headers }) => {

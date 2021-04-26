@@ -313,7 +313,9 @@ const Profile: React.FC = () => {
                 <div className={styles.user__btn_image}>
                   <ButtonFile
                     Icon={!userData.ava ? RiImageAddFill : BsArrowRepeat}
-                    exClass={stylesBtn.btn_tab_glass}
+                    exClass={`${stylesBtn.btn_tab_glass} ${
+                      !userData.ava && styles.user__btn_upload
+                    }`}
                     change={handleModImage}
                   />
                   {userData.ava && (
@@ -386,7 +388,7 @@ const Profile: React.FC = () => {
                     />
                   )}
                   <div className={stylesForm.form__title_text}>
-                    Редагування даних користувача
+                    Редагування даних
                   </div>
                 </div>
                 <form
@@ -406,7 +408,7 @@ const Profile: React.FC = () => {
                         type='button'
                       />
                       <Button
-                        title='Застосувати зміни'
+                        title='Застосувати'
                         exClass={stylesBtn.btn_primary}
                         Icon={BsPencil}
                       />

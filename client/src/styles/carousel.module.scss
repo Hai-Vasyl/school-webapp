@@ -112,6 +112,7 @@
     &:hover {
       .slide__content {
         height: 50px;
+        opacity: 1;
       }
     }
     &__active {
@@ -146,7 +147,6 @@
       max-width: 100%;
       position: relative;
       padding-bottom: 12px;
-      // margin-bottom: 20px;
       color: getColor(font-white);
       &:hover {
         color: getColor(font-white);
@@ -176,6 +176,7 @@
     font-size: 1.1em;
     color: getColor(title-simple);
     position: relative;
+    opacity: 0;
     & * {
       font-weight: normal;
     }

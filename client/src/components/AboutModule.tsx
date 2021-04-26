@@ -12,7 +12,13 @@ import styles from "../styles/pages.module"
 import { IPageSection } from "../interfaces"
 import { Link, useHistory } from "react-router-dom"
 import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
-import { BsInfoCircle, BsKanban, BsPeople, BsGear } from "react-icons/bs"
+import {
+  BsInfoCircle,
+  BsKanban,
+  BsPeople,
+  BsGear,
+  BsCompass,
+} from "react-icons/bs"
 import { FaRegCalendarAlt } from "react-icons/fa"
 import { FiPhoneCall } from "react-icons/fi"
 import { BiUserCircle } from "react-icons/bi"
@@ -70,6 +76,7 @@ const AboutModule: React.FC = () => {
 
   const links = [
     { to: "/about", title: "Про школу", Icon: BsInfoCircle },
+    { to: "/discover", title: "Шукати", Icon: BsCompass },
     { to: "/team", title: "Команда", Icon: BsPeople },
     { to: "/schedule", title: "Розклад занять", Icon: FaRegCalendarAlt },
     { to: "/management", title: "Управління", Icon: BsGear },
@@ -82,6 +89,27 @@ const AboutModule: React.FC = () => {
       click: handleRedirectProfile,
     },
   ]
+
+  const linksTiles = links.map((link) => {
+    if (link.to === "profile") {
+      return (
+        <button key={link.to} className={styles.link_tile} onClick={link.click}>
+          <div className={styles.link_tile__icon}>
+            <link.Icon />
+          </div>
+          <span className={styles.link_tile__title}>{link.title}</span>
+        </button>
+      )
+    }
+    return (
+      <Link key={link.to} className={styles.link_tile} to={link.to}>
+        <div className={styles.link_tile__icon}>
+          <link.Icon />
+        </div>
+        <span className={styles.link_tile__title}>{link.title}</span>
+      </Link>
+    )
+  })
 
   const linksJSX = links.map((link) => {
     if (link.to === "profile") {
@@ -113,20 +141,25 @@ const AboutModule: React.FC = () => {
   })
 
   return (
-    <div className={`wrapper ${styles.module_about}`}>
-      {loadSections ? (
-        <Loader />
-      ) : sections.length ? (
-        <div className={styles.page_wrapper_flex}>
-          <SideNavbar exClass={styles.page_wrapper_flex__sidebar}>
-            {linksJSX}
-          </SideNavbar>
-          <div className={styles.page_wrapper_flex__content}>{sectionsJSX}</div>
-        </div>
-      ) : (
-        <div className='plug-text'>Порожньо</div>
-      )}
-    </div>
+    <>
+      <div className={styles.module_about__tiles}>{linksTiles}</div>
+      <div className={`wrapper ${styles.module_about}`}>
+        {loadSections ? (
+          <Loader />
+        ) : sections.length ? (
+          <div className={styles.page_wrapper_flex}>
+            <SideNavbar exClass={styles.page_wrapper_flex__sidebar}>
+              {linksJSX}
+            </SideNavbar>
+            <div className={styles.page_wrapper_flex__content}>
+              {sectionsJSX}
+            </div>
+          </div>
+        ) : (
+          <div className='plug-text'>Порожньо</div>
+        )}
+      </div>
+    </>
   )
 }
 

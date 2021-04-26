@@ -20,6 +20,7 @@ import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 import { INewsEventSlider } from "../interfaces"
+import ContactsModule from "../components/ContactsModule"
 
 const Contacts: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
@@ -142,6 +143,7 @@ const Contacts: React.FC = () => {
           </div>
         </div>
       </div>
+      <ContactsModule minimize />
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />

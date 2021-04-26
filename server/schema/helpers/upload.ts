@@ -14,7 +14,7 @@ const convertToJpg = async (input: Buffer) => {
 
 export const uploadBuffer = async (buffer: Buffer, location: string) => {
   const miniBuffer = await imagemin.buffer(buffer, {
-    plugins: [convertToJpg, mozjpeg({ quality: 90 })],
+    plugins: [convertToJpg, mozjpeg({ quality: 70 })],
   })
 
   const Location = `/${location}/${uuidv4()}.jpeg`

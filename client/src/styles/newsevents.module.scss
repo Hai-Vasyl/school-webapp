@@ -79,7 +79,7 @@
   &__main {
     padding: 15px;
     padding-top: 0;
-    border-top: 3px solid getColor(accent);
+    border-top: 4px solid getColor(accent);
     border-left: 1px solid getColor(main-dark);
     border-right: 1px solid getColor(main-dark);
   }
@@ -92,9 +92,9 @@
     transform: translateY(-15px);
     position: relative;
     z-index: 2;
-    // @extend %flex-center;
     display: inline-flex;
     align-items: center;
+    border-left: 4px solid getColor(accent-main);
   }
   &__date_icon {
     margin-right: 8px;
@@ -110,7 +110,6 @@
   }
   &__categoty {
     @extend %link-reset;
-    // display: inline-block;
     color: getColor(accent);
     margin-bottom: 10px;
     padding: 10px 0px;

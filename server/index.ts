@@ -125,6 +125,7 @@ const isDev = NODE_ENV === "development"
 // import { config } from "dotenv"
 // import isAuth from "./context/isAuth"
 // import schema from "./schema"
+// import path from "path"
 
 // config()
 // const { PORT, MONGO_USER, MONGO_PASS, MONGO_DB, NODE_ENV } = process.env
@@ -145,7 +146,7 @@ const isDev = NODE_ENV === "development"
 
 //     const server = new ApolloServer({
 //       ...schema,
-//       playground: isDev,
+//       playground: true,
 //       context: ({ req, res }: { req: any; res: any }) => ({
 //         req,
 //         res,

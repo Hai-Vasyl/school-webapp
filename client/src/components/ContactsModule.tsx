@@ -8,7 +8,13 @@ import { GoLocation } from "react-icons/go"
 import { Link } from "react-router-dom"
 import { FaFacebook, FaInstagram, FaYoutube, FaTelegram } from "react-icons/fa"
 
-const ContactsModule: React.FC = () => {
+interface IContactsModuleProps {
+  minimize?: boolean
+}
+
+const ContactsModule: React.FC<IContactsModuleProps> = ({
+  minimize = false,
+}) => {
   const contacts = [
     {
       Icon: AiOutlinePhone,
@@ -32,28 +38,39 @@ const ContactsModule: React.FC = () => {
   ]
 
   return (
-    <div className={styles.module_contacts}>
+    <div
+      className={`${styles.module_contacts} ${
+        minimize && styles.module_contacts__minimized
+      }`}
+    >
       <div className={styles.module_contacts__flex}>
         <div className={styles.module_contacts__body}>
           <div className={styles.module_contacts__contacts}>
             <div className={styles.module_contacts__title}>
-              <Link to='/contacts' className={styles.module__title}>
+              <Link
+                to='/contacts'
+                className={`${styles.module__title} ${
+                  minimize && styles.module__title__nolink
+                }`}
+              >
                 Залишайся на зв'язку
               </Link>
             </div>
-            {contacts.map((item) => {
-              return (
-                <div key={item.value} className={styles.contact}>
-                  <item.Icon className={styles.contact__icon} />
-                  <a
-                    className={styles.contact__link}
-                    href={`${item.ref}${item.value}`}
-                  >
-                    {item.title}
-                  </a>
-                </div>
-              )
-            })}
+            <div className={styles.module_contacts__container}>
+              {contacts.map((item) => {
+                return (
+                  <div key={item.value} className={styles.contact}>
+                    <item.Icon className={styles.contact__icon} />
+                    <a
+                      className={styles.contact__link}
+                      href={`${item.ref}${item.value}`}
+                    >
+                      {item.title}
+                    </a>
+                  </div>
+                )
+              })}
+            </div>
             <div className={styles.module_contacts__social_media}>
               <a href='' className={styles.social}>
                 <FaFacebook />

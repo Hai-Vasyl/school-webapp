@@ -6,10 +6,20 @@ import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
 // const { AWS_UPLOADS_BUCKET: uploadBucket } = process.env
 import { IField, IIsAuth } from "../interfaces"
 import { types as msgTypes } from "../../modules/messageTypes"
+// import url from "url"
+const url = require("url")
 
 export const Query = {
   async getImages(_: any, { from, to, search, type }: IField) {
     try {
+      // const getFormattedUrl = (req: any) => {
+      //   return url.format({
+      //     protocol: req.protocol,
+      //     host: req.get("host"),
+      //   })
+      // }
+      // console.log({ path: getFormattedUrl(req) })
+
       let typeQuery = type ? type : { $ne: "private" }
       let query
       if (search) {

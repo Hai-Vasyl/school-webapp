@@ -8,6 +8,7 @@
   transition: getTransition(main);
   z-index: 3;
   background-color: getColor(secondary);
+  overflow: hidden;
   &__close {
     opacity: 0;
     transform: scale(0);
