@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const toggleBlur = JSON.parse(localStorage.getItem("blur") || "")
+    const toggleBlur = JSON.parse(localStorage.getItem("blur") || "{}")
     const blurValue = toggleBlur?.toggle
 
     if (toggleBlur && typeof blurValue === "boolean") {
