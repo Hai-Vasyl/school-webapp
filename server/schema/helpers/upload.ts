@@ -62,7 +62,7 @@ const uploadNoImage = async (readableStream: any, location: string) => {
 export const uploadFile = async (file: any, location: string) => {
   try {
     const readableStream = await file
-
+    console.log({ readableStream })
     const isImage = readableStream.mimetype.split("/")[0] === "image"
 
     if (isImage) {
@@ -85,9 +85,7 @@ export const uploadFile = async (file: any, location: string) => {
 export const deleteFile = async (location: string) => {
   try {
     fs.unlinkSync(`./public${location}`)
-  } catch (error) {
-    throw new Error(`Deleting file error: ${error.message}`)
-  }
+  } catch (error) {}
 }
 
 export const updateFile = async (file: any, fileLocation: string) => {
@@ -95,7 +93,9 @@ export const updateFile = async (file: any, fileLocation: string) => {
     const readableStream = await file
     const location = fileLocation.split("/")[1]
 
-    fs.unlinkSync(`./public${fileLocation}`)
+    try {
+      fs.unlinkSync(`./public${fileLocation}`)
+    } catch (error) {}
 
     const isImage = readableStream.mimetype.split("/")[0] === "image"
 
