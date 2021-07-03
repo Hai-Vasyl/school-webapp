@@ -46,7 +46,6 @@ const clientConfig = {
     }),
   ],
   optimization: {
-    minimize: true,
     minimizer: [new TerserPlugin()],
   },
   resolve: {

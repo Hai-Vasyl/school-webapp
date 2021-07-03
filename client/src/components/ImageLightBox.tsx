@@ -82,18 +82,24 @@ const ImageLightBox: React.FC = () => {
   }
 
   const hashtags =
-    dataImage &&
-    dataImage.getImage.hashtags.split(" ").map((tag: string, index: number) => {
-      return (
-        <button
-          className={styles.btn_hashtag}
-          key={tag + index}
-          onClick={() => handleSearchHashtag(tag)}
-        >
-          <span className={styles.btn_hashtag__text}>{tag}</span>
-        </button>
-      )
-    })
+    !!image.hashtags.length &&
+    image.hashtags
+      .split(" ")
+      .reduce((acumulator: any, tag: string, index: number) => {
+        if (tag) {
+          acumulator.push(
+            <button
+              className={styles.btn_hashtag}
+              key={tag + index}
+              onClick={() => handleSearchHashtag(tag)}
+            >
+              <span className={styles.btn_hashtag__text}>{tag}</span>
+            </button>
+          )
+        }
+
+        return acumulator
+      }, [])
 
   return (
     <div className={`${styles.lightbox} ${toggle && styles.lightbox__open}`}>
@@ -189,7 +195,7 @@ const ImageLightBox: React.FC = () => {
                     <span>Сторінка {isNews ? "новини" : "події"}</span>
                   </button>
                 )}
-                <div className={styles.lightbox__hashtags}>{hashtags}</div>
+                  <div className={styles.lightbox__hashtags}>{hashtags}</div>
               </div>
             )}
           </div>

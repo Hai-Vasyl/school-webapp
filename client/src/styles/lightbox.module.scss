@@ -162,6 +162,7 @@
   }
   &__details {
     display: flex;
+    background-color: rgba(0, 0, 0, 0.8);
   }
   &__owner {
     width: 400px;
@@ -178,6 +179,7 @@
     border: 1px solid getColor(bg-light);
   }
   &__adition {
+    min-height: 100px;
     padding: 10px 25px;
     flex: 1;
     border-left: 1px solid getColor(bg-light);
@@ -230,5 +232,26 @@
   &:active {
     transform: scale(0.9);
     opacity: 0.5;
+  }
+}
+
+@media (max-width: 810px) {
+  .lightbox {
+    &__footer {
+      min-height: 100px;
+      background-color: getColor(bg);
+      transform: translateY(200px);
+    }
+    &__details {
+      flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.8);
+      min-height: 200px;
+    }
+    &__owner {
+      width: 100%;
+    }
+    &__adition {
+      border-left: none;
+    }
   }
 }

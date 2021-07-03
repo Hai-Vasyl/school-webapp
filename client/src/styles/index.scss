@@ -21,7 +21,7 @@
   padding: 0;
   box-sizing: border-box;
   &::selection {
-    background-color: getColor(accent-main);
+    background-color: rgba(252, 182, 19, 0.5);
   }
 }
 
@@ -187,6 +187,7 @@ blockquote {
 .carousel {
   position: relative;
   height: 100vh;
+  // min-height: 700px;
   overflow: hidden;
   transition: getTransition(main);
 }

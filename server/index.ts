@@ -103,7 +103,6 @@ const isDev = NODE_ENV === "development"
     })
     server.applyMiddleware({ app })
 
-    // app.use(express.static("public"))
     app.use(express.static(path.join(__dirname, "../", "../", "public")))
 
     if (NODE_ENV === "production") {

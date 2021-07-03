@@ -46,8 +46,13 @@ export const Mutation = {
           }
         } else {
           if (!!uploadImage) {
-            const Location = await updateFile(uploadImage, page.image)
-            image = Location
+            if (!!page.image) {
+              const Location = await updateFile(uploadImage, page.image)
+              image = Location
+            } else {
+              const Location = await uploadFile(uploadImage, uploadPath.upload)
+              image = Location
+            }
           }
         }
         await Page.updateOne({ url }, { image, date: new Date() })

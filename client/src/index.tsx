@@ -6,6 +6,7 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
+  createHttpLink,
   split,
 } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
@@ -66,17 +67,20 @@ import { createUploadLink } from "apollo-upload-client"
 //   cache: new InMemoryCache(),
 // })
 // --- connect apollo-server-express without wss
-const isDev = false
-const host = isDev
-  ? "localhost:5000"
-  : window.location.href.split("//")[1].split("/")[0]
+const isDev = process.env.NODE_ENV === "development"
+const defaultHost = "http://localhost:5000"
+let host = defaultHost
+
+if (!isDev) {
+  host = window.location.origin
+}
 
 export const setPath = (fileLocation: string) => {
-  return `${isDev ? "http://localhost:5000" : ""}${fileLocation}`
+  return `${isDev ? defaultHost : ""}${fileLocation}`
 }
 
 const httpLink = createUploadLink({
-  uri: `${isDev ? "http" : "https"}://${host}/graphql`,
+  uri: `${host}/graphql`,
 })
 
 const authLink = setContext((_, { headers }) => {

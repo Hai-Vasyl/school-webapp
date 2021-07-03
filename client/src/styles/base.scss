@@ -1,18 +1,10 @@
 $colors: (
   main: whitesmoke,
-  // main: #e8e8e8,
   secondary: #fff,
   main-dark: lightgrey,
-  // main-light: whitesmoke,
-  // second-dark: darken(whitesmoke, 0%),
-  // second-light: lighten(whitesmoke, 20%),
-  // second-lighter: lighten(whitesmoke, 30%),
-  // second-light-accent: lighten(whitesmoke, 14%),
   font: #333,
   font-light: rgb(122, 121, 121),
   font-white: #fff,
-  // font-dark: #333,
-  // accent: #1b4a89,
   accent: #005aa9,
   accent-main: #fcb813,
   accent-second: #4185b8,
@@ -30,7 +22,7 @@ $shadows: (
     0px 2px 3px rgba(0, 0, 0, 0.6),
   ),
   secondary: (
-    0px 1px 10px rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.2) 0px 7px 29px 0px,
   ),
   main-dark: (
     0px 2px 3px rgba(57, 57, 57, 0.5),

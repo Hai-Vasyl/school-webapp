@@ -2,7 +2,10 @@
 
 .form_tags {
   @extend %flex-center;
-  justify-content: space-between;
+  align-self: align-self;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .module {
@@ -115,5 +118,29 @@
   }
   &__date_icon {
     margin-right: 7px;
+  }
+}
+
+@media screen and (max-width: 1010px) {
+  .module {
+    &__body {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .module {
+    &__body {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .module {
+    &__body {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 }

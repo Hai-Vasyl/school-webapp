@@ -62,7 +62,6 @@ const uploadNoImage = async (readableStream: any, location: string) => {
 export const uploadFile = async (file: any, location: string) => {
   try {
     const readableStream = await file
-    console.log({ readableStream })
     const isImage = readableStream.mimetype.split("/")[0] === "image"
 
     if (isImage) {

@@ -354,8 +354,8 @@
   @extend %flex-center;
   background-color: transparent;
   padding: 10px 7px;
-  margin-left: 15px;
   transition: getTransition(main);
+  gap: 7px;
   &:hover {
     .btn_check__title {
       color: getColor(accent-second);
@@ -365,7 +365,6 @@
     width: 20px;
     height: 20px;
     border: 1px solid getColor(main-dark);
-    margin-right: 7px;
     display: flex;
   }
   &__icon {

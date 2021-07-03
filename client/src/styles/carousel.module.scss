@@ -6,10 +6,10 @@
     z-index: 5;
     background-image: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.8),
       rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.8)
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.3)
     );
   }
   &__minimize {
@@ -142,7 +142,6 @@
     font-size: 1.7em;
     &__big {
       font-size: 3em;
-      line-height: 60px;
       width: 1000px;
       max-width: 100%;
       position: relative;
@@ -293,5 +292,18 @@
     border-radius: 20px;
     border-color: getColor(bg-light);
     background-color: getColor(bg-light);
+  }
+}
+
+@media (max-width: 500px) {
+  .slide {
+    &__title {
+      &__big {
+        font-size: 2em;
+      }
+    }
+    &__content {
+      font-size: 1em;
+    }
   }
 }

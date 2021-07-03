@@ -18,9 +18,11 @@ import { access } from "../modules/accessModifiers"
 import { RootStore } from "../redux/store"
 import { BsPencilSquare } from "react-icons/bs"
 import { setPath } from "../index"
+import { useHistory } from "react-router-dom"
 
 const GalleryModule: React.FC = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { getLightBox } = useLightBox()
   const {
     auth: { user },
@@ -38,6 +40,10 @@ const GalleryModule: React.FC = () => {
       type: "",
     },
   })
+
+  const handleRedirectGallery = () => {
+    history.push("/gallery")
+  }
 
   const handlePopupEditImage = (
     imageId: string,
@@ -119,9 +125,9 @@ const GalleryModule: React.FC = () => {
       ) : (
         <div className={styles.module_gallery__grid}>
           {imagesJSX}
-          <div className={styles.image}>
+          <button onClick={handleRedirectGallery} className={styles.image}>
             <span>Більше зображень</span>
-          </div>
+          </button>
         </div>
       )}
     </div>
