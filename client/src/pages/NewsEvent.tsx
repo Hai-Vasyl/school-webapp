@@ -173,7 +173,6 @@ const NewsEvent: React.FC = () => {
                 <UserCard
                   exClass={styles.newsevent__info_text}
                   user={newsevent.owner}
-                  isEnvChat={false}
                   isLink
                   minimize
                 />

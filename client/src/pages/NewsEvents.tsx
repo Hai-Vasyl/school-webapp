@@ -70,7 +70,6 @@ const NewsEvents: React.FC = () => {
         from: (page - 1) * amountItems,
         to: amountItems,
       },
-      fetchPolicy: "cache-and-network",
     }
   )
 

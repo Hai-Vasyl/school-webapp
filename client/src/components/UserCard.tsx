@@ -3,17 +3,11 @@ import React from "react"
 import styles from "../styles/card.module"
 import { useHistory } from "react-router-dom"
 import { IOwner } from "../interfaces"
-import { useSelector, useDispatch } from "react-redux"
-import { RootStore } from "../redux/store"
-import { CHAT_OPEN } from "../redux/toggle/toggleTypes"
-import { SET_ACTIVE_CHAT } from "../redux/chatActive/chatActiveTypes"
-import keyWords from "../modules/keyWords"
 import UserAva from "./UserAva"
 import { getUserAccess } from "../modules/accessModifiers"
 import { BsCheck } from "react-icons/bs"
 
 interface IUserCardProps {
-  isEnvChat: boolean
   isLink: boolean
   user: IOwner
   minimize?: boolean
@@ -24,40 +18,17 @@ interface IUserCardProps {
 
 const UserCard: React.FC<IUserCardProps> = ({
   user,
-  isEnvChat,
   isLink,
   minimize,
   check,
   checked,
   exClass,
 }) => {
-  const { chats } = useSelector((state: RootStore) => state)
-  const dispatch = useDispatch()
   const history = useHistory()
-  let isPinned = false
-  let chatId: string
-
-  chats.forEach((chat) => {
-    if (chat.owners && chat.owners.find((owner) => owner.id === user.id)) {
-      isPinned = true
-      chatId = chat.id
-    }
-  })
 
   const handleLink = () => {
     if (isLink) {
       history.push(`/profile/${user.id}`)
-    } else {
-      if (!isEnvChat) {
-        dispatch({ type: CHAT_OPEN })
-      }
-      dispatch({
-        type: SET_ACTIVE_CHAT,
-        payload: {
-          keyWord: isPinned ? keyWords.chatMessages : keyWords.userConnect,
-          chatId: isPinned ? chatId : user.id,
-        },
-      })
     }
   }
 

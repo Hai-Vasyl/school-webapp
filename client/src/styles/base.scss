@@ -66,39 +66,14 @@ $fonts: (
     "Nunito",
     sans-serif,
   ),
-  // second: (
-  //   "Cormorant Garamond",
-  //   serif,
-  // ),
-  // second:
-  //   (
-  //     "Cormorant Infant",
-  //     serif,
-  //   ),
-  second:
-    (
-      "Marck Script",
-      cursive,
-    ),
-  // third: (
-  //   "Noto Sans",
-  //   sans-serif,
-  // ),
-  // third:
-  //   (
-  //     "Roboto",
-  //     sans-serif,
-  //   ),
-  // third:
-  //   (
-  //     "Jura",
-  //     sans-serif,
-  //   ),
-  third:
-    (
-      "Cormorant",
-      serif,
-    ),
+  second: (
+    "Marck Script",
+    cursive,
+  ),
+  third: (
+    "Cormorant",
+    serif,
+  ),
 );
 
 @function getColor($color) {
@@ -146,7 +121,9 @@ $gradients: (
       getColor(accent),
       getColor(accent-gradient)
     ),
-  third: linear-gradient(to right, getColor(accent), getColor(accent-main))
+  third: linear-gradient(to right, getColor(accent), getColor(accent-main)),
+  third-reversed:
+    linear-gradient(to left, getColor(accent), getColor(accent-main))
 );
 
 %center-position {

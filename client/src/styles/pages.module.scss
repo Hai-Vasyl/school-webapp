@@ -353,6 +353,7 @@
     padding-bottom: 20px;
     border-left: 1px solid getColor(main-dark);
     border-right: 1px solid getColor(main-dark);
+    border-top: 4px solid getColor(accent);
     background-image: linear-gradient(white, transparent);
   }
   &__more_icon {
@@ -520,18 +521,18 @@
     grid-row: 1/2;
     grid-column: 1/2;
     .news__triangle {
-      border-right-color: getColor(accent);
-      border-right-width: 35px;
-      left: -75px;
+      border-right-color: getColor(accent-main);
+      border-right-width: 25px;
+      left: -60px;
     }
   }
   &:nth-child(2) {
     grid-row: 2/3;
     grid-column: 1/2;
     .news__triangle {
-      border-right-color: getColor(accent);
-      border-right-width: 35px;
-      left: -75px;
+      border-right-color: getColor(accent-main);
+      border-right-width: 25px;
+      left: -60px;
     }
   }
   &:nth-child(3) {
@@ -555,14 +556,21 @@
         grid-row: 2/3;
         grid-column: 2/3;
         display: block;
+        background-color: getColor(main);
+        z-index: 3;
+        position: relative;
       }
     }
     .news__triangle {
-      border-left-color: getColor(accent);
-      border-left-width: 35px;
+      border-left-color: getColor(accent-main);
+      border-left-width: 25px;
       top: 50%;
-      right: -75px;
+      right: -60px;
       transform: translateY(-50%);
+    }
+    .news__body {
+      border-right: 5px solid getColor(accent-main);
+      border-left: none;
     }
   }
   &__preview {
@@ -579,7 +587,6 @@
   }
   &__body {
     width: 350px;
-    // max-width: 100%;
     background-color: getColor(accent);
     padding: 20px;
     @extend %flex-center;
@@ -587,14 +594,15 @@
     align-items: flex-start;
     position: relative;
     z-index: 3;
-    // filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.7));
+    border-left: 5px solid getColor(accent-main);
+    filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.7));
   }
   &__triangle {
     position: absolute;
     width: 0;
     height: 0;
     z-index: 3;
-    border: 40px solid transparent;
+    border: 30px solid transparent;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
@@ -679,9 +687,6 @@
     .image__preview {
       transform: scale(1.2);
     }
-    .image__date {
-      height: 50px;
-    }
     .image__btn_overlay {
       opacity: 1;
       right: 20px;
@@ -760,7 +765,7 @@
     background-color: getColor(bg);
     z-index: 3;
     font-size: 0.8em;
-    height: 0px;
+    height: 50px;
     overflow: hidden;
     color: getColor(font-white);
     transition: getTransition(second);
@@ -967,11 +972,15 @@
 
 .module_footer {
   margin-top: 5px;
-  background-color: rgb(25, 25, 25);
+  background-color: rgb(12, 12, 12);
   position: relative;
   overflow: hidden;
   z-index: 3;
   box-shadow: inset 0px 5px 10px rgba(0, 0, 0, 0.3);
+  &__border {
+    height: 7px;
+    background-image: getGradient(third-reversed);
+  }
   &__title {
     font-size: 1.5em;
     font-family: getFont(third);
@@ -1274,14 +1283,14 @@
       .news__triangle {
         top: auto;
         left: auto;
-        border-right-width: 40px;
+        border-right-width: 30px;
       }
     }
     &:nth-child(2) {
       grid-row: 2/3;
       grid-column: 1/2;
       .news__triangle {
-        border-right-width: 40px;
+        border-right-width: 30px;
       }
     }
     &:nth-child(3) {
@@ -1307,7 +1316,7 @@
       }
       .news__triangle {
         border-left-color: transparent;
-        border-left-width: 40px;
+        border-left-width: 30px;
         top: auto;
         right: auto;
         left: auto;
@@ -1318,12 +1327,15 @@
       width: 100%;
       padding: 30px 20px;
       flex-direction: column;
+      border-top: 5px solid getColor(accent-main);
+      border-right: none !important;
+      border-left: none !important;
     }
     &__triangle {
-      border-bottom-color: getColor(accent);
+      border-bottom-color: getColor(accent-main);
       border-right-color: transparent !important;
-      border-bottom-width: 35px !important;
-      top: -75px !important;
+      border-bottom-width: 25px !important;
+      top: -60px !important;
       left: 50% !important;
       transform: translateX(-50%) !important;
     }

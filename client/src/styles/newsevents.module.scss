@@ -95,6 +95,7 @@
     display: inline-flex;
     align-items: center;
     border-left: 4px solid getColor(accent-main);
+    box-shadow: getShadow(deep);
   }
   &__date_icon {
     margin-right: 8px;
@@ -209,7 +210,7 @@
   &__links {
     @extend %wrapper-text;
     border-top: none;
-    padding: 20px;
+    padding: 20px 0px;
   }
   &__info_title {
     margin-right: 7px;

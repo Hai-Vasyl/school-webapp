@@ -13,8 +13,8 @@ import { setContext } from "@apollo/client/link/context"
 import { BrowserRouter as Router } from "react-router-dom"
 import store from "./redux/store"
 import { Provider } from "react-redux"
-import { getMainDefinition } from "@apollo/client/utilities"
-import { WebSocketLink } from "@apollo/client/link/ws"
+// import { getMainDefinition } from "@apollo/client/utilities"
+// import { WebSocketLink } from "@apollo/client/link/ws"
 import { createUploadLink } from "apollo-upload-client"
 
 // const isDev = true

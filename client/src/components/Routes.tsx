@@ -9,9 +9,7 @@ import { access } from "../modules/accessModifiers"
 import Navbar from "./Navbar"
 import Auth from "./Auth"
 import Warning from "./Warning"
-// import Chat from "./Chat"
 import ImageMod from "./ImageMod"
-// import Notifications from "./Notifications"
 import ImageLightBox from "./ImageLightBox"
 import ImageLightBoxLight from "./ImageLightBoxLight"
 import { ChatWidget } from "@papercups-io/chat-widget"
@@ -33,20 +31,6 @@ const Routes = () => {
     },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
-
-  // TODO: BUG ROUTES
-  // const mapReduce = (routes: IRoute[]): ReactNode => {
-  //   return routes.map(({ exact, path, Component }) => {
-  //     return (
-  //       <Route
-  //         key={path}
-  //         exact={exact}
-  //         path={path}
-  //         component={(props: any) => <Component {...props} />}
-  //       />
-  //     )
-  //   })
-  // }
 
   const mapReduce = (routes: IRoute[]) => {
     return routes.map((route) => {
@@ -88,8 +72,6 @@ const Routes = () => {
         iconVariant='outlined'
         baseUrl='https://app.papercups.io'
       />
-      {/* <Chat /> */}
-      {/* <Notifications /> */}
       <div
         className={`background ${
           (dropDown ||

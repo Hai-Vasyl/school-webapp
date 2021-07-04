@@ -103,6 +103,7 @@ const FooterModule: React.FC = () => {
 
   return (
     <div className={styles.module_footer}>
+      <div className={styles.module_footer__border}></div>
       <div className={`wrapper ${styles.module_footer__flex}`}>
         <div className={styles.module_footer__logo_container}>
           <Link to='/' className={styles.module_footer__logo}>

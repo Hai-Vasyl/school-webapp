@@ -174,7 +174,6 @@ const ImageLightBox: React.FC = () => {
               <span className={styles.lightbox__owner_title}>Власник</span>
               {image.owner.role && (
                 <UserCard
-                  isEnvChat={false}
                   isLink={true}
                   user={image.owner}
                   minimize
@@ -195,7 +194,7 @@ const ImageLightBox: React.FC = () => {
                     <span>Сторінка {isNews ? "новини" : "події"}</span>
                   </button>
                 )}
-                  <div className={styles.lightbox__hashtags}>{hashtags}</div>
+                <div className={styles.lightbox__hashtags}>{hashtags}</div>
               </div>
             )}
           </div>

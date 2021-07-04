@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from "react"
 import { getLinks } from "../modules/routes"
 import { RootStore } from "../redux/store"
-import { NavLink, Link, useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { BsSearch, BsCaretRightFill } from "react-icons/bs"
-import { AiOutlineLogout, AiOutlineCheckCircle } from "react-icons/ai"
+import { AiOutlineLogout } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
 import { MdBlurOn, MdBlurOff } from "react-icons/md"
 import { useSelector, useDispatch } from "react-redux"
 import {
-  DROPDOWN_TOGGLE,
   AUTHFORM_TOGGLE,
   RESET_TOGGLE,
-  CHAT_TOGGLE,
-  NOTIFICATIONS_TOGGLE,
   NAVBAR_TOGGLE,
   NAVBAR_RESET,
 } from "../redux/toggle/toggleTypes"
 // @ts-ignore
 import styles from "../styles/navbar.module"
-import { useQuery } from "@apollo/client"
-import { SET_NOTIFICATIONS } from "../redux/notifications/notifTypes"
-import { SET_UNREAD_MESSAGES } from "../redux/unreadMsgs/msgsTypes"
 import NavigLink from "./NavigLink"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
-// @ts-ignore
-import logo from "../images/logo.png"
-import { access } from "../modules/accessModifiers"
 import { ILink } from "../interfaces"
 import UserAva from "./UserAva"
 import { RESET_AUTH } from "../redux/auth/authTypes"
@@ -38,9 +29,7 @@ const Navbar: React.FC = () => {
 
   const {
     auth: { user, token },
-    toggle: { dropDown, authForm, chat, notifications: notifToggle, navbar },
-    notifications: { notifications },
-    unreadMsgs: { messages },
+    toggle: { authForm, navbar },
   } = useSelector((state: RootStore) => state)
 
   const [blur, setBlur] = useState(true)
@@ -143,12 +132,6 @@ const Navbar: React.FC = () => {
     )
   })
 
-  // let countUnreadNotif = 0
-  // notifications.forEach((notif) => {
-  //   if (!notif.active) {
-  //     countUnreadNotif++
-  //   }
-  // })
   return (
     <div className={`${styles.menu} ${changeNav && styles.menu__reduce}`}>
       <div className={`${styles.nav} ${blur && styles.nav__blur}`}>
