@@ -105,7 +105,7 @@ const isDev = NODE_ENV === "development"
 
     app.use(express.static(path.join(__dirname, "../", "../", "public")))
 
-    if (NODE_ENV === "production") {
+    if (!isDev) {
       app.use(express.static(path.join(__dirname, "../", "client")))
       app.get("/*", function (req, res) {
         res.sendFile(path.join(__dirname, "../", "client", "index.html"))

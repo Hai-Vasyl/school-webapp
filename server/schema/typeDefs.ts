@@ -92,53 +92,9 @@ export default gql`
     role: String!
     date: String!
   }
-  type Message {
-    id: ID!
-    content: String!
-    date: String!
-    owner: User!
-    chat: Chat!
-  }
-  type Chat {
-    id: ID!
-    title: String!
-    channel: String!
-    description: String!
-    date: String!
-    image: String!
-    imageKey: String!
-    owner: User
-    owners: [User]!
-    type: String!
-    lastMessage: Message
-  }
-  type UserChat {
-    id: ID!
-    userId: User!
-    chatId: Chat!
-  }
   type Auth {
     userId: String
     token: String
-  }
-  type Searched {
-    users: [User]!
-    chats: [Chat]!
-  }
-  type ChatUserInfo {
-    user: User
-    chat: Chat
-  }
-  type Notification {
-    id: ID!
-    title: String!
-    description: String
-    date: String!
-    type: String!
-    chatId: Chat
-    userId: User
-    channel: String!
-    active: Boolean!
   }
   type Images {
     images: [UploadFile]!
@@ -198,14 +154,6 @@ export default gql`
     getImages(from: Int!, to: Int!, search: String, type: String): Images!
     getImage(imageId: ID!): UploadFile!
     getPage(url: String!): Page
-    userChats(userId: ID): [Chat]!
-    chatMessages(chat: ID!): [Message]!
-    searchChats(searchStr: String!): Searched
-    searchMessages(searchStr: String!, chatId: String!): [Message]!
-    getChatUserInfo(isChat: Boolean!, id: ID!): ChatUserInfo
-    getNotifications: [Notification]!
-    getChatUsers(chatId: ID!): [User]!
-    getUnreadMessages: [Message]!
   }
   type Mutation {
     setUserAva(image: Upload, deleting: Boolean!): Msg!
@@ -274,38 +222,6 @@ export default gql`
       upload: Upload
     ): Msg!
     deleteUpload(imageId: ID!): Msg!
-    createChat(
-      title: String!
-      description: String
-      image: Upload
-      type: String!
-    ): Chat!
-    createMessage(content: String!, chat: ID!): Message!
-    editChat(
-      title: String!
-      description: String
-      image: Upload
-      type: String!
-      id: ID!
-    ): Chat!
-    createNotification(
-      title: String!
-      description: String
-      type: String
-      chatId: ID
-      userId: ID
-      channel: String!
-    ): Notification!
-    deleteUnreadMessages(messages: [ID!]!): String!
-    deleteNotification(notifId: ID!): String!
-    checkNotification(notifId: ID!): Notification!
-    addUserAccess(chatId: ID, userId: ID!): [Chat]!
-    removeUserAccess(chatId: ID!, userId: ID): [Chat]!
-    setMessageRead(messageId: ID!): String!
     setPageImage(url: String!, image: Upload, deleting: Boolean!): Msg!
-  }
-  type Subscription {
-    newMessage(channels: [String]!): Message!
-    newNotification(channels: [String]!): Notification!
   }
 `

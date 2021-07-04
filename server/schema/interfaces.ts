@@ -60,26 +60,6 @@ export interface IUser {
   date: string
 }
 
-export interface IChat {
-  id: string
-  title: string
-  channel: string
-  description: string
-  date: string
-  image: string
-  owner?: IUser
-  owners?: IUser[]
-  type: string
-}
-
-export interface IMessage {
-  id: string
-  content: string
-  date: string
-  owner: string
-  chat: string
-}
-
 export interface IFilter {
   _id: string
   page: string

@@ -1,20 +1,5 @@
 import typeDefs from "./typeDefs"
 import { Query as QUsers, Mutation as MUsers } from "./resolvers/users"
-import { Query as QChats, Mutation as MChats } from "./resolvers/chats"
-import {
-  Query as QMessages,
-  Mutation as MMessages,
-  Subscription as SMessages,
-} from "./resolvers/messages"
-import {
-  Subscription as SNotifications,
-  Mutation as MNotifications,
-  Query as QNotifications,
-} from "./resolvers/notifications"
-import {
-  Query as QUnreadMessages,
-  Mutation as MUnreadMessages,
-} from "./resolvers/unreadmessages"
 import { Query as QPages, Mutation as MPages } from "./resolvers/pages"
 import { Query as QUploads, Mutation as MUploads } from "./resolvers/uploads"
 import {
@@ -26,10 +11,6 @@ import {
   Mutation as MPageSections,
 } from "./resolvers/pagesections"
 import { Query as QFilters } from "./resolvers/filters"
-import { Chat } from "./resolvers/chat"
-import { Message } from "./resolvers/message"
-import { UserChat } from "./resolvers/userchat"
-import { Notification } from "./resolvers/notification"
 import { UploadFile } from "./resolvers/upload"
 import { NewsEvent } from "./resolvers/newsevent"
 import { PageSection } from "./resolvers/pagesection"
@@ -40,10 +21,6 @@ const schema = {
   resolvers: {
     Query: {
       ...QUsers,
-      ...QChats,
-      ...QMessages,
-      ...QNotifications,
-      ...QUnreadMessages,
       ...QPages,
       ...QUploads,
       ...QNewsEvents,
@@ -52,24 +29,12 @@ const schema = {
     },
     Mutation: {
       ...MEmail,
-      ...MChats,
-      ...MMessages,
-      ...MNotifications,
-      ...MUnreadMessages,
       ...MPages,
       ...MUploads,
       ...MNewsEvents,
       ...MPageSections,
       ...MUsers,
     },
-    Subscription: {
-      ...SMessages,
-      ...SNotifications,
-    },
-    Chat,
-    Message,
-    UserChat,
-    Notification,
     UploadFile,
     NewsEvent,
     PageSection,
